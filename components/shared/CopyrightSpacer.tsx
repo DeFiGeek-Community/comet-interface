@@ -12,7 +12,8 @@ const CopyrightSpacer = ({ forceShow = false }: { forceShow?: boolean }) => {
       py={2}
       mt="auto"
     >
-      © {new Date().getFullYear()} Rari Capital. All rights reserved.
+      © {new Date().getFullYear()} DeFiGeek Community JAPAN
+
     </Text>
   );
 };

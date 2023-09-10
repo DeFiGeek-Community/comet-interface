@@ -21,17 +21,17 @@ const Footer = () => {
           mt={4}
           width="100%"
         >
-          <Link isExternal href="https://docs.rari.capital/">
+          <Link isExternal href="/">
             <Text color="white" mx={2} textDecoration="underline">
-              {t("Developer Docs")}
+              {t("Docs")}
             </Text>
           </Link>
 
           <Text color="white">·</Text>
 
-          <Link isExternal href="https://info.rari.capital">
+          <Link isExternal href="https://github.com/DeFiGeek-Community/">
             <Text color="white" mx={2} textDecoration="underline">
-              {t("Learn")}
+              {t("Github")}
             </Text>
           </Link>
 
@@ -39,10 +39,10 @@ const Footer = () => {
 
           <Link
             target="_blank"
-            href="https://info.rari.capital/security/#smart-contract-audits"
+            href="https://discord.com/invite/FQYXqVBEnh"
           >
             <Text color="white" mx={2} textDecoration="underline">
-              {t("Audits")}
+              {t("Discord")}
             </Text>
           </Link>
         </Row>
