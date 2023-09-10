@@ -37,7 +37,7 @@ const FuseTabBar = () => {
           height="35px"
         >
           <Link
-            href={"/"}
+            href={"#"}
             className="no-underline"
           >
             <Center expand px={2} fontWeight="bold">
@@ -46,7 +46,7 @@ const FuseTabBar = () => {
           </Link>
         </DashboardBox>
 
-        <TabLink route="/" text={t("USDC Pool")} />
+        <TabLink route="#" text={t("USDC Pool")} />
 
         {/* <TabLink
           route="/"

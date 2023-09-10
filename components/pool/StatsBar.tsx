@@ -3,12 +3,13 @@ import { RowOrColumn, Column, Center, Row } from "../../utils/chakraUtils";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
+import { FusePoolData } from "../../utils/fetchFusePoolData";
 import CaptionedStat from "../shared/CaptionedStat";
 import DashboardBox from "../shared/DashboardBox";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { SimpleTooltip } from "../shared/SimpleTooltip";
 
-const FuseStatsBar = () => {
+const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
   const isMobile = useIsSmallScreen();
 
   const { t } = useTranslation();
@@ -38,34 +39,17 @@ const FuseStatsBar = () => {
             mb="2px"
           >
             {/* Title */}
-            {/* {!!data ? ( */}
             <WhitelistedIcon mb={1} />
-            {/* ) : null} */}
             <Heading size="lg" isTruncated>
-              {"Fuse"}
+              {data?.name ?? "Pool"}
             </Heading>
           </Row>
 
           {/* Description */}
-          {/* {!!data ? (
-            <Text>
-              This pool has{" "}
-              <span style={{ fontWeight: "bold" }}>
-                {smallUsdFormatter(data.totalSuppliedUSD)} supplied{" "}
-              </span>{" "}
-              across{" "}
-              <span style={{ fontWeight: "bold" }}>
-                {data.assets.length} assets.
-              </span>{" "}
-              Fuse is a truly open interest rate protocol. Lend, borrow,
-              and create isolated lending pools with extreme flexibility.
-            </Text>
-          ) : ( */}
           <Text>
             Fuse is a truly open interest rate protocol. Lend, borrow, and
             create isolated lending pools with extreme flexibility.
           </Text>
-          {/* )} */}
         </Column>
       </DashboardBox>
 
@@ -76,9 +60,6 @@ const FuseStatsBar = () => {
         height="100%"
         width={isMobile ? "100%" : "50%"}
       >
-        {/* {isAuthed &&
-        totalBorrowAndSupply &&
-        totalBorrowAndSupply.totalSuppliedUSD > 0 ? ( */}
         <>
           <StatBox width={isMobile ? "100%" : "50%"}>
             <CaptionedStat
@@ -102,24 +83,6 @@ const FuseStatsBar = () => {
             />
           </StatBox>
         </>
-        {/* ) : (
-          <StatBox width="100%">
-            <APYWithRefreshMovingStat
-              formatStat={smallUsdFormatter}
-              fetchInterval={40000}
-              loadingPlaceholder="$?"
-              apyInterval={100}
-              fetch={() => fetchFuseNumberTVL(rari, fuse)}
-              queryKey={"fuseTVL"}
-              apy={0.15}
-              statSize="3xl"
-              captionSize="xs"
-              caption={t("Total Value Supplied Across Fuse")}
-              crossAxisAlignment="center"
-              captionFirst={false}
-            />
-          </StatBox>
-        )}  */}
       </RowOrColumn>
     </RowOrColumn>
   );
@@ -154,19 +117,10 @@ export const WhitelistedIcon = ({ ...boxProps }: { [x: string]: any }) => {
   return (
     <>
       <SimpleTooltip
-        label={"This pool is from a Whitelisted Admin"}
+        label={"This pool is safe."}
         placement="bottom-end"
       >
-        {/* {isWhitelisted ? ( */}
         <CheckCircleIcon boxSize="20px" mr={3} {...boxProps} />
-        {/* ) : (
-          <WarningTwoIcon
-            boxSize="20px"
-            mr={3}
-            color="orange.300"
-            {...boxProps}
-          />
-        )} */}
       </SimpleTooltip>
     </>
   );

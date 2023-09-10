@@ -34,7 +34,7 @@ const PoolPage = memo(() => {
         px={isMobile ? 4 : 0}
       >
         <Header />
-        <FuseStatsBar />
+        <FuseStatsBar data={dummyData} />
         <FuseTabBar />
         {/* <CollateralRatioBar/> */}
 

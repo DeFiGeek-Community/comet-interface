@@ -62,7 +62,7 @@ export const dummyData: FusePoolData = {
     // 必要に応じて、他のアセットのダミーデータもこの配列に追加できます。
   ],
   comptroller: "0x1234567890abcdef",
-  name: "Dummy Pool",
+  name: "Ethereum Pool",
   oracle: "0xOracleAddress2",
   oracleModel: "ModelName",
   isPrivate: false,

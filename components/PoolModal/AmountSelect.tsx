@@ -180,6 +180,7 @@ const AmountSelect = ({
               height="100%"
               borderRadius="50%"
               src={
+                tokenData?.logoURL ??
                 "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
               }
               alt=""
@@ -228,6 +229,7 @@ const AmountSelect = ({
                   mode={mode}
                   symbol={symbol}
                   logoURL={
+                    tokenData?.logoURL ??
                     "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
                   }
                   updateAmount={updateAmount}

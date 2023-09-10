@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Link, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { Row } from "../../utils/chakraUtils";
-import Logo from "../../static/small-logo.png";
+import Logo from "../../static/dfgc-logo.png";
 
 export const Header = () => {
   return (
@@ -24,16 +24,14 @@ export const Header = () => {
       <Row
         mx={4}
         expand
-        mainAxisAlignment={{ md: "space-around", base: "space-between" }}
         crossAxisAlignment="flex-start"
+        mainAxisAlignment="flex-start"
         overflowX="auto"
         overflowY="hidden"
         transform="translate(0px, 7px)"
       >
-        <HeaderLink name="Overview" route="/" />
-        <HeaderLink name="Fuse" route="/fuse" />
-        <HeaderLink name="Pool2" route="/pool2" />
-        <HeaderLink name="Tranches" route="/tranches" />
+        <HeaderLink name="Pool" route="#" />
+        <HeaderLink name="Document" route="#" />
       </Row>
 
       <Text>Account</Text>
@@ -50,7 +48,7 @@ export const HeaderLink = ({
 }) => {
   return (
     <Link href={route} whiteSpace="nowrap" className="no-underline">
-      <Text>{name}</Text>
+      <Text mx={4}>{name}</Text>
     </Link>
   );
 };
