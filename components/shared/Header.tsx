@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  Box,
-  Link,
-  Text,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Portal,
-} from "@chakra-ui/react";
+import { Box, Link, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import { Row } from "../../utils/chakraUtils";
+import Logo from "../../static/small-logo.png";
 
 export const Header = () => {
   return (
@@ -24,7 +17,9 @@ export const Header = () => {
       overflowY="visible"
       width="100%"
     >
-      <Text>Logo</Text>
+      <Box boxSize={"37px"} flexShrink={0}>
+        <Image width={37} height={37} src={Logo} alt="Logo" />
+      </Box>
 
       <Row
         mx={4}
@@ -46,11 +41,16 @@ export const Header = () => {
   );
 };
 
-export const HeaderLink = ({ name, route }: { name: string; route: string }) => {
+export const HeaderLink = ({
+  name,
+  route,
+}: {
+  name: string;
+  route: string;
+}) => {
   return (
     <Link href={route} whiteSpace="nowrap" className="no-underline">
       <Text>{name}</Text>
     </Link>
   );
 };
-

@@ -1,41 +1,13 @@
 import React, { useState } from "react";
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Heading,
-  Link,
-  Progress,
-  Spinner,
-  Switch,
-  Text,
-  useDisclosure,
-  useToast,
-  HStack,
-} from "@chakra-ui/react";
+import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { useIsSmallScreen } from "../../../hooks/useIsSmallScreen";
-import { SimpleTooltip } from "../../shared/SimpleTooltip";
-import { CTokenAvatarGroup, CTokenIcon } from "../../shared/CTokenIcon";
-import {
-  Column,
-  Center,
-  Row,
-  RowOrColumn,
-  useIsMobile,
-} from "../../../utils/chakraUtils";
-import {
-  TokensDataMap,
-  useTokenData,
-  useTokensData,
-} from "../../../hooks/useTokenData";
-import { smallUsdFormatter } from "../../../utils/bigUtils";
-import { ModalDivider } from "../../shared/Modal";
-import { SwitchCSS } from "../../shared/SwitchCSS";
+import { SimpleTooltip } from "../shared/SimpleTooltip";
+import { Column, Row, useIsMobile } from "../../utils/chakraUtils";
+import { useTokenData } from "../../hooks/useTokenData";
+import { smallUsdFormatter } from "../../utils/bigUtils";
+import { ModalDivider } from "../shared/Modal";
 import PoolModal, { Mode } from "../PoolModal";
-import { USDPricedFuseAsset } from "../../../utils/fetchFusePoolData";
-
+import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
 
 const AssetSupplyRow = ({
   assets,
@@ -71,7 +43,6 @@ const AssetSupplyRow = ({
   const handleMouseEnter = (index: number) => setHovered(index);
   const handleMouseLeave = () => setHovered(-1);
 
-
   return (
     <>
       <PoolModal
@@ -96,7 +67,7 @@ const AssetSupplyRow = ({
         <Column
           mainAxisAlignment="flex-start"
           crossAxisAlignment="flex-start"
-          width="27%"
+          width="35%"
         >
           <Row
             mainAxisAlignment="flex-start"
@@ -129,11 +100,7 @@ const AssetSupplyRow = ({
             as="button"
             onClick={authedOpenModal}
           >
-            <Text
-              color={tokenData?.color ?? "#FF"}
-              fontWeight="bold"
-              fontSize="17px"
-            >
+            <Text color={"#FF"} fontWeight="bold" fontSize="17px">
               40%
             </Text>
 
@@ -178,7 +145,7 @@ const AssetSupplyRow = ({
 
             <SimpleTooltip
               label={t(
-                "The Collateral Factor (CF) ratio defines the maximum amount of tokens in the pool that can be borrowed with a specific collateral. It’s expressed in percentage: if in a pool ETH has 75% LTV, for every 1 ETH worth of collateral, borrowers will be able to borrow 0.75 ETH worth of other tokens in the pool."
+                "The Collateral Factor (CF) ratio defines the maximum amount of tokens in the pool that can be borrowed with a specific collateral. It’s expressed in percentage: if in a pool ETH has 75% LTV, for every 1 ETH worth of collateral, borrowers will be able to borrow 0.75 ETH worth of other tokens in the pool.",
               )}
             >
               <Text fontSize="sm">100% CF</Text>
@@ -193,38 +160,14 @@ const AssetSupplyRow = ({
           as="button"
           onClick={authedOpenModal}
         >
-          <Text
-            color={"#FFF"}
-            fontWeight="bold"
-            fontSize="17px"
-          >
+          <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
             {smallUsdFormatter(asset.supplyBalanceUSD)}
           </Text>
 
           <Text fontSize="sm">
-            {smallUsdFormatter(
-              10
-            ).replace("$", "")}{" "}
-            {symbol}
+            {smallUsdFormatter(10).replace("$", "")} {symbol}
           </Text>
         </Column>
-
-        {/* Set As Collateral  */}
-        <Row
-          width={isMobile ? "34%" : "20%"}
-          mainAxisAlignment="flex-end"
-          crossAxisAlignment="center"
-        >
-          {/* <SwitchCSS symbol={symbol} color={tokenData?.color} /> */}
-          <Switch
-            isChecked={asset.membership}
-            className={symbol + "-switch"}
-            // onChange={onToggleCollateral}
-            size="md"
-            mt={1}
-            mr={5}
-          />
-        </Row>
       </Row>
     </>
   );

@@ -1,30 +1,9 @@
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Heading,
-  Link,
-  Progress,
-  Spinner,
-  Switch,
-  Text,
-  useDisclosure,
-  useToast,
-  HStack,
-} from "@chakra-ui/react";
+import { Heading, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { useIsSmallScreen } from "../../../hooks/useIsSmallScreen";
-import { shortUsdFormatter, smallUsdFormatter } from "../../../utils/bigUtils";
-import {
-  Column,
-  Center,
-  Row,
-  RowOrColumn,
-  useIsMobile,
-} from "../../../utils/chakraUtils";
-import { ModalDivider } from "../../shared/Modal";
-import { USDPricedFuseAsset } from "../../../utils/fetchFusePoolData";
+import { smallUsdFormatter } from "../../utils/bigUtils";
+import { Column, Center, Row, useIsMobile } from "../../utils/chakraUtils";
+import { ModalDivider } from "../shared/Modal";
+import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
 import AssetBorrowRow from "./AssetBorrowRow";
 
 const BorrowList = ({
@@ -39,7 +18,7 @@ const BorrowList = ({
   const { t } = useTranslation();
   const borrowedAssets = assets.filter((asset) => asset.borrowBalanceUSD > 1);
   const nonBorrowedAssets = assets.filter(
-    (asset) => asset.borrowBalanceUSD < 1
+    (asset) => asset.borrowBalanceUSD < 1,
   );
 
   const isMobile = useIsMobile();
@@ -124,7 +103,6 @@ const BorrowList = ({
               if (asset.isPaused) {
                 return null;
               }
-
 
               return (
                 <AssetBorrowRow

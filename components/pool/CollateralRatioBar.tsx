@@ -1,4 +1,4 @@
-import { SimpleTooltip } from "../../shared/SimpleTooltip";
+import { SimpleTooltip } from "../shared/SimpleTooltip";
 import { useTranslation } from "react-i18next";
 import {
   Avatar,
@@ -21,9 +21,9 @@ import {
   Row,
   RowOrColumn,
   useIsMobile,
-} from "../../../utils/chakraUtils";
-import DashboardBox from "../../shared/DashboardBox";
-import { shortUsdFormatter, smallUsdFormatter } from "../../../utils/bigUtils";
+} from "../../utils/chakraUtils";
+import DashboardBox from "../shared/DashboardBox";
+import { shortUsdFormatter, smallUsdFormatter } from "../../utils/bigUtils";
 
 const CollateralRatioBar = () => {
   const { t } = useTranslation();
@@ -47,7 +47,7 @@ const CollateralRatioBar = () => {
 
         <SimpleTooltip
           label={`You're using ${1}% of your ${smallUsdFormatter(
-            100
+            100,
           )} borrow limit.`}
         >
           <Box width="100%">
@@ -63,7 +63,7 @@ const CollateralRatioBar = () => {
 
         <SimpleTooltip
           label={t(
-            "If your borrow amount reaches this value, you will be liquidated."
+            "If your borrow amount reaches this value, you will be liquidated.",
           )}
         >
           <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">

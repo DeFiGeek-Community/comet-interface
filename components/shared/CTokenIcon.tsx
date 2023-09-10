@@ -7,7 +7,6 @@ export const CTokenIcon = ({
   address: string;
   [key: string]: any;
 }) => {
-
   return (
     <Avatar
       {...avatarProps}

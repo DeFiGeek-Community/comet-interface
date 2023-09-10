@@ -1,20 +1,12 @@
-import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDisclosure } from "@chakra-ui/react";
-import { Avatar, Box, Text, AvatarGroup } from "@chakra-ui/react";
-import { SimpleTooltip } from "../../shared/SimpleTooltip";
-import {
-  Column,
-  Center,
-  Row,
-  RowOrColumn,
-  useIsMobile,
-} from "../../../utils/chakraUtils";
-import { shortUsdFormatter, smallUsdFormatter } from "../../../utils/bigUtils";
-import { CTokenAvatarGroup, CTokenIcon } from "../../shared/CTokenIcon";
-import { USDPricedFuseAsset } from "../../../utils/fetchFusePoolData";
+import { Avatar, Box, Text } from "@chakra-ui/react";
+import { SimpleTooltip } from "../shared/SimpleTooltip";
+import { Column, Row, useIsMobile } from "../../utils/chakraUtils";
+import { shortUsdFormatter, smallUsdFormatter } from "../../utils/bigUtils";
+import { useTokenData } from "../../hooks/useTokenData";
+import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
 import PoolModal, { Mode } from "../PoolModal";
-
 
 const AssetBorrowRow = ({
   assets,
@@ -27,7 +19,6 @@ const AssetBorrowRow = ({
   comptrollerAddress: string;
   isPaused: boolean;
 }) => {
-
   const {
     isOpen: isModalOpen,
     onOpen: openModal,
@@ -39,15 +30,13 @@ const AssetBorrowRow = ({
 
   const asset = assets[index];
 
+  const tokenData = useTokenData(asset.underlyingToken);
+
+  const symbol = tokenData?.symbol ? tokenData?.symbol : "";
+
   const isMobile = useIsMobile();
 
   // const hasBorrowIncentives = !!borrowIncentives.length;
-
-  const [hovered, setHovered] = useState<number>(-1);
-
-  const handleMouseEnter = (index: number) => setHovered(index);
-  const handleMouseLeave = () => setHovered(-1);
-
 
   return (
     <>
@@ -79,13 +68,14 @@ const AssetBorrowRow = ({
           <Avatar
             bg="#FFF"
             boxSize="37px"
-            name={"USDC"}
+            name={symbol}
             src={
+              tokenData?.logoURL ??
               "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
             }
           />
           <Text fontWeight="bold" fontSize="lg" ml={2} flexShrink={0}>
-            USDC
+            {symbol}
           </Text>
         </Row>
 
@@ -95,11 +85,7 @@ const AssetBorrowRow = ({
             crossAxisAlignment="flex-end"
             width="27%"
           >
-            <Text
-              color={"#FF"}
-              fontWeight="bold"
-              fontSize="17px"
-            >
+            <Text color={"#FF"} fontWeight="bold" fontSize="17px">
               10%
             </Text>
 
@@ -146,14 +132,11 @@ const AssetBorrowRow = ({
 
             <SimpleTooltip
               label={t(
-                "Total Value Lent (TVL) measures how much of this asset has been supplied in total. TVL does not account for how much of the lent assets have been borrowed, use 'liquidity' to determine the total unborrowed assets lent."
+                "Total Value Lent (TVL) measures how much of this asset has been supplied in total. TVL does not account for how much of the lent assets have been borrowed, use 'liquidity' to determine the total unborrowed assets lent.",
               )}
             >
-              <Text fontSize="sm">
-                30 TVL
-              </Text>
+              <Text fontSize="sm">30 TVL</Text>
             </SimpleTooltip>
-
           </Column>
         )}
 
@@ -162,25 +145,18 @@ const AssetBorrowRow = ({
           crossAxisAlignment="flex-end"
           width={isMobile ? "40%" : "27%"}
         >
-          <Text
-            color={"#FFF"}
-            fontWeight="bold"
-            fontSize="17px"
-          >
+          <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
             {smallUsdFormatter(100)}
           </Text>
 
           <Text fontSize="sm">
-            {smallUsdFormatter(
-              100
-            ).replace("$", "")}{" "}
-            {"TEST"}
+            {smallUsdFormatter(100).replace("$", "")} {symbol}
           </Text>
         </Column>
 
         <SimpleTooltip
           label={t(
-            "Liquidity is the amount of this asset that is available to borrow (unborrowed). To see how much has been supplied and borrowed in total, navigate to the Pool Info tab."
+            "Liquidity is the amount of this asset that is available to borrow (unborrowed). To see how much has been supplied and borrowed in total, navigate to the Pool Info tab.",
           )}
           placement="top-end"
         >
@@ -189,19 +165,12 @@ const AssetBorrowRow = ({
               mainAxisAlignment="flex-start"
               crossAxisAlignment="flex-end"
             >
-              <Text
-                color={"#FFF"}
-                fontWeight="bold"
-                fontSize="17px"
-              >
+              <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {shortUsdFormatter(100)}
               </Text>
 
               <Text fontSize="sm">
-                {shortUsdFormatter(
-                  100
-                ).replace("$", "")}{" "}
-                {"TEST"}
+                {shortUsdFormatter(100).replace("$", "")} {symbol}
               </Text>
             </Column>
           </Box>
@@ -212,4 +181,3 @@ const AssetBorrowRow = ({
 };
 
 export default AssetBorrowRow;
-

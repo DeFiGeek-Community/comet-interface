@@ -1,5 +1,4 @@
 import { Box, BoxProps, Button } from "@chakra-ui/react";
-
 import { ReactElement } from "react";
 
 export const GlowingButton = ({

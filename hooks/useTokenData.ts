@@ -39,7 +39,6 @@ export interface TokensData {
   [key: string]: TokenData;
 }
 
-
 export const useTokenData = (address: string) => {
   return TOKENS_DATA[address];
 };

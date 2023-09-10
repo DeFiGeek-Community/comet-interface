@@ -1,13 +1,12 @@
 import { Heading, Text } from "@chakra-ui/react";
-import { RowOrColumn, Column, Center, Row } from "../../../utils/chakraUtils";
+import { RowOrColumn, Column, Center, Row } from "../../utils/chakraUtils";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useIsSmallScreen } from "../../../hooks/useIsSmallScreen";
-import { smallUsdFormatter } from "../../../utils/bigUtils";
-import CaptionedStat from "../../shared/CaptionedStat";
-import DashboardBox from "../../shared/DashboardBox";
-import { CheckCircleIcon, WarningTwoIcon } from "@chakra-ui/icons";
-import { SimpleTooltip } from "../../shared/SimpleTooltip";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
+import CaptionedStat from "../shared/CaptionedStat";
+import DashboardBox from "../shared/DashboardBox";
+import { CheckCircleIcon } from "@chakra-ui/icons";
+import { SimpleTooltip } from "../shared/SimpleTooltip";
 
 const FuseStatsBar = () => {
   const isMobile = useIsSmallScreen();
@@ -40,7 +39,7 @@ const FuseStatsBar = () => {
           >
             {/* Title */}
             {/* {!!data ? ( */}
-              <WhitelistedIcon  mb={1} />
+            <WhitelistedIcon mb={1} />
             {/* ) : null} */}
             <Heading size="lg" isTruncated>
               {"Fuse"}
@@ -62,10 +61,10 @@ const FuseStatsBar = () => {
               and create isolated lending pools with extreme flexibility.
             </Text>
           ) : ( */}
-            <Text>
-              Fuse is a truly open interest rate protocol. Lend, borrow,
-              and create isolated lending pools with extreme flexibility.
-            </Text>
+          <Text>
+            Fuse is a truly open interest rate protocol. Lend, borrow, and
+            create isolated lending pools with extreme flexibility.
+          </Text>
           {/* )} */}
         </Column>
       </DashboardBox>
@@ -80,33 +79,29 @@ const FuseStatsBar = () => {
         {/* {isAuthed &&
         totalBorrowAndSupply &&
         totalBorrowAndSupply.totalSuppliedUSD > 0 ? ( */}
-          <>
-            <StatBox width={isMobile ? "100%" : "50%"}>
-              <CaptionedStat
-                crossAxisAlignment="center"
-                captionFirst={false}
-                statSize="3xl"
-                captionSize="sm"
-                stat={
-                  "$?"
-                }
-                caption={t("Your Supply Balance")}
-              />
-            </StatBox>
+        <>
+          <StatBox width={isMobile ? "100%" : "50%"}>
+            <CaptionedStat
+              crossAxisAlignment="center"
+              captionFirst={false}
+              statSize="3xl"
+              captionSize="sm"
+              stat={"$?"}
+              caption={t("Your Supply Balance")}
+            />
+          </StatBox>
 
-            <StatBox width={isMobile ? "100%" : "50%"}>
-              <CaptionedStat
-                crossAxisAlignment="center"
-                captionFirst={false}
-                statSize="3xl"
-                captionSize="sm"
-                stat={
-                  "$?"
-                }
-                caption={t("Your Borrow Balance")}
-              />
-            </StatBox>
-          </>
+          <StatBox width={isMobile ? "100%" : "50%"}>
+            <CaptionedStat
+              crossAxisAlignment="center"
+              captionFirst={false}
+              statSize="3xl"
+              captionSize="sm"
+              stat={"$?"}
+              caption={t("Your Borrow Balance")}
+            />
+          </StatBox>
+        </>
         {/* ) : (
           <StatBox width="100%">
             <APYWithRefreshMovingStat
@@ -155,21 +150,15 @@ const StatBox = ({
   );
 };
 
-export const WhitelistedIcon = ({
-  ...boxProps
-}: {
-  [x: string]: any;
-}) => {
+export const WhitelistedIcon = ({ ...boxProps }: { [x: string]: any }) => {
   return (
     <>
       <SimpleTooltip
-        label={
-            "This pool is from a Whitelisted Admin"
-        }
+        label={"This pool is from a Whitelisted Admin"}
         placement="bottom-end"
       >
         {/* {isWhitelisted ? ( */}
-          <CheckCircleIcon boxSize="20px" mr={3} {...boxProps} />
+        <CheckCircleIcon boxSize="20px" mr={3} {...boxProps} />
         {/* ) : (
           <WarningTwoIcon
             boxSize="20px"

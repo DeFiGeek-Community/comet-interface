@@ -27,9 +27,7 @@ const Footer = () => {
             </Text>
           </Link>
 
-          <Text color="white">
-            ·
-          </Text>
+          <Text color="white">·</Text>
 
           <Link isExternal href="https://info.rari.capital">
             <Text color="white" mx={2} textDecoration="underline">
@@ -37,9 +35,7 @@ const Footer = () => {
             </Text>
           </Link>
 
-          <Text color="white">
-            ·
-          </Text>
+          <Text color="white">·</Text>
 
           <Link
             target="_blank"

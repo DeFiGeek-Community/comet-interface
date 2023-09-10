@@ -1,8 +1,4 @@
-
 import { TokenData } from "../hooks/useTokenData";
-
-
-
 
 export interface FuseAsset {
   cToken: string;

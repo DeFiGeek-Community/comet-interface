@@ -20,7 +20,6 @@ const shortFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export function smallStringUsdFormatter(num: string | number) {
-
   return smallFormatter.format(parseFloat(num.toString()));
 }
 

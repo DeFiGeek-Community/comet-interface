@@ -1,5 +1,7 @@
 /* The !important styles below break the Coinbase WalletLink extension, so we use `:not` to fix */
-body:not(.-walletlink-extension-dialog-box-top-description-text):not(.-walletlink-extension-dialog-box-bottom-description),
+body:not(.-walletlink-extension-dialog-box-top-description-text):not(
+    .-walletlink-extension-dialog-box-bottom-description
+  ),
 html {
   margin: 0 !important;
   /*
@@ -53,7 +55,8 @@ Here's the symbols we currently support: " !"#$%&'()*+,-./0123456789:;<=>?@ABCDE
 */
 @font-face {
   font-family: "Avenir Next";
-  src: url(../src/AvenirNext-Bold.woff2) format("woff2"),
+  src:
+    url(../src/AvenirNext-Bold.woff2) format("woff2"),
     url(../src/AvenirNext-Bold.woff) format("woff");
   font-weight: bold;
   font-style: normal;
@@ -62,7 +65,8 @@ Here's the symbols we currently support: " !"#$%&'()*+,-./0123456789:;<=>?@ABCDE
 
 @font-face {
   font-family: "Avenir Next";
-  src: url(../src/AvenirNext-Regular.woff2) format("woff2"),
+  src:
+    url(../src/AvenirNext-Regular.woff2) format("woff2"),
     url(../src/AvenirNext-Regular.woff) format("woff");
   font-weight: normal;
   font-style: normal;

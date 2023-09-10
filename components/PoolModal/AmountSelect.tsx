@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { Row, Column, Center, useIsMobile } from "../../../utils/chakraUtils";
-
 import {
   Heading,
   Box,
@@ -8,28 +6,20 @@ import {
   Text,
   Image,
   Input,
-  useToast,
-  Switch,
   Tab,
   TabList,
   Tabs,
-  Spinner,
 } from "@chakra-ui/react";
-import SmallWhiteCircle from "../../../static/small-white-circle.png";
-
 import BigNumber from "bignumber.js";
-
 import { useTranslation } from "react-i18next";
-import { smallUsdFormatter } from "../../../utils/bigUtils";
-
-import DashboardBox from "../../shared/DashboardBox";
-import { ModalDivider } from "../../shared/Modal";
-
+import { smallUsdFormatter } from "../../utils/bigUtils";
+import { Row, Column, useIsMobile } from "../../utils/chakraUtils";
+import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
+import { useTokenData } from "../../hooks/useTokenData";
+import DashboardBox from "../shared/DashboardBox";
+import { ModalDivider } from "../shared/Modal";
 import { Mode } from ".";
-import { SwitchCSS } from "../../shared/SwitchCSS";
-
-import { USDPricedFuseAsset } from "../../../utils/fetchFusePoolData";
-
+import SmallWhiteCircle from "../../static/small-white-circle.png";
 
 enum UserAction {
   NO_ACTION,
@@ -57,16 +47,14 @@ export enum CTokenErrorCodes {
   UTILIZATION_ABOVE_MAX,
 }
 
-
 const AmountSelect = ({
   onClose,
   assets,
   index,
   mode,
   setMode,
-
   comptrollerAddress,
-  isBorrowPaused = false
+  isBorrowPaused = false,
 }: {
   onClose: () => any;
   assets: USDPricedFuseAsset[];
@@ -76,11 +64,10 @@ const AmountSelect = ({
   comptrollerAddress: string;
   isBorrowPaused?: boolean;
 }) => {
-
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
 
   const [amount, _setAmount] = useState<BigNumber | null>(
-    () => new BigNumber(0)
+    () => new BigNumber(0),
   );
 
   const [userAction, setUserAction] = useState(UserAction.NO_ACTION);
@@ -91,6 +78,12 @@ const AmountSelect = ({
   // );
 
   const { t } = useTranslation();
+
+  const asset = assets[index];
+
+  const tokenData = useTokenData(asset.underlyingToken);
+
+  const symbol = tokenData?.symbol ? tokenData?.symbol : "";
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -160,7 +153,7 @@ const AmountSelect = ({
   // if (length < 40) {
   //   depositOrWithdrawAlertFontSize = !isMobile ? "xl" : "17px";
   // } else if (length < 50) {
-    depositOrWithdrawAlertFontSize = !isMobile ? "15px" : "11px";
+  depositOrWithdrawAlertFontSize = !isMobile ? "15px" : "11px";
   // } else if (length < 60) {
   //   depositOrWithdrawAlertFontSize = !isMobile ? "14px" : "10px";
   // }
@@ -194,10 +187,9 @@ const AmountSelect = ({
           </Box>
 
           <Heading fontSize="27px" ml={3}>
-            {/* {!isMobile && asset.underlyingName.length < 25
+            {!isMobile && asset.underlyingName.length < 25
               ? asset.underlyingName
-              : symbol} */}
-              {"TEST"}
+              : symbol}
           </Heading>
         </Row>
 
@@ -216,12 +208,7 @@ const AmountSelect = ({
             crossAxisAlignment="flex-start"
             width="100%"
           >
-            <TabBar 
-              // color={tokenData?.color}
-              color={"#FFF"}
-              mode={mode}
-              setMode={setMode}
-            />
+            <TabBar color={"#FFF"} mode={mode} setMode={setMode} />
 
             <DashboardBox width="100%" height="70px">
               <Row
@@ -231,7 +218,6 @@ const AmountSelect = ({
                 expand
               >
                 <AmountInput
-                  // color={tokenData?.color ?? "#FFF"}
                   color={"#FFF"}
                   displayAmount={userEnteredAmount}
                   updateAmount={updateAmount}
@@ -240,7 +226,7 @@ const AmountSelect = ({
                 <TokenNameAndMaxButton
                   comptrollerAddress={comptrollerAddress}
                   mode={mode}
-                  symbol={"USDT"}
+                  symbol={symbol}
                   logoURL={
                     "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
                   }
@@ -251,7 +237,7 @@ const AmountSelect = ({
           </Column>
 
           <StatsColumn
-            symbol={"USDT"}
+            symbol={symbol}
             amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
             color={"#FFF"}
             assets={assets}
@@ -259,30 +245,6 @@ const AmountSelect = ({
             mode={mode}
             // enableAsCollateral={enableAsCollateral}
           />
-
-          {/* {showEnableAsCollateral ? (
-            <DashboardBox p={4} width="100%" mt={4}>
-              <Row
-                mainAxisAlignment="space-between"
-                crossAxisAlignment="center"
-                width="100%"
-              >
-                <Text fontWeight="bold">{t("Enable As Collateral")}:</Text>
-                <SwitchCSS
-                  symbol={"USDT"}
-                  color={"#FFF"}
-                />
-                <Switch
-                  h="20px"
-                  className={asset.underlyingSymbol + "-switch"}
-                  isChecked={enableAsCollateral}
-                  onChange={() => {
-                    setEnableAsCollateral((past) => !past);
-                  }}
-                />
-              </Row>
-            </DashboardBox>
-          ) : null} */}
 
           <Button
             mt={4}
@@ -298,8 +260,8 @@ const AmountSelect = ({
             // If the size is small, this means the text is large and we don't want the font size scale animation.
             className={
               isMobile ||
-                depositOrWithdrawAlertFontSize === "14px" ||
-                depositOrWithdrawAlertFontSize === "15px"
+              depositOrWithdrawAlertFontSize === "14px" ||
+              depositOrWithdrawAlertFontSize === "15px"
                 ? "confirm-button-disable-font-size-scale"
                 : ""
             }
@@ -420,8 +382,8 @@ const StatsColumn = ({
   index,
   amount,
   symbol,
-  // enableAsCollateral,
-}: {
+} // enableAsCollateral,
+: {
   color: string;
   mode: Mode;
   assets: USDPricedFuseAsset[];
@@ -438,95 +400,91 @@ const StatsColumn = ({
   return (
     <DashboardBox width="100%" height="190px" mt={4}>
       {/* {updatedAsset ? ( */}
-        <Column
+      <Column
+        mainAxisAlignment="space-between"
+        crossAxisAlignment="flex-start"
+        expand
+        py={3}
+        px={4}
+        fontSize="lg"
+      >
+        <Row
           mainAxisAlignment="space-between"
-          crossAxisAlignment="flex-start"
-          expand
-          py={3}
-          px={4}
-          fontSize="lg"
+          crossAxisAlignment="center"
+          width="100%"
+          color={color}
         >
-          <Row
-            mainAxisAlignment="space-between"
-            crossAxisAlignment="center"
-            width="100%"
-            color={color}
+          <Text fontWeight="bold" flexShrink={0}>
+            {t("Supply Balance")}:
+          </Text>
+          <Text
+            fontWeight="bold"
+            flexShrink={0}
+            fontSize={isSupplyingOrWithdrawing ? "sm" : "lg"}
           >
-            <Text fontWeight="bold" flexShrink={0}>
-              {t("Supply Balance")}:
-            </Text>
-            <Text
-              fontWeight="bold"
-              flexShrink={0}
-              fontSize={isSupplyingOrWithdrawing ? "sm" : "lg"}
-            >
-              {smallUsdFormatter(
-                100
-              ).replace("$", "")}
-              {isSupplyingOrWithdrawing ? (
-                <>
-                  {" → "}
-                  {smallUsdFormatter(
-                    10
-                  ).replace("$", "")}
-                </>
-              ) : null}{" "}
-              {"TEST"}
-            </Text>
-          </Row>
+            {smallUsdFormatter(100).replace("$", "")}
+            {isSupplyingOrWithdrawing ? (
+              <>
+                {" → "}
+                {smallUsdFormatter(10).replace("$", "")}
+              </>
+            ) : null}{" "}
+            {symbol}
+          </Text>
+        </Row>
 
-          <Row
-            mainAxisAlignment="space-between"
-            crossAxisAlignment="center"
-            width="100%"
+        <Row
+          mainAxisAlignment="space-between"
+          crossAxisAlignment="center"
+          width="100%"
+        >
+          <Text fontWeight="bold" flexShrink={0}>
+            {isSupplyingOrWithdrawing ? t("Supply APY") : t("Borrow APY")}:
+          </Text>
+          <Text
+            fontWeight="bold"
+            // fontSize={updatedAPYDiffIsLarge ? "sm" : "lg"}
+            fontSize={"sm"}
           >
-            <Text fontWeight="bold" flexShrink={0}>
-              {isSupplyingOrWithdrawing ? t("Supply APY") : t("Borrow APY")}:
-            </Text>
-            <Text
-              fontWeight="bold"
-              // fontSize={updatedAPYDiffIsLarge ? "sm" : "lg"}
-              fontSize={"sm"}
-            >
-              100%
-            </Text>
-          </Row>
+            100%
+          </Text>
+        </Row>
 
-          <Row
-            mainAxisAlignment="space-between"
-            crossAxisAlignment="center"
-            width="100%"
+        <Row
+          mainAxisAlignment="space-between"
+          crossAxisAlignment="center"
+          width="100%"
+        >
+          <Text fontWeight="bold" flexShrink={0}>
+            {t("Borrow Limit")}:
+          </Text>
+          <Text
+            fontWeight="bold"
+            fontSize={isSupplyingOrWithdrawing ? "sm" : "lg"}
           >
-            <Text fontWeight="bold" flexShrink={0}>
-              {t("Borrow Limit")}:
-            </Text>
-            <Text
-              fontWeight="bold"
-              fontSize={isSupplyingOrWithdrawing ? "sm" : "lg"}
-            >
-              {smallUsdFormatter(100)}
-              {isSupplyingOrWithdrawing ? (
-                <>
-                  {" → "} {smallUsdFormatter(100)}
-                </>
-              ) : null}{" "}
-            </Text>
-          </Row>
+            {smallUsdFormatter(100)}
+            {isSupplyingOrWithdrawing ? (
+              <>
+                {" → "} {smallUsdFormatter(100)}
+              </>
+            ) : null}{" "}
+          </Text>
+        </Row>
 
-          <Row
-            mainAxisAlignment="space-between"
-            crossAxisAlignment="center"
-            width="100%"
+        <Row
+          mainAxisAlignment="space-between"
+          crossAxisAlignment="center"
+          width="100%"
+        >
+          <Text fontWeight="bold">{t("Debt Balance")}:</Text>
+          <Text
+            fontWeight="bold"
+            fontSize={!isSupplyingOrWithdrawing ? "sm" : "lg"}
           >
-            <Text fontWeight="bold">{t("Debt Balance")}:</Text>
-            <Text
-              fontWeight="bold"
-              fontSize={!isSupplyingOrWithdrawing ? "sm" : "lg"}
-            >
-              {smallUsdFormatter(100)}
-            </Text>
-          </Row>
-        </Column>
+            {smallUsdFormatter(100)}
+          </Text>
+        </Row>
+      </Column>
       {/* ) : (
         <Center expand>
           <Spinner />
@@ -549,8 +507,6 @@ const TokenNameAndMaxButton = ({
   comptrollerAddress: string;
   updateAmount: (newAmount: string) => any;
 }) => {
-
-
   const [isMaxLoading, setIsMaxLoading] = useState(false);
 
   const { t } = useTranslation();
@@ -587,10 +543,11 @@ const TokenNameAndMaxButton = ({
         borderColor="#272727"
         fontSize="sm"
         fontWeight="extrabold"
+        color={"#FFF"}
         _hover={{}}
         _active={{}}
-        // onClick={setToMax}
-        // isLoading={isMaxLoading}
+        onClick={() => alert("MAX")}
+        isLoading={isMaxLoading}
       >
         {t("MAX")}
       </Button>
@@ -602,7 +559,7 @@ const AmountInput = ({
   displayAmount,
   updateAmount,
   color,
-  disabled = false
+  disabled = false,
 }: {
   displayAmount: string;
   updateAmount: (symbol: string) => any;

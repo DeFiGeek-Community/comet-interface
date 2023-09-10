@@ -1,7 +1,7 @@
 import { useIsMobile } from "../utils/chakraUtils";
 
 export function useMaybeResponsiveProp<T, A>(
-  data: { md: T; base: A } | string
+  data: { md: T; base: A } | string,
 ) {
   const mobile = useIsMobile();
 

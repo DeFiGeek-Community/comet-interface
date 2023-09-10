@@ -1,5 +1,4 @@
 import { Alert, AlertIcon } from "@chakra-ui/alert";
-import { EditIcon } from "@chakra-ui/icons";
 import { Box } from "@chakra-ui/layout";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";

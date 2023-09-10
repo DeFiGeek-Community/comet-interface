@@ -1,32 +1,10 @@
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Heading,
-  Link,
-  Progress,
-  Spinner,
-  Switch,
-  Text,
-  useDisclosure,
-  useToast,
-  HStack,
-} from "@chakra-ui/react";
+import { Heading, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { useIsSmallScreen } from "../../../hooks/useIsSmallScreen";
-import { shortUsdFormatter, smallUsdFormatter } from "../../../utils/bigUtils";
-import {
-  Column,
-  Center,
-  Row,
-  RowOrColumn,
-  useIsMobile,
-} from "../../../utils/chakraUtils";
-import { USDPricedFuseAsset } from "../../../utils/fetchFusePoolData";
+import { smallUsdFormatter } from "../../utils/bigUtils";
+import { Column, Center, Row, useIsMobile } from "../../utils/chakraUtils";
+import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
 import AssetSupplyRow from "./AssetSupplyRow";
-import { ModalDivider } from "../../shared/Modal";
-
+import { ModalDivider } from "../shared/Modal";
 
 const SupplyList = ({
   assets,
@@ -41,7 +19,7 @@ const SupplyList = ({
 
   const suppliedAssets = assets.filter((asset) => asset.supplyBalanceUSD > 1);
   const nonSuppliedAssets = assets.filter(
-    (asset) => asset.supplyBalanceUSD < 1
+    (asset) => asset.supplyBalanceUSD < 1,
   );
 
   const isMobile = useIsMobile();
@@ -59,39 +37,39 @@ const SupplyList = ({
       <ModalDivider />
 
       {/* {assets.length > 0 ? ( */}
-        <Row
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-start"
-          width="100%"
-          px={4}
-          mt={4}
+      <Row
+        mainAxisAlignment="flex-start"
+        crossAxisAlignment="flex-start"
+        width="100%"
+        px={4}
+        mt={4}
+      >
+        <Text width="25%" fontWeight="bold" pl={1}>
+          {t("Asset")}
+        </Text>
+
+        {isMobile ? null : (
+          <Text width="27%" fontWeight="bold" textAlign="right">
+            {t("APY/LTV")}
+          </Text>
+        )}
+
+        <Text
+          width={isMobile ? "40%" : "27%"}
+          fontWeight="bold"
+          textAlign="right"
         >
-          <Text width="27%" fontWeight="bold" pl={1}>
-            {t("Asset")}
-          </Text>
+          {t("Balance")}
+        </Text>
 
-          {isMobile ? null : (
-            <Text width="27%" fontWeight="bold" textAlign="right">
-              {t("APY/LTV")}
-            </Text>
-          )}
-
-          <Text
-            width={isMobile ? "40%" : "27%"}
-            fontWeight="bold"
-            textAlign="right"
-          >
-            {t("Balance")}
-          </Text>
-
-          <Text
+        {/* <Text
             width={isMobile ? "34%" : "20%"}
             fontWeight="bold"
             textAlign="right"
           >
             {t("Collateral")}
-          </Text>
-        </Row>
+          </Text> */}
+      </Row>
       {/* ) : null} */}
 
       <Column
@@ -103,7 +81,6 @@ const SupplyList = ({
         {assets.length > 0 ? (
           <>
             {suppliedAssets.map((asset, index) => {
-
               return (
                 <AssetSupplyRow
                   comptrollerAddress={comptrollerAddress}
@@ -118,7 +95,6 @@ const SupplyList = ({
             {suppliedAssets.length > 0 ? <ModalDivider my={2} /> : null}
 
             {nonSuppliedAssets.map((asset, index) => {
-
               return (
                 <AssetSupplyRow
                   comptrollerAddress={comptrollerAddress}

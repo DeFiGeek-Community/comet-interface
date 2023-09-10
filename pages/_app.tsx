@@ -1,7 +1,8 @@
 // pages/_app.js or pages/_app.tsx
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
 import { ChakraProvider, theme } from "@chakra-ui/react";
+import { CacheProvider } from '@chakra-ui/next-js';
 
 const customTheme = {
   ...theme,
@@ -14,9 +15,11 @@ const customTheme = {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={customTheme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <CacheProvider>
+      <ChakraProvider theme={customTheme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </CacheProvider>
   );
 }
 
