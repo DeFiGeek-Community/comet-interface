@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { Avatar, AvatarGroup } from "@chakra-ui/avatar";
 import { useTokenData } from "../../hooks/useTokenData";
 
-export const CTokenIcon = forwardRef((
+const CTokenIconComponent = forwardRef((
   {
     address,
     ...avatarProps
@@ -29,6 +29,10 @@ export const CTokenIcon = forwardRef((
     />
   );
 });
+
+CTokenIconComponent.displayName = "CTokenIcon";
+
+export const CTokenIcon = CTokenIconComponent;
 
 export const CTokenAvatarGroup = ({
   tokenAddresses,
