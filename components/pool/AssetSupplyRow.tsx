@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
+import { Avatar, Text, useDisclosure,   AvatarGroup } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { SimpleTooltip } from "../shared/SimpleTooltip";
+import { CTokenIcon } from "../shared/CTokenIcon";
 import { Column, Row, useIsMobile } from "../../utils/chakraUtils";
-import { useTokenData } from "../../hooks/useTokenData";
 import { smallUsdFormatter } from "../../utils/bigUtils";
-import { ModalDivider } from "../shared/Modal";
-import PoolModal, { Mode } from "../PoolModal";
 import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
+import { useTokenData } from "../../hooks/useTokenData";
+import PoolModal, { Mode } from "../PoolModal";
 
 const AssetSupplyRow = ({
   assets,
@@ -33,6 +33,12 @@ const AssetSupplyRow = ({
   const tokenData = useTokenData(asset.underlyingToken);
 
   const symbol = tokenData?.symbol ? tokenData?.symbol : "";
+  const supplyIncentive = asset?.rewardTokensData;
+
+  const rewardTokenData = useTokenData(supplyIncentive);
+  const color =
+  rewardTokenData?.color ??
+  "white";
 
   const isMobile = useIsMobile();
 
@@ -57,39 +63,34 @@ const AssetSupplyRow = ({
 
       <Row
         mainAxisAlignment="flex-start"
-        crossAxisAlignment="flex-start"
+        crossAxisAlignment="center"
         width="100%"
         px={4}
         py={1.5}
         className="hover-row"
+        style={asset?.isBaseToken ? { "border":"solid 1px #FFF"} : {} }
+        as="button"
+        onClick={authedOpenModal}
       >
         {/* Underlying Token Data */}
-        <Column
+        <Row
           mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-start"
+          crossAxisAlignment="center"
           width="35%"
         >
-          <Row
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="center"
-            width="100%"
-            as="button"
-            onClick={authedOpenModal}
-          >
-            <Avatar
-              bg="#FFF"
-              boxSize="37px"
-              name={symbol}
-              src={
-                tokenData?.logoURL ??
-                "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-              }
-            />
-            <Text fontWeight="bold" fontSize="lg" ml={2} flexShrink={0}>
-              {symbol}
-            </Text>
-          </Row>
-        </Column>
+          <Avatar
+            bg="#FFF"
+            boxSize="37px"
+            name={symbol}
+            src={
+              tokenData?.logoURL ??
+              "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+            }
+          />
+          <Text fontWeight="bold" fontSize="lg" ml={2} flexShrink={0}>
+            {symbol}
+          </Text>
+        </Row>
 
         {/* APY */}
         {isMobile ? null : (
@@ -97,15 +98,12 @@ const AssetSupplyRow = ({
             mainAxisAlignment="flex-start"
             crossAxisAlignment="flex-end"
             width="27%"
-            as="button"
-            onClick={authedOpenModal}
           >
-            <Text color={"#FF"} fontWeight="bold" fontSize="17px">
-              40%
-            </Text>
-
-            {/* Demo Supply Incentives */}
-            {/* {hasSupplyIncentives && (
+            {asset?.isBaseToken ? (
+            <>
+              <Text color={"#FF"} fontWeight="bold" fontSize="17px">
+                10%
+              </Text>
               <Row
                 // ml={1}
                 // mb={.5}
@@ -117,39 +115,42 @@ const AssetSupplyRow = ({
                   +
                 </Text>
                 <AvatarGroup size="xs" max={30} ml={2} mr={1} spacing={1}>
-                  {supplyIncentives?.map((supplyIncentive, i) => {
-                    return (
-                      <SimpleTooltip label={displayedSupplyAPRLabel}>
-                        <CTokenIcon
-                          address={supplyIncentive.rewardToken}
-                          boxSize="20px"
-                          onMouseEnter={() => handleMouseEnter(i)}
-                          onMouseLeave={() => handleMouseLeave()}
-                          _hover={{
-                            zIndex: 9,
-                            border: ".5px solid white",
-                            transform: "scale(1.3);",
-                          }}
-                        />
-                      </SimpleTooltip>
-                    );
-                  })}
+                  <SimpleTooltip label={"40L"}>
+                    <CTokenIcon
+                      address={supplyIncentive}
+                      boxSize="20px"
+                      onMouseEnter={() => handleMouseEnter(0)}
+                      onMouseLeave={() => handleMouseLeave()}
+                      _hover={{
+                        zIndex: 9,
+                        border: ".5px solid white",
+                        transform: "scale(1.3);",
+                      }}
+                    />
+                  </SimpleTooltip>
                 </AvatarGroup>
-                <SimpleTooltip label={displayedSupplyAPRLabel}>
-                  <Text color={color} fontWeight="bold" pl={1} fontSize="sm">
-                    100% APR
-                  </Text>
-                </SimpleTooltip>
+                <Text color={color} fontWeight="bold" pl={1} fontSize="sm">
+                  100% APR
+                </Text>
               </Row>
-            )} */}
-
-            <SimpleTooltip
-              label={t(
-                "The Collateral Factor (CF) ratio defines the maximum amount of tokens in the pool that can be borrowed with a specific collateral. It’s expressed in percentage: if in a pool ETH has 75% LTV, for every 1 ETH worth of collateral, borrowers will be able to borrow 0.75 ETH worth of other tokens in the pool.",
-              )}
-            >
-              <Text fontSize="sm">100% CF</Text>
-            </SimpleTooltip>
+              <SimpleTooltip
+                label={t(
+                  "The Collateral Factor (CF) ratio defines the maximum amount of tokens in the pool that can be borrowed with a specific collateral. It’s expressed in percentage: if in a pool ETH has 75% LTV, for every 1 ETH worth of collateral, borrowers will be able to borrow 0.75 ETH worth of other tokens in the pool.",
+                )}
+              >
+                <Text fontSize="sm">100% CF</Text>
+              </SimpleTooltip>
+            </>
+            ) : (
+              <Row
+                crossAxisAlignment="center"
+                mainAxisAlignment="center"
+              >
+                <Text width="27%" textAlign="center" mx={5}>
+                  -
+                </Text>
+              </Row>
+            )} 
           </Column>
         )}
 
@@ -157,8 +158,6 @@ const AssetSupplyRow = ({
           mainAxisAlignment="flex-start"
           crossAxisAlignment="flex-end"
           width={isMobile ? "40%" : "27%"}
-          as="button"
-          onClick={authedOpenModal}
         >
           <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
             {smallUsdFormatter(asset.supplyBalanceUSD)}

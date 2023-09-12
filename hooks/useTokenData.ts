@@ -11,15 +11,15 @@ export const TOKENS_DATA: TokensData = {
     logoURL:
       "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/64/Ethereum-ETH-icon.png",
   },
-  "0x0000000000000000000000000000000000000001": {
-    symbol: "ETH",
-    address: "0x0000000000000000000000000000000000000000",
-    name: "Ethereum Network Token",
+  "0x961dd84059505d59f82ce4fb87d3c09bec65301d": {
+    symbol: "TXJP",
+    address: "0x961dd84059505d59f82ce4fb87d3c09bec65301d",
+    name: "TenX Community JAPAN",
     decimals: 18,
-    color: "#627EEA",
+    color: "#bc1c4c",
     overlayTextColor: "#fff",
     logoURL:
-      "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/64/Ethereum-ETH-icon.png",
+      "/tokens/TXJP.png",
   },
   // 他のトークンもこの形式で追加できます。
 };

@@ -36,7 +36,7 @@ const PoolPage = memo(() => {
         <Header />
         <FuseStatsBar data={dummyData} />
         <FuseTabBar />
-        {/* <CollateralRatioBar/> */}
+        <CollateralRatioBar/>
 
         <RowOrColumn
           width="100%"

@@ -19,7 +19,7 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
       isRow={!isMobile}
       mainAxisAlignment="flex-start"
       crossAxisAlignment="flex-start"
-      height={isMobile ? "auto" : "125px"}
+      height={isMobile ? "auto" : "160px"}
     >
       <DashboardBox
         width={isMobile ? "100%" : "50%"}
@@ -61,16 +61,34 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
         width={isMobile ? "100%" : "50%"}
       >
         <>
-          <StatBox width={isMobile ? "100%" : "50%"}>
-            <CaptionedStat
-              crossAxisAlignment="center"
-              captionFirst={false}
-              statSize="3xl"
-              captionSize="sm"
-              stat={"$?"}
-              caption={t("Your Supply Balance")}
-            />
-          </StatBox>
+          <RowOrColumn
+            isRow={false}
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="flex-start"
+            height="100%"
+            width={isMobile ? "100%" : "50%"}
+          >
+          <StatBox mb={!isMobile && 1} width={isMobile ? "100%" : "95%"}>
+              <CaptionedStat
+                crossAxisAlignment="center"
+                captionFirst={false}
+                statSize={isMobile ? "3xl" : "2xl"}
+                captionSize="sm"
+                stat={"$?"}
+                caption={t(`${data?.baseToken} Supply Balance`)}
+              />
+            </StatBox>
+            <StatBox width={isMobile ? "100%" : "95%"}>
+              <CaptionedStat
+                crossAxisAlignment="center"
+                captionFirst={false}
+                statSize={isMobile ? "3xl" : "2xl"}
+                captionSize="sm"
+                stat={"$?"}
+                caption={t("Collateral Supply Balance")}
+              />
+            </StatBox>
+          </RowOrColumn>
 
           <StatBox width={isMobile ? "100%" : "50%"}>
             <CaptionedStat
@@ -106,7 +124,7 @@ const StatBox = ({
       ml={isMobile ? 0 : 4}
       {...others}
     >
-      <Center expand p={4}>
+      <Center expand p={1}>
         {children}
       </Center>
     </DashboardBox>

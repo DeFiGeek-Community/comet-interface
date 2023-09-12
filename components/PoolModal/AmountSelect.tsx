@@ -398,7 +398,7 @@ const StatsColumn = ({
 
   const isSupplyingOrWithdrawing =
     mode === Mode.SUPPLY || mode === Mode.WITHDRAW;
-
+  const asset = assets[index];
   return (
     <DashboardBox width="100%" height="190px" mt={4}>
       {/* {updatedAsset ? ( */}
@@ -435,22 +435,24 @@ const StatsColumn = ({
           </Text>
         </Row>
 
-        <Row
-          mainAxisAlignment="space-between"
-          crossAxisAlignment="center"
-          width="100%"
-        >
-          <Text fontWeight="bold" flexShrink={0}>
-            {isSupplyingOrWithdrawing ? t("Supply APY") : t("Borrow APY")}:
-          </Text>
-          <Text
-            fontWeight="bold"
-            // fontSize={updatedAPYDiffIsLarge ? "sm" : "lg"}
-            fontSize={"sm"}
+        {asset?.isBaseToken && (
+          <Row
+            mainAxisAlignment="space-between"
+            crossAxisAlignment="center"
+            width="100%"
           >
-            100%
-          </Text>
-        </Row>
+            <Text fontWeight="bold" flexShrink={0}>
+              {isSupplyingOrWithdrawing ? t("Supply APY") : t("Borrow APY")}:
+            </Text>
+            <Text
+              fontWeight="bold"
+              // fontSize={updatedAPYDiffIsLarge ? "sm" : "lg"}
+              fontSize={"sm"}
+            >
+              100%
+            </Text>
+          </Row>
+        )}
 
         <Row
           mainAxisAlignment="space-between"

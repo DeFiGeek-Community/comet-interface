@@ -17,9 +17,6 @@ const BorrowList = ({
 }) => {
   const { t } = useTranslation();
   const borrowedAssets = assets.filter((asset) => asset.borrowBalanceUSD > 1);
-  const nonBorrowedAssets = assets.filter(
-    (asset) => asset.borrowBalanceUSD < 1,
-  );
 
   const isMobile = useIsMobile();
 
@@ -80,10 +77,6 @@ const BorrowList = ({
         {assets.length > 0 ? (
           <>
             {borrowedAssets.map((asset, index) => {
-              // Don't show paused assets.
-              // if (asset.isPaused) {
-              //   return null;
-              // }
 
               return (
                 <AssetBorrowRow
@@ -97,23 +90,6 @@ const BorrowList = ({
             })}
 
             {borrowedAssets.length > 0 ? <ModalDivider my={2} /> : null}
-
-            {nonBorrowedAssets.map((asset, index) => {
-              // Don't show paused assets.
-              if (asset.isPaused) {
-                return null;
-              }
-
-              return (
-                <AssetBorrowRow
-                  comptrollerAddress={comptrollerAddress}
-                  key={asset.underlyingToken}
-                  assets={nonBorrowedAssets}
-                  index={index}
-                  isPaused={asset.isPaused}
-                />
-              );
-            })}
           </>
         ) : (
           <Center expand my={8}>

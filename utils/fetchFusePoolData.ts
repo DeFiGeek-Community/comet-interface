@@ -7,8 +7,6 @@ export interface FuseAsset {
   supplyBalance: number;
   liquidity: number;
 
-  membership: boolean;
-
   underlyingName: string;
   underlyingSymbol: string;
   underlyingToken: string;
@@ -28,6 +26,9 @@ export interface FuseAsset {
 
   totalBorrow: number;
   totalSupply: number;
+
+  isBaseToken: boolean;
+  rewardTokensData: string;
 }
 
 export interface USDPricedFuseAsset extends FuseAsset {
@@ -40,6 +41,9 @@ export interface USDPricedFuseAsset extends FuseAsset {
   liquidityUSD: number;
 
   isPaused: boolean;
+
+  isBaseToken: boolean;
+  rewardTokensData: string;
 }
 
 export interface USDPricedFuseAssetWithTokenData extends USDPricedFuseAsset {
@@ -50,6 +54,7 @@ export interface FusePoolData {
   assets: USDPricedFuseAssetWithTokenData[] | USDPricedFuseAsset[];
   comptroller: any;
   name: any;
+  baseToken: string;
   oracle: string;
   oracleModel: string | undefined;
   isPrivate: boolean;
@@ -67,4 +72,42 @@ export enum FusePoolMetric {
   TotalLiquidityUSD,
   TotalSuppliedUSD,
   TotalBorrowedUSD,
+}
+export interface CTokenRewardsDistributorIncentivesWithRates
+  extends CTokenRewardsDistributorIncentives {
+  supplyAPY: number;
+  borrowAPY: number;
+  supplyAPR: number;
+  borrowAPR: number;
+}
+
+export interface CTokenRewardsDistributorIncentivesWithRatesMap {
+  [cTokenAddress: string]: CTokenRewardsDistributorIncentivesWithRates[];
+}
+
+export interface CTokenRewardsDistributorIncentives {
+  rewardsDistributorAddress: string;
+  rewardToken: string;
+  borrowSpeed: number;
+  supplySpeed: number;
+}
+
+export interface CTokenIncentivesMap {
+  [cTokenAddress: string]: CTokenRewardsDistributorIncentives[];
+}
+
+// Maps a rewardsDistributor to an array of all its ctokenaddresses
+export interface RewardsDistributorCTokensMap {
+  [rewardsDistributorAddress: string]: string[];
+}
+
+export interface IncentivesData {
+  hasIncentives: boolean;
+  incentives: CTokenRewardsDistributorIncentivesWithRatesMap;
+  rewardsDistributorCtokens: RewardsDistributorCTokensMap;
+  rewardTokensData: TokensDataMap;
+}
+
+export interface TokensDataMap {
+  [address: string]: TokenData;
 }

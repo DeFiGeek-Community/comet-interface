@@ -1,11 +1,12 @@
+import React, { useState } from "react";
+import { useDisclosure, AvatarGroup, Avatar, Box, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { useDisclosure } from "@chakra-ui/react";
-import { Avatar, Box, Text } from "@chakra-ui/react";
 import { SimpleTooltip } from "../shared/SimpleTooltip";
+import { CTokenIcon } from "../shared/CTokenIcon";
 import { Column, Row, useIsMobile } from "../../utils/chakraUtils";
 import { shortUsdFormatter, smallUsdFormatter } from "../../utils/bigUtils";
-import { useTokenData } from "../../hooks/useTokenData";
 import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
+import { useTokenData } from "../../hooks/useTokenData";
 import PoolModal, { Mode } from "../PoolModal";
 
 const AssetBorrowRow = ({
@@ -34,9 +35,19 @@ const AssetBorrowRow = ({
 
   const symbol = tokenData?.symbol ? tokenData?.symbol : "";
 
+  const supplyIncentive = asset?.rewardTokensData;
+
+  const rewardTokenData = useTokenData(supplyIncentive);
+  const color =
+  rewardTokenData?.color ??
+  "white";
+
   const isMobile = useIsMobile();
 
-  // const hasBorrowIncentives = !!borrowIncentives.length;
+  const [hovered, setHovered] = useState<number>(-1);
+
+  const handleMouseEnter = (index: number) => setHovered(index);
+  const handleMouseLeave = () => setHovered(-1);
 
   return (
     <>
@@ -85,12 +96,13 @@ const AssetBorrowRow = ({
             crossAxisAlignment="flex-end"
             width="27%"
           >
-            <Text color={"#FF"} fontWeight="bold" fontSize="17px">
-              10%
-            </Text>
+            {asset?.isBaseToken && (
+            <>
+              <Text color={"#FF"} fontWeight="bold" fontSize="17px">
+                10%
+              </Text>
 
-            {/* Demo Borrow Incentives */}
-            {/* {hasBorrowIncentives && (
+
               <Row
                 // ml={1}
                 // mb={.5}
@@ -102,41 +114,35 @@ const AssetBorrowRow = ({
                   +
                 </Text>
                 <AvatarGroup size="xs" max={30} ml={2} mr={2} spacing={1}>
-                  {borrowIncentives?.map((borrowIncentive, i) => {
-                    return (
-                      <CTokenIcon
-                        address={borrowIncentive.rewardToken}
-                        boxSize="20px"
-                        _hover={{
-                          zIndex: 9,
-                          border: ".5px solid white",
-                          transform: "scale(1.3);",
-                        }}
-                        onMouseEnter={() => handleMouseEnter(i)}
-                        onMouseLeave={handleMouseLeave}
-                      />
-                    );
-                  })}
+                  <CTokenIcon
+                    address={supplyIncentive}
+                    boxSize="20px"
+                    _hover={{
+                      zIndex: 9,
+                      border: ".5px solid white",
+                      transform: "scale(1.3);",
+                    }}
+                    onMouseEnter={() => handleMouseEnter(0)}
+                    onMouseLeave={handleMouseLeave}
+                  />
                 </AvatarGroup>
-                <Text
-                  color={
-                    "white"
-                  }
+                <Text color={color} 
                   pl={1}
                   fontWeight="bold"
                 >
                   70%
                 </Text>
               </Row>
-            )} */}
 
-            <SimpleTooltip
-              label={t(
-                "Total Value Lent (TVL) measures how much of this asset has been supplied in total. TVL does not account for how much of the lent assets have been borrowed, use 'liquidity' to determine the total unborrowed assets lent.",
-              )}
-            >
-              <Text fontSize="sm">30 TVL</Text>
-            </SimpleTooltip>
+              <SimpleTooltip
+                label={t(
+                  "Total Value Lent (TVL) measures how much of this asset has been supplied in total. TVL does not account for how much of the lent assets have been borrowed, use 'liquidity' to determine the total unborrowed assets lent.",
+                )}
+              >
+                <Text fontSize="sm">30 TVL</Text>
+              </SimpleTooltip>
+            </>
+            )}
           </Column>
         )}
 

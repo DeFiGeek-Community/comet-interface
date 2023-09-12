@@ -18,9 +18,6 @@ const SupplyList = ({
   const { t } = useTranslation();
 
   const suppliedAssets = assets.filter((asset) => asset.supplyBalanceUSD > 1);
-  const nonSuppliedAssets = assets.filter(
-    (asset) => asset.supplyBalanceUSD < 1,
-  );
 
   const isMobile = useIsMobile();
 
@@ -36,7 +33,6 @@ const SupplyList = ({
       </Heading>
       <ModalDivider />
 
-      {/* {assets.length > 0 ? ( */}
       <Row
         mainAxisAlignment="flex-start"
         crossAxisAlignment="flex-start"
@@ -44,7 +40,7 @@ const SupplyList = ({
         px={4}
         mt={4}
       >
-        <Text width="25%" fontWeight="bold" pl={1}>
+        <Text width="35%" fontWeight="bold" pl={1}>
           {t("Asset")}
         </Text>
 
@@ -62,15 +58,7 @@ const SupplyList = ({
           {t("Balance")}
         </Text>
 
-        {/* <Text
-            width={isMobile ? "34%" : "20%"}
-            fontWeight="bold"
-            textAlign="right"
-          >
-            {t("Collateral")}
-          </Text> */}
       </Row>
-      {/* ) : null} */}
 
       <Column
         mainAxisAlignment="flex-start"
@@ -94,17 +82,6 @@ const SupplyList = ({
 
             {suppliedAssets.length > 0 ? <ModalDivider my={2} /> : null}
 
-            {nonSuppliedAssets.map((asset, index) => {
-              return (
-                <AssetSupplyRow
-                  comptrollerAddress={comptrollerAddress}
-                  key={asset.underlyingToken}
-                  assets={nonSuppliedAssets}
-                  index={index}
-                  isPaused={asset.isPaused}
-                />
-              );
-            })}
           </>
         ) : (
           <Center expand my={8}>
