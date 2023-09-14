@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Link, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Row } from "../../utils/chakraUtils";
-import Logo from "../../static/dfgc-logo.png";
 
 export const Header = () => {
   return (
@@ -18,7 +18,7 @@ export const Header = () => {
       width="100%"
     >
       <Box boxSize={"37px"} flexShrink={0}>
-        <Image width={37} height={37} src={Logo} alt="Logo" />
+        <Image width={37} height={37} src={"/dfgc-logo.png"} alt="Logo" />
       </Box>
 
       <Row
@@ -29,12 +29,18 @@ export const Header = () => {
         overflowX="auto"
         overflowY="hidden"
         transform="translate(0px, 7px)"
+        width="80%"
       >
         <HeaderLink name="Pool" route="#" />
         <HeaderLink name="Document" route="#" />
       </Row>
-
-      <Text>Account</Text>
+      <Row
+        expand
+        crossAxisAlignment="flex-end"
+        mainAxisAlignment="flex-end"
+      >
+        <ConnectButton accountStatus="address" />
+      </Row>
     </Row>
   );
 };
