@@ -29,7 +29,7 @@ const customTheme = {
 const { chains, publicClient } = configureChains(
   [mainnet, goerli],
   [
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.ALCHEMY_ID ?? "" }),
     publicProvider()
   ]
 );
