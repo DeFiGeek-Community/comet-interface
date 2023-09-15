@@ -9,7 +9,7 @@ import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
 import { useTokenData } from "../../hooks/useTokenData";
 import PoolModal, { Mode } from "../PoolModal";
 
-const AssetSupplyRow = ({
+const CollateralAssetSupplyRow = ({
   assets,
   index,
   comptrollerAddress,
@@ -68,7 +68,6 @@ const AssetSupplyRow = ({
         px={4}
         py={1.5}
         className="hover-row"
-        style={asset?.isBaseToken ? { "border":"solid 1px #FFF"} : {} }
         as="button"
         onClick={authedOpenModal}
       >
@@ -76,7 +75,7 @@ const AssetSupplyRow = ({
         <Row
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
-          width="35%"
+          width="20%"
         >
           <Avatar
             bg="#FFF"
@@ -94,70 +93,56 @@ const AssetSupplyRow = ({
 
         {/* APY */}
         {isMobile ? null : (
-          <Column
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-end"
-            width="27%"
-          >
-            {asset?.isBaseToken ? (
-            <>
-              <Text color={"#FF"} fontWeight="bold" fontSize="17px">
-                10%
-              </Text>
-              <Row
-                // ml={1}
-                // mb={.5}
-                crossAxisAlignment="center"
-                mainAxisAlignment="flex-end"
-                py={2}
-              >
-                <Text fontWeight="bold" mr={1}>
-                  +
-                </Text>
-                <AvatarGroup size="xs" max={30} ml={2} mr={1} spacing={1}>
-                  <SimpleTooltip label={"40L"}>
-                    <CTokenIcon
-                      address={supplyIncentive}
-                      boxSize="20px"
-                      onMouseEnter={() => handleMouseEnter(0)}
-                      onMouseLeave={() => handleMouseLeave()}
-                      _hover={{
-                        zIndex: 9,
-                        border: ".5px solid white",
-                        transform: "scale(1.3);",
-                      }}
-                    />
-                  </SimpleTooltip>
-                </AvatarGroup>
-                <Text color={color} fontWeight="bold" pl={1} fontSize="sm">
-                  100% APR
-                </Text>
-              </Row>
-              <SimpleTooltip
-                label={t(
-                  "The Collateral Factor (CF) ratio defines the maximum amount of tokens in the pool that can be borrowed with a specific collateral. It’s expressed in percentage: if in a pool ETH has 75% LTV, for every 1 ETH worth of collateral, borrowers will be able to borrow 0.75 ETH worth of other tokens in the pool.",
-                )}
-              >
-                <Text fontSize="sm">100% CF</Text>
-              </SimpleTooltip>
-            </>
-            ) : (
+          <>
+            <Column
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="center"
+              width="20%"
+            >
               <Row
                 crossAxisAlignment="center"
                 mainAxisAlignment="center"
               >
-                <Text width="27%" textAlign="center" mx={5}>
+                <Text textAlign="center" mx={5}>
                   -
                 </Text>
               </Row>
-            )} 
-          </Column>
+            </Column>
+            <Column
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="center"
+              width="20%"
+            >
+              <Row
+                crossAxisAlignment="center"
+                mainAxisAlignment="center"
+              >
+                <Text textAlign="center" mx={5}>
+                  -
+                </Text>
+              </Row>
+            </Column>
+            <Column
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="center"
+              width="20%"
+            >
+              <Row
+                crossAxisAlignment="center"
+                mainAxisAlignment="center"
+              >
+                <Text textAlign="center" mx={5}>
+                  -
+                </Text>
+              </Row>
+            </Column>
+          </>
         )}
 
         <Column
           mainAxisAlignment="flex-start"
           crossAxisAlignment="flex-end"
-          width={isMobile ? "40%" : "27%"}
+          width={isMobile ? "40%" : "20%"}
         >
           <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
             {smallUsdFormatter(asset.supplyBalanceUSD)}
@@ -172,4 +157,4 @@ const AssetSupplyRow = ({
   );
 };
 
-export default AssetSupplyRow;
+export default CollateralAssetSupplyRow;

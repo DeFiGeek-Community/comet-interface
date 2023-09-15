@@ -22,7 +22,7 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
       height={isMobile ? "auto" : "160px"}
     >
       <DashboardBox
-        width={isMobile ? "100%" : "50%"}
+        width={isMobile ? "100%" : "40%"}
         height={isMobile ? "auto" : "100%"}
       >
         <Column
@@ -58,7 +58,7 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
         mainAxisAlignment="flex-start"
         crossAxisAlignment="flex-start"
         height="100%"
-        width={isMobile ? "100%" : "50%"}
+        width={isMobile ? "100%" : "60%"}
       >
         <>
           <RowOrColumn
@@ -66,26 +66,26 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
             mainAxisAlignment="flex-start"
             crossAxisAlignment="flex-start"
             height="100%"
-            width={isMobile ? "100%" : "50%"}
+            width={isMobile ? "100%" : "60%"}
           >
-          <StatBox mb={!isMobile && 1} width={isMobile ? "100%" : "95%"}>
+          <StatBox mb={!isMobile && 1} width={isMobile ? "100%" : "96%"}>
               <CaptionedStat
                 crossAxisAlignment="center"
                 captionFirst={false}
                 statSize={isMobile ? "3xl" : "2xl"}
                 captionSize="sm"
                 stat={"$?"}
-                caption={t(`${data?.baseToken} Supply Balance`)}
+                caption={t(`Your ${data?.baseToken} Supply Balance`)}
               />
             </StatBox>
-            <StatBox width={isMobile ? "100%" : "95%"}>
+            <StatBox width={isMobile ? "100%" : "96%"}>
               <CaptionedStat
                 crossAxisAlignment="center"
                 captionFirst={false}
                 statSize={isMobile ? "3xl" : "2xl"}
                 captionSize="sm"
                 stat={"$?"}
-                caption={t("Collateral Supply Balance")}
+                caption={t("Your Collateral Supply Balance")}
               />
             </StatBox>
           </RowOrColumn>

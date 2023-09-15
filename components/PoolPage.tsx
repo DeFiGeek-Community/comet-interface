@@ -9,7 +9,8 @@ import {
 import FuseStatsBar from "./pool/StatsBar";
 import FuseTabBar from "./pool/TabBar";
 import CollateralRatioBar from "./pool/CollateralRatioBar";
-import SupplyList from "./pool/SupplyList";
+import BaseSupplyList from "./pool/BaseSupplyList";
+import CollateralSupplyList from "./pool/CollateralSupplyList";
 import BorrowList from "./pool/BorrowList";
 import { AdminAlert } from "./shared/AdminAlert";
 import DashboardBox from "./shared/DashboardBox";
@@ -47,11 +48,18 @@ const PoolPage = memo(() => {
         >
           <DashboardBox width={isMobile ? "100%" : "50%"}>
             {dummyData ? (
-              <SupplyList
-                assets={dummyData.assets}
-                comptrollerAddress={dummyData.comptroller}
-                supplyBalanceUSD={dummyData.totalSupplyBalanceUSD}
-              />
+              <>
+                <BaseSupplyList
+                  assets={dummyData.assets}
+                  comptrollerAddress={dummyData.comptroller}
+                  supplyBalanceUSD={dummyData.totalSupplyBalanceUSD}
+                />
+                <CollateralSupplyList
+                  assets={dummyData.assets}
+                  comptrollerAddress={dummyData.comptroller}
+                  supplyBalanceUSD={dummyData.totalSupplyBalanceUSD}
+                />
+              </>
             ) : (
               <Center height="200px">
                 <Spinner />

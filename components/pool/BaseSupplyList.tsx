@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import { smallUsdFormatter } from "../../utils/bigUtils";
 import { Column, Center, Row, useIsMobile } from "../../utils/chakraUtils";
 import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
-import AssetSupplyRow from "./AssetSupplyRow";
+import AssetBaseSupplyRow from "./BaseAssetSupplyRow";
 import { ModalDivider } from "../shared/Modal";
 
-const SupplyList = ({
+const BaseSupplyList = ({
   assets,
   supplyBalanceUSD,
   comptrollerAddress,
@@ -17,7 +17,7 @@ const SupplyList = ({
 }) => {
   const { t } = useTranslation();
 
-  const suppliedAssets = assets.filter((asset) => asset.supplyBalanceUSD > 1);
+  const suppliedAssets = assets.filter((asset) => asset.supplyBalanceUSD > 1 && asset.isBaseToken);
 
   const isMobile = useIsMobile();
 
@@ -29,7 +29,7 @@ const SupplyList = ({
       pb={1}
     >
       <Heading size="md" px={4} py={3}>
-        {t("Supply Balance:")} {smallUsdFormatter(supplyBalanceUSD)}
+        {t("Base Supply Balance:")} {smallUsdFormatter(supplyBalanceUSD)}
       </Heading>
       <ModalDivider />
 
@@ -70,7 +70,7 @@ const SupplyList = ({
           <>
             {suppliedAssets.map((asset, index) => {
               return (
-                <AssetSupplyRow
+                <AssetBaseSupplyRow
                   comptrollerAddress={comptrollerAddress}
                   key={asset.underlyingToken}
                   assets={suppliedAssets}
@@ -93,4 +93,4 @@ const SupplyList = ({
   );
 };
 
-export default SupplyList;
+export default BaseSupplyList;
