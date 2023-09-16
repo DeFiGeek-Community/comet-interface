@@ -6,13 +6,11 @@ import {
   RowOrColumn,
   useIsMobile,
 } from "../utils/chakraUtils";
-import FuseStatsBar from "./pool/StatsBar";
-import FuseTabBar from "./pool/TabBar";
+import StatsBar from "./pool/StatsBar";
+import TabBar from "./pool/TabBar";
 import CollateralRatioBar from "./pool/CollateralRatioBar";
-import BaseSupplyList from "./pool/BaseSupplyList";
-import CollateralSupplyList from "./pool/CollateralSupplyList";
-import BorrowList from "./pool/BorrowList";
-import { AdminAlert } from "./shared/AdminAlert";
+import BaseList from "./pool/BaseList";
+import CollateralList from "./pool/CollateralList";
 import DashboardBox from "./shared/DashboardBox";
 import Footer from "./shared/Footer";
 import { Header } from "./shared/Header";
@@ -35,56 +33,43 @@ const PoolPage = memo(() => {
         px={isMobile ? 4 : 0}
       >
         <Header />
-        <FuseStatsBar data={dummyData} />
-        <FuseTabBar />
+        {/* <TabBar /> */}
+        <StatsBar data={dummyData} />
         <CollateralRatioBar/>
 
-        <RowOrColumn
-          width="100%"
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-start"
+        <DashboardBox 
           mt={4}
-          isRow={!isMobile}
+          width={"100%"}
         >
-          <DashboardBox width={isMobile ? "100%" : "50%"}>
-            {dummyData ? (
-              <>
-                <BaseSupplyList
-                  assets={dummyData.assets}
-                  comptrollerAddress={dummyData.comptroller}
-                  supplyBalanceUSD={dummyData.totalSupplyBalanceUSD}
-                />
-                <CollateralSupplyList
-                  assets={dummyData.assets}
-                  comptrollerAddress={dummyData.comptroller}
-                  supplyBalanceUSD={dummyData.totalSupplyBalanceUSD}
-                />
-              </>
-            ) : (
-              <Center height="200px">
-                <Spinner />
-              </Center>
-            )}
-          </DashboardBox>
-
-          <DashboardBox
-            ml={isMobile ? 0 : 4}
-            mt={isMobile ? 4 : 0}
-            width={isMobile ? "100%" : "50%"}
-          >
-            {dummyData ? (
-              <BorrowList
-                comptrollerAddress={dummyData.comptroller}
+          {dummyData ? (
+              <BaseList
                 assets={dummyData.assets}
-                borrowBalanceUSD={dummyData.totalBorrowBalanceUSD}
+                comptrollerAddress={dummyData.comptroller}
               />
-            ) : (
-              <Center height="200px">
-                <Spinner />
-              </Center>
-            )}
-          </DashboardBox>
-        </RowOrColumn>
+          ) : (
+            <Center height="200px">
+              <Spinner />
+            </Center>
+          )}
+        </DashboardBox>
+
+        <DashboardBox
+          ml={0}
+          mt={4}
+          width={"100%"}
+        >
+          {dummyData ? (
+            <CollateralList
+              assets={dummyData.assets}
+              comptrollerAddress={dummyData.comptroller}
+              supplyBalanceUSD={dummyData.totalSupplyBalanceUSD}
+            />
+          ) : (
+            <Center height="200px">
+              <Spinner />
+            </Center>
+          )}
+        </DashboardBox>
         <Footer />
       </Column>
     </>

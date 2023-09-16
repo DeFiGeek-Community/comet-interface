@@ -14,7 +14,6 @@ export interface FuseAsset {
   underlyingPrice: number;
   underlyingBalance: number;
 
-  collateralFactor: number;
   reserveFactor: number;
 
   adminFee: number;
@@ -29,6 +28,9 @@ export interface FuseAsset {
 
   isBaseToken: boolean;
   rewardTokensData: string;
+  collateralFactor: number;
+  liquidationFactor: number;
+  liquidationPenalty: number;
 }
 
 export interface USDPricedFuseAsset extends FuseAsset {

@@ -16,7 +16,7 @@ export function useIsMediumScreen() {
   return width ? width < 1150 : 0;
 }
 
-const FuseTabBar = () => {
+const TabBar = () => {
   const isMobile = useIsSmallScreen();
 
   const { t } = useTranslation();
@@ -24,7 +24,7 @@ const FuseTabBar = () => {
   return (
     <DashboardBox width="100%" mt={4} height={isMobile ? "auto" : "65px"}>
       <RowOrColumn
-        isRow={!isMobile}
+        isRow={true}
         expand
         mainAxisAlignment="flex-start"
         crossAxisAlignment="center"
@@ -32,8 +32,7 @@ const FuseTabBar = () => {
       >
         <DashboardBox
           {...(activeStyle)}
-          ml={isMobile ? 0 : 4}
-          mt={isMobile ? 4 : 0}
+          ml={4}
           height="35px"
         >
           <Link
@@ -46,12 +45,21 @@ const FuseTabBar = () => {
           </Link>
         </DashboardBox>
 
-        <TabLink route="#" text={t("USDC Pool")} />
+        <DashboardBox
+          // {...(activeStyle)}
+          ml={4}
+          height="35px"
+        >
+          <Link
+            href={"#"}
+            className="no-underline"
+          >
+            <Center expand px={2} fontWeight="bold">
+              {t("USDC Pool")}
+            </Center>
+          </Link>
+        </DashboardBox>
 
-        {/* <TabLink
-          route="/"
-          text={t("Unverified Pools")}
-        /> */}
 
 
       </RowOrColumn>
@@ -107,4 +115,4 @@ const TabExternalLink = ({ route, text }: { route: string; text: string }) => {
   );
 };
 
-export default FuseTabBar;
+export default TabBar;

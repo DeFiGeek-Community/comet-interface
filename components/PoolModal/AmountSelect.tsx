@@ -363,10 +363,10 @@ const TabBar = ({
             ) : (
               <>
                 <Tab fontWeight="bold" _active={{}} mb="-1px">
-                  {t("Borrow")}
+                  {t("Supply (Repay)")}
                 </Tab>
                 <Tab fontWeight="bold" _active={{}} mb="-1px">
-                  {t("Repay")}
+                  {t("Withdraw (Borrow)")}
                 </Tab>
               </>
             )}
@@ -460,7 +460,7 @@ const StatsColumn = ({
           width="100%"
         >
           <Text fontWeight="bold" flexShrink={0}>
-            {t("Borrow Limit")}:
+            {t("Available to Borrow")}:
           </Text>
           <Text
             fontWeight="bold"
@@ -480,7 +480,7 @@ const StatsColumn = ({
           crossAxisAlignment="center"
           width="100%"
         >
-          <Text fontWeight="bold">{t("Debt Balance")}:</Text>
+          <Text fontWeight="bold">{t("Borrow Balance")}:</Text>
           <Text
             fontWeight="bold"
             fontSize={!isSupplyingOrWithdrawing ? "sm" : "lg"}

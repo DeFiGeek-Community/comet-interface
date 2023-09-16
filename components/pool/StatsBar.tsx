@@ -9,7 +9,7 @@ import DashboardBox from "../shared/DashboardBox";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { SimpleTooltip } from "../shared/SimpleTooltip";
 
-const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
+const StatsBar = ({ data }: { data?: FusePoolData }) => {
   const isMobile = useIsSmallScreen();
 
   const { t } = useTranslation();
@@ -19,10 +19,10 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
       isRow={!isMobile}
       mainAxisAlignment="flex-start"
       crossAxisAlignment="flex-start"
-      height={isMobile ? "auto" : "160px"}
+      height={isMobile ? "auto" : "170px"}
     >
       <DashboardBox
-        width={isMobile ? "100%" : "40%"}
+        width={isMobile ? "100%" : "50%"}
         height={isMobile ? "auto" : "100%"}
       >
         <Column
@@ -58,7 +58,7 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
         mainAxisAlignment="flex-start"
         crossAxisAlignment="flex-start"
         height="100%"
-        width={isMobile ? "100%" : "60%"}
+        width={isMobile ? "100%" : "50%"}
       >
         <>
           <RowOrColumn
@@ -68,29 +68,60 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
             height="100%"
             width={isMobile ? "100%" : "60%"}
           >
-          <StatBox mb={!isMobile && 1} width={isMobile ? "100%" : "96%"}>
+            <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
               <CaptionedStat
                 crossAxisAlignment="center"
                 captionFirst={false}
                 statSize={isMobile ? "3xl" : "2xl"}
                 captionSize="sm"
                 stat={"$?"}
-                caption={t(`Your ${data?.baseToken} Supply Balance`)}
+                caption={t(`Total ${data?.baseToken} Supply Balance`)}
               />
             </StatBox>
-            <StatBox width={isMobile ? "100%" : "96%"}>
+            <StatBox width={isMobile ? "100%" : "98%"}>
               <CaptionedStat
                 crossAxisAlignment="center"
                 captionFirst={false}
                 statSize={isMobile ? "3xl" : "2xl"}
                 captionSize="sm"
                 stat={"$?"}
-                caption={t("Your Collateral Supply Balance")}
+                caption={t("Total Collateral Balance")}
               />
             </StatBox>
           </RowOrColumn>
 
-          <StatBox width={isMobile ? "100%" : "50%"}>
+  
+          <RowOrColumn
+            isRow={false}
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="flex-start"
+            height="100%"
+            width={isMobile ? "100%" : "60%"}
+          >
+            <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
+              <CaptionedStat
+                crossAxisAlignment="center"
+                captionFirst={false}
+                statSize={isMobile ? "3xl" : "2xl"}
+                captionSize="sm"
+                stat={"$?"}
+                caption={t(`Total ${data?.baseToken} Borrow Balance`)}
+              />
+            </StatBox>
+            <StatBox width={isMobile ? "100%" : "98%"}>
+              <CaptionedStat
+                crossAxisAlignment="center"
+                captionFirst={false}
+                statSize={isMobile ? "3xl" : "2xl"}
+                captionSize="sm"
+                stat={"$?"}
+                caption={t("Available Liquidity")}
+              />
+            </StatBox>
+          </RowOrColumn>
+
+
+          {/* <StatBox width={isMobile ? "100%" : "50%"}>
             <CaptionedStat
               crossAxisAlignment="center"
               captionFirst={false}
@@ -99,14 +130,14 @@ const FuseStatsBar = ({ data }: { data?: FusePoolData }) => {
               stat={"$?"}
               caption={t("Your Borrow Balance")}
             />
-          </StatBox>
+          </StatBox> */}
         </>
       </RowOrColumn>
     </RowOrColumn>
   );
 };
 
-export default FuseStatsBar;
+export default StatsBar;
 
 const StatBox = ({
   children,
@@ -121,7 +152,7 @@ const StatBox = ({
     <DashboardBox
       height={isMobile ? "auto" : "100%"}
       mt={isMobile ? 4 : 0}
-      ml={isMobile ? 0 : 4}
+      ml={isMobile ? 0 : 2}
       {...others}
     >
       <Center expand p={1}>

@@ -3,21 +3,19 @@ import { useTranslation } from "react-i18next";
 import { smallUsdFormatter } from "../../utils/bigUtils";
 import { Column, Center, Row, useIsMobile } from "../../utils/chakraUtils";
 import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
-import AssetCollateralSupplyRow from "./CollateralAssetSupplyRow";
+import BaseAssetRow from "./BaseAssetRow";
 import { ModalDivider } from "../shared/Modal";
 
-const CollateralSupplyList = ({
+const BaseList = ({
   assets,
-  supplyBalanceUSD,
   comptrollerAddress,
 }: {
   assets: USDPricedFuseAsset[];
-  supplyBalanceUSD: number;
   comptrollerAddress: string;
 }) => {
   const { t } = useTranslation();
 
-  const suppliedAssets = assets.filter((asset) => asset.supplyBalanceUSD > 1 && !asset.isBaseToken);
+  const suppliedAssets = assets.filter((asset) => asset.isBaseToken);
 
   const isMobile = useIsMobile();
 
@@ -28,9 +26,8 @@ const CollateralSupplyList = ({
       height="100%"
       pb={1}
     >
-      <ModalDivider />
       <Heading size="md" px={4} py={3}>
-        {t("Collateral Supply Balance:")} {smallUsdFormatter(supplyBalanceUSD)}
+        {t("Base Asset")}
       </Heading>
       <ModalDivider />
 
@@ -39,34 +36,56 @@ const CollateralSupplyList = ({
         crossAxisAlignment="flex-start"
         width="100%"
         px={4}
-        mt={1}
+        mt={4}
       >
-        <Text width="20%" fontWeight="bold" mt={3} pl={1}>
+        <Text width="33%" fontWeight="bold" pl={1}>
           {t("Asset")}
         </Text>
 
-        {isMobile ? null : (
+        <Text
+          width={isMobile ? "35%" : "33%"}
+          fontWeight="bold"
+          textAlign="center"
+        >
+          {t("Supply APR")}
+        </Text>
+
+        {!isMobile && (
+          <Text 
+            width="33%"
+            fontWeight="bold"
+            textAlign="center"
+          >
+            {t("Your Supply")}
+          </Text>
+        )}
+
+        <Text 
+          width={isMobile ? "35%" : "33%"}
+          fontWeight="bold"
+          textAlign="center"
+        >
+          {t("Borrow APR")}
+        </Text>
+
+        {!isMobile && (
           <>
-            <Text width="20%" textAlign="center">
-              {t("Collateral Factor")}
+            <Text
+            width={"33%"}
+            fontWeight="bold"
+            textAlign="center"
+            >
+              {t("Your Borrow")}
             </Text>
-            <Text width="20%" textAlign="center">
-              {t("Liquidation Factor")}
-            </Text>
-            <Text width="20%" textAlign="center">
-              {t("Liquidation Penalty")}
+            <Text
+            width={"33%"}
+            fontWeight="bold"
+            textAlign="center"
+            >
+              {t("Available to Borrow")}
             </Text>
           </>
         )}
-
-        <Text
-          width={isMobile ? "40%" : "20%"}
-          fontWeight="bold"
-          textAlign="end"
-          mt={3}
-        >
-          {t("Balance")}
-        </Text>
 
       </Row>
 
@@ -80,7 +99,7 @@ const CollateralSupplyList = ({
           <>
             {suppliedAssets.map((asset, index) => {
               return (
-                <AssetCollateralSupplyRow
+                <BaseAssetRow
                   comptrollerAddress={comptrollerAddress}
                   key={asset.underlyingToken}
                   assets={suppliedAssets}
@@ -89,8 +108,6 @@ const CollateralSupplyList = ({
                 />
               );
             })}
-
-            {suppliedAssets.length > 0 ? <ModalDivider my={2} /> : null}
 
           </>
         ) : (
@@ -103,4 +120,4 @@ const CollateralSupplyList = ({
   );
 };
 
-export default CollateralSupplyList;
+export default BaseList;

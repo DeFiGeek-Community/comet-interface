@@ -31,7 +31,8 @@ export const Header = () => {
         transform="translate(0px, 7px)"
         width="80%"
       >
-        <HeaderLink name="Pool" route="#" />
+        <HeaderLink name="CJPY Pool" route="#" />
+        <HeaderLink name="ETH Pool" route="#" />
         <HeaderLink name="Document" route="#" />
       </Row>
       <Row

@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 export const TOKENS_DATA: TokensData = {
   "0x0000000000000000000000000000000000000000": {
     symbol: "ETH",
@@ -44,9 +42,7 @@ export const useTokenData = (address: string) => {
 };
 
 export const useTokensData = (addresses: string[]) => {
-  return useMemo(() => {
-    return addresses.map((address) => TOKENS_DATA[address]);
-  }, [addresses]);
+  return addresses.map((address) => TOKENS_DATA[address]);
 };
 
 export interface TokensDataMap {
@@ -54,11 +50,9 @@ export interface TokensDataMap {
 }
 
 export const useTokensDataAsMap = (addresses: string[] = []): TokensDataMap => {
-  return useMemo(() => {
-    const ret: TokensDataMap = {};
-    addresses.forEach((address) => {
-      ret[address] = TOKENS_DATA[address];
-    });
-    return ret;
-  }, [addresses]);
+  const ret: TokensDataMap = {};
+  addresses.forEach((address) => {
+    ret[address] = TOKENS_DATA[address];
+  });
+  return ret;
 };

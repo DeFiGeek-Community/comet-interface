@@ -9,7 +9,7 @@ import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
 import { useTokenData } from "../../hooks/useTokenData";
 import PoolModal, { Mode } from "../PoolModal";
 
-const CollateralAssetSupplyRow = ({
+const CollateralAssetRow = ({
   assets,
   index,
   comptrollerAddress,
@@ -33,12 +33,6 @@ const CollateralAssetSupplyRow = ({
   const tokenData = useTokenData(asset.underlyingToken);
 
   const symbol = tokenData?.symbol ? tokenData?.symbol : "";
-  const supplyIncentive = asset?.rewardTokensData;
-
-  const rewardTokenData = useTokenData(supplyIncentive);
-  const color =
-  rewardTokenData?.color ??
-  "white";
 
   const isMobile = useIsMobile();
 
@@ -91,6 +85,35 @@ const CollateralAssetSupplyRow = ({
           </Text>
         </Row>
 
+        <Column
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="center"
+          width={isMobile ? "40%" : "20%"}
+        >
+          <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+            {smallUsdFormatter(asset.supplyBalanceUSD)}
+          </Text>
+
+          <Text fontSize="sm">
+            {smallUsdFormatter(10).replace("$", "")} {symbol}
+          </Text>
+        </Column>
+
+        <Column
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="center"
+          width={isMobile ? "40%" : "20%"}
+        >
+          <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+            {smallUsdFormatter(asset.supplyBalanceUSD * asset?.collateralFactor)}
+          </Text>
+
+          <Text fontSize="sm">
+            {smallUsdFormatter(10 * asset?.collateralFactor).replace("$", "")} {symbol}
+          </Text>
+        </Column>
+
+
         {/* APY */}
         {isMobile ? null : (
           <>
@@ -104,7 +127,7 @@ const CollateralAssetSupplyRow = ({
                 mainAxisAlignment="center"
               >
                 <Text textAlign="center" mx={5}>
-                  -
+                  {asset?.collateralFactor * 100} {"%"}
                 </Text>
               </Row>
             </Column>
@@ -118,7 +141,7 @@ const CollateralAssetSupplyRow = ({
                 mainAxisAlignment="center"
               >
                 <Text textAlign="center" mx={5}>
-                  -
+                  {asset?.liquidationFactor * 100} {"%"}
                 </Text>
               </Row>
             </Column>
@@ -132,29 +155,16 @@ const CollateralAssetSupplyRow = ({
                 mainAxisAlignment="center"
               >
                 <Text textAlign="center" mx={5}>
-                  -
+                  {asset?.liquidationPenalty * 100} {"%"}
                 </Text>
               </Row>
             </Column>
           </>
         )}
 
-        <Column
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-end"
-          width={isMobile ? "40%" : "20%"}
-        >
-          <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-            {smallUsdFormatter(asset.supplyBalanceUSD)}
-          </Text>
-
-          <Text fontSize="sm">
-            {smallUsdFormatter(10).replace("$", "")} {symbol}
-          </Text>
-        </Column>
       </Row>
     </>
   );
 };
 
-export default CollateralAssetSupplyRow;
+export default CollateralAssetRow;
