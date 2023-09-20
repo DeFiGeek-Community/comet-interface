@@ -60,78 +60,64 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
         height="100%"
         width={isMobile ? "100%" : "50%"}
       >
-        <>
-          <RowOrColumn
-            isRow={false}
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-start"
-            height="100%"
-            width={isMobile ? "100%" : "60%"}
-          >
-            <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
-              <CaptionedStat
-                crossAxisAlignment="center"
-                captionFirst={false}
-                statSize={isMobile ? "3xl" : "2xl"}
-                captionSize="sm"
-                stat={"$?"}
-                caption={t(`Total ${data?.baseToken} Supply Balance`)}
-              />
-            </StatBox>
-            <StatBox width={isMobile ? "100%" : "98%"}>
-              <CaptionedStat
-                crossAxisAlignment="center"
-                captionFirst={false}
-                statSize={isMobile ? "3xl" : "2xl"}
-                captionSize="sm"
-                stat={"$?"}
-                caption={t("Total Collateral Balance")}
-              />
-            </StatBox>
-          </RowOrColumn>
-
-  
-          <RowOrColumn
-            isRow={false}
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-start"
-            height="100%"
-            width={isMobile ? "100%" : "60%"}
-          >
-            <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
-              <CaptionedStat
-                crossAxisAlignment="center"
-                captionFirst={false}
-                statSize={isMobile ? "3xl" : "2xl"}
-                captionSize="sm"
-                stat={"$?"}
-                caption={t(`Total ${data?.baseToken} Borrow Balance`)}
-              />
-            </StatBox>
-            <StatBox width={isMobile ? "100%" : "98%"}>
-              <CaptionedStat
-                crossAxisAlignment="center"
-                captionFirst={false}
-                statSize={isMobile ? "3xl" : "2xl"}
-                captionSize="sm"
-                stat={"$?"}
-                caption={t("Available Liquidity")}
-              />
-            </StatBox>
-          </RowOrColumn>
-
-
-          {/* <StatBox width={isMobile ? "100%" : "50%"}>
+        <RowOrColumn
+          isRow={false}
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="flex-start"
+          height="100%"
+          width={isMobile ? "100%" : "60%"}
+        >
+          <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
             <CaptionedStat
               crossAxisAlignment="center"
               captionFirst={false}
-              statSize="3xl"
+              statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={"$?"}
-              caption={t("Your Borrow Balance")}
+              caption={t(`Total ${data?.baseToken} Supply Balance`)}
             />
-          </StatBox> */}
-        </>
+          </StatBox>
+          <StatBox width={isMobile ? "100%" : "98%"}>
+            <CaptionedStat
+              crossAxisAlignment="center"
+              captionFirst={false}
+              statSize={isMobile ? "3xl" : "2xl"}
+              captionSize="sm"
+              stat={"$?"}
+              caption={t("Total Collateral Balance")}
+            />
+          </StatBox>
+        </RowOrColumn>
+
+
+        <RowOrColumn
+          isRow={false}
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="flex-start"
+          height="100%"
+          width={isMobile ? "100%" : "60%"}
+        >
+          <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
+            <CaptionedStat
+              crossAxisAlignment="center"
+              captionFirst={false}
+              statSize={isMobile ? "3xl" : "2xl"}
+              captionSize="sm"
+              stat={"$?"}
+              caption={t(`Total ${data?.baseToken} Borrow Balance`)}
+            />
+          </StatBox>
+          <StatBox width={isMobile ? "100%" : "98%"}>
+            <CaptionedStat
+              crossAxisAlignment="center"
+              captionFirst={false}
+              statSize={isMobile ? "3xl" : "2xl"}
+              captionSize="sm"
+              stat={"$?"}
+              caption={t("Available Liquidity")}
+            />
+          </StatBox>
+        </RowOrColumn>
       </RowOrColumn>
     </RowOrColumn>
   );

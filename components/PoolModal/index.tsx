@@ -17,8 +17,8 @@ interface Props {
 export enum Mode {
   SUPPLY,
   WITHDRAW,
-  BORROW,
-  REPAY,
+  BASE_SUPPLY,
+  BASE_WITHDRAW,
 }
 
 const DepositModal = (props: Props) => {

@@ -13,17 +13,20 @@ import {
 import BigNumber from "bignumber.js";
 import { useTranslation } from "react-i18next";
 import { smallUsdFormatter } from "../../utils/bigUtils";
-import { Row, Column, useIsMobile } from "../../utils/chakraUtils";
+import { Row, Column, useIsMobile, Center } from "../../utils/chakraUtils";
 import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
 import { useTokenData } from "../../hooks/useTokenData";
 import DashboardBox from "../shared/DashboardBox";
 import { ModalDivider } from "../shared/Modal";
 import { Mode } from ".";
 import SmallWhiteCircle from "../../static/small-white-circle.png";
+import { HashLoader } from "react-spinners";
+import { AttentionSeeker } from "react-awesome-reveal";
 
 enum UserAction {
   NO_ACTION,
   WAITING_FOR_TRANSACTIONS,
+  VIEWING_QUOTE,
 }
 
 export enum CTokenErrorCodes {
@@ -72,11 +75,6 @@ const AmountSelect = ({
 
   const [userAction, setUserAction] = useState(UserAction.NO_ACTION);
 
-  // const showEnableAsCollateral = !asset.membership && mode === Mode.SUPPLY;
-  // const [enableAsCollateral, setEnableAsCollateral] = useState(
-  //   showEnableAsCollateral
-  // );
-
   const { t } = useTranslation();
 
   const asset = assets[index];
@@ -106,59 +104,42 @@ const AmountSelect = ({
     setUserAction(UserAction.NO_ACTION);
   };
 
-  let depositOrWithdrawAlert = null;
+  const onConfirm = () => {
+    setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
+  }
 
-  // if (mode === Mode.BORROW && isBorrowPaused) {
-  //   depositOrWithdrawAlert = t("Borrowing is disabled for this asset.");
-  // }
-  // else if (amount === null || amount.isZero()) {
-  //   if (mode === Mode.SUPPLY) {
-  //     depositOrWithdrawAlert = t("Enter a valid amount to supply.");
-  //   } else if (mode === Mode.BORROW) {
-  //     depositOrWithdrawAlert = t("Enter a valid amount to borrow.");
-  //   } else if (mode === Mode.WITHDRAW) {
-  //     depositOrWithdrawAlert = t("Enter a valid amount to withdraw.");
-  //   } else {
-  //     depositOrWithdrawAlert = t("Enter a valid amount to repay.");
-  //   }
-  // } else if (amountIsValid === undefined) {
-  //   depositOrWithdrawAlert = t("Loading your balance of {{token}}...", {
-  //     token: asset.underlyingSymbol,
-  //   });
-  // } else if (!amountIsValid) {
-  //   if (mode === Mode.SUPPLY) {
-  //     depositOrWithdrawAlert = t("You don't have enough {{token}}!", {
-  //       token: asset.underlyingSymbol,
-  //     });
-  //   } else if (mode === Mode.REPAY) {
-  //     depositOrWithdrawAlert = t(
-  //       "You don't have enough {{token}} or are over-repaying!",
-  //       {
-  //         token: asset.underlyingSymbol,
-  //       }
-  //     );
-  //   } else if (mode === Mode.WITHDRAW) {
-  //     depositOrWithdrawAlert = t("You cannot withdraw this much!");
-  //   } else if (mode === Mode.BORROW) {
-  //     depositOrWithdrawAlert = t("You cannot borrow this much!");
-  //   }
-  // } else {
-  //   depositOrWithdrawAlert = null;
-  // }
+  const amountIsValid = (() => {
+    if (amount === null || amount.isZero()) {
+      return false;
+    }else{
+      return true;
+    }
+
+  })();
+
+  let depositOrWithdrawAlert = null;
 
   const isMobile = useIsMobile();
 
-  // const length = depositOrWithdrawAlert?.length ?? 0;
   let depositOrWithdrawAlertFontSize;
-  // if (length < 40) {
-  //   depositOrWithdrawAlertFontSize = !isMobile ? "xl" : "17px";
-  // } else if (length < 50) {
   depositOrWithdrawAlertFontSize = !isMobile ? "15px" : "11px";
-  // } else if (length < 60) {
-  //   depositOrWithdrawAlertFontSize = !isMobile ? "14px" : "10px";
-  // }
 
-  return (
+  return userAction === UserAction.WAITING_FOR_TRANSACTIONS ? (
+    <Column expand mainAxisAlignment="center" crossAxisAlignment="center" p={4}>
+      <HashLoader size={70} color={tokenData.color ?? "#FFF"} loading />
+      <Heading mt="30px" textAlign="center" size="md">
+        {t("Check your wallet to submit the transaction")}
+      </Heading>
+      <Text fontSize="sm" mt="15px" textAlign="center">
+          {t("Do not close this tab until you have sent the transaction!")}
+      </Text>
+      <Text fontSize="xs" mt="5px" textAlign="center">
+        {t(
+          "Do not increase the price of gas more than 1.5x the prefilled amount!"
+        )}
+      </Text>
+    </Column>
+  ) : (
     <Column
       mainAxisAlignment="flex-start"
       crossAxisAlignment="flex-start"
@@ -222,7 +203,6 @@ const AmountSelect = ({
                   color={"#FFF"}
                   displayAmount={userEnteredAmount}
                   updateAmount={updateAmount}
-                  disabled={mode === Mode.BORROW && isBorrowPaused}
                 />
                 <TokenNameAndMaxButton
                   comptrollerAddress={comptrollerAddress}
@@ -269,12 +249,15 @@ const AmountSelect = ({
             }
             _hover={{ transform: "scale(1.02)" }}
             _active={{ transform: "scale(0.95)" }}
-            // onClick={onConfirm}
-            // isDisabled={!amountIsValid}
+            onClick={onConfirm}
+            isDisabled={!amountIsValid}
           >
             {depositOrWithdrawAlert ?? t("Confirm")}
           </Button>
         </Column>
+        {/* {userAction === UserAction.VIEWING_QUOTE ? ( */}
+        {/* <ApprovalNotch color={tokenData.color ?? "#FFF"} mode={mode} amount={amount!} /> */}
+      {/* ) : null} */}
       </>
     </Column>
   );
@@ -293,30 +276,6 @@ const TabBar = ({
 }) => {
   const isSupplySide = mode < 2;
   const { t } = useTranslation();
-
-  // Woohoo okay so there's some pretty weird shit going on in this component.
-
-  // The AmountSelect component gets passed a `mode` param which is a `Mode` enum. The `Mode` enum has 4 values (SUPPLY, WITHDRAW, BORROW, REPAY).
-  // The `mode` param is used to determine what text gets rendered and what action to take on clicking the confirm button.
-
-  // As part of our simple design for the modal, we only show 2 mode options in the tab bar at a time.
-
-  // When the modal is triggered it is given a `defaultMode` (starting mode). This is passed in by the component which renders the modal.
-  // - If the user starts off in SUPPLY or WITHDRAW, we only want show them the option to switch between SUPPLY and WITHDRAW.
-  // - If the user starts off in BORROW or REPAY, we want to only show them the option to switch between BORROW and REPAY.
-
-  // However since the tab list has only has 2 tabs under it. It accepts an `index` parameter which determines which tab to show as "selected". Since we only show 2 tabs, it can either be 0 or 1.
-  // This means we can't just pass `mode` to `index` because `mode` could be 2 or 3 (for BORROW or REPAY respectively) which would be invalid.
-
-  // To solve this, if the mode is BORROW or REPAY we pass the index as `mode - 2` which transforms the BORROW mode to 0 and the REPAY mode to 1.
-
-  // However, we also need to do the opposite of that logic in `onChange`:
-  // - If a user clicks a tab and the current mode is SUPPLY or WITHDRAW we just pass that index (0 or 1 respectively) to setMode.
-  // - But if a user clicks on a tab and the current mode is BORROW or REPAY, we need to add 2 to the index of the tab so it's the right index in the `Mode` enum.
-  //   - Otherwise whenver you clicked on a tab it would always set the mode to SUPPLY or BORROW when clicking the left or right button respectively.
-
-  // Does that make sense? Everything I described above is basically a way to get around the tab component's understanding that it only has 2 tabs under it to make it fit into our 4 value enum setup.
-  // Still confused? DM me on Twitter (@transmissions11) for help.
 
   return (
     <>
@@ -585,5 +544,50 @@ const AmountInput = ({
       mr={4}
       disabled={disabled}
     />
+  );
+};
+
+const ApprovalNotch = ({
+  color,
+  mode,
+  amount,
+}: {
+  amount: BigNumber;
+  mode: Mode;
+  color: string;
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <AttentionSeeker effect="headShake" triggerOnce>
+      <Box
+        borderRadius="0 0 10px 10px"
+        borderWidth="0 1px 1px 1px"
+        borderColor="#272727"
+        bg="#121212"
+        width={{ md: "auto", base: "90%" }}
+        height={{ md: "30px", base: "60px" }}
+        color={color}
+        position="absolute"
+        mx="auto"
+        px={4}
+        left="50%"
+        transform="translateX(-50%)"
+        bottom={{ md: "-30px", base: "-60px" }}
+        whiteSpace={{ md: "nowrap", base: "inherit" }}
+      >
+        <Center expand>
+          <Text fontSize="xs" pb="5px" textAlign="center" className="blinking">
+            {mode === Mode.SUPPLY
+              ? t("You will deposit {{amount}}. Click confirm to approve.", {
+                  amount: amount,
+                })
+              : t("You will withdraw {{amount}}. Click confirm to approve.", {
+                  amount: amount,
+                })}
+          </Text>
+        </Center>
+      </Box>
+    </AttentionSeeker>
   );
 };

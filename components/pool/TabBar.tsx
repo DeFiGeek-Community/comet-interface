@@ -95,24 +95,4 @@ const TabLink = ({
   );
 };
 
-const TabExternalLink = ({ route, text }: { route: string; text: string }) => {
-  const isMobile = useIsSmallScreen();
-
-  return (
-    <Link
-      className="no-underline"
-      href={route}
-      isExternal
-      ml={isMobile ? 0 : 4}
-      mt={isMobile ? 4 : 0}
-    >
-      <DashboardBox height="35px">
-        <Center expand px={2} fontWeight="bold">
-          {text}
-        </Center>
-      </DashboardBox>
-    </Link>
-  );
-};
-
 export default TabBar;

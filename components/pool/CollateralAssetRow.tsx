@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Avatar, Text, useDisclosure,   AvatarGroup } from "@chakra-ui/react";
+import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { SimpleTooltip } from "../shared/SimpleTooltip";
-import { CTokenIcon } from "../shared/CTokenIcon";
 import { Column, Row, useIsMobile } from "../../utils/chakraUtils";
 import { smallUsdFormatter } from "../../utils/bigUtils";
 import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";

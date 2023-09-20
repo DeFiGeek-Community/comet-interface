@@ -27,7 +27,12 @@ const BaseAssetRow = ({
     onClose: closeModal,
   } = useDisclosure();
 
-  const authedOpenModal = openModal;
+  const authedOpenModal = (mode:Mode) => {
+    setMode(mode);
+    openModal()
+  };
+
+  const [mode, setMode] = useState(Mode.BASE_SUPPLY);
 
   const asset = assets[index];
 
@@ -53,7 +58,7 @@ const BaseAssetRow = ({
   return (
     <>
       <PoolModal
-        defaultMode={Mode.BORROW}
+        defaultMode={mode}
         comptrollerAddress={comptrollerAddress}
         assets={assets}
         index={index}
@@ -76,7 +81,7 @@ const BaseAssetRow = ({
           height="72px"
           className="hover-row"
           as="button"
-          onClick={authedOpenModal}
+          onClick={() => authedOpenModal(Mode.BASE_SUPPLY)}
         >
           {/* Underlying Token Data */}
           <Row
@@ -128,7 +133,7 @@ const BaseAssetRow = ({
           height="72px"
           className="hover-row"
           as="button"
-          onClick={authedOpenModal}
+          onClick={() => authedOpenModal(Mode.BASE_WITHDRAW)}
         >
           {/* APY */}
             <APYComponent

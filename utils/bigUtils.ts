@@ -1,4 +1,3 @@
-import Web3 from "web3";
 
 const formatter = Intl.NumberFormat("en-US", {
   style: "currency",
@@ -38,7 +37,3 @@ export function usdFormatter(num: number) {
 export function shortUsdFormatter(num: number) {
   return "$" + shortFormatter.format(num);
 }
-
-// export const toBN = Web3.utils.toBN;
-
-// export type BN = ReturnType<typeof toBN>;
