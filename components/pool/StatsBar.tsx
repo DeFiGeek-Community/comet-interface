@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { FusePoolData } from "../../utils/fetchFusePoolData";
+import { smallUsdFormatter } from "../../utils/bigUtils";
+import usePoolTotalData from '../../hooks/usePoolTotalData';
 import CaptionedStat from "../shared/CaptionedStat";
 import DashboardBox from "../shared/DashboardBox";
 import { CheckCircleIcon } from "@chakra-ui/icons";
@@ -11,6 +13,7 @@ import { SimpleTooltip } from "../shared/SimpleTooltip";
 
 const StatsBar = ({ data }: { data?: FusePoolData }) => {
   const isMobile = useIsSmallScreen();
+  const { poolData, error, reload } = usePoolTotalData(data?.address);
 
   const { t } = useTranslation();
   return (
@@ -73,7 +76,7 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               captionFirst={false}
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
-              stat={"$?"}
+              stat={poolData ? smallUsdFormatter(poolData?.totalBaseSupplyBalance) : '$?'}
               caption={t(`Total ${data?.baseToken} Supply Balance`)}
             />
           </StatBox>
@@ -83,7 +86,7 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               captionFirst={false}
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
-              stat={"$?"}
+              stat={poolData ? smallUsdFormatter(poolData?.totalCollateralBalance) : '$?'}
               caption={t("Total Collateral Balance")}
             />
           </StatBox>
@@ -103,7 +106,7 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               captionFirst={false}
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
-              stat={"$?"}
+              stat={poolData ? smallUsdFormatter(poolData?.totalBaseBorrowBalance) : '$?'}
               caption={t(`Total ${data?.baseToken} Borrow Balance`)}
             />
           </StatBox>
@@ -113,7 +116,7 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               captionFirst={false}
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
-              stat={"$?"}
+              stat={poolData ? smallUsdFormatter(poolData?.availableLiquidity) : '$?'}
               caption={t("Available Liquidity")}
             />
           </StatBox>

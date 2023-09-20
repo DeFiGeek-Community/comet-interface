@@ -55,6 +55,7 @@ export interface USDPricedFuseAssetWithTokenData extends USDPricedFuseAsset {
 export interface FusePoolData {
   assets: USDPricedFuseAssetWithTokenData[] | USDPricedFuseAsset[];
   comptroller: any;
+  address: string;
   name: any;
   baseToken: string;
   oracle: string;
