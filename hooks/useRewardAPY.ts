@@ -22,7 +22,6 @@ interface RewardsDataForMantissa {
   underlyingDecimals: number;
 }
 
-
 export interface CTokenRewardsDistributorIncentives {
   rewardsDistributorAddress: string;
   rewardToken: string;

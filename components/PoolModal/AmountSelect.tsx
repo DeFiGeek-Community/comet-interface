@@ -106,15 +106,14 @@ const AmountSelect = ({
 
   const onConfirm = () => {
     setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
-  }
+  };
 
   const amountIsValid = (() => {
     if (amount === null || amount.isZero()) {
       return false;
-    }else{
+    } else {
       return true;
     }
-
   })();
 
   let depositOrWithdrawAlert = null;
@@ -131,11 +130,11 @@ const AmountSelect = ({
         {t("Check your wallet to submit the transaction")}
       </Heading>
       <Text fontSize="sm" mt="15px" textAlign="center">
-          {t("Do not close this tab until you have sent the transaction!")}
+        {t("Do not close this tab until you have sent the transaction!")}
       </Text>
       <Text fontSize="xs" mt="5px" textAlign="center">
         {t(
-          "Do not increase the price of gas more than 1.5x the prefilled amount!"
+          "Do not increase the price of gas more than 1.5x the prefilled amount!",
         )}
       </Text>
     </Column>
@@ -257,7 +256,7 @@ const AmountSelect = ({
         </Column>
         {/* {userAction === UserAction.VIEWING_QUOTE ? ( */}
         {/* <ApprovalNotch color={tokenData.color ?? "#FFF"} mode={mode} amount={amount!} /> */}
-      {/* ) : null} */}
+        {/* ) : null} */}
       </>
     </Column>
   );
@@ -342,9 +341,8 @@ const StatsColumn = ({
   assets,
   index,
   amount,
-  symbol,
-} // enableAsCollateral,
-: {
+  symbol, // enableAsCollateral,
+}: {
   color: string;
   mode: Mode;
   assets: USDPricedFuseAsset[];

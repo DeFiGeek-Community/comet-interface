@@ -103,14 +103,16 @@ const CollateralAssetRow = ({
           width={isMobile ? "40%" : "20%"}
         >
           <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-            {smallUsdFormatter(asset.supplyBalanceUSD * asset?.collateralFactor)}
+            {smallUsdFormatter(
+              asset.supplyBalanceUSD * asset?.collateralFactor,
+            )}
           </Text>
 
           <Text fontSize="sm">
-            {smallUsdFormatter(10 * asset?.collateralFactor).replace("$", "")} {symbol}
+            {smallUsdFormatter(10 * asset?.collateralFactor).replace("$", "")}{" "}
+            {symbol}
           </Text>
         </Column>
-
 
         {/* APY */}
         {isMobile ? null : (
@@ -120,10 +122,7 @@ const CollateralAssetRow = ({
               crossAxisAlignment="center"
               width="20%"
             >
-              <Row
-                crossAxisAlignment="center"
-                mainAxisAlignment="center"
-              >
+              <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
                   {asset?.collateralFactor * 100} {"%"}
                 </Text>
@@ -134,10 +133,7 @@ const CollateralAssetRow = ({
               crossAxisAlignment="center"
               width="20%"
             >
-              <Row
-                crossAxisAlignment="center"
-                mainAxisAlignment="center"
-              >
+              <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
                   {asset?.liquidationFactor * 100} {"%"}
                 </Text>
@@ -148,10 +144,7 @@ const CollateralAssetRow = ({
               crossAxisAlignment="center"
               width="20%"
             >
-              <Row
-                crossAxisAlignment="center"
-                mainAxisAlignment="center"
-              >
+              <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
                   {asset?.liquidationPenalty * 100} {"%"}
                 </Text>
@@ -159,7 +152,6 @@ const CollateralAssetRow = ({
             </Column>
           </>
         )}
-
       </Row>
     </>
   );

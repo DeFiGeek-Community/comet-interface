@@ -1,4 +1,4 @@
-import { AvatarComponent } from '@rainbow-me/rainbowkit';
+import { AvatarComponent } from "@rainbow-me/rainbowkit";
 
 export const CustomAvatar: AvatarComponent = ({ ensImage, size }) => {
   return ensImage ? (
@@ -9,7 +9,6 @@ export const CustomAvatar: AvatarComponent = ({ ensImage, size }) => {
       style={{ borderRadius: 999 }}
     />
   ) : (
-    <img src="/dfgc-logo.png" width={size}
-    height={size} alt="" />
+    <img src="/dfgc-logo.png" width={size} height={size} alt="" />
   );
 };

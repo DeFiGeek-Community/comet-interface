@@ -30,15 +30,8 @@ const TabBar = () => {
         crossAxisAlignment="center"
         p={4}
       >
-        <DashboardBox
-          {...(activeStyle)}
-          ml={4}
-          height="35px"
-        >
-          <Link
-            href={"#"}
-            className="no-underline"
-          >
+        <DashboardBox {...activeStyle} ml={4} height="35px">
+          <Link href={"#"} className="no-underline">
             <Center expand px={2} fontWeight="bold">
               {t("ETH Pool")}
             </Center>
@@ -50,18 +43,12 @@ const TabBar = () => {
           ml={4}
           height="35px"
         >
-          <Link
-            href={"#"}
-            className="no-underline"
-          >
+          <Link href={"#"} className="no-underline">
             <Center expand px={2} fontWeight="bold">
               {t("USDC Pool")}
             </Center>
           </Link>
         </DashboardBox>
-
-
-
       </RowOrColumn>
     </DashboardBox>
   );

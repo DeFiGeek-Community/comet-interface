@@ -37,10 +37,7 @@ const Footer = () => {
 
           <Text color="white">·</Text>
 
-          <Link
-            target="_blank"
-            href="https://discord.com/invite/FQYXqVBEnh"
-          >
+          <Link target="_blank" href="https://discord.com/invite/FQYXqVBEnh">
             <Text color="white" mx={2} textDecoration="underline">
               {t("Discord")}
             </Text>

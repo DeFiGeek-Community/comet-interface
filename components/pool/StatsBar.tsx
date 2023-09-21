@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { FusePoolData } from "../../utils/fetchFusePoolData";
 import { smallUsdFormatter } from "../../utils/bigUtils";
-import usePoolTotalData from '../../hooks/usePoolTotalData';
+import usePoolTotalData from "../../hooks/usePoolTotalData";
 import CaptionedStat from "../shared/CaptionedStat";
 import DashboardBox from "../shared/DashboardBox";
 import { CheckCircleIcon } from "@chakra-ui/icons";
@@ -76,7 +76,11 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               captionFirst={false}
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
-              stat={poolData ? smallUsdFormatter(poolData?.totalBaseSupplyBalance) : '$?'}
+              stat={
+                poolData
+                  ? smallUsdFormatter(poolData?.totalBaseSupplyBalance)
+                  : "$?"
+              }
               caption={t(`Total ${data?.baseToken} Supply Balance`)}
             />
           </StatBox>
@@ -86,12 +90,15 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               captionFirst={false}
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
-              stat={poolData ? smallUsdFormatter(poolData?.totalCollateralBalance) : '$?'}
+              stat={
+                poolData
+                  ? smallUsdFormatter(poolData?.totalCollateralBalance)
+                  : "$?"
+              }
               caption={t("Total Collateral Balance")}
             />
           </StatBox>
         </RowOrColumn>
-
 
         <RowOrColumn
           isRow={false}
@@ -106,7 +113,11 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               captionFirst={false}
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
-              stat={poolData ? smallUsdFormatter(poolData?.totalBaseBorrowBalance) : '$?'}
+              stat={
+                poolData
+                  ? smallUsdFormatter(poolData?.totalBaseBorrowBalance)
+                  : "$?"
+              }
               caption={t(`Total ${data?.baseToken} Borrow Balance`)}
             />
           </StatBox>
@@ -116,7 +127,11 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               captionFirst={false}
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
-              stat={poolData ? smallUsdFormatter(poolData?.availableLiquidity) : '$?'}
+              stat={
+                poolData
+                  ? smallUsdFormatter(poolData?.availableLiquidity)
+                  : "$?"
+              }
               caption={t("Available Liquidity")}
             />
           </StatBox>
@@ -154,10 +169,7 @@ const StatBox = ({
 export const WhitelistedIcon = ({ ...boxProps }: { [x: string]: any }) => {
   return (
     <>
-      <SimpleTooltip
-        label={"This pool is safe."}
-        placement="bottom-end"
-      >
+      <SimpleTooltip label={"This pool is safe."} placement="bottom-end">
         <CheckCircleIcon boxSize="20px" mr={3} {...boxProps} />
       </SimpleTooltip>
     </>

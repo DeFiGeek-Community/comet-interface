@@ -1,11 +1,6 @@
 import { memo } from "react";
 import { Spinner } from "@chakra-ui/react";
-import {
-  Column,
-  Center,
-  RowOrColumn,
-  useIsMobile,
-} from "../utils/chakraUtils";
+import { Column, Center, RowOrColumn, useIsMobile } from "../utils/chakraUtils";
 import StatsBar from "./pool/StatsBar";
 import TabBar from "./pool/TabBar";
 import CollateralRatioBar from "./pool/CollateralRatioBar";
@@ -35,17 +30,14 @@ const PoolPage = memo(() => {
         <Header />
         {/* <TabBar /> */}
         <StatsBar data={dummyData} />
-        <CollateralRatioBar/>
+        <CollateralRatioBar />
 
-        <DashboardBox 
-          mt={4}
-          width={"100%"}
-        >
+        <DashboardBox mt={4} width={"100%"}>
           {dummyData ? (
-              <BaseList
-                assets={dummyData.assets}
-                comptrollerAddress={dummyData.comptroller}
-              />
+            <BaseList
+              assets={dummyData.assets}
+              comptrollerAddress={dummyData.comptroller}
+            />
           ) : (
             <Center height="200px">
               <Spinner />
@@ -53,11 +45,7 @@ const PoolPage = memo(() => {
           )}
         </DashboardBox>
 
-        <DashboardBox
-          ml={0}
-          mt={4}
-          width={"100%"}
-        >
+        <DashboardBox ml={0} mt={4} width={"100%"}>
           {dummyData ? (
             <CollateralList
               assets={dummyData.assets}

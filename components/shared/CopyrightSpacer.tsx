@@ -13,7 +13,6 @@ const CopyrightSpacer = ({ forceShow = false }: { forceShow?: boolean }) => {
       mt="auto"
     >
       © {new Date().getFullYear()} DeFiGeek Community JAPAN
-
     </Text>
   );
 };

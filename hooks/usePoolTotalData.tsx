@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from "react";
 
 type PoolTotalDataResponse = {
   totalBaseSupplyBalance: any;
@@ -11,7 +11,7 @@ const usePoolTotalData = (poolAddress?: string) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
-const poolData = useMemo<PoolTotalDataResponse | undefined>(() => {
+  const poolData = useMemo<PoolTotalDataResponse | undefined>(() => {
     let fetchedData: PoolTotalDataResponse | undefined;
 
     const fetchPoolData = async () => {
@@ -39,9 +39,8 @@ const poolData = useMemo<PoolTotalDataResponse | undefined>(() => {
     return fetchedData;
   }, [poolAddress, reloadKey]);
 
-
   const reload = () => {
-    setReloadKey(prevKey => prevKey + 1);
+    setReloadKey((prevKey) => prevKey + 1);
   };
 
   return { poolData, error, reload };

@@ -17,7 +17,9 @@ const CollateralList = ({
 }) => {
   const { t } = useTranslation();
 
-  const suppliedAssets = assets.filter((asset) => asset.supplyBalanceUSD > 1 && !asset.isBaseToken);
+  const suppliedAssets = assets.filter(
+    (asset) => asset.supplyBalanceUSD > 1 && !asset.isBaseToken,
+  );
 
   const isMobile = useIsMobile();
 
@@ -44,10 +46,10 @@ const CollateralList = ({
         <Text width="20%" fontWeight="bold" pl={1}>
           {t("Asset")}
         </Text>
-        <Text width="20%" textAlign="center"  fontWeight="bold" pl={1}>
+        <Text width="20%" textAlign="center" fontWeight="bold" pl={1}>
           {t("Your Supply")}
         </Text>
-        <Text width="20%" textAlign="center"  fontWeight="bold" pl={1}>
+        <Text width="20%" textAlign="center" fontWeight="bold" pl={1}>
           {t("Collateral Value")}
         </Text>
 
@@ -64,7 +66,6 @@ const CollateralList = ({
             </Text>
           </>
         )}
-
       </Row>
 
       <Column
@@ -88,7 +89,6 @@ const CollateralList = ({
             })}
 
             {suppliedAssets.length > 0 ? <ModalDivider my={2} /> : null}
-
           </>
         ) : (
           <Center expand my={8}>

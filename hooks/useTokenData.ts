@@ -16,8 +16,7 @@ export const TOKENS_DATA: TokensData = {
     decimals: 18,
     color: "#bc1c4c",
     overlayTextColor: "#fff",
-    logoURL:
-      "/tokens/TXJP.png",
+    logoURL: "/tokens/TXJP.png",
   },
   // 他のトークンもこの形式で追加できます。
 };

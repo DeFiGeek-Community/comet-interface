@@ -1,4 +1,3 @@
-
 import { FusePoolData } from "./utils/fetchFusePoolData";
 
 export const dummyData: FusePoolData = {

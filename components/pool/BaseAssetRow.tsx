@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar, Text, useDisclosure,   AvatarGroup } from "@chakra-ui/react";
+import { Avatar, Text, useDisclosure, AvatarGroup } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { SimpleTooltip } from "../shared/SimpleTooltip";
 import { CTokenIcon } from "../shared/CTokenIcon";
@@ -27,9 +27,9 @@ const BaseAssetRow = ({
     onClose: closeModal,
   } = useDisclosure();
 
-  const authedOpenModal = (mode:Mode) => {
+  const authedOpenModal = (mode: Mode) => {
     setMode(mode);
-    openModal()
+    openModal();
   };
 
   const [mode, setMode] = useState(Mode.BASE_SUPPLY);
@@ -42,9 +42,7 @@ const BaseAssetRow = ({
   const supplyIncentive = asset?.rewardTokensData;
 
   const rewardTokenData = useTokenData(supplyIncentive);
-  const color =
-  rewardTokenData?.color ??
-  "white";
+  const color = rewardTokenData?.color ?? "white";
 
   const isMobile = useIsMobile();
 
@@ -103,11 +101,10 @@ const BaseAssetRow = ({
             </Text>
           </Row>
 
-
           {/* APY */}
           <APYComponent
             supplyIncentive={supplyIncentive}
-            width={isMobile ? "100%" : "33%" }
+            width={isMobile ? "100%" : "33%"}
           />
 
           {!isMobile && (
@@ -136,10 +133,10 @@ const BaseAssetRow = ({
           onClick={() => authedOpenModal(Mode.BASE_WITHDRAW)}
         >
           {/* APY */}
-            <APYComponent
-              supplyIncentive={supplyIncentive}
-              width={isMobile ? "100%" : "33%" }
-            />
+          <APYComponent
+            supplyIncentive={supplyIncentive}
+            width={isMobile ? "100%" : "33%"}
+          />
 
           {!isMobile && (
             <>

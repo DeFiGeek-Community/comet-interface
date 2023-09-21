@@ -51,16 +51,12 @@ const BaseList = ({
         </Text>
 
         {!isMobile && (
-          <Text 
-            width="33%"
-            fontWeight="bold"
-            textAlign="center"
-          >
+          <Text width="33%" fontWeight="bold" textAlign="center">
             {t("Your Supply")}
           </Text>
         )}
 
-        <Text 
+        <Text
           width={isMobile ? "35%" : "33%"}
           fontWeight="bold"
           textAlign="center"
@@ -70,23 +66,14 @@ const BaseList = ({
 
         {!isMobile && (
           <>
-            <Text
-            width={"33%"}
-            fontWeight="bold"
-            textAlign="center"
-            >
+            <Text width={"33%"} fontWeight="bold" textAlign="center">
               {t("Your Borrow")}
             </Text>
-            <Text
-            width={"33%"}
-            fontWeight="bold"
-            textAlign="center"
-            >
+            <Text width={"33%"} fontWeight="bold" textAlign="center">
               {t("Available to Borrow")}
             </Text>
           </>
         )}
-
       </Row>
 
       <Column
@@ -108,7 +95,6 @@ const BaseList = ({
                 />
               );
             })}
-
           </>
         ) : (
           <Center expand my={8}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Link, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row } from "../../utils/chakraUtils";
 
 export const Header = () => {
@@ -35,11 +35,7 @@ export const Header = () => {
         <HeaderLink name="ETH Pool" route="#" />
         <HeaderLink name="Document" route="#" />
       </Row>
-      <Row
-        expand
-        crossAxisAlignment="flex-end"
-        mainAxisAlignment="flex-end"
-      >
+      <Row expand crossAxisAlignment="flex-end" mainAxisAlignment="flex-end">
         <ConnectButton accountStatus="address" />
       </Row>
     </Row>
