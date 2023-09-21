@@ -1,4 +1,4 @@
-import { TokenData } from "../hooks/useTokenData";
+import { TokenData } from "hooks/useTokenData";
 
 export interface FuseAsset {
   cToken: string;

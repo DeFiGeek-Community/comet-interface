@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { Avatar, Text, useDisclosure, AvatarGroup } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { SimpleTooltip } from "../shared/SimpleTooltip";
-import { CTokenIcon } from "../shared/CTokenIcon";
-import { Column, Row, useIsMobile } from "../../utils/chakraUtils";
-import { smallUsdFormatter } from "../../utils/bigUtils";
-import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
-import { useTokenData } from "../../hooks/useTokenData";
-import PoolModal, { Mode } from "../PoolModal";
-import APYComponent from "./APYComponent";
+import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
+import { Column, Row, useIsMobile } from "utils/chakraUtils";
+import { smallUsdFormatter } from "utils/bigUtils";
+import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
+import { useTokenData } from "hooks/useTokenData";
+import PoolModal, { Mode } from "components/PoolModal";
+import APYComponent from "components/pool/APYComponent";
 
 const BaseAssetRow = ({
   assets,

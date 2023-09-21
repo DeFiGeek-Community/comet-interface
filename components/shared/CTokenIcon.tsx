@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { Avatar, AvatarGroup } from "@chakra-ui/avatar";
-import { useTokenData } from "../../hooks/useTokenData";
+import { useTokenData } from "hooks/useTokenData";
 
 const CTokenIconComponent = forwardRef(
   (

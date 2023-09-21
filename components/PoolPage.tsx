@@ -1,15 +1,15 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import { Spinner } from "@chakra-ui/react";
-import { Column, Center, RowOrColumn, useIsMobile } from "../utils/chakraUtils";
-import StatsBar from "./pool/StatsBar";
-import TabBar from "./pool/TabBar";
-import CollateralRatioBar from "./pool/CollateralRatioBar";
-import BaseList from "./pool/BaseList";
-import CollateralList from "./pool/CollateralList";
-import DashboardBox from "./shared/DashboardBox";
-import Footer from "./shared/Footer";
+import { Column, Center, RowOrColumn, useIsMobile } from "utils/chakraUtils";
+import StatsBar from "components/pool/StatsBar";
+import TabBar from "components/pool/TabBar";
+import CollateralRatioBar from "components/pool/CollateralRatioBar";
+import BaseList from "components/pool/BaseList";
+import CollateralList from "components/pool/CollateralList";
+import DashboardBox from "components/shared/DashboardBox";
+import Footer from "components/shared/Footer";
 import { Header } from "./shared/Header";
-import { CTokenAvatarGroup, CTokenIcon } from "./shared/CTokenIcon";
+import { CTokenAvatarGroup, CTokenIcon } from "components/shared/CTokenIcon";
 
 // ダミーデータ
 import { dummyData } from "../dummyData";

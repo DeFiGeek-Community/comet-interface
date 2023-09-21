@@ -1,5 +1,4 @@
 import { StaticImageData } from "next/image";
-import ethereumLogoUrl from "../public/images/ethereum_logo.png";
 
 export const SupportedChainId = {
   MAINNET: 1,
@@ -14,7 +13,7 @@ export interface ChainInfo {
     readonly blockWaitMsBeforeWarning?: number;
     readonly docs?: string;
     readonly infoLink?: string;
-    readonly logoUrl?: StaticImageData;
+    readonly logoUrl?: string;
     readonly rpcUrls?: string[];
     readonly nativeCurrency: {
       name: string;
@@ -28,12 +27,13 @@ export const CHAIN_INFO: ChainInfo = {
   [SupportedChainId.MAINNET]: {
     explorer: "https://etherscan.io/",
     label: "Ethereum",
-    logoUrl: ethereumLogoUrl,
+    logoUrl: "/token/ethereum_logo.png",
     nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
   },
   [SupportedChainId.GOERLI]: {
     explorer: "https://goerli.etherscan.io/",
     label: "Goerli",
+    logoUrl: "/token/ethereum_logo.png",
     nativeCurrency: { name: "Goerli ETH", symbol: "goerliETH", decimals: 18 },
   },
 };

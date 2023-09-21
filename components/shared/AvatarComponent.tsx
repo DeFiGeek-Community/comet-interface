@@ -1,14 +1,16 @@
+import Image from 'next/image';
 import { AvatarComponent } from "@rainbow-me/rainbowkit";
 
 export const CustomAvatar: AvatarComponent = ({ ensImage, size }) => {
   return ensImage ? (
-    <img
+    <Image
       src={ensImage}
       width={size}
       height={size}
-      style={{ borderRadius: 999 }}
+      alt="ENS Image"
+      className="rounded-full"
     />
   ) : (
-    <img src="/dfgc-logo.png" width={size} height={size} alt="" />
+    <Image src="/dfgc-logo.png" width={size} height={size} alt="DFGC Logo" />
   );
 };

@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, Link, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import { Box, Link, Text } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Row } from "../../utils/chakraUtils";
+import { Row } from "utils/chakraUtils";
 
 export const Header = () => {
   return (

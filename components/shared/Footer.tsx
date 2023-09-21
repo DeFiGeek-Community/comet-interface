@@ -1,6 +1,7 @@
-import { Link, Text } from "@chakra-ui/react";
-import { Row, Column } from "../../utils/chakraUtils";
+import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link, Text } from "@chakra-ui/react";
+import { Row, Column } from "utils/chakraUtils";
 import CopyrightSpacer from "./CopyrightSpacer";
 
 const Footer = () => {

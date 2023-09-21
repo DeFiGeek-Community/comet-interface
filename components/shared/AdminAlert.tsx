@@ -1,7 +1,7 @@
+import React, { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, AlertIcon } from "@chakra-ui/alert";
 import { Box } from "@chakra-ui/layout";
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 
 export const AdminAlert = ({
   isAdmin = false,

@@ -1,13 +1,9 @@
-import { Link } from "@chakra-ui/react";
-import {
-  RowOrColumn,
-  Row,
-  Center,
-  useWindowSize,
-} from "../../utils/chakraUtils";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
-import DashboardBox from "../shared/DashboardBox";
+import { Link } from "@chakra-ui/react";
+import { RowOrColumn, Center, useWindowSize } from "utils/chakraUtils";
+import { useIsSmallScreen } from "hooks/useIsSmallScreen";
+import DashboardBox from "components/shared/DashboardBox";
 
 const activeStyle = { bg: "#FFF", color: "#000" };
 

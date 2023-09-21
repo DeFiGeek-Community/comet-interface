@@ -1,10 +1,10 @@
-import { Heading, Text } from "@chakra-ui/react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { smallUsdFormatter } from "../../utils/bigUtils";
-import { Column, Center, Row, useIsMobile } from "../../utils/chakraUtils";
-import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
-import BaseAssetRow from "./BaseAssetRow";
-import { ModalDivider } from "../shared/Modal";
+import { Heading, Text } from "@chakra-ui/react";
+import { Column, Center, Row, useIsMobile } from "utils/chakraUtils";
+import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
+import BaseAssetRow from "components/pool/BaseAssetRow";
+import { ModalDivider } from "components/shared/Modal";
 
 const BaseList = ({
   assets,

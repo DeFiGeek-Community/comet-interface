@@ -1,15 +1,15 @@
-import { Heading, Text } from "@chakra-ui/react";
-import { RowOrColumn, Column, Center, Row } from "../../utils/chakraUtils";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
-import { FusePoolData } from "../../utils/fetchFusePoolData";
-import { smallUsdFormatter } from "../../utils/bigUtils";
-import usePoolTotalData from "../../hooks/usePoolTotalData";
-import CaptionedStat from "../shared/CaptionedStat";
-import DashboardBox from "../shared/DashboardBox";
+import { Heading, Text } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { SimpleTooltip } from "../shared/SimpleTooltip";
+import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
+import { FusePoolData } from "utils/fetchFusePoolData";
+import { smallUsdFormatter } from "utils/bigUtils";
+import { useIsSmallScreen } from "hooks/useIsSmallScreen";
+import usePoolTotalData from "hooks/usePoolTotalData";
+import CaptionedStat from "components/shared/CaptionedStat";
+import DashboardBox from "components/shared/DashboardBox";
+import { SimpleTooltip } from "components/shared/SimpleTooltip";
 
 const StatsBar = ({ data }: { data?: FusePoolData }) => {
   const isMobile = useIsSmallScreen();

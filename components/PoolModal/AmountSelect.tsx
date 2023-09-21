@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import BigNumber from "bignumber.js";
 import {
   Heading,
   Box,
@@ -10,18 +12,15 @@ import {
   TabList,
   Tabs,
 } from "@chakra-ui/react";
-import BigNumber from "bignumber.js";
-import { useTranslation } from "react-i18next";
-import { smallUsdFormatter } from "../../utils/bigUtils";
-import { Row, Column, useIsMobile, Center } from "../../utils/chakraUtils";
-import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
-import { useTokenData } from "../../hooks/useTokenData";
-import DashboardBox from "../shared/DashboardBox";
-import { ModalDivider } from "../shared/Modal";
-import { Mode } from ".";
-import SmallWhiteCircle from "../../static/small-white-circle.png";
 import { HashLoader } from "react-spinners";
 import { AttentionSeeker } from "react-awesome-reveal";
+import { smallUsdFormatter } from "utils/bigUtils";
+import { Row, Column, useIsMobile, Center } from "utils/chakraUtils";
+import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
+import { useTokenData } from "hooks/useTokenData";
+import DashboardBox from "components/shared/DashboardBox";
+import { ModalDivider } from "components/shared/Modal";
+import { Mode } from "components/PoolModal";
 
 enum UserAction {
   NO_ACTION,
@@ -484,7 +483,7 @@ const TokenNameAndMaxButton = ({
             width="100%"
             height="100%"
             borderRadius="50%"
-            backgroundImage={`url(${SmallWhiteCircle})`}
+            backgroundImage={`url(/small-white-circle.png)`}
             src={logoURL}
             alt=""
           />

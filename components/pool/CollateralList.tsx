@@ -1,10 +1,10 @@
+import React from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { smallUsdFormatter } from "../../utils/bigUtils";
-import { Column, Center, Row, useIsMobile } from "../../utils/chakraUtils";
-import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
-import AssetCollateralSupplyRow from "./CollateralAssetRow";
-import { ModalDivider } from "../shared/Modal";
+import { Column, Center, Row, useIsMobile } from "utils/chakraUtils";
+import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
+import AssetCollateralSupplyRow from "components/pool/CollateralAssetRow";
+import { ModalDivider } from "components/shared/Modal";
 
 const CollateralList = ({
   assets,

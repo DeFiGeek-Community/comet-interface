@@ -1,29 +1,10 @@
-import { SimpleTooltip } from "../shared/SimpleTooltip";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Heading,
-  Link,
-  Progress,
-  Spinner,
-  Switch,
-  Text,
-  useDisclosure,
-  useToast,
-  HStack,
-} from "@chakra-ui/react";
-import {
-  Column,
-  Center,
-  Row,
-  RowOrColumn,
-  useIsMobile,
-} from "../../utils/chakraUtils";
-import DashboardBox from "../shared/DashboardBox";
-import { shortUsdFormatter, smallUsdFormatter } from "../../utils/bigUtils";
+import { Box, Progress, Text } from "@chakra-ui/react";
+import { Row } from "utils/chakraUtils";
+import { smallUsdFormatter } from "utils/bigUtils";
+import DashboardBox from "components/shared/DashboardBox";
+import { SimpleTooltip } from "components/shared/SimpleTooltip";
 
 const CollateralRatioBar = () => {
   const { t } = useTranslation();

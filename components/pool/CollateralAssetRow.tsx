@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { Column, Row, useIsMobile } from "../../utils/chakraUtils";
-import { smallUsdFormatter } from "../../utils/bigUtils";
-import { USDPricedFuseAsset } from "../../utils/fetchFusePoolData";
-import { useTokenData } from "../../hooks/useTokenData";
-import PoolModal, { Mode } from "../PoolModal";
+import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
+import { Column, Row, useIsMobile } from "utils/chakraUtils";
+import { smallUsdFormatter } from "utils/bigUtils";
+import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
+import { useTokenData } from "hooks/useTokenData";
+import PoolModal, { Mode } from "components/PoolModal";
 
 const CollateralAssetRow = ({
   assets,
