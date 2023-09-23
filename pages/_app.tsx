@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
+import React, { useState, useEffect } from "react";
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -12,7 +13,8 @@ import { publicProvider } from "wagmi/providers/public";
 import type { AppProps } from "next/app";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { CacheProvider } from "@chakra-ui/next-js";
-import { CustomAvatar } from "../components/shared/AvatarComponent";
+import { CustomAvatar } from "components/shared/AvatarComponent";
+import { Center } from "utils/chakraUtils";
 
 const customTheme = {
   ...theme,
@@ -41,6 +43,13 @@ const wagmiConfig = createConfig({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  const [isRendered, setIsRendered] = useState(false);
+
+  useEffect(() => {
+    setIsRendered(true);
+  }, []);
+
   return (
     <CacheProvider>
       <ChakraProvider theme={customTheme}>

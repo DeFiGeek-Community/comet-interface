@@ -1,18 +1,19 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
+import { PoolConfig } from "interfaces/pool";
 
-type PoolTotalDataResponse = {
+type TotalPoolData = {
   totalBaseSupplyBalance: any;
   totalBaseBorrowBalance: any;
   totalCollateralBalance: any;
   availableLiquidity: any;
 };
 
-const usePoolTotalData = (poolAddress?: string) => {
+const usePoolMetrics = (poolData?: PoolConfig) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
-  const poolData = useMemo<PoolTotalDataResponse | undefined>(() => {
-    let fetchedData: PoolTotalDataResponse | undefined;
+  const poolMetrics = useMemo<TotalPoolData | undefined>(() => {
+    let fetchedData: TotalPoolData | undefined;
 
     const fetchPoolData = async () => {
       try {
@@ -37,13 +38,13 @@ const usePoolTotalData = (poolAddress?: string) => {
     fetchPoolData();
 
     return fetchedData;
-  }, [poolAddress, reloadKey]);
+  }, [poolData, reloadKey]);
 
   const reload = () => {
     setReloadKey((prevKey) => prevKey + 1);
   };
 
-  return { poolData, error, reload };
+  return { poolMetrics, error, reload };
 };
 
-export default usePoolTotalData;
+export default usePoolMetrics;

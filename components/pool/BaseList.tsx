@@ -1,21 +1,17 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@chakra-ui/react";
-import { Column, Center, Row, useIsMobile } from "utils/chakraUtils";
-import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
+import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import BaseAssetRow from "components/pool/BaseAssetRow";
 import { ModalDivider } from "components/shared/Modal";
+import { PoolConfig } from "interfaces/pool";
 
 const BaseList = ({
-  assets,
-  comptrollerAddress,
+  poolData
 }: {
-  assets: USDPricedFuseAsset[];
-  comptrollerAddress: string;
+  poolData: PoolConfig;
 }) => {
   const { t } = useTranslation();
-
-  const suppliedAssets = assets.filter((asset) => asset.isBaseToken);
 
   const isMobile = useIsMobile();
 
@@ -82,25 +78,9 @@ const BaseList = ({
         expand
         mt={1}
       >
-        {assets.length > 0 ? (
-          <>
-            {suppliedAssets.map((asset, index) => {
-              return (
-                <BaseAssetRow
-                  comptrollerAddress={comptrollerAddress}
-                  key={asset.underlyingToken}
-                  assets={suppliedAssets}
-                  index={index}
-                  isPaused={asset.isPaused}
-                />
-              );
-            })}
-          </>
-        ) : (
-          <Center expand my={8}>
-            {t("There are no assets in this pool.")}
-          </Center>
-        )}
+        <BaseAssetRow
+          poolData={poolData}
+        />
       </Column>
     </Column>
   );

@@ -1,4 +1,4 @@
-import { PoolConfigMap } from "../interfaces/pool";
+import { PoolConfigMap } from "interfaces/pool";
 import { SupportedChainId } from "./chains";
 
 export const SupportedPoolName = {
@@ -17,6 +17,17 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
         symbol: "CJPY",
         address: "0x0000000000000000000000000000000000000000",
         decimals: 18,
+        color: "#00ad92",
+        logoURL: "/tokens/CJPY.png",
+        priceFeed: "0x0000000000000000000000000000000000000000",
+      },
+      rewardToken: {
+        name: "TenX Community JAPAN",
+        symbol: "TXJP",
+        address: "0x0000000000000000000000000000000000000000",
+        decimals: 8,
+        color: "#bc1c4c",
+        logoURL: "/tokens/TXJP.png",
         priceFeed: "0x0000000000000000000000000000000000000000",
       },
       extensionDelegate: "0x0000000000000000000000000000000000000000",
@@ -38,10 +49,12 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
 
       assetConfigs: [
         {
-          name: "TenX Japan",
+          name: "TenX Community JAPAN",
           symbol: "TXJP",
           address: "0x0000000000000000000000000000000000000000",
           decimals: 8,
+          color: "#bc1c4c",
+          logoURL: "/tokens/TXJP.png",
           priceFeed: "0x0000000000000000000000000000000000000000",
           borrowCollateralFactor: 80,
           liquidateCollateralFactor: 90,
@@ -53,6 +66,8 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           symbol: "wstETH",
           address: "0x0000000000000000000000000000000000000000",
           decimals: 18,
+          color: "#627EEA",
+          logoURL: "/tokens/ethereum_logo.png",
           priceFeed: "0x0000000000000000000000000000000000000000",
           borrowCollateralFactor: 85,
           liquidateCollateralFactor: 95,

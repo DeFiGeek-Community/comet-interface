@@ -1,21 +1,21 @@
 import React, { memo } from "react";
 import { Spinner } from "@chakra-ui/react";
-import { Column, Center, RowOrColumn, useIsMobile } from "utils/chakraUtils";
+import { Column, Center, useIsMobile } from "utils/chakraUtils";
+import usePoolData from "hooks/usePoolData";
+import { useChainPool } from "hooks/useChainPool";
 import StatsBar from "components/pool/StatsBar";
-import TabBar from "components/pool/TabBar";
 import CollateralRatioBar from "components/pool/CollateralRatioBar";
 import BaseList from "components/pool/BaseList";
 import CollateralList from "components/pool/CollateralList";
 import DashboardBox from "components/shared/DashboardBox";
 import Footer from "components/shared/Footer";
-import { Header } from "./shared/Header";
-import { CTokenAvatarGroup, CTokenIcon } from "components/shared/CTokenIcon";
-
-// ダミーデータ
-import { dummyData } from "../dummyData";
+import { Header } from "components/shared/Header";
 
 const PoolPage = memo(() => {
   const isMobile = useIsMobile();
+  const { chainId, poolName } = useChainPool();
+
+  const poolData = usePoolData();
 
   return (
     <>
@@ -29,14 +29,13 @@ const PoolPage = memo(() => {
       >
         <Header />
         {/* <TabBar /> */}
-        <StatsBar data={dummyData} />
+        <StatsBar poolData={poolData} />
         <CollateralRatioBar />
 
         <DashboardBox mt={4} width={"100%"}>
-          {dummyData ? (
+          {poolData ? (
             <BaseList
-              assets={dummyData.assets}
-              comptrollerAddress={dummyData.comptroller}
+            poolData={poolData}
             />
           ) : (
             <Center height="200px">
@@ -46,11 +45,9 @@ const PoolPage = memo(() => {
         </DashboardBox>
 
         <DashboardBox ml={0} mt={4} width={"100%"}>
-          {dummyData ? (
+          {poolData ? (
             <CollateralList
-              assets={dummyData.assets}
-              comptrollerAddress={dummyData.comptroller}
-              supplyBalanceUSD={dummyData.totalSupplyBalanceUSD}
+            poolData={poolData}
             />
           ) : (
             <Center height="200px">

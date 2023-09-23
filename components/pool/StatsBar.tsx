@@ -3,17 +3,18 @@ import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
-import { FusePoolData } from "utils/fetchFusePoolData";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
-import usePoolTotalData from "hooks/usePoolTotalData";
+import usePoolMetrics from "hooks/usePoolMetrics";
 import CaptionedStat from "components/shared/CaptionedStat";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
+import { PoolConfig } from "interfaces/pool";
 
-const StatsBar = ({ data }: { data?: FusePoolData }) => {
+const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const isMobile = useIsSmallScreen();
-  const { poolData, error, reload } = usePoolTotalData(data?.address);
+  const { poolMetrics, error, reload } = usePoolMetrics(poolData);
+  const symbol = poolData?.baseToken.symbol;
 
   const { t } = useTranslation();
   return (
@@ -44,7 +45,7 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
             {/* Title */}
             <WhitelistedIcon mb={1} />
             <Heading size="lg" isTruncated>
-              {data?.name ?? "Pool"}
+              {symbol?? "Pool"}
             </Heading>
           </Row>
 
@@ -77,11 +78,11 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolData
-                  ? smallUsdFormatter(poolData?.totalBaseSupplyBalance)
+                poolMetrics
+                  ? smallUsdFormatter(poolMetrics?.totalBaseSupplyBalance)
                   : "$?"
               }
-              caption={t(`Total ${data?.baseToken} Supply Balance`)}
+              caption={t(`Total ${symbol} Supply Balance`)}
             />
           </StatBox>
           <StatBox width={isMobile ? "100%" : "98%"}>
@@ -91,8 +92,8 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolData
-                  ? smallUsdFormatter(poolData?.totalCollateralBalance)
+                poolMetrics
+                  ? smallUsdFormatter(poolMetrics?.totalCollateralBalance)
                   : "$?"
               }
               caption={t("Total Collateral Balance")}
@@ -114,11 +115,11 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolData
-                  ? smallUsdFormatter(poolData?.totalBaseBorrowBalance)
+                poolMetrics
+                  ? smallUsdFormatter(poolMetrics?.totalBaseBorrowBalance)
                   : "$?"
               }
-              caption={t(`Total ${data?.baseToken} Borrow Balance`)}
+              caption={t(`Total ${symbol} Borrow Balance`)}
             />
           </StatBox>
           <StatBox width={isMobile ? "100%" : "98%"}>
@@ -128,8 +129,8 @@ const StatsBar = ({ data }: { data?: FusePoolData }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolData
-                  ? smallUsdFormatter(poolData?.availableLiquidity)
+                poolMetrics
+                  ? smallUsdFormatter(poolMetrics?.availableLiquidity)
                   : "$?"
               }
               caption={t("Available Liquidity")}

@@ -2,17 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, ModalOverlay, ModalContent } from "@chakra-ui/react";
 import AmountSelect from "components/PoolModal/AmountSelect";
 import { MODAL_PROPS } from "components/shared/Modal";
-import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
-
-interface Props {
-  isOpen: boolean;
-  onClose: () => any;
-  defaultMode: Mode;
-  index: number;
-  assets: USDPricedFuseAsset[];
-  comptrollerAddress: string;
-  isBorrowPaused: boolean;
-}
+import { PoolConfig } from "interfaces/pool";
 
 export enum Mode {
   SUPPLY,
@@ -21,30 +11,44 @@ export enum Mode {
   BASE_WITHDRAW,
 }
 
-const DepositModal = (props: Props) => {
-  const [mode, setMode] = useState(props.defaultMode);
+const DepositModal = ({
+  defaultMode,
+  poolData,
+  index,
+  isBase,
+  isOpen,
+  onClose,
+}: {
+  defaultMode: Mode;
+  poolData: PoolConfig;
+  index: number;
+  isBase: boolean;
+  isOpen: boolean;
+  onClose: () => any;
+}) => {
+  const [mode, setMode] = useState(defaultMode);
 
   useEffect(() => {
-    setMode(props.defaultMode);
-  }, [props.isOpen, props.defaultMode]);
+    setMode(defaultMode);
+  }, [isOpen, defaultMode]);
+
+  const asset = isBase ? poolData?.baseToken : poolData?.assetConfigs[index];
 
   return (
     <Modal
       motionPreset="slideInBottom"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       isCentered
     >
       <ModalOverlay />
       <ModalContent {...MODAL_PROPS}>
         <AmountSelect
-          comptrollerAddress={props.comptrollerAddress}
-          onClose={props.onClose}
-          index={props.index}
-          assets={props.assets}
           mode={mode}
           setMode={setMode}
-          isBorrowPaused={props.isBorrowPaused}
+          poolData={poolData}
+          asset={asset} 
+          onClose={onClose}
         />
       </ModalContent>
     </Modal>

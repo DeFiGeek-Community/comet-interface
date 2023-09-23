@@ -1,25 +1,19 @@
 import React from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { Column, Center, Row, useIsMobile } from "utils/chakraUtils";
-import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
-import AssetCollateralSupplyRow from "components/pool/CollateralAssetRow";
+import { Column, Row, useIsMobile } from "utils/chakraUtils";
+import CollateralAssetRow from "components/pool/CollateralAssetRow";
 import { ModalDivider } from "components/shared/Modal";
+import { PoolConfig } from "interfaces/pool";
 
 const CollateralList = ({
-  assets,
-  supplyBalanceUSD,
-  comptrollerAddress,
+  poolData,
 }: {
-  assets: USDPricedFuseAsset[];
-  supplyBalanceUSD: number;
-  comptrollerAddress: string;
+  poolData: PoolConfig;
 }) => {
   const { t } = useTranslation();
 
-  const suppliedAssets = assets.filter(
-    (asset) => asset.supplyBalanceUSD > 1 && !asset.isBaseToken,
-  );
+  const collateralList = poolData.assetConfigs;
 
   const isMobile = useIsMobile();
 
@@ -74,27 +68,15 @@ const CollateralList = ({
         expand
         mt={1}
       >
-        {assets.length > 0 ? (
-          <>
-            {suppliedAssets.map((asset, index) => {
-              return (
-                <AssetCollateralSupplyRow
-                  comptrollerAddress={comptrollerAddress}
-                  key={asset.underlyingToken}
-                  assets={suppliedAssets}
-                  index={index}
-                  isPaused={asset.isPaused}
-                />
-              );
-            })}
-
-            {suppliedAssets.length > 0 ? <ModalDivider my={2} /> : null}
-          </>
-        ) : (
-          <Center expand my={8}>
-            {t("There are no assets in this pool.")}
-          </Center>
-        )}
+        {collateralList.map((asset, index) => {
+          return (
+            <CollateralAssetRow
+              poolData={poolData}
+              index={index}
+              key={index}
+            />
+          );
+        })}
       </Column>
     </Column>
   );

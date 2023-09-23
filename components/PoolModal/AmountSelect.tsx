@@ -16,11 +16,10 @@ import { HashLoader } from "react-spinners";
 import { AttentionSeeker } from "react-awesome-reveal";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { Row, Column, useIsMobile, Center } from "utils/chakraUtils";
-import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
-import { useTokenData } from "hooks/useTokenData";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 import { Mode } from "components/PoolModal";
+import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 
 enum UserAction {
   NO_ACTION,
@@ -50,21 +49,17 @@ export enum CTokenErrorCodes {
 }
 
 const AmountSelect = ({
-  onClose,
-  assets,
-  index,
   mode,
   setMode,
-  comptrollerAddress,
-  isBorrowPaused = false,
+  poolData,
+  asset,
+  onClose,
 }: {
-  onClose: () => any;
-  assets: USDPricedFuseAsset[];
-  index: number;
   mode: Mode;
   setMode: (mode: Mode) => any;
-  comptrollerAddress: string;
-  isBorrowPaused?: boolean;
+  poolData: PoolConfig;
+  asset: BaseAsset | CollateralAsset;
+  onClose: () => any;
 }) => {
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
 
@@ -76,11 +71,7 @@ const AmountSelect = ({
 
   const { t } = useTranslation();
 
-  const asset = assets[index];
-
-  const tokenData = useTokenData(asset.underlyingToken);
-
-  const symbol = tokenData?.symbol ? tokenData?.symbol : "";
+  const symbol = asset.symbol ? asset.symbol : "";
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -124,7 +115,7 @@ const AmountSelect = ({
 
   return userAction === UserAction.WAITING_FOR_TRANSACTIONS ? (
     <Column expand mainAxisAlignment="center" crossAxisAlignment="center" p={4}>
-      <HashLoader size={70} color={tokenData.color ?? "#FFF"} loading />
+      <HashLoader size={70} color={asset.color ?? "#FFF"} loading />
       <Heading mt="30px" textAlign="center" size="md">
         {t("Check your wallet to submit the transaction")}
       </Heading>
@@ -159,7 +150,7 @@ const AmountSelect = ({
               height="100%"
               borderRadius="50%"
               src={
-                tokenData?.logoURL ??
+                asset?.logoURL ??
                 "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
               }
               alt=""
@@ -167,9 +158,7 @@ const AmountSelect = ({
           </Box>
 
           <Heading fontSize="27px" ml={3}>
-            {!isMobile && asset.underlyingName.length < 25
-              ? asset.underlyingName
-              : symbol}
+            {symbol}
           </Heading>
         </Row>
 
@@ -203,11 +192,10 @@ const AmountSelect = ({
                   updateAmount={updateAmount}
                 />
                 <TokenNameAndMaxButton
-                  comptrollerAddress={comptrollerAddress}
                   mode={mode}
                   symbol={symbol}
                   logoURL={
-                    tokenData?.logoURL ??
+                    asset?.logoURL ??
                     "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
                   }
                   updateAmount={updateAmount}
@@ -220,10 +208,8 @@ const AmountSelect = ({
             symbol={symbol}
             amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
             color={"#FFF"}
-            assets={assets}
-            index={index}
+            asset={asset}
             mode={mode}
-            // enableAsCollateral={enableAsCollateral}
           />
 
           <Button
@@ -337,15 +323,13 @@ const TabBar = ({
 const StatsColumn = ({
   color,
   mode,
-  assets,
-  index,
+  asset,
   amount,
   symbol, // enableAsCollateral,
 }: {
   color: string;
   mode: Mode;
-  assets: USDPricedFuseAsset[];
-  index: number;
+  asset: BaseAsset | CollateralAsset;
   amount: number;
   symbol: string;
   // enableAsCollateral: boolean;
@@ -354,7 +338,6 @@ const StatsColumn = ({
 
   const isSupplyingOrWithdrawing =
     mode === Mode.SUPPLY || mode === Mode.WITHDRAW;
-  const asset = assets[index];
   return (
     <DashboardBox width="100%" height="190px" mt={4}>
       {/* {updatedAsset ? ( */}
@@ -391,7 +374,8 @@ const StatsColumn = ({
           </Text>
         </Row>
 
-        {asset?.isBaseToken && (
+        {/* Base Token only */}
+        {(asset as CollateralAsset).borrowCollateralFactor !== undefined && (
           <Row
             mainAxisAlignment="space-between"
             crossAxisAlignment="center"
@@ -459,12 +443,10 @@ const TokenNameAndMaxButton = ({
   logoURL,
   mode,
   symbol,
-  comptrollerAddress,
 }: {
   logoURL: string;
   symbol: string;
   mode: Mode;
-  comptrollerAddress: string;
   updateAmount: (newAmount: string) => any;
 }) => {
   const [isMaxLoading, setIsMaxLoading] = useState(false);

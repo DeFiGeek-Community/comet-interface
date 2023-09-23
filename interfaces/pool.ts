@@ -1,11 +1,5 @@
 import { Address } from "abitype";
-
-export interface Token {
-  name: string;
-  symbol: string;
-  address: Address;
-  decimals: number;
-}
+import { Token } from "interfaces/token";
 
 export interface BaseAsset extends Token {
   priceFeed: Address;
@@ -19,12 +13,16 @@ export interface CollateralAsset extends Token {
   supplyCap: number;
 }
 
+export interface RewardAsset extends Token {
+  priceFeed: Address;
+}
+
 export interface PoolConfig {
   governor: Address;
   pauseGuardian: Address;
   baseToken: BaseAsset;
+  rewardToken: RewardAsset;
   extensionDelegate: Address;
-
   supplyKink: number;
   supplyPerYearInterestRateSlopeLow: number;
   supplyPerYearInterestRateSlopeHigh: number;

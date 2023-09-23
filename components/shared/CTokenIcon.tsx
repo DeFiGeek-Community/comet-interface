@@ -1,30 +1,29 @@
 import React, { forwardRef } from "react";
 import { Avatar, AvatarGroup } from "@chakra-ui/avatar";
-import { useTokenData } from "hooks/useTokenData";
+import { RewardAsset } from "interfaces/pool";
 
 const CTokenIconComponent = forwardRef(
   (
     {
-      address,
+      rewardToken,
       ...avatarProps
     }: {
-      address: string;
+      rewardToken: RewardAsset;
       [key: string]: any;
     },
     ref: any, // ref を引数として追加
   ) => {
-    const tokenData = useTokenData(address);
 
     return (
       <Avatar
         {...avatarProps}
         ref={ref} // Avatar に ref を渡す
-        key={address}
+        key={rewardToken.address}
         bg="#FFF"
         borderWidth="1px"
-        name={tokenData?.symbol ?? "Loading..."}
+        name={rewardToken?.symbol ?? "Loading..."}
         src={
-          tokenData?.logoURL ??
+          rewardToken?.logoURL ??
           "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
         }
       />

@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
-import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
-import { useTokenData } from "hooks/useTokenData";
 import PoolModal, { Mode } from "components/PoolModal";
+import { PoolConfig } from "interfaces/pool";
 
 const CollateralAssetRow = ({
-  assets,
-  index,
-  comptrollerAddress,
-  isPaused,
+  poolData,
+  index
 }: {
-  assets: USDPricedFuseAsset[];
+  poolData: PoolConfig;
   index: number;
-  comptrollerAddress: string;
-  isPaused: boolean;
 }) => {
   const {
     isOpen: isModalOpen,
@@ -26,31 +21,22 @@ const CollateralAssetRow = ({
 
   const authedOpenModal = openModal;
 
-  const asset = assets[index];
-
-  const tokenData = useTokenData(asset.underlyingToken);
-
-  const symbol = tokenData?.symbol ? tokenData?.symbol : "";
+  const asset = poolData.assetConfigs[index];
+  const symbol = asset?.symbol ? asset?.symbol : "";
 
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
 
-  const [hovered, setHovered] = useState<number>(-1);
-
-  const handleMouseEnter = (index: number) => setHovered(index);
-  const handleMouseLeave = () => setHovered(-1);
-
   return (
     <>
       <PoolModal
         defaultMode={Mode.SUPPLY}
-        comptrollerAddress={comptrollerAddress}
-        assets={assets}
+        poolData={poolData}
         index={index}
+        isBase={false}
         isOpen={isModalOpen}
         onClose={closeModal}
-        isBorrowPaused={asset.isPaused}
       />
 
       <Row
@@ -74,7 +60,7 @@ const CollateralAssetRow = ({
             boxSize="37px"
             name={symbol}
             src={
-              tokenData?.logoURL ??
+              asset?.logoURL ??
               "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
             }
           />
@@ -89,7 +75,7 @@ const CollateralAssetRow = ({
           width={isMobile ? "40%" : "20%"}
         >
           <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-            {smallUsdFormatter(asset.supplyBalanceUSD)}
+            {smallUsdFormatter(500)}
           </Text>
 
           <Text fontSize="sm">
@@ -104,12 +90,12 @@ const CollateralAssetRow = ({
         >
           <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
             {smallUsdFormatter(
-              asset.supplyBalanceUSD * asset?.collateralFactor,
+              600
             )}
           </Text>
 
           <Text fontSize="sm">
-            {smallUsdFormatter(10 * asset?.collateralFactor).replace("$", "")}{" "}
+            {smallUsdFormatter(10).replace("$", "")}{" "}
             {symbol}
           </Text>
         </Column>
@@ -124,7 +110,7 @@ const CollateralAssetRow = ({
             >
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {asset?.collateralFactor * 100} {"%"}
+                  {asset?.borrowCollateralFactor} {"%"}
                 </Text>
               </Row>
             </Column>
@@ -135,7 +121,7 @@ const CollateralAssetRow = ({
             >
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {asset?.liquidationFactor * 100} {"%"}
+                  {asset?.liquidateCollateralFactor} {"%"}
                 </Text>
               </Row>
             </Column>
@@ -146,7 +132,7 @@ const CollateralAssetRow = ({
             >
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {asset?.liquidationPenalty * 100} {"%"}
+                  {asset?.borrowCollateralFactor - asset?.liquidateCollateralFactor} {"%"}
                 </Text>
               </Row>
             </Column>

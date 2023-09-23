@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Text, AvatarGroup } from "@chakra-ui/react";
 import { Column, Row } from "utils/chakraUtils";
-import { useTokenData } from "hooks/useTokenData";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { CTokenIcon } from "components/shared/CTokenIcon";
+import { RewardAsset } from "interfaces/pool";
+
 
 const APYComponent = ({
-  supplyIncentive,
+  rewardToken,
   width,
 }: {
-  supplyIncentive: string;
+  rewardToken: RewardAsset;
   width: string;
 }) => {
-  const rewardTokenData = useTokenData(supplyIncentive);
-  const color = rewardTokenData?.color ?? "white";
+  const color = rewardToken?.color ?? "white";
 
   const [hovered, setHovered] = useState<number>(-1);
 
@@ -33,9 +33,9 @@ const APYComponent = ({
         <Row crossAxisAlignment="center" mainAxisAlignment="flex-start" pt={1}>
           <Text fontWeight="bold">+</Text>
           <AvatarGroup size="xs" max={30} ml={2} mr={1} spacing={1}>
-            <SimpleTooltip label={rewardTokenData?.name ?? ""}>
+            <SimpleTooltip label={rewardToken.name ?? ""}>
               <CTokenIcon
-                address={supplyIncentive}
+                rewardToken={rewardToken}
                 boxSize="20px"
                 onMouseEnter={() => handleMouseEnter(0)}
                 onMouseLeave={handleMouseLeave}

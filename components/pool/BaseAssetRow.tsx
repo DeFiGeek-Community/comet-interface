@@ -3,21 +3,14 @@ import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
-import { USDPricedFuseAsset } from "utils/fetchFusePoolData";
-import { useTokenData } from "hooks/useTokenData";
 import PoolModal, { Mode } from "components/PoolModal";
 import APYComponent from "components/pool/APYComponent";
+import { PoolConfig } from "interfaces/pool";
 
 const BaseAssetRow = ({
-  assets,
-  index,
-  comptrollerAddress,
-  isPaused,
+  poolData,
 }: {
-  assets: USDPricedFuseAsset[];
-  index: number;
-  comptrollerAddress: string;
-  isPaused: boolean;
+  poolData: PoolConfig;
 }) => {
   const {
     isOpen: isModalOpen,
@@ -32,35 +25,23 @@ const BaseAssetRow = ({
 
   const [mode, setMode] = useState(Mode.BASE_SUPPLY);
 
-  const asset = assets[index];
-
-  const tokenData = useTokenData(asset.underlyingToken);
+  const tokenData = poolData.baseToken
 
   const symbol = tokenData?.symbol ? tokenData?.symbol : "";
-  const supplyIncentive = asset?.rewardTokensData;
-
-  const rewardTokenData = useTokenData(supplyIncentive);
-  const color = rewardTokenData?.color ?? "white";
 
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
 
-  const [hovered, setHovered] = useState<number>(-1);
-
-  const handleMouseEnter = (index: number) => setHovered(index);
-  const handleMouseLeave = () => setHovered(-1);
-
   return (
     <>
       <PoolModal
         defaultMode={mode}
-        comptrollerAddress={comptrollerAddress}
-        assets={assets}
-        index={index}
+        poolData={poolData}
+        index={0}
+        isBase={true}
         isOpen={isModalOpen}
         onClose={closeModal}
-        isBorrowPaused={asset.isPaused}
       />
 
       <Row
@@ -101,7 +82,7 @@ const BaseAssetRow = ({
 
           {/* APY */}
           <APYComponent
-            supplyIncentive={supplyIncentive}
+            rewardToken={poolData.rewardToken}
             width={isMobile ? "100%" : "33%"}
           />
 
@@ -112,7 +93,7 @@ const BaseAssetRow = ({
               width={"33%"}
             >
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdFormatter(asset.supplyBalanceUSD)}
+                {smallUsdFormatter(100)}
               </Text>
 
               <Text fontSize="sm">
@@ -132,7 +113,7 @@ const BaseAssetRow = ({
         >
           {/* APY */}
           <APYComponent
-            supplyIncentive={supplyIncentive}
+            rewardToken={poolData.rewardToken}
             width={isMobile ? "100%" : "33%"}
           />
 
@@ -144,7 +125,7 @@ const BaseAssetRow = ({
                 width={"33%"}
               >
                 <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                  {smallUsdFormatter(asset.supplyBalanceUSD)}
+                  {smallUsdFormatter(100)}
                 </Text>
 
                 <Text fontSize="sm">
@@ -157,7 +138,7 @@ const BaseAssetRow = ({
                 width={"33%"}
               >
                 <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                  {smallUsdFormatter(asset.supplyBalanceUSD)}
+                  {smallUsdFormatter(100)}
                 </Text>
 
                 <Text fontSize="sm">
