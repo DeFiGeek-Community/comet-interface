@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
-import { Column, Row, useIsMobile } from "utils/chakraUtils";
+import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
+import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
+import useBasePoolData from "hooks/useBasePoolData";
+import useTokenRewardData from "hooks/useTokenRewardData";
 import PoolModal, { Mode } from "components/PoolModal";
 import APYComponent from "components/pool/APYComponent";
 import { PoolConfig } from "interfaces/pool";
@@ -26,8 +28,10 @@ const BaseAssetRow = ({
   const [mode, setMode] = useState(Mode.BASE_SUPPLY);
 
   const tokenData = poolData.baseToken
-
   const symbol = tokenData?.symbol ? tokenData?.symbol : "";
+
+  const { basePoolData } = useBasePoolData(poolData);
+  const { tokenRewardData } = useTokenRewardData(poolData);
 
   const isMobile = useIsMobile();
 
@@ -83,6 +87,8 @@ const BaseAssetRow = ({
           {/* APY */}
           <APYComponent
             rewardToken={poolData.rewardToken}
+            baseAPR={basePoolData?.supplyAPR}
+            tokenReward={tokenRewardData?.supplyRewardAPR}
             width={isMobile ? "100%" : "33%"}
           />
 
@@ -92,13 +98,21 @@ const BaseAssetRow = ({
               crossAxisAlignment="center"
               width={"33%"}
             >
-              <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdFormatter(100)}
-              </Text>
+              {basePoolData ? (
+                <>
+                  <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                    {smallUsdFormatter(basePoolData.yourSupply)}
+                  </Text>
 
-              <Text fontSize="sm">
-                {smallUsdFormatter(10).replace("$", "")} {symbol}
-              </Text>
+                  <Text fontSize="sm">
+                    {smallUsdFormatter(basePoolData.yourSupply).replace("$", "")} {symbol}
+                  </Text>
+                </>
+              ) : (
+                <Center height="50px">
+                  <Spinner />
+                </Center>
+              )}
             </Column>
           )}
         </Row>
@@ -109,11 +123,13 @@ const BaseAssetRow = ({
           height="72px"
           className="hover-row"
           as="button"
-          onClick={() => authedOpenModal(Mode.BASE_WITHDRAW)}
+          onClick={() => authedOpenModal(Mode.BASE_BORROW)}
         >
           {/* APY */}
           <APYComponent
             rewardToken={poolData.rewardToken}
+            baseAPR={basePoolData?.borrowAPR}
+            tokenReward={tokenRewardData?.borrowRewardAPR}
             width={isMobile ? "100%" : "33%"}
           />
 
@@ -124,26 +140,42 @@ const BaseAssetRow = ({
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                  {smallUsdFormatter(100)}
-                </Text>
+                {basePoolData ? (
+                  <>
+                    <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                      {smallUsdFormatter(basePoolData.yourBorrow)}
+                    </Text>
 
-                <Text fontSize="sm">
-                  {smallUsdFormatter(10).replace("$", "")} {symbol}
-                </Text>
+                    <Text fontSize="sm">
+                      {smallUsdFormatter(basePoolData.yourBorrow).replace("$", "")} {symbol}
+                    </Text>
+                  </>
+                ) : (
+                  <Center height="50px">
+                    <Spinner />
+                  </Center>
+                )}
               </Column>
               <Column
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                  {smallUsdFormatter(100)}
-                </Text>
+                {basePoolData ? (
+                  <>
+                    <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                      {smallUsdFormatter(basePoolData.availableToBorrow)}
+                    </Text>
 
-                <Text fontSize="sm">
-                  {smallUsdFormatter(10).replace("$", "")} {symbol}
-                </Text>
+                    <Text fontSize="sm">
+                      {smallUsdFormatter(basePoolData.availableToBorrow).replace("$", "")} {symbol}
+                    </Text>
+                  </>
+                ) : (
+                  <Center height="50px">
+                    <Spinner />
+                  </Center>
+                )}
               </Column>
             </>
           )}

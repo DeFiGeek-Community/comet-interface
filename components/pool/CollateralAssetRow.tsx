@@ -1,7 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Avatar, Text, useDisclosure } from "@chakra-ui/react";
-import { Column, Row, useIsMobile } from "utils/chakraUtils";
+import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
+import useCollateralPoolData from "hooks/useCollateralPoolData";
+import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
 import PoolModal, { Mode } from "components/PoolModal";
 import { PoolConfig } from "interfaces/pool";
@@ -25,6 +26,8 @@ const CollateralAssetRow = ({
   const symbol = asset?.symbol ? asset?.symbol : "";
 
   const isMobile = useIsMobile();
+
+  const { collateralPoolData, error, reload } = useCollateralPoolData(poolData, index);
 
   const { t } = useTranslation();
 
@@ -74,13 +77,21 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "40%" : "20%"}
         >
-          <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-            {smallUsdFormatter(500)}
-          </Text>
+          {collateralPoolData ? (
+            <>
+              <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                {smallUsdFormatter(collateralPoolData.yourSupply)}
+              </Text>
 
-          <Text fontSize="sm">
-            {smallUsdFormatter(10).replace("$", "")} {symbol}
-          </Text>
+              <Text fontSize="sm">
+                {smallUsdFormatter(collateralPoolData.yourSupply).replace("$", "")} {symbol}
+              </Text>
+            </>
+          ) : (
+            <Center height="50px">
+              <Spinner />
+            </Center>
+          )}
         </Column>
 
         <Column
@@ -88,16 +99,23 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "40%" : "20%"}
         >
-          <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-            {smallUsdFormatter(
-              600
-            )}
-          </Text>
+          {collateralPoolData ? (
+            <>
+              <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                {smallUsdFormatter(
+                  collateralPoolData.collateralValue
+                )}
+              </Text>
 
-          <Text fontSize="sm">
-            {smallUsdFormatter(10).replace("$", "")}{" "}
-            {symbol}
-          </Text>
+              <Text fontSize="sm">
+                {smallUsdFormatter(collateralPoolData.collateralValue).replace("$", "")}{" "}{symbol}
+              </Text>
+            </>
+          ) : (
+            <Center height="50px">
+              <Spinner />
+            </Center>
+          )}
         </Column>
 
         {/* APY */}
@@ -132,7 +150,7 @@ const CollateralAssetRow = ({
             >
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {asset?.borrowCollateralFactor - asset?.liquidateCollateralFactor} {"%"}
+                  {asset?.liquidateCollateralFactor - asset?.borrowCollateralFactor} {"%"}
                 </Text>
               </Row>
             </Column>

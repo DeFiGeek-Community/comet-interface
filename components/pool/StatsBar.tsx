@@ -45,7 +45,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
             {/* Title */}
             <WhitelistedIcon mb={1} />
             <Heading size="lg" isTruncated>
-              {symbol?? "Pool"}
+              {symbol} {"Pool"}
             </Heading>
           </Row>
 

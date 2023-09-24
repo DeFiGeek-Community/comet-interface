@@ -8,7 +8,7 @@ export enum Mode {
   SUPPLY,
   WITHDRAW,
   BASE_SUPPLY,
-  BASE_WITHDRAW,
+  BASE_BORROW,
 }
 
 const DepositModal = ({

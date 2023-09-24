@@ -11,11 +11,13 @@ import {
   Tab,
   TabList,
   Tabs,
+  Spinner,
 } from "@chakra-ui/react";
 import { HashLoader } from "react-spinners";
 import { AttentionSeeker } from "react-awesome-reveal";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { Row, Column, useIsMobile, Center } from "utils/chakraUtils";
+import useBasePoolData from "hooks/useBasePoolData";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 import { Mode } from "components/PoolModal";
@@ -25,27 +27,6 @@ enum UserAction {
   NO_ACTION,
   WAITING_FOR_TRANSACTIONS,
   VIEWING_QUOTE,
-}
-
-export enum CTokenErrorCodes {
-  NO_ERROR,
-  UNAUTHORIZED,
-  BAD_INPUT,
-  COMPTROLLER_REJECTION,
-  COMPTROLLER_CALCULATION_ERROR,
-  INTEREST_RATE_MODEL_ERROR,
-  INVALID_ACCOUNT_PAIR,
-  INVALID_CLOSE_AMOUNT_REQUESTED,
-  INVALID_COLLATERAL_FACTOR,
-  MATH_ERROR,
-  MARKET_NOT_FRESH,
-  MARKET_NOT_LISTED,
-  TOKEN_INSUFFICIENT_ALLOWANCE,
-  TOKEN_INSUFFICIENT_BALANCE,
-  TOKEN_INSUFFICIENT_CASH,
-  TOKEN_TRANSFER_IN_FAILED,
-  TOKEN_TRANSFER_OUT_FAILED,
-  UTILIZATION_ABOVE_MAX,
 }
 
 const AmountSelect = ({
@@ -72,6 +53,8 @@ const AmountSelect = ({
   const { t } = useTranslation();
 
   const symbol = asset.symbol ? asset.symbol : "";
+
+  const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW; 
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -204,13 +187,23 @@ const AmountSelect = ({
             </DashboardBox>
           </Column>
 
-          <StatsColumn
-            symbol={symbol}
-            amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
-            color={"#FFF"}
-            asset={asset}
-            mode={mode}
-          />
+          {isBase ? (
+            <BaseStatsColumn
+              symbol={symbol}
+              amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
+              color={"#FFF"}
+              poolData={poolData}
+              mode={mode}
+            />
+            ) : (
+            <CollateralStatsColumn
+              symbol={symbol}
+              amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
+              color={"#FFF"}
+              poolData={poolData}
+              mode={mode}
+            />
+          )}
 
           <Button
             mt={4}
@@ -239,9 +232,6 @@ const AmountSelect = ({
             {depositOrWithdrawAlert ?? t("Confirm")}
           </Button>
         </Column>
-        {/* {userAction === UserAction.VIEWING_QUOTE ? ( */}
-        {/* <ApprovalNotch color={tokenData.color ?? "#FFF"} mode={mode} amount={amount!} /> */}
-        {/* ) : null} */}
       </>
     </Column>
   );
@@ -320,123 +310,204 @@ const TabBar = ({
   );
 };
 
-const StatsColumn = ({
+const CollateralStatsColumn = ({
   color,
   mode,
-  asset,
+  poolData,
   amount,
-  symbol, // enableAsCollateral,
+  symbol,
 }: {
   color: string;
   mode: Mode;
-  asset: BaseAsset | CollateralAsset;
+  poolData: PoolConfig;
   amount: number;
   symbol: string;
-  // enableAsCollateral: boolean;
 }) => {
   const { t } = useTranslation();
+  const { basePoolData } = useBasePoolData(poolData);
 
-  const isSupplyingOrWithdrawing =
-    mode === Mode.SUPPLY || mode === Mode.WITHDRAW;
-  return (
-    <DashboardBox width="100%" height="190px" mt={4}>
-      {/* {updatedAsset ? ( */}
-      <Column
-        mainAxisAlignment="space-between"
-        crossAxisAlignment="flex-start"
-        expand
-        py={3}
-        px={4}
-        fontSize="lg"
-      >
-        <Row
-          mainAxisAlignment="space-between"
-          crossAxisAlignment="center"
-          width="100%"
-          color={color}
-        >
-          <Text fontWeight="bold" flexShrink={0}>
-            {t("Supply Balance")}:
-          </Text>
-          <Text
-            fontWeight="bold"
-            flexShrink={0}
-            fontSize={isSupplyingOrWithdrawing ? "sm" : "lg"}
-          >
-            {smallUsdFormatter(100).replace("$", "")}
-            {isSupplyingOrWithdrawing ? (
-              <>
-                {" → "}
-                {smallUsdFormatter(10).replace("$", "")}
-              </>
-            ) : null}{" "}
-            {symbol}
-          </Text>
-        </Row>
+  const isAmountAndSupply = mode === Mode.BASE_SUPPLY && Boolean(amount);
+  const isAmountAndBorrow = mode === Mode.BASE_BORROW && Boolean(amount);
 
-        {/* Base Token only */}
-        {(asset as CollateralAsset).borrowCollateralFactor !== undefined && (
-          <Row
-            mainAxisAlignment="space-between"
-            crossAxisAlignment="center"
-            width="100%"
-          >
-            <Text fontWeight="bold" flexShrink={0}>
-              {isSupplyingOrWithdrawing ? t("Supply APY") : t("Borrow APY")}:
-            </Text>
-            <Text
-              fontWeight="bold"
-              // fontSize={updatedAPYDiffIsLarge ? "sm" : "lg"}
-              fontSize={"sm"}
-            >
-              100%
-            </Text>
-          </Row>
-        )}
+return (
+  <DashboardBox width="100%" height="190px" mt={4}>
+    <Column
+      mainAxisAlignment="space-between"
+      crossAxisAlignment="flex-start"
+      expand
+      py={3}
+      px={4}
+      fontSize="lg"
+    >
+      {basePoolData ? (
+        <>
+          <StatsRow
+            label={t("Supply Balance") + ":"}
+            value={smallUsdFormatter(basePoolData?.yourSupply).replace("$", "")}
+            secondaryValue={
+              isAmountAndSupply
+                ? smallUsdFormatter(basePoolData?.yourSupply + amount).replace("$", "")
+                : undefined
+            }
+            color={color}
+          />
 
-        <Row
-          mainAxisAlignment="space-between"
-          crossAxisAlignment="center"
-          width="100%"
-        >
-          <Text fontWeight="bold" flexShrink={0}>
-            {t("Available to Borrow")}:
-          </Text>
-          <Text
-            fontWeight="bold"
-            fontSize={isSupplyingOrWithdrawing ? "sm" : "lg"}
-          >
-            {smallUsdFormatter(100)}
-            {isSupplyingOrWithdrawing ? (
-              <>
-                {" → "} {smallUsdFormatter(100)}
-              </>
-            ) : null}{" "}
-          </Text>
-        </Row>
+          <StatsRow
+            label={t("Available to Borrow") + ":"}
+            value={smallUsdFormatter(basePoolData.availableToBorrow)}
+            secondaryValue={
+              isAmountAndBorrow
+                ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                : undefined
+            }
+          />
 
-        <Row
-          mainAxisAlignment="space-between"
-          crossAxisAlignment="center"
-          width="100%"
-        >
-          <Text fontWeight="bold">{t("Borrow Balance")}:</Text>
-          <Text
-            fontWeight="bold"
-            fontSize={!isSupplyingOrWithdrawing ? "sm" : "lg"}
-          >
-            {smallUsdFormatter(100)}
-          </Text>
-        </Row>
-      </Column>
-      {/* ) : (
-        <Center expand>
+          <StatsRow
+            label={t("Borrow Balance") + ":"}
+            value={smallUsdFormatter(basePoolData.availableToBorrow)}
+            secondaryValue={
+              isAmountAndBorrow
+                ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                : undefined
+            }
+          />
+        </>
+      ) : (
+        <Center height="50px">
           <Spinner />
         </Center>
-      )} */}
-    </DashboardBox>
-  );
+      )}
+    </Column>
+  </DashboardBox>
+);
+
 };
+
+const BaseStatsColumn = ({
+  color,
+  mode,
+  poolData,
+  amount,
+  symbol,
+}: {
+  color: string;
+  mode: Mode;
+  poolData: PoolConfig;
+  amount: number;
+  symbol: string;
+}) => {
+  const { t } = useTranslation();
+  const { basePoolData } = useBasePoolData(poolData);
+
+  const isAmountAndSupply = mode === Mode.BASE_SUPPLY && Boolean(amount);
+  const isAmountAndBorrow = mode === Mode.BASE_BORROW && Boolean(amount);
+
+return (
+  <DashboardBox width="100%" height="190px" mt={4}>
+    <Column
+      mainAxisAlignment="space-between"
+      crossAxisAlignment="flex-start"
+      expand
+      py={3}
+      px={4}
+      fontSize="lg"
+    >
+      {basePoolData ? (
+        <>
+          <StatsRow
+            label={t("Supply Balance") + ":"}
+            value={smallUsdFormatter(basePoolData?.yourSupply).replace("$", "")}
+            secondaryValue={
+              isAmountAndSupply
+                ? smallUsdFormatter(basePoolData?.yourSupply + amount).replace("$", "")
+                : undefined
+            }
+            color={color}
+          />
+
+          <StatsRow
+            label={
+              mode === Mode.BASE_SUPPLY
+                ? t("Supply APY")
+                : mode === Mode.BASE_BORROW
+                ? t("Borrow APY")
+                : ""
+            }
+            value={
+              mode === Mode.BASE_SUPPLY
+                ? `${basePoolData.supplyAPR} %`
+                : mode === Mode.BASE_BORROW
+                ? `${basePoolData.borrowAPR} %`
+                : ""
+            }
+            fontSize="lg"
+          />
+
+          <StatsRow
+            label={t("Available to Borrow") + ":"}
+            value={smallUsdFormatter(basePoolData.availableToBorrow)}
+            secondaryValue={
+              isAmountAndBorrow
+                ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                : undefined
+            }
+          />
+
+          <StatsRow
+            label={t("Borrow Balance") + ":"}
+            value={smallUsdFormatter(basePoolData.availableToBorrow)}
+            secondaryValue={
+              isAmountAndBorrow
+                ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                : undefined
+            }
+          />
+        </>
+      ) : (
+        <Center height="50px">
+          <Spinner />
+        </Center>
+      )}
+    </Column>
+  </DashboardBox>
+);
+
+};
+
+const StatsRow = ({
+  label,
+  value,
+  secondaryValue,
+  color,
+  fontSize = "lg",
+}: {
+  label: string;
+  value: string | number;
+  secondaryValue?: string | number;
+  color?: string;
+  fontSize?: string;
+}) => (
+  <Row
+    mainAxisAlignment="space-between"
+    crossAxisAlignment="center"
+    width="100%"
+    color={color}
+  >
+    <Text fontWeight="bold" flexShrink={0}>
+      {label}
+    </Text>
+    <Text fontWeight="bold" flexShrink={0} fontSize={fontSize}>
+      {value}
+      {secondaryValue && (
+        <>
+          {" → "}
+          {secondaryValue}
+        </>
+      )}
+    </Text>
+  </Row>
+);
+
 
 const TokenNameAndMaxButton = ({
   updateAmount,
@@ -452,6 +523,22 @@ const TokenNameAndMaxButton = ({
   const [isMaxLoading, setIsMaxLoading] = useState(false);
 
   const { t } = useTranslation();
+
+
+  const setToMax = async () => {
+    setIsMaxLoading(true);
+
+    try {
+
+        updateAmount("100");
+      
+
+      setIsMaxLoading(false);
+    } catch (e) {
+      console.log(e);
+      // handleGenericError(e, toast);
+    }
+  };
 
   return (
     <Row
@@ -488,7 +575,7 @@ const TokenNameAndMaxButton = ({
         color={"#FFF"}
         _hover={{}}
         _active={{}}
-        onClick={() => alert("MAX")}
+        onClick={setToMax}
         isLoading={isMaxLoading}
       >
         {t("MAX")}
@@ -523,50 +610,5 @@ const AmountInput = ({
       mr={4}
       disabled={disabled}
     />
-  );
-};
-
-const ApprovalNotch = ({
-  color,
-  mode,
-  amount,
-}: {
-  amount: BigNumber;
-  mode: Mode;
-  color: string;
-}) => {
-  const { t } = useTranslation();
-
-  return (
-    <AttentionSeeker effect="headShake" triggerOnce>
-      <Box
-        borderRadius="0 0 10px 10px"
-        borderWidth="0 1px 1px 1px"
-        borderColor="#272727"
-        bg="#121212"
-        width={{ md: "auto", base: "90%" }}
-        height={{ md: "30px", base: "60px" }}
-        color={color}
-        position="absolute"
-        mx="auto"
-        px={4}
-        left="50%"
-        transform="translateX(-50%)"
-        bottom={{ md: "-30px", base: "-60px" }}
-        whiteSpace={{ md: "nowrap", base: "inherit" }}
-      >
-        <Center expand>
-          <Text fontSize="xs" pb="5px" textAlign="center" className="blinking">
-            {mode === Mode.SUPPLY
-              ? t("You will deposit {{amount}}. Click confirm to approve.", {
-                  amount: amount,
-                })
-              : t("You will withdraw {{amount}}. Click confirm to approve.", {
-                  amount: amount,
-                })}
-          </Text>
-        </Center>
-      </Box>
-    </AttentionSeeker>
   );
 };

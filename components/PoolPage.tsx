@@ -30,7 +30,7 @@ const PoolPage = memo(() => {
         <Header />
         {/* <TabBar /> */}
         <StatsBar poolData={poolData} />
-        <CollateralRatioBar />
+        <CollateralRatioBar poolData={poolData} />
 
         <DashboardBox mt={4} width={"100%"}>
           {poolData ? (
