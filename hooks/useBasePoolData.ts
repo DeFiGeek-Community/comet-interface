@@ -18,8 +18,24 @@ const useBasePoolData = ( poolData: PoolConfig | undefined) => {
 
     const fetchBasePoolData = async () => {
       try {
-        // ここでデータを取得するロジックを書く
+        // const SECONDS_PER_YEAR = 60*60*365;
+        // const rewardPrice = getRewardPrice();
+        // const basePrice = getBasePrice();
+        
+        // const supplyTotalAmount = getSupplyTotalAmount();
+        // const supplyIndividualAmount = getSupplyIndividualAmount();
+        // const supplyRewardAmount = getRewardSupplyAmount() * SECONDS_PER_YEAR;
+        // const supplyRewardIndivisualAmount = getRewardSupplyAmount() * supplyIndividualAmount / supplyTotalAmount;
+        // const supplyAPR = supplyRewardIndivisualAmount * rewardPrice / (supplyIndividualAmount*basePrice) * 100;
 
+        // const borrowTotalAmount = getBorrowTotalAmount();
+        // const borrowIndividualAmount = getBorrowIndividualAmount();
+        // const borrowRewardAmount = getRewardBorrowAmount() * SECONDS_PER_YEAR;
+        // const borrowRewardIndivisualAmount = getRewardBorrowAmount() * borrowIndividualAmount / borrowTotalAmount;
+        // const borrowAPR = borrowRewardIndivisualAmount * rewardPrice / (borrowIndividualAmount*basePrice) * 100;
+
+        // const availableToBorrow = getAvailableToBorrow();
+        
         // ダミーデータを使用
         fetchedData = {
           supplyAPR: 5.0,
