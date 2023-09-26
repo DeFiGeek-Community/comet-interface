@@ -127,7 +127,7 @@ const CollateralAssetRow = ({
           )}
         </Column>
 
-        {/* APY */}
+        {/* APR */}
         {isMobile ? null : (
           <>
             <Column

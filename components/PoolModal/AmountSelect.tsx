@@ -437,9 +437,9 @@ const BaseStatsColumn = ({
             <StatsRow
               label={
                 mode === Mode.BASE_SUPPLY
-                  ? t("Supply APY")
+                  ? t("Supply APR")
                   : mode === Mode.BASE_BORROW
-                  ? t("Borrow APY")
+                  ? t("Borrow APR")
                   : ""
               }
               value={

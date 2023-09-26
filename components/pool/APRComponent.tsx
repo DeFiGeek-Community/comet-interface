@@ -5,7 +5,7 @@ import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { CTokenIcon } from "components/shared/CTokenIcon";
 import { RewardAsset } from "interfaces/pool";
 
-const APYComponent = ({
+const APRComponent = ({
   rewardToken,
   baseAPR,
   tokenReward,
@@ -75,4 +75,4 @@ const APYComponent = ({
   );
 };
 
-export default APYComponent;
+export default APRComponent;

@@ -6,7 +6,7 @@ import { smallUsdFormatter } from "utils/bigUtils";
 import useBasePoolData from "hooks/pool/indivisual/useBaseAsset";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import PoolModal, { Mode } from "components/PoolModal";
-import APYComponent from "components/pool/APYComponent";
+import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
 
 const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
@@ -80,8 +80,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
             </Text>
           </Row>
 
-          {/* APY */}
-          <APYComponent
+          {/* APR */}
+          <APRComponent
             rewardToken={poolData.rewardToken}
             baseAPR={basePoolData?.supplyAPR}
             tokenReward={tokenRewardData?.supplyRewardAPR}
@@ -125,8 +125,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
           as="button"
           onClick={() => authedOpenModal(Mode.BASE_BORROW)}
         >
-          {/* APY */}
-          <APYComponent
+          {/* APR */}
+          <APRComponent
             rewardToken={poolData.rewardToken}
             baseAPR={basePoolData?.borrowAPR}
             tokenReward={tokenRewardData?.borrowRewardAPR}
