@@ -1,30 +1,30 @@
 import { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
 
-type TotalPoolData = {
-  totalBaseSupplyBalance: any;
-  totalBaseBorrowBalance: any;
-  totalCollateralBalance: any;
-  availableLiquidity: any;
-};
+interface PriceFeedData {
+  usdjpy: number;
+  baseAsset: number;
+  collateralAssets: number[];
+  rewardAsset: number;
+}
 
-const usePoolMetrics = (poolData?: PoolConfig) => {
+const usePriceFeedData = ( poolData: PoolConfig | undefined) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
-  const poolMetrics = useMemo<TotalPoolData | undefined>(() => {
-    let fetchedData: TotalPoolData | undefined;
+  const priceFeedData = useMemo<PriceFeedData | undefined>(() => {
+    let fetchedData: PriceFeedData | undefined;
 
-    const fetchPoolData = async () => {
+    const fetchPriceFeedData = async () => {
       try {
         // ここでデータを取得するロジックを書く
 
         // ダミーデータを使用
         fetchedData = {
-          totalBaseSupplyBalance: 10000,
-          totalBaseBorrowBalance: 500,
-          totalCollateralBalance: 7500,
-          availableLiquidity: 2500,
+          usdjpy: 140,
+          baseAsset: 0.01,
+          collateralAssets: [0.04, 2000],
+          rewardAsset: 1,
         };
       } catch (err) {
         if (err instanceof Error) {
@@ -35,7 +35,7 @@ const usePoolMetrics = (poolData?: PoolConfig) => {
       }
     };
 
-    fetchPoolData();
+    fetchPriceFeedData();
 
     return fetchedData;
   }, [poolData, reloadKey]);
@@ -44,7 +44,7 @@ const usePoolMetrics = (poolData?: PoolConfig) => {
     setReloadKey((prevKey) => prevKey + 1);
   };
 
-  return { poolMetrics, error, reload };
+  return { priceFeedData, error, reload };
 };
 
-export default usePoolMetrics;
+export default usePriceFeedData;

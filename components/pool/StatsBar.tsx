@@ -5,7 +5,7 @@ import { CheckCircleIcon } from "@chakra-ui/icons";
 import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
-import usePoolMetrics from "hooks/usePoolMetrics";
+import usePoolMetrics from "hooks/pool/shared/usePoolMetrics";
 import CaptionedStat from "components/shared/CaptionedStat";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";

@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { Spinner } from "@chakra-ui/react";
 import { Column, Center, useIsMobile } from "utils/chakraUtils";
-import usePoolData from "hooks/usePoolData";
+import usePoolData from "hooks/pool/shared/usePoolConfig";
 import { useChainPool } from "hooks/useChainPool";
 import StatsBar from "components/pool/StatsBar";
 import CollateralRatioBar from "components/pool/CollateralRatioBar";

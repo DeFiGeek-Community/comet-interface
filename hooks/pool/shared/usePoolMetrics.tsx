@@ -1,29 +1,30 @@
 import { useState, useMemo } from "react";
-import { useAccount } from 'wagmi';
 import { PoolConfig } from "interfaces/pool";
 
-interface TokenRewardData {
-  supplyRewardAPR: number;
-  borrowRewardAPR: number;
-}
+type TotalPoolData = {
+  totalBaseSupplyBalance: number;
+  totalBaseBorrowBalance: number;
+  totalCollateralBalance: number;
+  availableLiquidity: number;
+};
 
-const useTokenRewardData = ( poolData: PoolConfig) => {
+const usePoolMetrics = (poolData?: PoolConfig) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const poolMetrics = useMemo<TotalPoolData | undefined>(() => {
+    let fetchedData: TotalPoolData | undefined;
 
-  const tokenRewardData = useMemo<TokenRewardData | undefined>(() => {
-    let fetchedData: TokenRewardData | undefined;
-
-    const fetchTokenRewardData = async () => {
+    const fetchPoolMetricsData = async () => {
       try {
         // ここでデータを取得するロジックを書く
 
         // ダミーデータを使用
         fetchedData = {
-          supplyRewardAPR: 15,
-          borrowRewardAPR: 10,
+          totalBaseSupplyBalance: 10000,
+          totalBaseBorrowBalance: 500,
+          totalCollateralBalance: 7500,
+          availableLiquidity: 2500,
         };
       } catch (err) {
         if (err instanceof Error) {
@@ -34,7 +35,7 @@ const useTokenRewardData = ( poolData: PoolConfig) => {
       }
     };
 
-    fetchTokenRewardData();
+    fetchPoolMetricsData();
 
     return fetchedData;
   }, [poolData, reloadKey]);
@@ -43,7 +44,7 @@ const useTokenRewardData = ( poolData: PoolConfig) => {
     setReloadKey((prevKey) => prevKey + 1);
   };
 
-  return { tokenRewardData, error, reload };
+  return { poolMetrics, error, reload };
 };
 
-export default useTokenRewardData;
+export default usePoolMetrics;

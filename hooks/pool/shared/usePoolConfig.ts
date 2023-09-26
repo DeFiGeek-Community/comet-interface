@@ -3,7 +3,7 @@ import { POOL_CONFIG_MAP } from 'constants/pools';
 import { useChainPool } from 'hooks/useChainPool';
 import { PoolConfig } from 'interfaces/pool';
 
-const usePoolData = () => {
+const usePoolConfig = () => {
   const { chainId, poolName } = useChainPool();
   const [poolConfig, setPoolConfig] = useState<PoolConfig>();
 
@@ -19,4 +19,4 @@ const usePoolData = () => {
   return poolConfig;
 };
 
-export default usePoolData;
+export default usePoolConfig;

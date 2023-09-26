@@ -17,7 +17,7 @@ import { HashLoader } from "react-spinners";
 import { AttentionSeeker } from "react-awesome-reveal";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { Row, Column, useIsMobile, Center } from "utils/chakraUtils";
-import useBasePoolData from "hooks/useBasePoolData";
+import useBasePoolData from "hooks/pool/indivisual/useBaseAsset";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 import { Mode } from "components/PoolModal";
