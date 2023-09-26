@@ -9,11 +9,7 @@ import PoolModal, { Mode } from "components/PoolModal";
 import APYComponent from "components/pool/APYComponent";
 import { PoolConfig } from "interfaces/pool";
 
-const BaseAssetRow = ({
-  poolData,
-}: {
-  poolData: PoolConfig;
-}) => {
+const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const {
     isOpen: isModalOpen,
     onOpen: openModal,
@@ -27,7 +23,7 @@ const BaseAssetRow = ({
 
   const [mode, setMode] = useState(Mode.BASE_SUPPLY);
 
-  const tokenData = poolData.baseToken
+  const tokenData = poolData.baseToken;
   const symbol = tokenData?.symbol ? tokenData?.symbol : "";
 
   const { basePoolData } = useBasePoolData(poolData);
@@ -105,7 +101,11 @@ const BaseAssetRow = ({
                   </Text>
 
                   <Text fontSize="sm">
-                    {smallUsdFormatter(basePoolData.yourSupply).replace("$", "")} {symbol}
+                    {smallUsdFormatter(basePoolData.yourSupply).replace(
+                      "$",
+                      "",
+                    )}{" "}
+                    {symbol}
                   </Text>
                 </>
               ) : (
@@ -147,7 +147,11 @@ const BaseAssetRow = ({
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallUsdFormatter(basePoolData.yourBorrow).replace("$", "")} {symbol}
+                      {smallUsdFormatter(basePoolData.yourBorrow).replace(
+                        "$",
+                        "",
+                      )}{" "}
+                      {symbol}
                     </Text>
                   </>
                 ) : (
@@ -168,7 +172,10 @@ const BaseAssetRow = ({
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallUsdFormatter(basePoolData.availableToBorrow).replace("$", "")} {symbol}
+                      {smallUsdFormatter(
+                        basePoolData.availableToBorrow,
+                      ).replace("$", "")}{" "}
+                      {symbol}
                     </Text>
                   </>
                 ) : (

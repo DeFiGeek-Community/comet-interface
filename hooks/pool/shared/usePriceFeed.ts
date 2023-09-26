@@ -8,7 +8,7 @@ interface PriceFeedData {
   rewardAsset: number;
 }
 
-const usePriceFeedData = ( poolData: PoolConfig | undefined) => {
+const usePriceFeedData = (poolData: PoolConfig | undefined) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 

@@ -3,15 +3,15 @@ import { useNetwork } from "wagmi";
 import { HashLoader } from "react-spinners";
 import { Center } from "utils/chakraUtils";
 import PoolPage from "components/PoolPage";
-import { PoolContext } from 'context/PoolContext';
+import { PoolContext } from "context/PoolContext";
 
 const Pool = () => {
   const { chain } = useNetwork();
   const [chainId, setChainId] = useState<number>(1);
-  const [poolName, setPoolName] = useState<string>('CJPY');
+  const [poolName, setPoolName] = useState<string>("CJPY");
 
   useEffect(() => {
-    if(chain){
+    if (chain) {
       setChainId(chain.id);
     }
   }, [chain]);
@@ -23,7 +23,9 @@ const Pool = () => {
   }, []);
 
   return (
-    <PoolContext.Provider value={{ chainId, poolName, setChainId, setPoolName }}>
+    <PoolContext.Provider
+      value={{ chainId, poolName, setChainId, setPoolName }}
+    >
       {isRendered ? (
         <PoolPage />
       ) : (

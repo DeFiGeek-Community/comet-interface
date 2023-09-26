@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useAccount } from 'wagmi';
+import { useAccount } from "wagmi";
 import { PoolConfig } from "interfaces/pool";
 import usePriceFeedData from "./usePriceFeed";
 
@@ -8,24 +8,23 @@ interface TokenRewardData {
   borrowRewardAPR: number;
 }
 
-const useTokenRewardData = ( poolData: PoolConfig) => {
+const useTokenRewardData = (poolData: PoolConfig) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
   const { address, isConnecting, isDisconnected } = useAccount();
+  const { priceFeedData } = usePriceFeedData(poolData);
 
   const tokenRewardData = useMemo<TokenRewardData | undefined>(() => {
     let fetchedData: TokenRewardData | undefined;
 
     const fetchTokenRewardData = async () => {
       try {
-        const { priceFeedData } = usePriceFeedData(poolData);
-
         // ここでデータを取得するロジックを書く
         // const SECONDS_PER_YEAR = 60*60*365;
         // const rewardPrice = getRewardPrice();
         // const basePrice = getBasePrice();
-        
+
         // const supplyTotalAmount = getSupplyTotalAmount();
         // const supplyIndividualAmount = getSupplyIndividualAmount();
         // const supplyRewardAmount = getRewardSupplyAmount() * SECONDS_PER_YEAR;

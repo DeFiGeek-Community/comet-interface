@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext } from "react";
 
 interface PoolContextType {
   chainId: number;
@@ -7,4 +7,6 @@ interface PoolContextType {
   setPoolName: (poolName: string) => void;
 }
 
-export const PoolContext = createContext<PoolContextType | undefined>(undefined);
+export const PoolContext = createContext<PoolContextType | undefined>(
+  undefined,
+);

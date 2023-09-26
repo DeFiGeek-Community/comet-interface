@@ -6,11 +6,7 @@ import CollateralAssetRow from "components/pool/CollateralAssetRow";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 
-const CollateralList = ({
-  poolData,
-}: {
-  poolData: PoolConfig;
-}) => {
+const CollateralList = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
 
   const collateralList = poolData.assetConfigs;
@@ -70,11 +66,7 @@ const CollateralList = ({
       >
         {collateralList.map((asset, index) => {
           return (
-            <CollateralAssetRow
-              poolData={poolData}
-              index={index}
-              key={index}
-            />
+            <CollateralAssetRow poolData={poolData} index={index} key={index} />
           );
         })}
       </Column>

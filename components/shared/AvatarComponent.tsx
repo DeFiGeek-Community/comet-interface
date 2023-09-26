@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 import { AvatarComponent } from "@rainbow-me/rainbowkit";
 
 export const CustomAvatar: AvatarComponent = ({ ensImage, size }) => {

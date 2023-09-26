@@ -47,7 +47,7 @@ const DepositModal = ({
           mode={mode}
           setMode={setMode}
           poolData={poolData}
-          asset={asset} 
+          asset={asset}
           onClose={onClose}
         />
       </ModalContent>

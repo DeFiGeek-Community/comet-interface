@@ -9,7 +9,7 @@ import { PoolConfig } from "interfaces/pool";
 
 const CollateralAssetRow = ({
   poolData,
-  index
+  index,
 }: {
   poolData: PoolConfig;
   index: number;
@@ -27,7 +27,10 @@ const CollateralAssetRow = ({
 
   const isMobile = useIsMobile();
 
-  const { collateralPoolData, error, reload } = useCollateralPoolData(poolData, index);
+  const { collateralPoolData, error, reload } = useCollateralPoolData(
+    poolData,
+    index,
+  );
 
   const { t } = useTranslation();
 
@@ -84,7 +87,11 @@ const CollateralAssetRow = ({
               </Text>
 
               <Text fontSize="sm">
-                {smallUsdFormatter(collateralPoolData.yourSupply).replace("$", "")} {symbol}
+                {smallUsdFormatter(collateralPoolData.yourSupply).replace(
+                  "$",
+                  "",
+                )}{" "}
+                {symbol}
               </Text>
             </>
           ) : (
@@ -102,13 +109,15 @@ const CollateralAssetRow = ({
           {collateralPoolData ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdFormatter(
-                  collateralPoolData.collateralValue
-                )}
+                {smallUsdFormatter(collateralPoolData.collateralValue)}
               </Text>
 
               <Text fontSize="sm">
-                {smallUsdFormatter(collateralPoolData.collateralValue).replace("$", "")}{" "}{symbol}
+                {smallUsdFormatter(collateralPoolData.collateralValue).replace(
+                  "$",
+                  "",
+                )}{" "}
+                {symbol}
               </Text>
             </>
           ) : (
@@ -150,7 +159,9 @@ const CollateralAssetRow = ({
             >
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {asset?.liquidateCollateralFactor - asset?.borrowCollateralFactor} {"%"}
+                  {asset?.liquidateCollateralFactor -
+                    asset?.borrowCollateralFactor}{" "}
+                  {"%"}
                 </Text>
               </Row>
             </Column>

@@ -5,7 +5,6 @@ import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { CTokenIcon } from "components/shared/CTokenIcon";
 import { RewardAsset } from "interfaces/pool";
 
-
 const APYComponent = ({
   rewardToken,
   baseAPR,
@@ -41,7 +40,11 @@ const APYComponent = ({
           </Center>
         )}
         {tokenReward ? (
-          <Row crossAxisAlignment="center" mainAxisAlignment="flex-start" pt={1}>
+          <Row
+            crossAxisAlignment="center"
+            mainAxisAlignment="flex-start"
+            pt={1}
+          >
             <Text fontWeight="bold">+</Text>
             <AvatarGroup size="xs" max={30} ml={2} mr={1} spacing={1}>
               <SimpleTooltip label={rewardToken.name ?? ""}>

@@ -9,7 +9,7 @@ import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
 
-const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig; }) => {
+const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
   const { basePoolData } = useBasePoolData(poolData);
   const { positionSummary } = usePositionSummary(poolData);
@@ -34,7 +34,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig; }) => {
             </SimpleTooltip>
 
             <SimpleTooltip
-              label={`You're using ${positionSummary.LiquidationPercentage}% of your ${smallUsdFormatter(
+              label={`You're using ${
+                positionSummary.LiquidationPercentage
+              }% of your ${smallUsdFormatter(
                 positionSummary.LiquidationPoint,
               )} Liquidation limit.`}
             >

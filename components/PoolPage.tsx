@@ -34,9 +34,7 @@ const PoolPage = memo(() => {
 
         <DashboardBox mt={4} width={"100%"}>
           {poolData ? (
-            <BaseList
-            poolData={poolData}
-            />
+            <BaseList poolData={poolData} />
           ) : (
             <Center height="200px">
               <Spinner />
@@ -46,9 +44,7 @@ const PoolPage = memo(() => {
 
         <DashboardBox ml={0} mt={4} width={"100%"}>
           {poolData ? (
-            <CollateralList
-            poolData={poolData}
-            />
+            <CollateralList poolData={poolData} />
           ) : (
             <Center height="200px">
               <Spinner />

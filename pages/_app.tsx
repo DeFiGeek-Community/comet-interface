@@ -43,7 +43,6 @@ const wagmiConfig = createConfig({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-
   const [isRendered, setIsRendered] = useState(false);
 
   useEffect(() => {

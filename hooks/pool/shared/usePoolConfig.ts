@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { POOL_CONFIG_MAP } from 'constants/pools';
-import { useChainPool } from 'hooks/useChainPool';
-import { PoolConfig } from 'interfaces/pool';
+import { useState, useEffect } from "react";
+import { POOL_CONFIG_MAP } from "constants/pools";
+import { useChainPool } from "hooks/useChainPool";
+import { PoolConfig } from "interfaces/pool";
 
 const usePoolConfig = () => {
   const { chainId, poolName } = useChainPool();

@@ -8,7 +8,7 @@ interface PositionSummary {
   LiquidationPercentage: number;
 }
 
-const usePositionSummary = ( poolData: PoolConfig | undefined) => {
+const usePositionSummary = (poolData: PoolConfig | undefined) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 

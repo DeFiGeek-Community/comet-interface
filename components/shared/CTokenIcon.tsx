@@ -13,7 +13,6 @@ const CTokenIconComponent = forwardRef(
     },
     ref: any, // ref を引数として追加
   ) => {
-
     return (
       <Avatar
         {...avatarProps}

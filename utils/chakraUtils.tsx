@@ -26,7 +26,6 @@ export type CrossAxisAlignment =
       base: CrossAxisAlignmentStrings;
     };
 
-
 /**************************************
  *
  *
@@ -148,7 +147,6 @@ export const Row = ({
   );
 };
 
-
 /**
  * RowOrColumn.tsx
  *
@@ -236,7 +234,6 @@ export const useWindowSize = (): WindowSize => {
   return windowSize;
 };
 
-
 /**
  * useIsMobile.ts
  *
@@ -247,4 +244,3 @@ export function useIsMobile() {
 
   return width ? width < 768 : 0;
 }
-

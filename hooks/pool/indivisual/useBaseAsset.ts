@@ -9,7 +9,7 @@ interface BasePoolData {
   availableToBorrow: number;
 }
 
-const useBasePoolData = ( poolData: PoolConfig | undefined) => {
+const useBasePoolData = (poolData: PoolConfig | undefined) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
@@ -19,7 +19,7 @@ const useBasePoolData = ( poolData: PoolConfig | undefined) => {
     const fetchBasePoolData = async () => {
       try {
         // const availableToBorrow = getAvailableToBorrow();
-        
+
         // ダミーデータを使用
         fetchedData = {
           supplyAPR: 5.0,

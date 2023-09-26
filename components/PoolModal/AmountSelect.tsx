@@ -54,7 +54,7 @@ const AmountSelect = ({
 
   const symbol = asset.symbol ? asset.symbol : "";
 
-  const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW; 
+  const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -195,7 +195,7 @@ const AmountSelect = ({
               poolData={poolData}
               mode={mode}
             />
-            ) : (
+          ) : (
             <CollateralStatsColumn
               symbol={symbol}
               amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
@@ -329,58 +329,62 @@ const CollateralStatsColumn = ({
   const isAmountAndSupply = mode === Mode.BASE_SUPPLY && Boolean(amount);
   const isAmountAndBorrow = mode === Mode.BASE_BORROW && Boolean(amount);
 
-return (
-  <DashboardBox width="100%" height="190px" mt={4}>
-    <Column
-      mainAxisAlignment="space-between"
-      crossAxisAlignment="flex-start"
-      expand
-      py={3}
-      px={4}
-      fontSize="lg"
-    >
-      {basePoolData ? (
-        <>
-          <StatsRow
-            label={t("Supply Balance") + ":"}
-            value={smallUsdFormatter(basePoolData?.yourSupply).replace("$", "")}
-            secondaryValue={
-              isAmountAndSupply
-                ? smallUsdFormatter(basePoolData?.yourSupply + amount).replace("$", "")
-                : undefined
-            }
-            color={color}
-          />
+  return (
+    <DashboardBox width="100%" height="190px" mt={4}>
+      <Column
+        mainAxisAlignment="space-between"
+        crossAxisAlignment="flex-start"
+        expand
+        py={3}
+        px={4}
+        fontSize="lg"
+      >
+        {basePoolData ? (
+          <>
+            <StatsRow
+              label={t("Supply Balance") + ":"}
+              value={smallUsdFormatter(basePoolData?.yourSupply).replace(
+                "$",
+                "",
+              )}
+              secondaryValue={
+                isAmountAndSupply
+                  ? smallUsdFormatter(
+                      basePoolData?.yourSupply + amount,
+                    ).replace("$", "")
+                  : undefined
+              }
+              color={color}
+            />
 
-          <StatsRow
-            label={t("Available to Borrow") + ":"}
-            value={smallUsdFormatter(basePoolData.availableToBorrow)}
-            secondaryValue={
-              isAmountAndBorrow
-                ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
-                : undefined
-            }
-          />
+            <StatsRow
+              label={t("Available to Borrow") + ":"}
+              value={smallUsdFormatter(basePoolData.availableToBorrow)}
+              secondaryValue={
+                isAmountAndBorrow
+                  ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                  : undefined
+              }
+            />
 
-          <StatsRow
-            label={t("Borrow Balance") + ":"}
-            value={smallUsdFormatter(basePoolData.availableToBorrow)}
-            secondaryValue={
-              isAmountAndBorrow
-                ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
-                : undefined
-            }
-          />
-        </>
-      ) : (
-        <Center height="50px">
-          <Spinner />
-        </Center>
-      )}
-    </Column>
-  </DashboardBox>
-);
-
+            <StatsRow
+              label={t("Borrow Balance") + ":"}
+              value={smallUsdFormatter(basePoolData.availableToBorrow)}
+              secondaryValue={
+                isAmountAndBorrow
+                  ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                  : undefined
+              }
+            />
+          </>
+        ) : (
+          <Center height="50px">
+            <Spinner />
+          </Center>
+        )}
+      </Column>
+    </DashboardBox>
+  );
 };
 
 const BaseStatsColumn = ({
@@ -402,76 +406,80 @@ const BaseStatsColumn = ({
   const isAmountAndSupply = mode === Mode.BASE_SUPPLY && Boolean(amount);
   const isAmountAndBorrow = mode === Mode.BASE_BORROW && Boolean(amount);
 
-return (
-  <DashboardBox width="100%" height="190px" mt={4}>
-    <Column
-      mainAxisAlignment="space-between"
-      crossAxisAlignment="flex-start"
-      expand
-      py={3}
-      px={4}
-      fontSize="lg"
-    >
-      {basePoolData ? (
-        <>
-          <StatsRow
-            label={t("Supply Balance") + ":"}
-            value={smallUsdFormatter(basePoolData?.yourSupply).replace("$", "")}
-            secondaryValue={
-              isAmountAndSupply
-                ? smallUsdFormatter(basePoolData?.yourSupply + amount).replace("$", "")
-                : undefined
-            }
-            color={color}
-          />
+  return (
+    <DashboardBox width="100%" height="190px" mt={4}>
+      <Column
+        mainAxisAlignment="space-between"
+        crossAxisAlignment="flex-start"
+        expand
+        py={3}
+        px={4}
+        fontSize="lg"
+      >
+        {basePoolData ? (
+          <>
+            <StatsRow
+              label={t("Supply Balance") + ":"}
+              value={smallUsdFormatter(basePoolData?.yourSupply).replace(
+                "$",
+                "",
+              )}
+              secondaryValue={
+                isAmountAndSupply
+                  ? smallUsdFormatter(
+                      basePoolData?.yourSupply + amount,
+                    ).replace("$", "")
+                  : undefined
+              }
+              color={color}
+            />
 
-          <StatsRow
-            label={
-              mode === Mode.BASE_SUPPLY
-                ? t("Supply APY")
-                : mode === Mode.BASE_BORROW
-                ? t("Borrow APY")
-                : ""
-            }
-            value={
-              mode === Mode.BASE_SUPPLY
-                ? `${basePoolData.supplyAPR} %`
-                : mode === Mode.BASE_BORROW
-                ? `${basePoolData.borrowAPR} %`
-                : ""
-            }
-            fontSize="lg"
-          />
+            <StatsRow
+              label={
+                mode === Mode.BASE_SUPPLY
+                  ? t("Supply APY")
+                  : mode === Mode.BASE_BORROW
+                  ? t("Borrow APY")
+                  : ""
+              }
+              value={
+                mode === Mode.BASE_SUPPLY
+                  ? `${basePoolData.supplyAPR} %`
+                  : mode === Mode.BASE_BORROW
+                  ? `${basePoolData.borrowAPR} %`
+                  : ""
+              }
+              fontSize="lg"
+            />
 
-          <StatsRow
-            label={t("Available to Borrow") + ":"}
-            value={smallUsdFormatter(basePoolData.availableToBorrow)}
-            secondaryValue={
-              isAmountAndBorrow
-                ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
-                : undefined
-            }
-          />
+            <StatsRow
+              label={t("Available to Borrow") + ":"}
+              value={smallUsdFormatter(basePoolData.availableToBorrow)}
+              secondaryValue={
+                isAmountAndBorrow
+                  ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                  : undefined
+              }
+            />
 
-          <StatsRow
-            label={t("Borrow Balance") + ":"}
-            value={smallUsdFormatter(basePoolData.availableToBorrow)}
-            secondaryValue={
-              isAmountAndBorrow
-                ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
-                : undefined
-            }
-          />
-        </>
-      ) : (
-        <Center height="50px">
-          <Spinner />
-        </Center>
-      )}
-    </Column>
-  </DashboardBox>
-);
-
+            <StatsRow
+              label={t("Borrow Balance") + ":"}
+              value={smallUsdFormatter(basePoolData.availableToBorrow)}
+              secondaryValue={
+                isAmountAndBorrow
+                  ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                  : undefined
+              }
+            />
+          </>
+        ) : (
+          <Center height="50px">
+            <Spinner />
+          </Center>
+        )}
+      </Column>
+    </DashboardBox>
+  );
 };
 
 const StatsRow = ({
@@ -508,7 +516,6 @@ const StatsRow = ({
   </Row>
 );
 
-
 const TokenNameAndMaxButton = ({
   updateAmount,
   logoURL,
@@ -524,14 +531,11 @@ const TokenNameAndMaxButton = ({
 
   const { t } = useTranslation();
 
-
   const setToMax = async () => {
     setIsMaxLoading(true);
 
     try {
-
-        updateAmount("100");
-      
+      updateAmount("100");
 
       setIsMaxLoading(false);
     } catch (e) {

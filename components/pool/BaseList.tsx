@@ -6,11 +6,7 @@ import BaseAssetRow from "components/pool/BaseAssetRow";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 
-const BaseList = ({
-  poolData
-}: {
-  poolData: PoolConfig;
-}) => {
+const BaseList = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
 
   const isMobile = useIsMobile();
@@ -78,9 +74,7 @@ const BaseList = ({
         expand
         mt={1}
       >
-        <BaseAssetRow
-          poolData={poolData}
-        />
+        <BaseAssetRow poolData={poolData} />
       </Column>
     </Column>
   );
