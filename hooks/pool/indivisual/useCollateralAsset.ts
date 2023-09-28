@@ -1,13 +1,13 @@
 import { useState, useMemo } from "react";
 import { useAccount } from "wagmi";
-import { PoolConfig } from "interfaces/pool";
+import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
 interface CollateralPoolData {
   yourSupply: number;
   collateralValue: number;
 }
 
-const useCollateralPoolData = (poolData: PoolConfig, index: number) => {
+const useCollateralPoolData = ( asset: BaseAsset | CollateralAsset) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
@@ -37,7 +37,7 @@ const useCollateralPoolData = (poolData: PoolConfig, index: number) => {
     fetchCollateralPoolData();
 
     return fetchedData;
-  }, [poolData, index, reloadKey]);
+  }, [asset, reloadKey]);
 
   const reload = () => {
     setReloadKey((prevKey) => prevKey + 1);
