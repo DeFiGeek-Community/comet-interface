@@ -1,10 +1,3 @@
-const formatter = Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  minimumFractionDigits: 5,
-  maximumFractionDigits: 5,
-});
-
 const smallFormatter = Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -17,20 +10,8 @@ const shortFormatter = new Intl.NumberFormat("en-US", {
   notation: "compact",
 });
 
-export function smallStringUsdFormatter(num: string | number) {
-  return smallFormatter.format(parseFloat(num.toString()));
-}
-
-export function stringUsdFormatter(num: string) {
-  return formatter.format(parseFloat(num));
-}
-
 export function smallUsdFormatter(num: number) {
   return smallFormatter.format(num);
-}
-
-export function usdFormatter(num: number) {
-  return formatter.format(num);
 }
 
 export function shortUsdFormatter(num: number) {
