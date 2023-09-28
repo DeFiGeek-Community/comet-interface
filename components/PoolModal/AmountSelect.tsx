@@ -14,10 +14,11 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { HashLoader } from "react-spinners";
-import { AttentionSeeker } from "react-awesome-reveal";
+import { useBalance, useAccount } from "wagmi";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { Row, Column, useIsMobile, Center } from "utils/chakraUtils";
 import useBasePoolData from "hooks/pool/indivisual/useBaseAsset";
+import useCollateralPoolData from "hooks/pool/indivisual/useCollateralAsset";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 import { Mode } from "components/PoolModal";
@@ -55,6 +56,14 @@ const AmountSelect = ({
   const symbol = asset.symbol ? asset.symbol : "";
 
   const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
+
+  const { basePoolData } = useBasePoolData(poolData);
+  const { collateralPoolData } = useCollateralPoolData(asset);
+
+  const maxWithdraw = isBase 
+  ? basePoolData?.yourBorrow || basePoolData?.yourSupply 
+  : collateralPoolData?.yourSupply;
+
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -176,12 +185,9 @@ const AmountSelect = ({
                 />
                 <TokenNameAndMaxButton
                   mode={mode}
-                  symbol={symbol}
-                  logoURL={
-                    asset?.logoURL ??
-                    "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                  }
+                  asset={asset}
                   updateAmount={updateAmount}
+                  maxWithdraw={maxWithdraw}
                 />
               </Row>
             </DashboardBox>
@@ -518,16 +524,28 @@ const StatsRow = ({
 
 const TokenNameAndMaxButton = ({
   updateAmount,
-  logoURL,
   mode,
-  symbol,
+  asset,
+  maxWithdraw,
 }: {
-  logoURL: string;
-  symbol: string;
-  mode: Mode;
   updateAmount: (newAmount: string) => any;
+  mode: Mode;
+  asset: BaseAsset | CollateralAsset;
+  maxWithdraw: number | undefined;
 }) => {
   const [isMaxLoading, setIsMaxLoading] = useState(false);
+  const { address } = useAccount();
+  const isBalance = mode == Mode.SUPPLY || mode == Mode.BASE_SUPPLY;
+  const { data: tokenBalance, isLoading } = useBalance({
+    address: address,
+    token: asset.address,
+    cacheTime: 60_000,
+    enabled: isBalance && Boolean(asset?.address),
+  })
+  console.log("tokenBalance", tokenBalance)
+
+  const isBalanceLoading = !(isBalance && !isLoading && Boolean(tokenBalance));
+  const isWithdrawLoading = !(isBalance === false && Boolean(maxWithdraw));  
 
   const { t } = useTranslation();
 
@@ -535,12 +553,15 @@ const TokenNameAndMaxButton = ({
     setIsMaxLoading(true);
 
     try {
-      updateAmount("100");
+      if(isBalance && tokenBalance){
+        updateAmount(tokenBalance.formatted);
+      } else {
+        updateAmount(String(maxWithdraw));
+      }
 
       setIsMaxLoading(false);
     } catch (e) {
-      console.log(e);
-      // handleGenericError(e, toast);
+      console.log("TokenNameAndMaxButton_error", e);
     }
   };
 
@@ -557,12 +578,15 @@ const TokenNameAndMaxButton = ({
             height="100%"
             borderRadius="50%"
             backgroundImage={`url(/small-white-circle.png)`}
-            src={logoURL}
+            src={
+              asset?.logoURL ??
+              "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+            }
             alt=""
           />
         </Box>
         <Heading fontSize="24px" mr={2} flexShrink={0}>
-          {symbol}
+          {asset?.symbol}
         </Heading>
       </Row>
 
@@ -580,7 +604,7 @@ const TokenNameAndMaxButton = ({
         _hover={{}}
         _active={{}}
         onClick={setToMax}
-        isLoading={isMaxLoading}
+        isLoading={(isBalanceLoading && isBalance) || (isWithdrawLoading && !isBalance) || isMaxLoading}
       >
         {t("MAX")}
       </Button>
