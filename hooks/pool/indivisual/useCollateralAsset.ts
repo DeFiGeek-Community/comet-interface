@@ -7,7 +7,7 @@ interface CollateralPoolData {
   collateralValue: number;
 }
 
-const useCollateralPoolData = ( asset: BaseAsset | CollateralAsset) => {
+const useCollateralPoolData = (asset: BaseAsset | CollateralAsset) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
