@@ -24,7 +24,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       rewardToken: {
         name: "TenX Community JAPAN",
         symbol: "TXJP",
-        address: "0x0000000000000000000000000000000000000000",
+        address: "0xeb50368411ABC751fFc3216A4f7df7038592d182",
         decimals: 8,
         color: "#bc1c4c",
         logoURL: "/tokens/TXJP.png",
@@ -51,7 +51,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
         {
           name: "TenX Community JAPAN",
           symbol: "TXJP",
-          address: "0x0000000000000000000000000000000000000000",
+          address: "0xeb50368411ABC751fFc3216A4f7df7038592d182",
           decimals: 8,
           color: "#bc1c4c",
           logoURL: "/tokens/TXJP.png",
