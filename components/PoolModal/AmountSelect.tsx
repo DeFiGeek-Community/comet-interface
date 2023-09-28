@@ -60,10 +60,9 @@ const AmountSelect = ({
   const { basePoolData } = useBasePoolData(poolData);
   const { collateralPoolData } = useCollateralPoolData(asset);
 
-  const maxWithdraw = isBase 
-  ? basePoolData?.yourBorrow || basePoolData?.yourSupply 
-  : collateralPoolData?.yourSupply;
-
+  const maxWithdraw = isBase
+    ? basePoolData?.yourBorrow || basePoolData?.yourSupply
+    : collateralPoolData?.yourSupply;
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -537,33 +536,33 @@ const TokenNameAndMaxButton = ({
   const { address } = useAccount();
   const isBalance = mode == Mode.SUPPLY || mode == Mode.BASE_SUPPLY;
   const { data: tokenBalance, isLoading } = useBalance({
-    address: address,
+    address,
     token: asset.address,
     cacheTime: 60_000,
     enabled: isBalance && Boolean(asset?.address),
-  })
-  console.log("tokenBalance", tokenBalance)
+  });
 
   const isBalanceLoading = !(isBalance && !isLoading && Boolean(tokenBalance));
-  const isWithdrawLoading = !(isBalance === false && Boolean(maxWithdraw));  
-
+  const isWithdrawLoading = !(!isBalance && Boolean(maxWithdraw));
   const { t } = useTranslation();
 
   const setToMax = async () => {
     setIsMaxLoading(true);
-
     try {
-      if(isBalance && tokenBalance){
-        updateAmount(tokenBalance.formatted);
-      } else {
-        updateAmount(String(maxWithdraw));
-      }
-
+      const amount =
+        isBalance && tokenBalance
+          ? tokenBalance.formatted
+          : String(maxWithdraw);
+      updateAmount(amount);
       setIsMaxLoading(false);
     } catch (e) {
       console.log("TokenNameAndMaxButton_error", e);
     }
   };
+
+  const logoURL =
+    asset?.logoURL ??
+    "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg";
 
   return (
     <Row
@@ -578,10 +577,7 @@ const TokenNameAndMaxButton = ({
             height="100%"
             borderRadius="50%"
             backgroundImage={`url(/small-white-circle.png)`}
-            src={
-              asset?.logoURL ??
-              "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-            }
+            src={logoURL}
             alt=""
           />
         </Box>
@@ -604,7 +600,11 @@ const TokenNameAndMaxButton = ({
         _hover={{}}
         _active={{}}
         onClick={setToMax}
-        isLoading={(isBalanceLoading && isBalance) || (isWithdrawLoading && !isBalance) || isMaxLoading}
+        isLoading={
+          (isBalanceLoading && isBalance) ||
+          (isWithdrawLoading && !isBalance) ||
+          isMaxLoading
+        }
       >
         {t("MAX")}
       </Button>
