@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
 
-interface BasePoolData {
+interface baseAssetData {
   supplyAPR: number;
   yourSupply: number;
   borrowAPR: number;
@@ -9,18 +9,18 @@ interface BasePoolData {
   availableToBorrow: number;
 }
 
-const useBasePoolData = (poolData: PoolConfig | undefined) => {
+const useBaseAssetData = (poolData: PoolConfig | undefined) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
-  const basePoolData = useMemo<BasePoolData | undefined>(() => {
+  const baseAssetData = useMemo<baseAssetData | undefined>(() => {
     if (!poolData) {
       return undefined;
     }
 
-    let fetchedData: BasePoolData | undefined;
+    let fetchedData: baseAssetData | undefined;
 
-    const fetchBasePoolData = async () => {
+    const fetchBaseAsset = async () => {
       try {
         // const availableToBorrow = getAvailableToBorrow();
 
@@ -41,7 +41,7 @@ const useBasePoolData = (poolData: PoolConfig | undefined) => {
       }
     };
 
-    fetchBasePoolData();
+    fetchBaseAsset();
 
     return fetchedData;
   }, [poolData, reloadKey]);
@@ -50,7 +50,7 @@ const useBasePoolData = (poolData: PoolConfig | undefined) => {
     setReloadKey((prevKey) => prevKey + 1);
   };
 
-  return { basePoolData, error, reload };
+  return { baseAssetData, error, reload };
 };
 
-export default useBasePoolData;
+export default useBaseAssetData;

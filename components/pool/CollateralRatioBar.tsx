@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Box, Progress, Text, Spinner } from "@chakra-ui/react";
 import { Row, Center } from "utils/chakraUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
-import useBasePoolData from "hooks/pool/indivisual/useBaseAsset";
+import useBaseAssetData from "hooks/pool/indivisual/useBaseAssetData";
 import usePositionSummary from "hooks/pool/indivisual/usePositionSummary";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
@@ -11,12 +11,12 @@ import { PoolConfig } from "interfaces/pool";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
-  const { basePoolData } = useBasePoolData(poolData);
+  const { baseAssetData } = useBaseAssetData(poolData);
   const { positionSummary } = usePositionSummary(poolData);
 
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
-      {basePoolData && positionSummary ? (
+      {baseAssetData && positionSummary ? (
         <Row mainAxisAlignment="flex-start" crossAxisAlignment="center" expand>
           <SimpleTooltip
             label={t("Keep this bar from filling up to avoid being liquidated!")}
@@ -28,7 +28,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
 
           <SimpleTooltip label={t("This is how much you have borrowed.")}>
             <Text flexShrink={0} mt="2px" mr={3} fontSize="10px">
-              {smallUsdFormatter(basePoolData.yourBorrow)}
+              {smallUsdFormatter(baseAssetData.yourBorrow)}
             </Text>
           </SimpleTooltip>
 

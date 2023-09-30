@@ -17,8 +17,8 @@ import { HashLoader } from "react-spinners";
 import { useBalance, useAccount } from "wagmi";
 import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
 import { Row, Column, useIsMobile, Center } from "utils/chakraUtils";
-import useBasePoolData from "hooks/pool/indivisual/useBaseAsset";
-import useCollateralPoolData from "hooks/pool/indivisual/useCollateralAsset";
+import useBaseAssetData from "hooks/pool/indivisual/useBaseAssetData";
+import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAssetData";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 import { Mode } from "components/PoolModal";
@@ -59,12 +59,12 @@ const AmountSelect = ({
 
   const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
 
-  const { basePoolData } = useBasePoolData(poolData);
-  const { collateralPoolData } = useCollateralPoolData(collateralAsset);
+  const { baseAssetData } = useBaseAssetData(poolData);
+  const { collateralAssetData } = useCollateralAssetData(collateralAsset);
 
   const maxWithdraw = isBase
-    ? basePoolData?.yourBorrow || basePoolData?.yourSupply
-    : collateralPoolData?.yourSupply;
+    ? baseAssetData?.yourBorrow || baseAssetData?.yourSupply
+    : collateralAssetData?.yourSupply;
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -325,8 +325,8 @@ const CollateralStatsColumn = ({
   amount: number;
 }) => {
   const { t } = useTranslation();
-  const { collateralPoolData } = useCollateralPoolData(asset);
-  const { basePoolData } = useBasePoolData(poolData);
+  const { collateralAssetData } = useCollateralAssetData(asset);
+  const { baseAssetData } = useBaseAssetData(poolData);
   const color = asset?.color;
   const symbol = asset?.symbol;
   const isAmountAndSupply = mode === Mode.SUPPLY && Boolean(amount);
@@ -342,18 +342,18 @@ const CollateralStatsColumn = ({
         px={4}
         fontSize="lg"
       >
-        {collateralPoolData ? (
+        {collateralAssetData ? (
           <StatsRow
             label={t("Supply Balance") + ":"}
-            value={smallFormatter(collateralPoolData?.yourSupply)}
+            value={smallFormatter(collateralAssetData?.yourSupply)}
             secondaryValue={
               isAmountAndSupply
                 ? smallFormatter(
-                  collateralPoolData?.yourSupply + amount,
+                  collateralAssetData?.yourSupply + amount,
                   )
                 : isAmountAndWithdraw 
                 ? smallFormatter(
-                  collateralPoolData?.yourSupply - amount,
+                  collateralAssetData?.yourSupply - amount,
                   )
                   : undefined
             }
@@ -364,16 +364,16 @@ const CollateralStatsColumn = ({
             <Spinner />
           </Center>
         )}
-        {collateralPoolData ? (
+        {collateralAssetData ? (
           <StatsRow
             label={t("Available to Borrow") + ":"}
-            value={smallUsdFormatter(collateralPoolData.collateralValue)}
+            value={smallUsdFormatter(collateralAssetData.collateralValue)}
             secondaryValue={
               isAmountAndSupply
-                ? smallFormatter(collateralPoolData.collateralValue + amount)
+                ? smallFormatter(collateralAssetData.collateralValue + amount)
                 : isAmountAndWithdraw 
                 ? smallFormatter(
-                  collateralPoolData?.collateralValue - amount
+                  collateralAssetData?.collateralValue - amount
                   )
                   : undefined
             }
@@ -383,10 +383,10 @@ const CollateralStatsColumn = ({
             <Spinner />
           </Center>
         )}
-        {basePoolData ? (
+        {baseAssetData ? (
           <StatsRow
             label={t("Borrow Balance") + ":"}
-            value={smallUsdFormatter(basePoolData.yourBorrow)}
+            value={smallUsdFormatter(baseAssetData.yourBorrow)}
           />
         ) : (
           <Center height="50px">
@@ -411,7 +411,7 @@ const BaseStatsColumn = ({
   amount: number;
 }) => {
   const { t } = useTranslation();
-  const { basePoolData } = useBasePoolData(poolData);
+  const { baseAssetData } = useBaseAssetData(poolData);
   const isAmountAndSupply = mode === Mode.BASE_SUPPLY && Boolean(amount);
   const isAmountAndBorrow = mode === Mode.BASE_BORROW && Boolean(amount);
   const color = asset?.color;
@@ -427,15 +427,15 @@ const BaseStatsColumn = ({
         px={4}
         fontSize="lg"
       >
-        {basePoolData ? (
+        {baseAssetData ? (
           <>
             <StatsRow
               label={t("Supply Balance") + ":"}
-              value={smallFormatter(basePoolData?.yourSupply)}
+              value={smallFormatter(baseAssetData?.yourSupply)}
               secondaryValue={
                 isAmountAndSupply
                   ? smallFormatter(
-                      basePoolData?.yourSupply + amount,
+                      baseAssetData?.yourSupply + amount,
                     )
                   : undefined
               }
@@ -452,9 +452,9 @@ const BaseStatsColumn = ({
               }
               value={
                 mode === Mode.BASE_SUPPLY
-                  ? `${basePoolData.supplyAPR} %`
+                  ? `${baseAssetData.supplyAPR} %`
                   : mode === Mode.BASE_BORROW
-                  ? `${basePoolData.borrowAPR} %`
+                  ? `${baseAssetData.borrowAPR} %`
                   : ""
               }
               fontSize="lg"
@@ -462,20 +462,20 @@ const BaseStatsColumn = ({
 
             <StatsRow
               label={t("Available to Borrow") + ":"}
-              value={smallUsdFormatter(basePoolData.availableToBorrow)}
+              value={smallUsdFormatter(baseAssetData.availableToBorrow)}
               secondaryValue={
                 isAmountAndBorrow
-                  ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                  ? smallUsdFormatter(baseAssetData.availableToBorrow + amount)
                   : undefined
               }
             />
 
             <StatsRow
               label={t("Borrow Balance") + ":"}
-              value={smallUsdFormatter(basePoolData.availableToBorrow)}
+              value={smallUsdFormatter(baseAssetData.availableToBorrow)}
               secondaryValue={
                 isAmountAndBorrow
-                  ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
+                  ? smallUsdFormatter(baseAssetData.availableToBorrow + amount)
                   : undefined
               }
             />

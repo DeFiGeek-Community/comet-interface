@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
-import useCollateralPoolData from "hooks/pool/indivisual/useCollateralAsset";
+import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAssetData";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
 import PoolModal, { Mode } from "components/PoolModal";
@@ -27,7 +27,7 @@ const CollateralAssetRow = ({
 
   const isMobile = useIsMobile();
 
-  const { collateralPoolData, error, reload } = useCollateralPoolData(asset);
+  const { collateralAssetData, error, reload } = useCollateralAssetData(asset);
 
   const { t } = useTranslation();
 
@@ -77,14 +77,14 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "40%" : "20%"}
         >
-          {collateralPoolData ? (
+          {collateralAssetData ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdFormatter(collateralPoolData.yourSupply)}
+                {smallUsdFormatter(collateralAssetData.yourSupply)}
               </Text>
 
               <Text fontSize="sm">
-                {smallFormatter(collateralPoolData.yourSupply)}{" "}
+                {smallFormatter(collateralAssetData.yourSupply)}{" "}
                 {symbol}
               </Text>
             </>
@@ -100,14 +100,14 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "40%" : "20%"}
         >
-          {collateralPoolData ? (
+          {collateralAssetData ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdFormatter(collateralPoolData.collateralValue)}
+                {smallUsdFormatter(collateralAssetData.collateralValue)}
               </Text>
 
               <Text fontSize="sm">
-                {smallFormatter(collateralPoolData.collateralValue)}{" "}
+                {smallFormatter(collateralAssetData.collateralValue)}{" "}
                 {symbol}
               </Text>
             </>

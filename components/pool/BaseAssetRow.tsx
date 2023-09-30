@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
-import useBasePoolData from "hooks/pool/indivisual/useBaseAsset";
+import useBaseAssetData from "hooks/pool/indivisual/useBaseAssetData";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
@@ -26,7 +26,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const tokenData = poolData.baseToken;
   const symbol = tokenData?.symbol ? tokenData?.symbol : "";
 
-  const { basePoolData } = useBasePoolData(poolData);
+  const { baseAssetData } = useBaseAssetData(poolData);
   const { tokenRewardData } = useTokenRewardData(poolData);
 
   const isMobile = useIsMobile();
@@ -83,7 +83,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
           {/* APR */}
           <APRComponent
             rewardToken={poolData.rewardToken}
-            baseAPR={basePoolData?.supplyAPR}
+            baseAPR={baseAssetData?.supplyAPR}
             tokenReward={tokenRewardData?.supplyRewardAPR}
             width={isMobile ? "100%" : "33%"}
           />
@@ -94,14 +94,14 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
               crossAxisAlignment="center"
               width={"33%"}
             >
-              {basePoolData ? (
+              {baseAssetData ? (
                 <>
                   <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                    {smallUsdFormatter(basePoolData.yourSupply)}
+                    {smallUsdFormatter(baseAssetData.yourSupply)}
                   </Text>
 
                   <Text fontSize="sm">
-                    {smallFormatter(basePoolData.yourSupply)}{" "}
+                    {smallFormatter(baseAssetData.yourSupply)}{" "}
                     {symbol}
                   </Text>
                 </>
@@ -125,7 +125,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
           {/* APR */}
           <APRComponent
             rewardToken={poolData.rewardToken}
-            baseAPR={basePoolData?.borrowAPR}
+            baseAPR={baseAssetData?.borrowAPR}
             tokenReward={tokenRewardData?.borrowRewardAPR}
             width={isMobile ? "100%" : "33%"}
           />
@@ -137,14 +137,14 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {basePoolData ? (
+                {baseAssetData ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdFormatter(basePoolData.yourBorrow)}
+                      {smallUsdFormatter(baseAssetData.yourBorrow)}
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallFormatter(basePoolData.yourBorrow)}{" "}
+                      {smallFormatter(baseAssetData.yourBorrow)}{" "}
                       {symbol}
                     </Text>
                   </>
@@ -159,15 +159,15 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {basePoolData ? (
+                {baseAssetData ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdFormatter(basePoolData.availableToBorrow)}
+                      {smallUsdFormatter(baseAssetData.availableToBorrow)}
                     </Text>
 
                     <Text fontSize="sm">
                       {smallFormatter(
-                        basePoolData.availableToBorrow,
+                        baseAssetData.availableToBorrow,
                       )}{" "}
                       {symbol}
                     </Text>

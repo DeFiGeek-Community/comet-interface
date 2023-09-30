@@ -2,25 +2,25 @@ import { useState, useMemo } from "react";
 import { useAccount } from "wagmi";
 import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
-interface CollateralPoolData {
+interface collateralAssetData {
   yourSupply: number;
   collateralValue: number;
 }
 
-const useCollateralPoolData = (asset: CollateralAsset | undefined) => {
+const useCollateralAssetData = (asset: CollateralAsset | undefined) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
   const { address, isConnecting, isDisconnected } = useAccount();
 
-  const collateralPoolData = useMemo<CollateralPoolData | undefined>(() => {
+  const collateralAssetData = useMemo<collateralAssetData | undefined>(() => {
     if (!asset) {
       return undefined;
     }
 
-    let fetchedData: CollateralPoolData | undefined;
+    let fetchedData: collateralAssetData | undefined;
 
-    const fetchCollateralPoolData = async () => {
+    const fetchCollateralAsset = async () => {
       try {
         // ここでデータを取得するロジックを書く
 
@@ -38,7 +38,7 @@ const useCollateralPoolData = (asset: CollateralAsset | undefined) => {
       }
     };
 
-    fetchCollateralPoolData();
+    fetchCollateralAsset();
 
     return fetchedData;
   }, [asset, reloadKey]);
@@ -47,7 +47,7 @@ const useCollateralPoolData = (asset: CollateralAsset | undefined) => {
     setReloadKey((prevKey) => prevKey + 1);
   };
 
-  return { collateralPoolData, error, reload };
+  return { collateralAssetData, error, reload };
 };
 
-export default useCollateralPoolData;
+export default useCollateralAssetData;
