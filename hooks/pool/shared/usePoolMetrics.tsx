@@ -8,7 +8,7 @@ type TotalPoolData = {
   availableLiquidity: number;
 };
 
-const usePoolMetrics = (poolData?: PoolConfig) => {
+const usePoolMetrics = (poolData: PoolConfig | undefined) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 

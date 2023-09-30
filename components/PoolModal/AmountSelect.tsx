@@ -34,13 +34,15 @@ const AmountSelect = ({
   mode,
   setMode,
   poolData,
-  asset,
+  baseAsset,
+  collateralAsset,
   onClose,
 }: {
   mode: Mode;
   setMode: (mode: Mode) => any;
   poolData: PoolConfig;
-  asset: BaseAsset | CollateralAsset;
+  baseAsset: BaseAsset | undefined;
+  collateralAsset: CollateralAsset | undefined;
   onClose: () => any;
 }) => {
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
@@ -53,12 +55,12 @@ const AmountSelect = ({
 
   const { t } = useTranslation();
 
-  const symbol = asset.symbol ? asset.symbol : "";
+  const asset = baseAsset ? baseAsset : collateralAsset;
 
   const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
 
   const { basePoolData } = useBasePoolData(poolData);
-  const { collateralPoolData } = useCollateralPoolData(asset);
+  const { collateralPoolData } = useCollateralPoolData(collateralAsset);
 
   const maxWithdraw = isBase
     ? basePoolData?.yourBorrow || basePoolData?.yourSupply
@@ -74,11 +76,9 @@ const AmountSelect = ({
     try {
       BigNumber.DEBUG = true;
 
-      // Try to set the amount to BigNumber(newAmount):
       const bigAmount = new BigNumber(newAmount);
       _setAmount(bigAmount);
     } catch (e) {
-      // If the number was invalid, set the amount to null to disable confirming:
       _setAmount(null);
     }
 
@@ -106,7 +106,7 @@ const AmountSelect = ({
 
   return userAction === UserAction.WAITING_FOR_TRANSACTIONS ? (
     <Column expand mainAxisAlignment="center" crossAxisAlignment="center" p={4}>
-      <HashLoader size={70} color={asset.color ?? "#FFF"} loading />
+      <HashLoader size={70} color={asset?.color ?? "#FFF"} loading />
       <Heading mt="30px" textAlign="center" size="md">
         {t("Check your wallet to submit the transaction")}
       </Heading>
@@ -149,7 +149,7 @@ const AmountSelect = ({
           </Box>
 
           <Heading fontSize="27px" ml={3}>
-            {symbol}
+            {asset?.color ?? ""}
           </Heading>
         </Row>
 
@@ -194,19 +194,17 @@ const AmountSelect = ({
 
           {isBase ? (
             <BaseStatsColumn
-              symbol={symbol}
-              amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
-              color={"#FFF"}
-              poolData={poolData}
               mode={mode}
+              asset={baseAsset}
+              poolData={poolData}
+              amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
             />
           ) : (
             <CollateralStatsColumn
-              symbol={symbol}
-              amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
-              color={"#FFF"}
-              poolData={poolData}
               mode={mode}
+              asset={collateralAsset}
+              poolData={poolData}
+              amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
             />
           )}
 
@@ -316,23 +314,23 @@ const TabBar = ({
 };
 
 const CollateralStatsColumn = ({
-  color,
   mode,
+  asset,
   poolData,
   amount,
-  symbol,
 }: {
-  color: string;
   mode: Mode;
+  asset: CollateralAsset | undefined;
   poolData: PoolConfig;
   amount: number;
-  symbol: string;
 }) => {
   const { t } = useTranslation();
+  const { collateralPoolData } = useCollateralPoolData(asset);
   const { basePoolData } = useBasePoolData(poolData);
-
-  const isAmountAndSupply = mode === Mode.BASE_SUPPLY && Boolean(amount);
-  const isAmountAndBorrow = mode === Mode.BASE_BORROW && Boolean(amount);
+  const color = asset?.color;
+  const symbol = asset?.symbol;
+  const isAmountAndSupply = mode === Mode.SUPPLY && Boolean(amount);
+  const isAmountAndWithdraw = mode === Mode.WITHDRAW && Boolean(amount);
 
   return (
     <DashboardBox width="100%" height="190px" mt={4}>
@@ -344,72 +342,83 @@ const CollateralStatsColumn = ({
         px={4}
         fontSize="lg"
       >
-        {basePoolData ? (
-          <>
-            <StatsRow
-              label={t("Supply Balance") + ":"}
-              value={smallUsdFormatter(basePoolData?.yourSupply).replace(
-                "$",
-                "",
-              )}
-              secondaryValue={
-                isAmountAndSupply
-                  ? smallUsdFormatter(
-                      basePoolData?.yourSupply + amount,
-                    ).replace("$", "")
+        {collateralPoolData ? (
+          <StatsRow
+            label={t("Supply Balance") + ":"}
+            value={smallUsdFormatter(collateralPoolData?.yourSupply).replace(
+              "$",
+              "",
+            )}
+            secondaryValue={
+              isAmountAndSupply
+                ? smallUsdFormatter(
+                  collateralPoolData?.yourSupply + amount,
+                  ).replace("$", "")
+                : isAmountAndWithdraw 
+                ? smallUsdFormatter(
+                  collateralPoolData?.yourSupply - amount,
+                  ).replace("$", "")
                   : undefined
-              }
-              color={color}
-            />
-
-            <StatsRow
-              label={t("Available to Borrow") + ":"}
-              value={smallUsdFormatter(basePoolData.availableToBorrow)}
-              secondaryValue={
-                isAmountAndBorrow
-                  ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
-                  : undefined
-              }
-            />
-
-            <StatsRow
-              label={t("Borrow Balance") + ":"}
-              value={smallUsdFormatter(basePoolData.availableToBorrow)}
-              secondaryValue={
-                isAmountAndBorrow
-                  ? smallUsdFormatter(basePoolData.availableToBorrow + amount)
-                  : undefined
-              }
-            />
-          </>
+            }
+            color={color}
+          />
         ) : (
           <Center height="50px">
             <Spinner />
           </Center>
         )}
+        {collateralPoolData ? (
+          <StatsRow
+            label={t("Available to Borrow") + ":"}
+            value={smallUsdFormatter(collateralPoolData.collateralValue)}
+            secondaryValue={
+              isAmountAndSupply
+                ? smallUsdFormatter(collateralPoolData.collateralValue + amount).replace("$", "")
+                : isAmountAndWithdraw 
+                ? smallUsdFormatter(
+                  collateralPoolData?.collateralValue - amount,
+                  ).replace("$", "")
+                  : undefined
+            }
+          />
+        ) : (
+          <Center height="50px">
+            <Spinner />
+          </Center>
+        )}
+        {basePoolData ? (
+          <StatsRow
+            label={t("Borrow Balance") + ":"}
+            value={smallUsdFormatter(basePoolData.yourBorrow)}
+          />
+        ) : (
+          <Center height="50px">
+            <Spinner />
+          </Center>
+        )}
+
       </Column>
     </DashboardBox>
   );
 };
 
 const BaseStatsColumn = ({
-  color,
   mode,
+  asset,
   poolData,
   amount,
-  symbol,
 }: {
-  color: string;
   mode: Mode;
+  asset: BaseAsset | undefined;
   poolData: PoolConfig;
   amount: number;
-  symbol: string;
 }) => {
   const { t } = useTranslation();
   const { basePoolData } = useBasePoolData(poolData);
-
   const isAmountAndSupply = mode === Mode.BASE_SUPPLY && Boolean(amount);
   const isAmountAndBorrow = mode === Mode.BASE_BORROW && Boolean(amount);
+  const color = asset?.color;
+  const symbol = asset?.symbol;
 
   return (
     <DashboardBox width="100%" height="190px" mt={4}>
@@ -529,7 +538,7 @@ const TokenNameAndMaxButton = ({
 }: {
   updateAmount: (newAmount: string) => any;
   mode: Mode;
-  asset: BaseAsset | CollateralAsset;
+  asset: BaseAsset | CollateralAsset | undefined;
   maxWithdraw: number | undefined;
 }) => {
   const [isMaxLoading, setIsMaxLoading] = useState(false);
@@ -537,7 +546,7 @@ const TokenNameAndMaxButton = ({
   const isBalance = mode == Mode.SUPPLY || mode == Mode.BASE_SUPPLY;
   const { data: tokenBalance, isLoading } = useBalance({
     address,
-    token: asset.address,
+    token: asset?.address,
     cacheTime: 60_000,
     enabled: isBalance && Boolean(asset?.address),
   });

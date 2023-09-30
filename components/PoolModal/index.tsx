@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, ModalOverlay, ModalContent } from "@chakra-ui/react";
 import AmountSelect from "components/PoolModal/AmountSelect";
 import { MODAL_PROPS } from "components/shared/Modal";
-import { PoolConfig } from "interfaces/pool";
+import { BaseAsset, CollateralAsset, PoolConfig } from "interfaces/pool";
 
 export enum Mode {
   SUPPLY,
@@ -32,7 +32,10 @@ const DepositModal = ({
     setMode(defaultMode);
   }, [isOpen, defaultMode]);
 
-  const asset = isBase ? poolData?.baseToken : poolData?.assetConfigs[index];
+  let baseAsset;
+  let collateralAsset;
+  if(isBase) { baseAsset = poolData?.baseToken; }
+  if(!isBase) { collateralAsset = poolData?.assetConfigs[index]; }
 
   return (
     <Modal
@@ -47,7 +50,8 @@ const DepositModal = ({
           mode={mode}
           setMode={setMode}
           poolData={poolData}
-          asset={asset}
+          baseAsset={baseAsset}
+          collateralAsset={collateralAsset}
           onClose={onClose}
         />
       </ModalContent>
