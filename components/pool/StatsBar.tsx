@@ -14,7 +14,7 @@ import { PoolConfig } from "interfaces/pool";
 const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const isMobile = useIsSmallScreen();
   const { poolMetrics, error, reload } = usePoolMetrics(poolData);
-  const symbol = poolData?.baseToken.symbol;
+  const symbol = poolData?.baseToken.symbol ?? "";
 
   const { t } = useTranslation();
   return (

@@ -149,7 +149,7 @@ const AmountSelect = ({
           </Box>
 
           <Heading fontSize="27px" ml={3}>
-            {asset?.color ?? ""}
+            {asset?.symbol ?? ""}
           </Heading>
         </Row>
 
