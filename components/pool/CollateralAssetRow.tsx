@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
-import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAssetData";
+import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAsset";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
 import PoolModal, { Mode } from "components/PoolModal";

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
-import useBaseAssetData from "hooks/pool/indivisual/useBaseAssetData";
+import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
