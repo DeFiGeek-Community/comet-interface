@@ -14,6 +14,10 @@ const useCollateralPoolData = (asset: CollateralAsset | undefined) => {
   const { address, isConnecting, isDisconnected } = useAccount();
 
   const collateralPoolData = useMemo<CollateralPoolData | undefined>(() => {
+    if (!asset) {
+      return undefined;
+    }
+
     let fetchedData: CollateralPoolData | undefined;
 
     const fetchCollateralPoolData = async () => {

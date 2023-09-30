@@ -13,6 +13,10 @@ const usePoolMetrics = (poolData: PoolConfig | undefined) => {
   const [reloadKey, setReloadKey] = useState(0);
 
   const poolMetrics = useMemo<TotalPoolData | undefined>(() => {
+    if (!poolData) {
+      return undefined;
+    }
+
     let fetchedData: TotalPoolData | undefined;
 
     const fetchPoolMetricsData = async () => {

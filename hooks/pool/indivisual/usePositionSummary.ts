@@ -13,6 +13,10 @@ const usePositionSummary = (poolData: PoolConfig | undefined) => {
   const [reloadKey, setReloadKey] = useState(0);
 
   const positionSummary = useMemo<PositionSummary | undefined>(() => {
+    if (!poolData) {
+      return undefined;
+    }
+
     let fetchedData: PositionSummary | undefined;
 
     const fetchPositionSummary = async () => {

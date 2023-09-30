@@ -14,6 +14,10 @@ const useBasePoolData = (poolData: PoolConfig | undefined) => {
   const [reloadKey, setReloadKey] = useState(0);
 
   const basePoolData = useMemo<BasePoolData | undefined>(() => {
+    if (!poolData) {
+      return undefined;
+    }
+
     let fetchedData: BasePoolData | undefined;
 
     const fetchBasePoolData = async () => {
