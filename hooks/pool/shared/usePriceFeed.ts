@@ -18,6 +18,10 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
     const fetchPriceFeedData = async () => {
       try {
         // ここでデータを取得するロジックを書く
+        // const usdjpy = MultiplicativePriceFeed.??;
+        // const baseAsset = ??;
+        // const collateralAssets = ??;
+        // const rewardAsset = ??;
 
         // ダミーデータを使用
         fetchedData = {
