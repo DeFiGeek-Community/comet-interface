@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { HashLoader } from "react-spinners";
 import { useBalance, useAccount } from "wagmi";
-import { smallUsdFormatter } from "utils/bigUtils";
+import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
 import { Row, Column, useIsMobile, Center } from "utils/chakraUtils";
 import useBasePoolData from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralPoolData from "hooks/pool/indivisual/useCollateralAsset";
@@ -345,19 +345,16 @@ const CollateralStatsColumn = ({
         {collateralPoolData ? (
           <StatsRow
             label={t("Supply Balance") + ":"}
-            value={smallUsdFormatter(collateralPoolData?.yourSupply).replace(
-              "$",
-              "",
-            )}
+            value={smallFormatter(collateralPoolData?.yourSupply)}
             secondaryValue={
               isAmountAndSupply
-                ? smallUsdFormatter(
+                ? smallFormatter(
                   collateralPoolData?.yourSupply + amount,
-                  ).replace("$", "")
+                  )
                 : isAmountAndWithdraw 
-                ? smallUsdFormatter(
+                ? smallFormatter(
                   collateralPoolData?.yourSupply - amount,
-                  ).replace("$", "")
+                  )
                   : undefined
             }
             color={color}
@@ -373,11 +370,11 @@ const CollateralStatsColumn = ({
             value={smallUsdFormatter(collateralPoolData.collateralValue)}
             secondaryValue={
               isAmountAndSupply
-                ? smallUsdFormatter(collateralPoolData.collateralValue + amount).replace("$", "")
+                ? smallFormatter(collateralPoolData.collateralValue + amount)
                 : isAmountAndWithdraw 
-                ? smallUsdFormatter(
-                  collateralPoolData?.collateralValue - amount,
-                  ).replace("$", "")
+                ? smallFormatter(
+                  collateralPoolData?.collateralValue - amount
+                  )
                   : undefined
             }
           />
@@ -434,15 +431,12 @@ const BaseStatsColumn = ({
           <>
             <StatsRow
               label={t("Supply Balance") + ":"}
-              value={smallUsdFormatter(basePoolData?.yourSupply).replace(
-                "$",
-                "",
-              )}
+              value={smallFormatter(basePoolData?.yourSupply)}
               secondaryValue={
                 isAmountAndSupply
-                  ? smallUsdFormatter(
+                  ? smallFormatter(
                       basePoolData?.yourSupply + amount,
-                    ).replace("$", "")
+                    )
                   : undefined
               }
               color={color}

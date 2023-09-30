@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { smallUsdFormatter } from "utils/bigUtils";
+import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
 import useBasePoolData from "hooks/pool/indivisual/useBaseAsset";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import PoolModal, { Mode } from "components/PoolModal";
@@ -101,10 +101,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                   </Text>
 
                   <Text fontSize="sm">
-                    {smallUsdFormatter(basePoolData.yourSupply).replace(
-                      "$",
-                      "",
-                    )}{" "}
+                    {smallFormatter(basePoolData.yourSupply)}{" "}
                     {symbol}
                   </Text>
                 </>
@@ -147,10 +144,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallUsdFormatter(basePoolData.yourBorrow).replace(
-                        "$",
-                        "",
-                      )}{" "}
+                      {smallFormatter(basePoolData.yourBorrow)}{" "}
                       {symbol}
                     </Text>
                   </>
@@ -172,9 +166,9 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallUsdFormatter(
+                      {smallFormatter(
                         basePoolData.availableToBorrow,
-                      ).replace("$", "")}{" "}
+                      )}{" "}
                       {symbol}
                     </Text>
                   </>

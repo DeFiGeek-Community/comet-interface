@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import useCollateralPoolData from "hooks/pool/indivisual/useCollateralAsset";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { smallUsdFormatter } from "utils/bigUtils";
+import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
 import PoolModal, { Mode } from "components/PoolModal";
 import { PoolConfig } from "interfaces/pool";
 
@@ -27,10 +27,7 @@ const CollateralAssetRow = ({
 
   const isMobile = useIsMobile();
 
-  const { collateralPoolData, error, reload } = useCollateralPoolData(
-    poolData,
-    index,
-  );
+  const { collateralPoolData, error, reload } = useCollateralPoolData(asset);
 
   const { t } = useTranslation();
 
@@ -87,10 +84,7 @@ const CollateralAssetRow = ({
               </Text>
 
               <Text fontSize="sm">
-                {smallUsdFormatter(collateralPoolData.yourSupply).replace(
-                  "$",
-                  "",
-                )}{" "}
+                {smallFormatter(collateralPoolData.yourSupply)}{" "}
                 {symbol}
               </Text>
             </>
@@ -113,10 +107,7 @@ const CollateralAssetRow = ({
               </Text>
 
               <Text fontSize="sm">
-                {smallUsdFormatter(collateralPoolData.collateralValue).replace(
-                  "$",
-                  "",
-                )}{" "}
+                {smallFormatter(collateralPoolData.collateralValue)}{" "}
                 {symbol}
               </Text>
             </>
