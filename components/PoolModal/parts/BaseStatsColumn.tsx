@@ -109,7 +109,7 @@ export const BaseStatsColumn = ({
             />
           </>
         ) : (
-          <Center height="50px">
+          <Center height="150px">
             <Spinner />
           </Center>
         )}
