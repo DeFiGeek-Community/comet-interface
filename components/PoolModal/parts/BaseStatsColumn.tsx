@@ -16,7 +16,7 @@ export const BaseStatsColumn = ({
   amount,
 }: {
   mode: Mode;
-  asset: BaseAsset | undefined;
+  asset: BaseAsset;
   poolData: PoolConfig;
   amount: number;
 }) => {
@@ -49,16 +49,20 @@ export const BaseStatsColumn = ({
               }
               value={
                 mode === Mode.BASE_SUPPLY
-                  ? smallFormatter(baseAssetData?.yourSupply)
+                  ? `${smallFormatter(baseAssetData?.yourSupply)} ${symbol}`
                   : mode === Mode.BASE_BORROW
-                  ? smallFormatter(baseAssetData?.yourBorrow)
+                  ? `${smallFormatter(baseAssetData?.yourBorrow)} ${symbol}`
                   : ""
               }
               secondaryValue={
                 isAmountAndSupply
-                  ? smallFormatter(baseAssetData?.yourSupply + amount)
+                  ? `${smallFormatter(
+                      baseAssetData?.yourSupply + amount,
+                    )} ${symbol}`
                   : isAmountAndBorrow
-                  ? smallFormatter(baseAssetData?.yourBorrow + amount)
+                  ? `${smallFormatter(
+                      baseAssetData?.yourBorrow + amount,
+                    )} ${symbol}`
                   : undefined
               }
               color={color}
@@ -92,9 +96,9 @@ export const BaseStatsColumn = ({
               }
               value={
                 mode === Mode.BASE_SUPPLY
-                  ? smallFormatter(baseAssetData?.yourBorrow)
+                  ? `${smallFormatter(baseAssetData?.yourBorrow)} ${symbol}`
                   : mode === Mode.BASE_BORROW
-                  ? smallFormatter(baseAssetData?.yourSupply)
+                  ? `${smallFormatter(baseAssetData?.yourSupply)} ${symbol}`
                   : ""
               }
             />

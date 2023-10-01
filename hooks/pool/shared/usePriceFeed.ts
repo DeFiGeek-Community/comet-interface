@@ -4,7 +4,9 @@ import { PoolConfig } from "interfaces/pool";
 interface PriceFeedData {
   usdjpy: number;
   baseAsset: number;
-  collateralAssets: number[];
+  collateralAssets: {
+    [key: string]: number;
+  };
   rewardAsset: number;
 }
 
@@ -27,7 +29,10 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
         fetchedData = {
           usdjpy: 140,
           baseAsset: 0.01,
-          collateralAssets: [0.04, 2000],
+          collateralAssets: {
+            TXJP: 0.04,
+            wstETH: 2000,
+          },
           rewardAsset: 1,
         };
       } catch (err) {

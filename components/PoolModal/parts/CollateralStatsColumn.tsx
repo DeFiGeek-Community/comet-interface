@@ -4,6 +4,7 @@ import { Spinner } from "@chakra-ui/react";
 import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
 import { Column, Center } from "utils/chakraUtils";
 import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
+import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAsset";
 import DashboardBox from "components/shared/DashboardBox";
 import StatsRow from "components/shared/StatsRow";
@@ -17,20 +18,33 @@ export const CollateralStatsColumn = ({
   amount,
 }: {
   mode: Mode;
-  asset: CollateralAsset | undefined;
+  asset: CollateralAsset;
   poolData: PoolConfig;
   amount: number;
 }) => {
   const { t } = useTranslation();
   const { collateralAssetData } = useCollateralAssetData(asset);
   const { baseAssetData } = useBaseAssetData(poolData);
+  const { priceFeedData } = usePriceFeedData(poolData);
+
   const color = asset?.color;
   const symbol = asset?.symbol;
+
   const isAmountAndSupply = mode === Mode.SUPPLY && Boolean(amount);
   const isAmountAndWithdraw = mode === Mode.WITHDRAW && Boolean(amount);
 
+  const getSecondaryValue = (baseValue: number) => {
+    if (!priceFeedData) return undefined;
+    const price = priceFeedData.collateralAssets[asset.symbol];
+    return isAmountAndSupply
+      ? smallUsdFormatter(baseValue + amount * price)
+      : isAmountAndWithdraw
+      ? smallUsdFormatter(baseValue - amount * price)
+      : undefined;
+  };
+
   return (
-    <DashboardBox width="100%" height="190px" mt={4}>
+    <DashboardBox width="100%" height="170px" mt={4}>
       <Column
         mainAxisAlignment="space-between"
         crossAxisAlignment="flex-start"
@@ -40,45 +54,40 @@ export const CollateralStatsColumn = ({
         fontSize="lg"
       >
         {collateralAssetData ? (
-          <StatsRow
-            label={t("Supply Balance") + ":"}
-            value={smallFormatter(collateralAssetData?.yourSupply)}
-            secondaryValue={
-              isAmountAndSupply
-                ? smallFormatter(collateralAssetData?.yourSupply + amount)
-                : isAmountAndWithdraw
-                ? smallFormatter(collateralAssetData?.yourSupply - amount)
-                : undefined
-            }
-            color={color}
-          />
+          
+            <StatsRow
+              label={t("Supply Balance") + ":"}
+              value={`${smallFormatter(collateralAssetData.yourSupply)} ${symbol}`}
+              secondaryValue={
+                isAmountAndSupply
+                  ? `${smallFormatter(
+                      collateralAssetData?.yourSupply + amount,
+                    )} ${symbol}`
+                  : isAmountAndWithdraw
+                  ? `${smallFormatter(
+                      collateralAssetData?.yourSupply - amount,
+                    )} ${symbol}`
+                  : undefined
+              }
+              color={color}
+            />
         ) : (
-          <Center height="50px">
-            <Spinner />
-          </Center>
-        )}
-        {collateralAssetData ? (
-          <StatsRow
-            label={t("Available to Borrow") + ":"}
-            value={smallUsdFormatter(collateralAssetData.collateralValue)}
-            secondaryValue={
-              isAmountAndSupply
-                ? smallFormatter(collateralAssetData.collateralValue + amount)
-                : isAmountAndWithdraw
-                ? smallFormatter(collateralAssetData?.collateralValue - amount)
-                : undefined
-            }
-          />
-        ) : (
-          <Center height="50px">
+          <Center height="100px">
             <Spinner />
           </Center>
         )}
         {baseAssetData ? (
-          <StatsRow
-            label={t("Borrow Balance") + ":"}
-            value={smallUsdFormatter(baseAssetData.yourBorrow)}
-          />
+          <>
+            <StatsRow
+              label={t("Available to Borrow") + ":"}
+              value={smallUsdFormatter(baseAssetData.availableToBorrow)}
+              secondaryValue={getSecondaryValue(baseAssetData.availableToBorrow)}
+            />
+            <StatsRow
+              label={t("Borrow Balance") + ":"}
+              value={smallUsdFormatter(baseAssetData.yourBorrow)}
+            />
+          </>
         ) : (
           <Center height="50px">
             <Spinner />

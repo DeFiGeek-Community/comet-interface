@@ -35,8 +35,8 @@ const AmountSelect = ({
   mode: Mode;
   setMode: (mode: Mode) => any;
   poolData: PoolConfig;
-  baseAsset: BaseAsset | undefined;
-  collateralAsset: CollateralAsset | undefined;
+  baseAsset: BaseAsset;
+  collateralAsset: CollateralAsset;
   onClose: () => any;
 }) => {
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
