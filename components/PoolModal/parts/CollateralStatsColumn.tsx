@@ -54,23 +54,24 @@ export const CollateralStatsColumn = ({
         fontSize="lg"
       >
         {collateralAssetData ? (
-          
-            <StatsRow
-              label={t("Supply Balance") + ":"}
-              value={`${smallFormatter(collateralAssetData.yourSupply)} ${symbol}`}
-              secondaryValue={
-                isAmountAndSupply
-                  ? `${smallFormatter(
-                      collateralAssetData?.yourSupply + amount,
-                    )} ${symbol}`
-                  : isAmountAndWithdraw
-                  ? `${smallFormatter(
-                      collateralAssetData?.yourSupply - amount,
-                    )} ${symbol}`
-                  : undefined
-              }
-              color={color}
-            />
+          <StatsRow
+            label={t("Supply Balance") + ":"}
+            value={`${smallFormatter(
+              collateralAssetData.yourSupply,
+            )} ${symbol}`}
+            secondaryValue={
+              isAmountAndSupply
+                ? `${smallFormatter(
+                    collateralAssetData?.yourSupply + amount,
+                  )} ${symbol}`
+                : isAmountAndWithdraw
+                ? `${smallFormatter(
+                    collateralAssetData?.yourSupply - amount,
+                  )} ${symbol}`
+                : undefined
+            }
+            color={color}
+          />
         ) : (
           <Center height="100px">
             <Spinner />
@@ -81,7 +82,9 @@ export const CollateralStatsColumn = ({
             <StatsRow
               label={t("Available to Borrow") + ":"}
               value={smallUsdFormatter(baseAssetData.availableToBorrow)}
-              secondaryValue={getSecondaryValue(baseAssetData.availableToBorrow)}
+              secondaryValue={getSecondaryValue(
+                baseAssetData.availableToBorrow,
+              )}
             />
             <StatsRow
               label={t("Borrow Balance") + ":"}
