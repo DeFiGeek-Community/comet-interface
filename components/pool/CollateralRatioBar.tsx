@@ -19,7 +19,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
       {baseAssetData && positionSummary ? (
         <Row mainAxisAlignment="flex-start" crossAxisAlignment="center" expand>
           <SimpleTooltip
-            label={t("Keep this bar from filling up to avoid being liquidated!")}
+            label={t(
+              "Keep this bar from filling up to avoid being liquidated!",
+            )}
           >
             <Text flexShrink={0} mr={4}>
               {t("Liquidation Limit")}

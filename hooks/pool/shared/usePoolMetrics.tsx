@@ -25,10 +25,10 @@ const usePoolMetrics = (poolData: PoolConfig | undefined) => {
         // const totalBaseSupplyBalance = comet.totalSupply();
         // const totalBaseBorrowBalance = comet.totalBorrow();
         // const totalCollateralBalance = CollateralBalance_TXJP + CollateralBalance_wstETH + CollateralBalance_USDC + CollateralBalance_crvUSD;
-          // const CollateralBalance_TXJP = comet.totalsCollateral[address_TXJP];
-          // const CollateralBalance_wstETH = comet.totalsCollateral[address_wstETH];
-          // const CollateralBalance_USDC = comet.totalsCollateral[address_USDC];
-          // const CollateralBalance_crvUSD = comet.totalsCollateral[address_crvUSD];
+        // const CollateralBalance_TXJP = comet.totalsCollateral[address_TXJP];
+        // const CollateralBalance_wstETH = comet.totalsCollateral[address_wstETH];
+        // const CollateralBalance_USDC = comet.totalsCollateral[address_USDC];
+        // const CollateralBalance_crvUSD = comet.totalsCollateral[address_crvUSD];
         // const availableLiquidity = ?;
 
         // ダミーデータを使用

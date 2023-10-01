@@ -84,8 +84,7 @@ const CollateralAssetRow = ({
               </Text>
 
               <Text fontSize="sm">
-                {smallFormatter(collateralAssetData.yourSupply)}{" "}
-                {symbol}
+                {smallFormatter(collateralAssetData.yourSupply)} {symbol}
               </Text>
             </>
           ) : (
@@ -107,8 +106,7 @@ const CollateralAssetRow = ({
               </Text>
 
               <Text fontSize="sm">
-                {smallFormatter(collateralAssetData.collateralValue)}{" "}
-                {symbol}
+                {smallFormatter(collateralAssetData.collateralValue)} {symbol}
               </Text>
             </>
           ) : (

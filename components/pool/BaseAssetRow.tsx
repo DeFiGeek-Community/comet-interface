@@ -101,8 +101,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                   </Text>
 
                   <Text fontSize="sm">
-                    {smallFormatter(baseAssetData.yourSupply)}{" "}
-                    {symbol}
+                    {smallFormatter(baseAssetData.yourSupply)} {symbol}
                   </Text>
                 </>
               ) : (
@@ -144,8 +143,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallFormatter(baseAssetData.yourBorrow)}{" "}
-                      {symbol}
+                      {smallFormatter(baseAssetData.yourBorrow)} {symbol}
                     </Text>
                   </>
                 ) : (
@@ -166,10 +164,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallFormatter(
-                        baseAssetData.availableToBorrow,
-                      )}{" "}
-                      {symbol}
+                      {smallFormatter(baseAssetData.availableToBorrow)} {symbol}
                     </Text>
                   </>
                 ) : (

@@ -34,8 +34,12 @@ const DepositModal = ({
 
   let baseAsset;
   let collateralAsset;
-  if(isBase) { baseAsset = poolData?.baseToken; }
-  if(!isBase) { collateralAsset = poolData?.assetConfigs[index]; }
+  if (isBase) {
+    baseAsset = poolData?.baseToken;
+  }
+  if (!isBase) {
+    collateralAsset = poolData?.assetConfigs[index];
+  }
 
   return (
     <Modal
