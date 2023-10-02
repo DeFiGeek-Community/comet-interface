@@ -12,6 +12,23 @@ export const AmountInput = ({
   color: string;
   disabled?: boolean;
 }) => {
+
+  const maxValue = 10000;
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value = event.target.value;
+
+    // 数値以外の文字を削除
+    value = value.replace(/[^0-9.]/g, '');
+
+    // maxValueを超える値を制限
+    if (parseFloat(value) > maxValue) {
+      value = maxValue.toString();
+    }
+
+    updateAmount(value);
+  };
+
   return (
     <Input
       type="number"
@@ -23,9 +40,10 @@ export const AmountInput = ({
       placeholder="0.0"
       value={displayAmount}
       color={color}
-      onChange={(event) => updateAmount(event.target.value)}
+      onChange={handleInputChange}
       mr={4}
       disabled={disabled}
+      max={maxValue} // HTML5のバリデーションも追加
     />
   );
 };
