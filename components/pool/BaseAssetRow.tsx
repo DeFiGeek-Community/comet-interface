@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
+import { smallUsdPriceFormatter, smallFormatter } from "utils/bigUtils";
 import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
+import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
@@ -28,6 +29,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   const { baseAssetData } = useBaseAssetData(poolData);
   const { tokenRewardData } = useTokenRewardData(poolData);
+  const { priceFeedData } = usePriceFeedData(poolData);
+  const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
 
   const isMobile = useIsMobile();
 
@@ -94,10 +97,10 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
               crossAxisAlignment="center"
               width={"33%"}
             >
-              {baseAssetData ? (
+              {baseAssetData && assetPrice ? (
                 <>
                   <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                    {smallUsdFormatter(baseAssetData.yourSupply)}
+                    {smallUsdPriceFormatter(baseAssetData.yourSupply, assetPrice)}
                   </Text>
 
                   <Text fontSize="sm">
@@ -136,10 +139,10 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData ? (
+                {baseAssetData && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdFormatter(baseAssetData.yourBorrow)}
+                      {smallUsdPriceFormatter(baseAssetData.yourBorrow, assetPrice)}
                     </Text>
 
                     <Text fontSize="sm">
@@ -157,10 +160,10 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData ? (
+                {baseAssetData && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdFormatter(baseAssetData.availableToBorrow)}
+                      {smallUsdPriceFormatter(baseAssetData.availableToBorrow, assetPrice)}
                     </Text>
 
                     <Text fontSize="sm">

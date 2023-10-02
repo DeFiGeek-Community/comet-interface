@@ -13,6 +13,9 @@ const shortFormatter = new Intl.NumberFormat("en-US", {
 export function smallUsdFormatter(num: number) {
   return formatter.format(num);
 }
+export function smallUsdPriceFormatter(num: number, price: number) {
+  return formatter.format(num * price);
+}
 export function smallFormatter(num: number) {
   return smallUsdFormatter(num).replace("$", "");
 }

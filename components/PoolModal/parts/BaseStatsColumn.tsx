@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@chakra-ui/react";
-import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
+import { smallFormatter } from "utils/bigUtils";
 import { Column, Center } from "utils/chakraUtils";
 import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import DashboardBox from "components/shared/DashboardBox";
@@ -105,7 +105,7 @@ export const BaseStatsColumn = ({
 
             <StatsRow
               label={t("Available to Borrow") + ":"}
-              value={smallUsdFormatter(baseAssetData.availableToBorrow)}
+              value={`${smallFormatter(baseAssetData.availableToBorrow)} ${symbol}`}
             />
           </>
         ) : (

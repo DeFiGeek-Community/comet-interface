@@ -28,10 +28,10 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
         // ダミーデータを使用
         fetchedData = {
           usdjpy: 140,
-          baseAsset: 0.01,
+          baseAsset: 0.0067,
           collateralAssets: {
-            TXJP: 0.04,
-            wstETH: 2000,
+            TXJP: 52.44,
+            wstETH: 1732,
           },
           rewardAsset: 1,
         };

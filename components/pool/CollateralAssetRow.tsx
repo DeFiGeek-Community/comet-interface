@@ -2,8 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAsset";
+import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
+import { smallFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import PoolModal, { Mode } from "components/PoolModal";
 import { PoolConfig } from "interfaces/pool";
 
@@ -27,7 +28,9 @@ const CollateralAssetRow = ({
 
   const isMobile = useIsMobile();
 
-  const { collateralAssetData, error, reload } = useCollateralAssetData(asset);
+  const { collateralAssetData } = useCollateralAssetData(asset);
+  const { priceFeedData } = usePriceFeedData(poolData);
+  const assetPrice = priceFeedData ? priceFeedData.collateralAssets[symbol] : null;
 
   const { t } = useTranslation();
 
@@ -77,10 +80,10 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "40%" : "20%"}
         >
-          {collateralAssetData ? (
+          {collateralAssetData && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdFormatter(collateralAssetData.yourSupply)}
+                {smallUsdPriceFormatter(collateralAssetData.yourSupply, assetPrice)}
               </Text>
 
               <Text fontSize="sm">
@@ -99,10 +102,10 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "40%" : "20%"}
         >
-          {collateralAssetData ? (
+          {collateralAssetData && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdFormatter(collateralAssetData.collateralValue)}
+                {smallUsdPriceFormatter(collateralAssetData.collateralValue, assetPrice)}
               </Text>
 
               <Text fontSize="sm">

@@ -27,10 +27,10 @@ const useBaseAssetData = (poolData: PoolConfig | undefined) => {
         // ダミーデータを使用
         fetchedData = {
           supplyAPR: 5.0,
-          yourSupply: 100,
+          yourSupply: 0,
           borrowAPR: 10.0,
-          yourBorrow: 50,
-          availableToBorrow: 120,
+          yourBorrow: 504000,
+          availableToBorrow: 120000,
         };
       } catch (err) {
         if (err instanceof Error) {
