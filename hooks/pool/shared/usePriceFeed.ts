@@ -20,7 +20,9 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
     const fetchPriceFeedData = async () => {
       try {
         // ここでデータを取得するロジックを書く
-        // const usdjpy = MultiplicativePriceFeed.??;
+        // const jpyusd = comet.getPrice(jpyusdPriceFeed);
+        // const usdjpy = jpyusd != 0 ? 1 / jpyusd : undefined;
+
         // const baseAsset = comet.getPrice(baseTokenPriceFeed);
         // const TXJP = comet.getPrice(TXJPPriceFeed);
         // const wstETH = WstETHPriceFeed.latestRoundData();
