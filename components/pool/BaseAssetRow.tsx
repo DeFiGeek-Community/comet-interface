@@ -57,7 +57,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
         <Row
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
-          width="100%"
+          width={isMobile ? "66%" : "100%"}
           height="72px"
           className="hover-row"
           as="button"
@@ -67,7 +67,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
           <Row
             mainAxisAlignment="flex-start"
             crossAxisAlignment="center"
-            width="33%"
+            width={isMobile ? "50%" : "33%"}
           >
             <Avatar
               bg="#FFF"
@@ -88,7 +88,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
             rewardToken={poolData.rewardToken}
             baseAPR={baseAssetData?.supplyAPR}
             tokenReward={tokenRewardData?.supplyRewardAPR}
-            width={isMobile ? "100%" : "33%"}
+            width={isMobile ? "50%" : "33%"}
           />
 
           {!isMobile && (
@@ -118,7 +118,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
         <Row
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
-          width="100%"
+          width={isMobile ? "33%" : "100%"}
           height="72px"
           className="hover-row"
           as="button"

@@ -59,7 +59,7 @@ const CollateralAssetRow = ({
         <Row
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
-          width="20%"
+          width={isMobile ? "33%" : "20%"}
         >
           <Avatar
             bg="#FFF"
@@ -78,7 +78,7 @@ const CollateralAssetRow = ({
         <Column
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
-          width={isMobile ? "40%" : "20%"}
+          width={isMobile ? "33%" : "20%"}
         >
           {collateralAssetData && assetPrice ? (
             <>
@@ -100,7 +100,7 @@ const CollateralAssetRow = ({
         <Column
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
-          width={isMobile ? "40%" : "20%"}
+          width={isMobile ? "33%" : "20%"}
         >
           {collateralAssetData && assetPrice ? (
             <>
