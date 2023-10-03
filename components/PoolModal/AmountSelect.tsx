@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
 import { Heading, Box, Button, Text, Image } from "@chakra-ui/react";
 import { HashLoader } from "react-spinners";
+import { useBalance, useAccount } from "wagmi";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAsset";
@@ -49,17 +50,33 @@ const AmountSelect = ({
 
   const { t } = useTranslation();
 
-  const asset = baseAsset ? baseAsset : collateralAsset;
-
   const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
 
+  const asset = isBase ? baseAsset : collateralAsset;
+
+  const { address } = useAccount();
   const { baseAssetData } = useBaseAssetData(poolData);
   const { collateralAssetData } = useCollateralAssetData(collateralAsset);
-
+  
   const maxWithdraw = isBase
-    ? baseAssetData?.yourBorrow || baseAssetData?.yourSupply
-    : collateralAssetData?.yourSupply;
+  ? baseAssetData?.yourBorrow ?? baseAssetData?.yourSupply
+  : collateralAssetData?.yourSupply;
+  
+  const isSupplyMode = mode === Mode.SUPPLY || mode === Mode.BASE_SUPPLY;
 
+  const { data: tokenBalance } = useBalance({
+    address,
+    token: asset?.address,
+    cacheTime: 60_000,
+    enabled: isSupplyMode && Boolean(asset?.address),
+  });
+  
+  const isMaxLoading = isSupplyMode
+    ? !Boolean(tokenBalance)
+    : !Boolean(maxWithdraw);
+
+  const maxValue = isSupplyMode ? Number(tokenBalance?.formatted) : maxWithdraw;
+  
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
       return;
@@ -175,12 +192,13 @@ const AmountSelect = ({
                   color={"#FFF"}
                   displayAmount={userEnteredAmount}
                   updateAmount={updateAmount}
+                  maxValue={maxValue}
                 />
                 <TokenNameAndMaxButton
-                  mode={mode}
-                  asset={asset}
                   updateAmount={updateAmount}
-                  maxWithdraw={maxWithdraw}
+                  asset={asset}
+                  maxValue={maxValue}
+                  isMaxLoading={isMaxLoading}
                 />
               </Row>
             </DashboardBox>

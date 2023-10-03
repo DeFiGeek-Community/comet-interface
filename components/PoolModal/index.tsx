@@ -32,13 +32,8 @@ const DepositModal = ({
     setMode(defaultMode);
   }, [isOpen, defaultMode]);
 
-  let baseAsset = poolData?.baseToken;
-  let collateralAsset;
-  if (!isBase) {
-    collateralAsset = poolData?.assetConfigs[index];
-  } else {
-    collateralAsset = poolData?.assetConfigs[0];
-  }
+  const baseAsset = poolData?.baseToken;
+  const collateralAsset = !isBase ? poolData?.assetConfigs[index] : poolData?.assetConfigs[0];
 
   return (
     <Modal

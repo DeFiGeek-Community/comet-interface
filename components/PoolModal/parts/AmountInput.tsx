@@ -6,14 +6,14 @@ export const AmountInput = ({
   updateAmount,
   color,
   disabled = false,
+  maxValue,
 }: {
   displayAmount: string;
   updateAmount: (symbol: string) => any;
   color: string;
   disabled?: boolean;
+  maxValue: number | undefined;
 }) => {
-
-  const maxValue = 10000;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
@@ -22,7 +22,8 @@ export const AmountInput = ({
     value = value.replace(/[^0-9.]/g, '');
 
     // maxValueを超える値を制限
-    if (parseFloat(value) > maxValue) {
+
+    if (maxValue && parseFloat(value) > maxValue) {
       value = maxValue.toString();
     }
 
@@ -43,7 +44,7 @@ export const AmountInput = ({
       onChange={handleInputChange}
       mr={4}
       disabled={disabled}
-      max={maxValue} // HTML5のバリデーションも追加
+      max={maxValue ?? 1000000000}
     />
   );
 };

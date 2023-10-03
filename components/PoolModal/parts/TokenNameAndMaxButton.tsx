@@ -1,48 +1,28 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading, Box, Button, Image } from "@chakra-ui/react";
-import { useBalance, useAccount } from "wagmi";
 import { Row } from "utils/chakraUtils";
-import { Mode } from "components/PoolModal";
 import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
 export const TokenNameAndMaxButton = ({
   updateAmount,
-  mode,
   asset,
-  maxWithdraw,
+  maxValue,
+  isMaxLoading,
 }: {
   updateAmount: (newAmount: string) => any;
-  mode: Mode;
   asset: BaseAsset | CollateralAsset | undefined;
-  maxWithdraw: number | undefined;
+  maxValue: number | undefined;
+  isMaxLoading: boolean;
 }) => {
-  const [isMaxLoading, setIsMaxLoading] = useState(false);
-  const { address } = useAccount();
-  const isBalance = mode == Mode.SUPPLY || mode == Mode.BASE_SUPPLY;
-  const { data: tokenBalance, isLoading } = useBalance({
-    address,
-    token: asset?.address,
-    cacheTime: 60_000,
-    enabled: isBalance && Boolean(asset?.address),
-  });
+  const [isClickLoading, setIsClickLoading] = useState(false);
 
-  const isBalanceLoading = !(isBalance && !isLoading && Boolean(tokenBalance));
-  const isWithdrawLoading = !(!isBalance && Boolean(maxWithdraw));
   const { t } = useTranslation();
 
   const setToMax = async () => {
-    setIsMaxLoading(true);
-    try {
-      const amount =
-        isBalance && tokenBalance
-          ? tokenBalance.formatted
-          : String(maxWithdraw);
-      updateAmount(amount);
-      setIsMaxLoading(false);
-    } catch (e) {
-      console.log("TokenNameAndMaxButton_error", e);
-    }
+    setIsClickLoading(true);
+    updateAmount(maxValue?.toString() ?? "0");
+    setIsClickLoading(false);
   };
 
   const logoURL =
@@ -86,9 +66,8 @@ export const TokenNameAndMaxButton = ({
         _active={{}}
         onClick={setToMax}
         isLoading={
-          (isBalanceLoading && isBalance) ||
-          (isWithdrawLoading && !isBalance) ||
-          isMaxLoading
+          isMaxLoading ||
+          isClickLoading
         }
       >
         {t("MAX")}
