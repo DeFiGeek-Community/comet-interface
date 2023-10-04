@@ -3,8 +3,11 @@ import Image from "next/image";
 import { Box, Link, Text } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row } from "utils/chakraUtils";
+import { useChainPool } from "hooks/useChainPool";
 
 export const Header = () => {
+  const { chainId, poolName } = useChainPool();
+
   return (
     <Row
       color="#FFFFFF"
@@ -31,8 +34,8 @@ export const Header = () => {
         transform="translate(0px, 7px)"
         width="80%"
       >
-        <HeaderLink name="CJPY Pool" route="#" />
-        <HeaderLink name="ETH Pool" route="#" />
+        <HeaderLink name="CJPY Pool" route="/" isGreyedOut={poolName === "CJPY"} />
+        <HeaderLink name="USDC Pool" route="/?pool=USDC" isGreyedOut={poolName === "USDC"} />
         <HeaderLink name="Document" route="#" />
       </Row>
       <Row expand crossAxisAlignment="flex-end" mainAxisAlignment="flex-end">
@@ -45,13 +48,20 @@ export const Header = () => {
 export const HeaderLink = ({
   name,
   route,
+  isGreyedOut = false,
 }: {
   name: string;
   route: string;
+  isGreyedOut?: boolean;
 }) => {
   return (
-    <Link href={route} whiteSpace="nowrap" className="no-underline">
-      <Text mx={4}>{name}</Text>
+    <Link 
+      href={isGreyedOut ? undefined : route} 
+      whiteSpace="nowrap" 
+      className="no-underline" 
+      pointerEvents={isGreyedOut ? "none" : "auto"}
+    >
+      <Text mx={4} color={isGreyedOut ? "gray.400" : "white"}>{name}</Text>
     </Link>
   );
 };
