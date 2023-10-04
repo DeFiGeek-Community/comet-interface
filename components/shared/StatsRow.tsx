@@ -7,13 +7,11 @@ const StatsRow = ({
   value,
   secondaryValue,
   color,
-  fontSize = "lg",
 }: {
   label: string;
   value: string | number;
   secondaryValue?: string | number;
   color?: string;
-  fontSize?: string;
 }) => (
   <Row
     mainAxisAlignment="space-between"
@@ -24,7 +22,7 @@ const StatsRow = ({
     <Text fontWeight="bold" flexShrink={0}>
       {label}
     </Text>
-    <Text fontWeight="bold" flexShrink={0} fontSize={fontSize}>
+    <Text fontWeight="bold" flexShrink={0} fontSize={secondaryValue ? "sm" : "lg"}>
       {value}
       {secondaryValue && (
         <>
