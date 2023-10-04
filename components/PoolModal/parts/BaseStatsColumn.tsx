@@ -83,7 +83,6 @@ export const BaseStatsColumn = ({
                   ? `${baseAssetData.borrowAPR} %`
                   : ""
               }
-              fontSize="lg"
             />
 
             <StatsRow
