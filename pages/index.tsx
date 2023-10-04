@@ -4,17 +4,25 @@ import { HashLoader } from "react-spinners";
 import { Center } from "utils/chakraUtils";
 import PoolPage from "components/PoolPage";
 import { PoolContext } from "context/PoolContext";
+import { useRouter } from "next/router";
 
 const Pool = () => {
   const { chain } = useNetwork();
-  const [chainId, setChainId] = useState<number>(1);
-  const [poolName, setPoolName] = useState<string>("CJPY");
+  const router = useRouter();
+  const [chainId, setChainId] = useState<number>(chain?.id || 1);
+  const [poolName, setPoolName] = useState<string>("");
 
   useEffect(() => {
     if (chain) {
       setChainId(chain.id);
     }
   }, [chain]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      setPoolName(router.query.pool ? (router.query.pool as string) : "CJPY");
+    }
+  }, [router.isReady, router.query.pool]);
 
   const [isRendered, setIsRendered] = useState(false);
 
@@ -26,7 +34,7 @@ const Pool = () => {
     <PoolContext.Provider
       value={{ chainId, poolName, setChainId, setPoolName }}
     >
-      {isRendered ? (
+      {isRendered && router.isReady ? (
         <PoolPage />
       ) : (
         <Center height="100vh">

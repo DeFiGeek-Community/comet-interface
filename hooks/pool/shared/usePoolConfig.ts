@@ -5,14 +5,12 @@ import { PoolConfig } from "interfaces/pool";
 
 const usePoolConfig = () => {
   const { chainId, poolName } = useChainPool();
-  const [poolConfig, setPoolConfig] = useState<PoolConfig>();
+  const [poolConfig, setPoolConfig] = useState<PoolConfig | undefined>();
 
   useEffect(() => {
     if (chainId && poolName) {
       const config = POOL_CONFIG_MAP[chainId]?.[poolName];
-      if (config) {
-        setPoolConfig(config);
-      }
+      setPoolConfig(config);
     }
   }, [chainId, poolName]);
 
