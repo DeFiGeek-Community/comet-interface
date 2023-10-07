@@ -7,6 +7,7 @@ import StatsBar from "components/pool/StatsBar";
 import CollateralRatioBar from "components/pool/CollateralRatioBar";
 import BaseList from "components/pool/BaseList";
 import CollateralList from "components/pool/CollateralList";
+import ClaimReward from "components/pool/ClaimReward";
 import DashboardBox from "components/shared/DashboardBox";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
@@ -47,6 +48,15 @@ const PoolPage = memo(() => {
             <CollateralList poolData={poolData} />
           ) : (
             <Center height="200px">
+              <Spinner />
+            </Center>
+          )}
+        </DashboardBox>
+        <DashboardBox ml={0} mt={4} width={"100%"}>
+          {poolData ? (
+            <ClaimReward poolData={poolData} />
+          ) : (
+            <Center height="100px">
               <Spinner />
             </Center>
           )}
