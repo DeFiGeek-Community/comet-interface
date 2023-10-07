@@ -51,31 +51,51 @@ const AmountSelect = ({
   const { t } = useTranslation();
 
   const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
-
   const asset = isBase ? baseAsset : collateralAsset;
 
   const { address } = useAccount();
   const { baseAssetData } = useBaseAssetData(poolData);
   const { collateralAssetData } = useCollateralAssetData(collateralAsset);
 
-  const maxWithdraw = isBase
-    ? baseAssetData?.yourBorrow ?? baseAssetData?.yourSupply
-    : collateralAssetData?.yourSupply;
-
-  const isSupplyMode = mode === Mode.SUPPLY || mode === Mode.BASE_SUPPLY;
-
   const { data: tokenBalance } = useBalance({
     address,
     token: asset?.address,
     cacheTime: 60_000,
-    enabled: isSupplyMode && Boolean(asset?.address),
+    enabled: Boolean(asset?.address),
   });
 
-  const isMaxLoading = isSupplyMode
-    ? !Boolean(tokenBalance)
-    : !Boolean(maxWithdraw);
+  const baseSupplyBalance = baseAssetData?.yourSupply ?? 0;
+  const baseBorrowBalance = baseAssetData?.yourBorrow ?? 0;
+  const baseAvailableToBorrow = baseAssetData?.availableToBorrow ?? 0;
 
-  const maxValue = isSupplyMode ? Number(tokenBalance?.formatted) : maxWithdraw;
+  let maxValue;
+
+  switch (mode) {
+    case Mode.BASE_SUPPLY:
+      maxValue =
+        baseSupplyBalance > 0 || baseBorrowBalance === 0
+          ? Number(tokenBalance?.formatted)
+          : baseBorrowBalance;
+      break;
+    case Mode.BASE_BORROW:
+      const maxBorrow =
+        Number(tokenBalance?.formatted) > baseAvailableToBorrow
+          ? baseAvailableToBorrow
+          : Number(tokenBalance?.formatted);
+      maxValue =
+        baseBorrowBalance > 0 || baseSupplyBalance === 0
+          ? maxBorrow
+          : baseSupplyBalance;
+      break;
+    case Mode.SUPPLY:
+      maxValue = Number(tokenBalance?.formatted);
+      break;
+    case Mode.WITHDRAW:
+      maxValue = Number(collateralAssetData?.yourSupply);
+      break;
+    default:
+      break;
+  }
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -179,7 +199,12 @@ const AmountSelect = ({
             crossAxisAlignment="flex-start"
             width="100%"
           >
-            <TabBar color={"#FFF"} mode={mode} setMode={setMode} />
+            <TabBar
+              color={"#FFF"}
+              mode={mode}
+              setMode={setMode}
+              updateAmount={updateAmount}
+            />
 
             <DashboardBox width="100%" height="70px">
               <Row
@@ -198,7 +223,7 @@ const AmountSelect = ({
                   updateAmount={updateAmount}
                   asset={asset}
                   maxValue={maxValue}
-                  isMaxLoading={isMaxLoading}
+                  isMaxLoading={!Boolean(maxValue)}
                 />
               </Row>
             </DashboardBox>

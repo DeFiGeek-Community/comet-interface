@@ -80,9 +80,7 @@ export const BaseStatsColumn = ({
           }
           value={primaryValue1}
           secondaryValue={
-            amount && secondaryValue1
-              ? `${smallFormatter(secondaryValue1)} ${symbol}`
-              : 0
+            amount ? `${smallFormatter(secondaryValue1)} ${symbol}` : 0
           }
           color={color}
         />
@@ -101,9 +99,7 @@ export const BaseStatsColumn = ({
           }
           value={primaryValue2}
           secondaryValue={
-            amount && secondaryValue2
-              ? `${smallFormatter(secondaryValue2)} ${symbol}`
-              : 0
+            amount ? `${smallFormatter(secondaryValue2)} ${symbol}` : 0
           }
         />
         <StatsRow

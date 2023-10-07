@@ -7,10 +7,12 @@ export const TabBar = ({
   color,
   mode,
   setMode,
+  updateAmount,
 }: {
   mode: Mode;
   setMode: (mode: Mode) => any;
   color: string | null | undefined;
+  updateAmount: (newAmount: string) => any;
 }) => {
   const isSupplySide = mode < 2;
   const { t } = useTranslation();
@@ -40,6 +42,7 @@ export const TabBar = ({
           align="center"
           index={isSupplySide ? mode : mode - 2}
           onChange={(index: number) => {
+            updateAmount("");
             if (isSupplySide) {
               return setMode(index);
             } else {

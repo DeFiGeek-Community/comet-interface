@@ -30,7 +30,7 @@ const useBaseAssetData = (poolData: PoolConfig | undefined) => {
           yourSupply: 0,
           borrowAPR: 10.0,
           yourBorrow: 504000,
-          availableToBorrow: 120000,
+          availableToBorrow: 7000,
         };
         // fetchedData = {
         //   supplyAPR: 5.0,
