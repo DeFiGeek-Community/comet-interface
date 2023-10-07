@@ -22,7 +22,11 @@ const StatsRow = ({
     <Text fontWeight="bold" flexShrink={0}>
       {label}
     </Text>
-    <Text fontWeight="bold" flexShrink={0} fontSize={secondaryValue ? "sm" : "lg"}>
+    <Text
+      fontWeight="bold"
+      flexShrink={0}
+      fontSize={secondaryValue ? "sm" : "lg"}
+    >
       {value}
       {Boolean(secondaryValue) && (
         <>

@@ -14,12 +14,11 @@ export const AmountInput = ({
   disabled?: boolean;
   maxValue: number | undefined;
 }) => {
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
 
     // 数値以外の文字を削除
-    value = value.replace(/[^0-9.]/g, '');
+    value = value.replace(/[^0-9.]/g, "");
 
     // maxValueを超える値を制限
 

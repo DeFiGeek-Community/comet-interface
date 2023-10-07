@@ -30,7 +30,9 @@ const CollateralAssetRow = ({
 
   const { collateralAssetData } = useCollateralAssetData(asset);
   const { priceFeedData } = usePriceFeedData(poolData);
-  const assetPrice = priceFeedData ? priceFeedData.collateralAssets[symbol] : null;
+  const assetPrice = priceFeedData
+    ? priceFeedData.collateralAssets[symbol]
+    : null;
 
   const { t } = useTranslation();
 
@@ -83,7 +85,10 @@ const CollateralAssetRow = ({
           {collateralAssetData && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdPriceFormatter(collateralAssetData.yourSupply, assetPrice)}
+                {smallUsdPriceFormatter(
+                  collateralAssetData.yourSupply,
+                  assetPrice,
+                )}
               </Text>
 
               <Text fontSize="sm">
@@ -105,7 +110,10 @@ const CollateralAssetRow = ({
           {collateralAssetData && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdPriceFormatter(collateralAssetData.collateralValue, assetPrice)}
+                {smallUsdPriceFormatter(
+                  collateralAssetData.collateralValue,
+                  assetPrice,
+                )}
               </Text>
 
               <Text fontSize="sm">

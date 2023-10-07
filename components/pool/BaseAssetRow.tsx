@@ -100,7 +100,10 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
               {baseAssetData && assetPrice ? (
                 <>
                   <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                    {smallUsdPriceFormatter(baseAssetData.yourSupply, assetPrice)}
+                    {smallUsdPriceFormatter(
+                      baseAssetData.yourSupply,
+                      assetPrice,
+                    )}
                   </Text>
 
                   <Text fontSize="sm">
@@ -142,7 +145,10 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 {baseAssetData && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdPriceFormatter(baseAssetData.yourBorrow, assetPrice)}
+                      {smallUsdPriceFormatter(
+                        baseAssetData.yourBorrow,
+                        assetPrice,
+                      )}
                     </Text>
 
                     <Text fontSize="sm">
@@ -163,7 +169,10 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 {baseAssetData && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdPriceFormatter(baseAssetData.availableToBorrow, assetPrice)}
+                      {smallUsdPriceFormatter(
+                        baseAssetData.availableToBorrow,
+                        assetPrice,
+                      )}
                     </Text>
 
                     <Text fontSize="sm">

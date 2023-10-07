@@ -74,19 +74,37 @@ export const BaseStatsColumn = ({
         fontSize="lg"
       >
         <StatsRow
-          label={t(mode === Mode.BASE_SUPPLY ? "Supply Balance" : "Borrow Balance") + ":"}
+          label={
+            t(mode === Mode.BASE_SUPPLY ? "Supply Balance" : "Borrow Balance") +
+            ":"
+          }
           value={primaryValue1}
-          secondaryValue={amount && secondaryValue1 ? `${smallFormatter(secondaryValue1)} ${symbol}` : 0}
+          secondaryValue={
+            amount && secondaryValue1
+              ? `${smallFormatter(secondaryValue1)} ${symbol}`
+              : 0
+          }
           color={color}
         />
         <StatsRow
           label={t(mode === Mode.BASE_SUPPLY ? "Supply APR" : "Borrow APR")}
-          value={`${mode === Mode.BASE_SUPPLY ? baseAssetData.supplyAPR : baseAssetData.borrowAPR} %`}
+          value={`${
+            mode === Mode.BASE_SUPPLY
+              ? baseAssetData.supplyAPR
+              : baseAssetData.borrowAPR
+          } %`}
         />
         <StatsRow
-          label={t(mode === Mode.BASE_SUPPLY ? "Borrow Balance" : "Supply Balance") + ":"}
+          label={
+            t(mode === Mode.BASE_SUPPLY ? "Borrow Balance" : "Supply Balance") +
+            ":"
+          }
           value={primaryValue2}
-          secondaryValue={amount && secondaryValue2 ? `${smallFormatter(secondaryValue2)} ${symbol}` : 0}
+          secondaryValue={
+            amount && secondaryValue2
+              ? `${smallFormatter(secondaryValue2)} ${symbol}`
+              : 0
+          }
         />
         <StatsRow
           label={t("Available to Borrow") + ":"}

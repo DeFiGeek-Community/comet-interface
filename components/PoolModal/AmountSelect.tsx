@@ -57,11 +57,11 @@ const AmountSelect = ({
   const { address } = useAccount();
   const { baseAssetData } = useBaseAssetData(poolData);
   const { collateralAssetData } = useCollateralAssetData(collateralAsset);
-  
+
   const maxWithdraw = isBase
-  ? baseAssetData?.yourBorrow ?? baseAssetData?.yourSupply
-  : collateralAssetData?.yourSupply;
-  
+    ? baseAssetData?.yourBorrow ?? baseAssetData?.yourSupply
+    : collateralAssetData?.yourSupply;
+
   const isSupplyMode = mode === Mode.SUPPLY || mode === Mode.BASE_SUPPLY;
 
   const { data: tokenBalance } = useBalance({
@@ -70,13 +70,13 @@ const AmountSelect = ({
     cacheTime: 60_000,
     enabled: isSupplyMode && Boolean(asset?.address),
   });
-  
+
   const isMaxLoading = isSupplyMode
     ? !Boolean(tokenBalance)
     : !Boolean(maxWithdraw);
 
   const maxValue = isSupplyMode ? Number(tokenBalance?.formatted) : maxWithdraw;
-  
+
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
       return;

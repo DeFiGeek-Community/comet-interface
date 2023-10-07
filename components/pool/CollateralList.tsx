@@ -36,10 +36,20 @@ const CollateralList = ({ poolData }: { poolData: PoolConfig }) => {
         <Text width={isMobile ? "33%" : "20%"} fontWeight="bold" pl={1}>
           {t("Asset")}
         </Text>
-        <Text width={isMobile ? "33%" : "20%"} textAlign="center" fontWeight="bold" pl={1}>
+        <Text
+          width={isMobile ? "33%" : "20%"}
+          textAlign="center"
+          fontWeight="bold"
+          pl={1}
+        >
           {t("Your Supply")}
         </Text>
-        <Text width={isMobile ? "33%" : "20%"} textAlign="center" fontWeight="bold" pl={1}>
+        <Text
+          width={isMobile ? "33%" : "20%"}
+          textAlign="center"
+          fontWeight="bold"
+          pl={1}
+        >
           {t("Collateral Value")}
         </Text>
 

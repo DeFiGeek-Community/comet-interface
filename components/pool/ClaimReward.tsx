@@ -37,10 +37,20 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
         <Text width={isMobile ? "33%" : "33%"} fontWeight="bold" pl={1}>
           {t("Reward Asset")}
         </Text>
-        <Text width={isMobile ? "33%" : "33%"} textAlign="center" fontWeight="bold" pl={1}>
+        <Text
+          width={isMobile ? "33%" : "33%"}
+          textAlign="center"
+          fontWeight="bold"
+          pl={1}
+        >
           {t("Your Token Reward")}
         </Text>
-        <Text width={isMobile ? "33%" : "33%"} textAlign="center" fontWeight="bold" pl={1}>
+        <Text
+          width={isMobile ? "33%" : "33%"}
+          textAlign="center"
+          fontWeight="bold"
+          pl={1}
+        >
           {t("Token Claim")}
         </Text>
       </Row>
@@ -51,64 +61,69 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
         expand
         mt={1}
       >
-      <Row
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="center"
-        width="100%"
-        px={4}
-        py={1.5}
-      >
-        {/* Underlying Token Data */}
         <Row
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
-          width={isMobile ? "33%" : "33%"}
+          width="100%"
+          px={4}
+          py={1.5}
         >
-          <Avatar
-            bg="#FFF"
-            boxSize="37px"
-            name={asset?.symbol}
-            src={
-              asset?.logoURL ??
-              "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-            }
-          />
-          <Text fontWeight="bold" fontSize="lg" ml={2} flexShrink={0}>
-            {asset?.symbol}
-          </Text>
-        </Row>
-
-        <Column
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          width="33%"
-        >
-          {claimReward ? (
-            <Row crossAxisAlignment="center" mainAxisAlignment="center">
-              <Text textAlign="center" mx={5}>
-                {claimReward?.yourTokenReward} {asset?.symbol}
-              </Text>
-            </Row>
-          ) : (
-            <Center height="50px">
-              <Spinner />
-            </Center>
-          )}
-        </Column>
-        <Column
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          width="33%"
-        >
-          <Row crossAxisAlignment="center" mainAxisAlignment="center">
-            <Button
-            isLoading={!Boolean(claimReward?.yourTokenReward && claimReward?.yourTokenReward > 0)}
-            >
-              Claim
-            </Button>
+          {/* Underlying Token Data */}
+          <Row
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            width={isMobile ? "33%" : "33%"}
+          >
+            <Avatar
+              bg="#FFF"
+              boxSize="37px"
+              name={asset?.symbol}
+              src={
+                asset?.logoURL ??
+                "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+              }
+            />
+            <Text fontWeight="bold" fontSize="lg" ml={2} flexShrink={0}>
+              {asset?.symbol}
+            </Text>
           </Row>
-        </Column>
-      </Row>
+
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            width="33%"
+          >
+            {claimReward ? (
+              <Row crossAxisAlignment="center" mainAxisAlignment="center">
+                <Text textAlign="center" mx={5}>
+                  {claimReward?.yourTokenReward} {asset?.symbol}
+                </Text>
+              </Row>
+            ) : (
+              <Center height="50px">
+                <Spinner />
+              </Center>
+            )}
+          </Column>
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            width="33%"
+          >
+            <Row crossAxisAlignment="center" mainAxisAlignment="center">
+              <Button
+                isLoading={
+                  !Boolean(
+                    claimReward?.yourTokenReward &&
+                      claimReward?.yourTokenReward > 0,
+                  )
+                }
+              >
+                Claim
+              </Button>
+            </Row>
+          </Column>
+        </Row>
       </Column>
     </Column>
   );
