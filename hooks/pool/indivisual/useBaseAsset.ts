@@ -32,6 +32,20 @@ const useBaseAssetData = (poolData: PoolConfig | undefined) => {
           yourBorrow: 504000,
           availableToBorrow: 120000,
         };
+        // fetchedData = {
+        //   supplyAPR: 5.0,
+        //   yourSupply: 504000,
+        //   borrowAPR: 10.0,
+        //   yourBorrow: 0,
+        //   availableToBorrow: 120000,
+        // };
+        // fetchedData = {
+        //   supplyAPR: 5.0,
+        //   yourSupply: 0,
+        //   borrowAPR: 10.0,
+        //   yourBorrow: 0,
+        //   availableToBorrow: 120000,
+        // };
       } catch (err) {
         if (err instanceof Error) {
           setError(err);
