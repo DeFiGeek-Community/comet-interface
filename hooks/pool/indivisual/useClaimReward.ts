@@ -22,7 +22,7 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
 
         // ダミーデータを使用
         fetchedData = {
-          yourTokenReward: 180,
+          yourTokenReward: 0,
         };
       } catch (err) {
         if (err instanceof Error) {

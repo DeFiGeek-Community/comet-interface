@@ -100,19 +100,13 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
           crossAxisAlignment="center"
           width="33%"
         >
-          {claimReward ? (
-            <Row crossAxisAlignment="center" mainAxisAlignment="center">
-              <Button
-              isLoading={!Boolean(claimReward?.yourTokenReward)}
-              >
-                Claim
-              </Button>
-            </Row>
-          ) : (
-            <Center height="50px">
-              <Spinner />
-            </Center>
-          )}
+          <Row crossAxisAlignment="center" mainAxisAlignment="center">
+            <Button
+            isLoading={!Boolean(claimReward?.yourTokenReward && claimReward?.yourTokenReward > 0)}
+            >
+              Claim
+            </Button>
+          </Row>
         </Column>
       </Row>
       </Column>
