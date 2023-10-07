@@ -38,14 +38,14 @@ export const BaseStatsColumn = ({
   const supplyBalance = baseAssetData.yourSupply;
   const borrowBalance = baseAssetData.yourBorrow;
 
-  let primaryValue1 = "";
+  let primaryValue1 = 0;
   let secondaryValue1 = 0;
-  let primaryValue2 = "";
+  let primaryValue2 = 0;
   let secondaryValue2 = 0;
 
   if (mode === Mode.BASE_SUPPLY) {
-    primaryValue1 = `${smallFormatter(supplyBalance)} ${symbol}`;
-    primaryValue2 = `${smallFormatter(borrowBalance)} ${symbol}`;
+    primaryValue1 = supplyBalance;
+    primaryValue2 = borrowBalance;
 
     if (supplyBalance > 0 || borrowBalance === 0) {
       secondaryValue1 = supplyBalance + amount;
@@ -53,8 +53,8 @@ export const BaseStatsColumn = ({
       secondaryValue2 = borrowBalance - amount;
     }
   } else if (mode === Mode.BASE_BORROW) {
-    primaryValue1 = `${smallFormatter(borrowBalance)} ${symbol}`;
-    primaryValue2 = `${smallFormatter(supplyBalance)} ${symbol}`;
+    primaryValue1 = borrowBalance;
+    primaryValue2 = supplyBalance;
 
     if (borrowBalance > 0 || supplyBalance === 0) {
       secondaryValue1 = borrowBalance + amount;
@@ -78,9 +78,11 @@ export const BaseStatsColumn = ({
             t(mode === Mode.BASE_SUPPLY ? "Supply Balance" : "Borrow Balance") +
             ":"
           }
-          value={primaryValue1}
+          value={`${smallFormatter(primaryValue1)} ${symbol}`}
           secondaryValue={
-            amount ? `${smallFormatter(secondaryValue1)} ${symbol}` : 0
+            amount && primaryValue1 !== secondaryValue1
+              ? `${smallFormatter(secondaryValue1)} ${symbol}`
+              : 0
           }
           color={color}
         />
@@ -97,10 +99,13 @@ export const BaseStatsColumn = ({
             t(mode === Mode.BASE_SUPPLY ? "Borrow Balance" : "Supply Balance") +
             ":"
           }
-          value={primaryValue2}
+          value={`${smallFormatter(primaryValue2)} ${symbol}`}
           secondaryValue={
-            amount ? `${smallFormatter(secondaryValue2)} ${symbol}` : 0
+            amount && primaryValue2 !== secondaryValue2
+              ? `${smallFormatter(secondaryValue2)} ${symbol}`
+              : 0
           }
+          color={color}
         />
         <StatsRow
           label={t("Available to Borrow") + ":"}
