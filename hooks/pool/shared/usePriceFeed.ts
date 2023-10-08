@@ -29,12 +29,23 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
         // const rewardAsset = comet.getPrice(rewardAssetPriceFeed);
 
         // ダミーデータを使用
+        // fetchedData = {
+        //   usdjpy: 140,
+        //   baseAsset: 0.0067,
+        //   collateralAssets: {
+        //     TXJP: 52.44,
+        //     wstETH: 1732,
+        //   },
+        //   rewardAsset: 1,
+        // };
         fetchedData = {
           usdjpy: 140,
-          baseAsset: 0.0067,
+          baseAsset: 1,
           collateralAssets: {
-            TXJP: 52.44,
-            wstETH: 1732,
+            COMP: 52.44,
+            wBTC: 1732,
+            wETH: 1732,
+            LINK: 1732,
           },
           rewardAsset: 1,
         };
