@@ -60,6 +60,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 80,
           liquidateCollateralFactor: 90,
           liquidationFactor: 90,
+          LiquidationPenalty: 10,
           supplyCap: 100000,
         },
         {
@@ -73,6 +74,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 85,
           liquidateCollateralFactor: 95,
           liquidationFactor: 95,
+          LiquidationPenalty: 10,
           supplyCap: 50000,
         },
       ],
@@ -128,6 +130,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 80,
           liquidateCollateralFactor: 90,
           liquidationFactor: 90,
+          LiquidationPenalty: 10,
           supplyCap: 100000,
         },
         {
@@ -141,6 +144,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 85,
           liquidateCollateralFactor: 95,
           liquidationFactor: 95,
+          LiquidationPenalty: 10,
           supplyCap: 50000,
         },
         {
@@ -154,6 +158,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 85,
           liquidateCollateralFactor: 95,
           liquidationFactor: 95,
+          LiquidationPenalty: 10,
           supplyCap: 50000,
         },
         {
@@ -167,6 +172,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 85,
           liquidateCollateralFactor: 95,
           liquidationFactor: 95,
+          LiquidationPenalty: 10,
           supplyCap: 50000,
         },
       ],

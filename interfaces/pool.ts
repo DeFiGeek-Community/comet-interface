@@ -10,6 +10,7 @@ export interface CollateralAsset extends Token {
   borrowCollateralFactor: number;
   liquidateCollateralFactor: number;
   liquidationFactor: number;
+  LiquidationPenalty: number;
   supplyCap: number;
 }
 
