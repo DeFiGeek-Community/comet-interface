@@ -15,7 +15,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       baseToken: {
         name: "Convertible JPY Token",
         symbol: "CJPY",
-        address: "0x0000000000000000000000000000000000000000",
+        address: "0xeb50368411ABC751fFc3216A4f7df7038592d182",
         decimals: 18,
         color: "#00ad92",
         logoURL: "/tokens/CJPY.png",
@@ -64,7 +64,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
         {
           name: "Wrapped st ETH",
           symbol: "wstETH",
-          address: "0x0000000000000000000000000000000000000000",
+          address: "0xeb50368411ABC751fFc3216A4f7df7038592d182",
           decimals: 18,
           color: "#627EEA",
           logoURL: "/tokens/ethereum_logo.png",
