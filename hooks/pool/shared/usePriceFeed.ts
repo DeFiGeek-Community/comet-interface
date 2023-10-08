@@ -42,6 +42,8 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
           usdjpy: 140,
           baseAsset: 1,
           collateralAssets: {
+            TXJP: 52.44,
+            wstETH: 1732,
             COMP: 52.44,
             wBTC: 1732,
             wETH: 1732,
