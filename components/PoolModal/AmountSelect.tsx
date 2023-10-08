@@ -78,13 +78,9 @@ const AmountSelect = ({
           : baseBorrowBalance;
       break;
     case Mode.BASE_BORROW:
-      const maxBorrow =
-        Number(tokenBalance?.formatted) > baseAvailableToBorrow
-          ? baseAvailableToBorrow
-          : Number(tokenBalance?.formatted);
       maxValue =
         baseBorrowBalance > 0 || baseSupplyBalance === 0
-          ? maxBorrow
+          ? baseAvailableToBorrow
           : baseSupplyBalance;
       break;
     case Mode.SUPPLY:
