@@ -159,8 +159,7 @@ const CollateralAssetRow = ({
             >
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {asset?.LiquidationPenalty}{" "}
-                  {"%"}
+                  {asset?.LiquidationPenalty} {"%"}
                 </Text>
               </Row>
             </Column>
