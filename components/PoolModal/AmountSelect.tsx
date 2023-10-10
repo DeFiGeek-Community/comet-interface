@@ -3,7 +3,13 @@ import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
 import { Heading, Box, Button, Text, Image } from "@chakra-ui/react";
 import { HashLoader } from "react-spinners";
-import { useBalance, useAccount } from "wagmi";
+import { useBalance, useAccount, useContractRead, erc20ABI } from "wagmi";
+import {
+  prepareWriteContract,
+  waitForTransaction,
+  writeContract,
+} from "@wagmi/core";
+import cometAbi from "statuc/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAsset";
@@ -41,7 +47,7 @@ const AmountSelect = ({
   onClose: () => any;
 }) => {
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
-
+  const uintMax = 2 ** 255 - 1;
   const [amount, _setAmount] = useState<BigNumber | null>(
     () => new BigNumber(0),
   );
@@ -61,7 +67,7 @@ const AmountSelect = ({
     address,
     token: asset?.address,
     cacheTime: 60_000,
-    enabled: Boolean(asset?.address),
+    enabled: Boolean(asset?.address) && Boolean(address),
   });
 
   const baseSupplyBalance = baseAssetData?.yourSupply ?? 0;
@@ -112,8 +118,40 @@ const AmountSelect = ({
     setUserAction(UserAction.NO_ACTION);
   };
 
-  const onConfirm = () => {
+  const { data: allowanceData } = useContractRead({
+    address: asset.address,
+    abi: erc20ABI,
+    functionName: "allowance",
+    args: [address ?? "0x0", poolData.proxy],
+    enabled: Boolean(address) && Boolean(amount),
+  });
+
+  const onConfirm = async () => {
     setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
+    const functionName =
+      Mode.BASE_SUPPLY || Mode.SUPPLY ? "supply" : "withdraw";
+    try {
+      if (Number(allowanceData ?? 0) <= Number(amount)) {
+        const approveConfig = await prepareWriteContract({
+          address: asset.address,
+          abi: erc20ABI,
+          functionName: "approve",
+          args: [poolData.proxy, BigInt(uintMax)],
+        });
+        const { hash: approveHash } = await writeContract(approveConfig);
+        const dataAP = await waitForTransaction({ hash: approveHash });
+      }
+      const config = await prepareWriteContract({
+        address: poolData.proxy,
+        abi: cometAbi,
+        functionName: functionName,
+        args: [asset.address, BigInt(Number(amount))],
+      });
+      const { hash } = await writeContract(config);
+      const data = await waitForTransaction({ hash });
+    } catch (err) {
+      console.log("ErrorApprove", err);
+    }
   };
 
   const amountIsValid = (() => {
