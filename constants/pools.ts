@@ -11,6 +11,8 @@ export const SupportedPoolName = {
 export const POOL_CONFIG_MAP: PoolConfigMap = {
   [SupportedChainId.GOERLI]: {
     [SupportedPoolName[SupportedChainId.GOERLI].CJPY]: {
+      proxy: "0x0000000000000000000000000000000000000000",
+      reward: "0x0000000000000000000000000000000000000000",
       governor: "0x0000000000000000000000000000000000000000",
       pauseGuardian: "0x0000000000000000000000000000000000000000",
       baseToken: {
@@ -81,6 +83,8 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
     },
 
     [SupportedPoolName[SupportedChainId.GOERLI].USDC]: {
+      proxy: "0x3EE77595A8459e93C2888b13aDB354017B198188",
+      reward: "0xef9e070044d62C38D2e316146dDe92AD02CF2c2c",
       governor: "0x8Fa336EB4bF58Cfc508dEA1B0aeC7336f55B1399",
       pauseGuardian: "0x0000000000000000000000000000000000000000",
       baseToken: {

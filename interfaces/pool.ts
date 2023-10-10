@@ -19,6 +19,8 @@ export interface RewardAsset extends Token {
 }
 
 export interface PoolConfig {
+  proxy: Address;
+  reward: Address;
   governor: Address;
   pauseGuardian: Address;
   baseToken: BaseAsset;
@@ -41,15 +43,6 @@ export interface PoolConfig {
   targetReserves: number;
 
   assetConfigs: CollateralAsset[];
-}
-
-export interface PoolAddressMap {
-  [chainId: number]: {
-    [poolName: string]: {
-      proxy: Address;
-      reward: Address;
-    };
-  };
 }
 
 export interface PoolConfigMap {
