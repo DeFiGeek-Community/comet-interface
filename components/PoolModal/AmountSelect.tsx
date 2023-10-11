@@ -9,10 +9,14 @@ import {
   waitForTransaction,
   writeContract,
 } from "@wagmi/core";
+import { parseUnits } from 'viem';
 import cometAbi from "statuc/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAsset";
+import usePositionSummary from "hooks/pool/indivisual/usePositionSummary";
+import usePoolMetrics from "hooks/pool/shared/usePoolMetrics";
+import usePriceFeed from "hooks/pool/shared/usePriceFeed";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 import { Mode } from "components/PoolModal";
@@ -60,8 +64,12 @@ const AmountSelect = ({
   const asset = isBase ? baseAsset : collateralAsset;
 
   const { address } = useAccount();
-  const { baseAssetData } = useBaseAssetData(poolData);
-  const { collateralAssetData } = useCollateralAssetData(collateralAsset);
+  const { baseAssetData, reload: baseReload } = useBaseAssetData(poolData);
+  const { collateralAssetData, reload: collateralReload } = useCollateralAssetData(collateralAsset);
+  const { reload: positionReload } = usePositionSummary(poolData);
+  const { reload: poolReload } = usePoolMetrics(poolData);
+  const { reload: priceReload } = usePriceFeed(poolData);
+
 
   const { data: tokenBalance } = useBalance({
     address,
@@ -145,22 +153,48 @@ const AmountSelect = ({
         address: poolData.proxy,
         abi: cometAbi,
         functionName: functionName,
-        args: [asset.address, BigInt(Number(amount))],
+        args: [asset.address, parseUnits(String(amount), asset.decimals)],
       });
       const { hash } = await writeContract(config);
       const data = await waitForTransaction({ hash });
+
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      if(isBase){
+        baseReload();
+      }else{
+        collateralReload();
+      }
+      poolReload();
+      positionReload();
+      priceReload();
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      onClose();
+
     } catch (err) {
       console.log("ErrorApprove", err);
     }
   };
 
+  function getDecimalPlaces(value: Number) {
+    const decimalPart = value.toString().split('.')[1];
+    return decimalPart ? decimalPart.length : 0;
+  }
+
   const amountIsValid = (() => {
     if (amount === null || amount.isZero()) {
       return false;
-    } else {
-      return true;
     }
+    if (maxValue && Number(amount) > maxValue) {
+      return false;
+    }
+    if (getDecimalPlaces(Number(amount)) > asset.decimals) {
+      return false;
+    }
+    return true;
   })();
+
 
   let depositOrWithdrawAlert = null;
 
