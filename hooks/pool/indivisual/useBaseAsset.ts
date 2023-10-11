@@ -2,11 +2,11 @@ import { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
 
 interface baseAssetData {
-  supplyAPR: number | undefined;
-  yourSupply: number | undefined;
-  borrowAPR: number | undefined;
-  yourBorrow: number | undefined;
-  availableToBorrow: number | undefined;
+  supplyAPR: number;
+  yourSupply: number;
+  borrowAPR: number;
+  yourBorrow: number;
+  availableToBorrow: number;
 }
 
 const useBaseAssetData = (poolData: PoolConfig | undefined) => {
