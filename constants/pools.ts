@@ -13,8 +13,6 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
     [SupportedPoolName[SupportedChainId.GOERLI].CJPY]: {
       proxy: "0x0000000000000000000000000000000000000000",
       reward: "0x0000000000000000000000000000000000000000",
-      governor: "0x0000000000000000000000000000000000000000",
-      pauseGuardian: "0x0000000000000000000000000000000000000000",
       baseToken: {
         name: "Convertible JPY Token",
         symbol: "CJPY",
@@ -33,7 +31,6 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
         logoURL: "/tokens/TXJP.png",
         priceFeed: "0x0000000000000000000000000000000000000000",
       },
-      extensionDelegate: "0x0000000000000000000000000000000000000000",
       supplyKink: 90,
       supplyPerYearInterestRateSlopeLow: 0.04,
       supplyPerYearInterestRateSlopeHigh: 0.99,
@@ -85,8 +82,6 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
     [SupportedPoolName[SupportedChainId.GOERLI].USDC]: {
       proxy: "0x3EE77595A8459e93C2888b13aDB354017B198188",
       reward: "0xef9e070044d62C38D2e316146dDe92AD02CF2c2c",
-      governor: "0x8Fa336EB4bF58Cfc508dEA1B0aeC7336f55B1399",
-      pauseGuardian: "0x0000000000000000000000000000000000000000",
       baseToken: {
         name: "USD Coin",
         symbol: "USDC",
@@ -105,7 +100,6 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
         logoURL: "/tokens/COMP.png",
         priceFeed: "0x54a06047087927D9B0fb21c1cf0ebd792764dDB8",
       },
-      extensionDelegate: "0x0000000000000000000000000000000000000000",
       supplyKink: 90,
       supplyPerYearInterestRateSlopeLow: 0.04,
       supplyPerYearInterestRateSlopeHigh: 0.99,

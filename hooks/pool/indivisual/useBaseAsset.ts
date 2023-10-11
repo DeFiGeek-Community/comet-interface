@@ -2,11 +2,11 @@ import { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
 
 interface baseAssetData {
-  supplyAPR: number;
-  yourSupply: number;
-  borrowAPR: number;
-  yourBorrow: number;
-  availableToBorrow: number;
+  supplyAPR: number | undefined;
+  yourSupply: number | undefined;
+  borrowAPR: number | undefined;
+  yourBorrow: number | undefined;
+  availableToBorrow: number | undefined;
 }
 
 const useBaseAssetData = (poolData: PoolConfig | undefined) => {
@@ -25,27 +25,13 @@ const useBaseAssetData = (poolData: PoolConfig | undefined) => {
         // const availableToBorrow = getAvailableToBorrow();
 
         // ダミーデータを使用
-        // fetchedData = {
-        //   supplyAPR: 5.0,
-        //   yourSupply: 0,
-        //   borrowAPR: 10.0,
-        //   yourBorrow: 504000,
-        //   availableToBorrow: 7000,
-        // };
         fetchedData = {
-          supplyAPR: 5.0,
-          yourSupply: 504000,
-          borrowAPR: 10.0,
+          supplyAPR: 0,
+          yourSupply: 0,
+          borrowAPR: 0,
           yourBorrow: 0,
-          availableToBorrow: 120000,
+          availableToBorrow: 0,
         };
-        // fetchedData = {
-        //   supplyAPR: 5.0,
-        //   yourSupply: 0,
-        //   borrowAPR: 10.0,
-        //   yourBorrow: 0,
-        //   availableToBorrow: 120000,
-        // };
       } catch (err) {
         if (err instanceof Error) {
           setError(err);

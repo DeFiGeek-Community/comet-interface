@@ -21,11 +21,8 @@ export interface RewardAsset extends Token {
 export interface PoolConfig {
   proxy: Address;
   reward: Address;
-  governor: Address;
-  pauseGuardian: Address;
   baseToken: BaseAsset;
   rewardToken: RewardAsset;
-  extensionDelegate: Address;
   supplyKink: number;
   supplyPerYearInterestRateSlopeLow: number;
   supplyPerYearInterestRateSlopeHigh: number;
