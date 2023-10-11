@@ -20,12 +20,6 @@ export const AmountInput = ({
     // 数値以外の文字を削除
     value = value.replace(/[^0-9.]/g, "");
 
-    // maxValueを超える値を制限
-
-    if (maxValue && parseFloat(value) > maxValue) {
-      value = maxValue.toString();
-    }
-
     updateAmount(value);
   };
 
