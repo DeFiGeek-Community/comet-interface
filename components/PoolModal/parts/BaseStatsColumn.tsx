@@ -35,8 +35,8 @@ export const BaseStatsColumn = ({
     );
   }
 
-  const supplyBalance = baseAssetData.yourSupply;
-  const borrowBalance = baseAssetData.yourBorrow;
+  const supplyBalance = baseAssetData?.yourSupply ?? 0;
+  const borrowBalance = baseAssetData.yourBorrow ?? 0;
 
   let primaryValue1 = 0;
   let secondaryValue1 = 0;
@@ -109,7 +109,7 @@ export const BaseStatsColumn = ({
         />
         <StatsRow
           label={t("Available to Borrow") + ":"}
-          value={`${smallFormatter(baseAssetData.availableToBorrow)} ${symbol}`}
+          value={`${smallFormatter(baseAssetData.availableToBorrow ?? 0)} ${symbol}`}
         />
       </Column>
     </DashboardBox>

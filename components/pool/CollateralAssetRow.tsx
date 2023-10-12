@@ -82,7 +82,7 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralAssetData && assetPrice ? (
+          {collateralAssetData?.yourSupply && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {smallUsdPriceFormatter(
@@ -107,7 +107,7 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralAssetData && assetPrice ? (
+          {collateralAssetData?.collateralValue && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {smallUsdPriceFormatter(

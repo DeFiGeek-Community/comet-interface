@@ -35,7 +35,7 @@ export const CollateralStatsColumn = ({
 
   const getSecondaryValue = (baseValue: number) => {
     if (!priceFeedData) return undefined;
-    const price = priceFeedData.collateralAssets[asset.symbol];
+    const price = priceFeedData.collateralAssets[asset.symbol] ?? 0;
     return isAmountAndSupply
       ? smallUsdFormatter(baseValue + amount * price)
       : isAmountAndWithdraw

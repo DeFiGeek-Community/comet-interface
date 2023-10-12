@@ -30,7 +30,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
 
           <SimpleTooltip label={t("This is how much you have borrowed.")}>
             <Text flexShrink={0} mt="2px" mr={3} fontSize="10px">
-              {smallUsdFormatter(baseAssetData.yourBorrow)}
+              {smallUsdFormatter(baseAssetData?.yourBorrow ?? 0)}
             </Text>
           </SimpleTooltip>
 
@@ -38,7 +38,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             label={`You're using ${
               positionSummary.LiquidationPercentage
             }% of your ${smallUsdFormatter(
-              positionSummary.LiquidationPoint,
+              positionSummary?.LiquidationPoint ?? 0,
             )} Liquidation limit.`}
           >
             <Box width="100%">
@@ -58,7 +58,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             )}
           >
             <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
-              {smallUsdFormatter(positionSummary.LiquidationPoint)}
+              {smallUsdFormatter(positionSummary?.LiquidationPoint ?? 0)}
             </Text>
           </SimpleTooltip>
         </Row>
