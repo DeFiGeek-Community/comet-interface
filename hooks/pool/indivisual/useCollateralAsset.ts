@@ -3,8 +3,8 @@ import { useAccount } from "wagmi";
 import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
 interface collateralAssetData {
-  yourSupply: number;
-  collateralValue: number;
+  yourSupply: number | undefined;
+  collateralValue: number | undefined;
 }
 
 const useCollateralAssetData = (asset: CollateralAsset | undefined) => {

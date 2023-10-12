@@ -4,8 +4,8 @@ import { PoolConfig } from "interfaces/pool";
 import usePriceFeedData from "./usePriceFeed";
 
 interface TokenRewardData {
-  supplyRewardAPR: number;
-  borrowRewardAPR: number;
+  supplyRewardAPR: number | undefined;
+  borrowRewardAPR: number | undefined;
 }
 
 const useTokenRewardData = (poolData: PoolConfig) => {

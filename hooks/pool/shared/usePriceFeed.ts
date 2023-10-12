@@ -2,12 +2,12 @@ import { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
 
 interface PriceFeedData {
-  usdjpy: number;
-  baseAsset: number;
+  usdjpy: number | undefined;
+  baseAsset: number | undefined;
   collateralAssets: {
-    [key: string]: number;
+    [key: string]: number | undefined;
   };
-  rewardAsset: number;
+  rewardAsset: number | undefined;
 }
 
 const usePriceFeedData = (poolData: PoolConfig | undefined) => {

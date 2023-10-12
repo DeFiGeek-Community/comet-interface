@@ -2,10 +2,10 @@ import { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
 
 interface PositionSummary {
-  collateralBalance: number;
-  LiquidationPoint: number;
-  BorrowCapacity: number;
-  LiquidationPercentage: number;
+  collateralBalance: number | undefined;
+  LiquidationPoint: number | undefined;
+  BorrowCapacity: number | undefined;
+  LiquidationPercentage: number | undefined;
 }
 
 const usePositionSummary = (poolData: PoolConfig | undefined) => {

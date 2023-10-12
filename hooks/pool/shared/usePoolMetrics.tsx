@@ -2,10 +2,10 @@ import { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
 
 type TotalPoolData = {
-  totalBaseSupplyBalance: number;
-  totalBaseBorrowBalance: number;
-  totalCollateralBalance: number;
-  availableLiquidity: number;
+  totalBaseSupplyBalance: number | undefined;
+  totalBaseBorrowBalance: number | undefined;
+  totalCollateralBalance: number | undefined;
+  availableLiquidity: number | undefined;
 };
 
 const usePoolMetrics = (poolData: PoolConfig | undefined) => {

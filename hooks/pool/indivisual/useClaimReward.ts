@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
 
 interface ClaimReward {
-  yourTokenReward: number;
+  yourTokenReward: number | undefined;
 }
 
 const useClaimReward = (poolData: PoolConfig | undefined) => {
