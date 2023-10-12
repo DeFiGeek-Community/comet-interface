@@ -109,7 +109,9 @@ export const BaseStatsColumn = ({
         />
         <StatsRow
           label={t("Available to Borrow") + ":"}
-          value={`${smallFormatter(baseAssetData.availableToBorrow ?? 0)} ${symbol}`}
+          value={`${smallFormatter(
+            baseAssetData.availableToBorrow ?? 0,
+          )} ${symbol}`}
         />
       </Column>
     </DashboardBox>

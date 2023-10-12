@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { PoolConfig } from "interfaces/pool";
-import { getAccount, getContract, getNetwork, getWalletClient } from "@wagmi/core";
+import {
+  getAccount,
+  getContract,
+  getNetwork,
+  getWalletClient,
+} from "@wagmi/core";
 import usePoolData from "hooks/pool/shared/usePoolConfig";
 import cometAbi from "statuc/comet.json";
 import { Address } from "abitype";
@@ -23,7 +28,9 @@ const getCometContract = async (address: Address) => {
   });
 };
 
-const fetchDataFromComet = async (method: string): Promise<number | undefined> => {
+const fetchDataFromComet = async (
+  method: string,
+): Promise<number | undefined> => {
   const poolData = usePoolData();
   if (!poolData) return undefined;
   const comet = await getCometContract(poolData.proxy);
@@ -33,14 +40,14 @@ const fetchDataFromComet = async (method: string): Promise<number | undefined> =
   return data as number;
 };
 
-
 export const fetchSupplyAPR = async () => undefined;
 
 export const fetchYourSupply = async () => fetchDataFromComet("balanceOf");
 
 export const fetchBorrowAPR = async () => undefined;
 
-export const fetchYourBorrow = async () => fetchDataFromComet("borrowBalanceOf");
+export const fetchYourBorrow = async () =>
+  fetchDataFromComet("borrowBalanceOf");
 
 export const fetchAvailableToBorrow = async () => undefined;
 
@@ -52,7 +59,13 @@ const useBaseAssetData = (poolData: PoolConfig | undefined) => {
   useEffect(() => {
     const fetchBaseAsset = async () => {
       try {
-        const [supplyAPR, yourSupply, borrowAPR, yourBorrow, availableToBorrow] = await Promise.all([
+        const [
+          supplyAPR,
+          yourSupply,
+          borrowAPR,
+          yourBorrow,
+          availableToBorrow,
+        ] = await Promise.all([
           fetchSupplyAPR(),
           fetchYourSupply(),
           fetchBorrowAPR(),
@@ -60,7 +73,13 @@ const useBaseAssetData = (poolData: PoolConfig | undefined) => {
           fetchAvailableToBorrow(),
         ]);
 
-        setBaseAssetData({ supplyAPR, yourSupply, borrowAPR, yourBorrow, availableToBorrow });
+        setBaseAssetData({
+          supplyAPR,
+          yourSupply,
+          borrowAPR,
+          yourBorrow,
+          availableToBorrow,
+        });
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }
@@ -69,7 +88,7 @@ const useBaseAssetData = (poolData: PoolConfig | undefined) => {
     fetchBaseAsset();
   }, [poolData, reloadKey]);
 
-  const reload = () => setReloadKey(prevKey => prevKey + 1);
+  const reload = () => setReloadKey((prevKey) => prevKey + 1);
 
   return { baseAssetData, error, reload };
 };

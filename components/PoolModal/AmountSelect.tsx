@@ -9,7 +9,7 @@ import {
   waitForTransaction,
   writeContract,
 } from "@wagmi/core";
-import { parseUnits } from 'viem';
+import { parseUnits } from "viem";
 import cometAbi from "statuc/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
@@ -65,11 +65,11 @@ const AmountSelect = ({
 
   const { address } = useAccount();
   const { baseAssetData, reload: baseReload } = useBaseAssetData(poolData);
-  const { collateralAssetData, reload: collateralReload } = useCollateralAssetData(collateralAsset);
+  const { collateralAssetData, reload: collateralReload } =
+    useCollateralAssetData(collateralAsset);
   const { reload: positionReload } = usePositionSummary(poolData);
   const { reload: poolReload } = usePoolMetrics(poolData);
   const { reload: priceReload } = usePriceFeed(poolData);
-
 
   const { data: tokenBalance } = useBalance({
     address,
@@ -158,27 +158,26 @@ const AmountSelect = ({
       const { hash } = await writeContract(config);
       const data = await waitForTransaction({ hash });
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      if(isBase){
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      if (isBase) {
         baseReload();
-      }else{
+      } else {
         collateralReload();
       }
       poolReload();
       positionReload();
       priceReload();
 
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       onClose();
-
     } catch (err) {
       console.log("ErrorApprove", err);
     }
   };
 
   function getDecimalPlaces(value: Number) {
-    const decimalPart = value.toString().split('.')[1];
+    const decimalPart = value.toString().split(".")[1];
     return decimalPart ? decimalPart.length : 0;
   }
 
@@ -194,7 +193,6 @@ const AmountSelect = ({
     }
     return true;
   })();
-
 
   let depositOrWithdrawAlert = null;
 
