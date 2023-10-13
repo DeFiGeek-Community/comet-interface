@@ -27,6 +27,10 @@ export const CollateralStatsColumn = ({
   const { baseAssetData } = useBaseAssetData(poolData);
   const { priceFeedData } = usePriceFeedData(poolData);
 
+
+  const yourSupply = collateralAssetData?.yourSupply ?? 0;
+  const availableToBorrow = baseAssetData?.availableToBorrow ?? 0;
+  const yourBorrow = baseAssetData?.yourBorrow ?? 0;
   const color = asset?.color;
   const symbol = asset?.symbol;
 
@@ -58,16 +62,16 @@ export const CollateralStatsColumn = ({
             <StatsRow
               label={t("Supply Balance") + ":"}
               value={`${smallFormatter(
-                collateralAssetData.yourSupply,
+                yourSupply,
               )} ${symbol}`}
               secondaryValue={
                 isAmountAndSupply
                   ? `${smallFormatter(
-                      collateralAssetData?.yourSupply + amount,
+                      yourSupply + amount,
                     )} ${symbol}`
                   : isAmountAndWithdraw
                   ? `${smallFormatter(
-                      collateralAssetData?.yourSupply - amount,
+                      yourSupply - amount,
                     )} ${symbol}`
                   : undefined
               }
@@ -75,14 +79,14 @@ export const CollateralStatsColumn = ({
             />
             <StatsRow
               label={t("Available to Borrow") + ":"}
-              value={smallUsdFormatter(baseAssetData.availableToBorrow)}
+              value={smallUsdFormatter(availableToBorrow)}
               secondaryValue={getSecondaryValue(
-                baseAssetData.availableToBorrow,
+                availableToBorrow,
               )}
             />
             <StatsRow
               label={t("Borrow Balance") + ":"}
-              value={smallUsdFormatter(baseAssetData.yourBorrow)}
+              value={smallUsdFormatter(yourBorrow)}
             />
           </>
         ) : (
