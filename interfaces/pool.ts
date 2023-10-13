@@ -38,6 +38,7 @@ export interface PoolConfig {
   baseMinForRewards: number;
   baseBorrowMin: number;
   targetReserves: number;
+  jpyPriceFeed: Address;
 
   assetConfigs: CollateralAsset[];
 }

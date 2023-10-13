@@ -46,7 +46,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       baseMinForRewards: 10000000,
       baseBorrowMin: 1,
       targetReserves: 10000000000,
-
+      jpyPriceFeed: "0x982B232303af1EFfB49939b81AD6866B2E4eeD0B",
       assetConfigs: [
         {
           name: "TenX Community JAPAN",
@@ -115,7 +115,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       baseMinForRewards: 10000000,
       baseBorrowMin: 1,
       targetReserves: 10000000000,
-
+      jpyPriceFeed: "0x982B232303af1EFfB49939b81AD6866B2E4eeD0B",
       assetConfigs: [
         {
           name: "Compound",
