@@ -3,9 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallUsdPriceFormatter, smallFormatter } from "utils/bigUtils";
-import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
-import { usePriceFeedContext } from "hooks/usePriceFeedContext";
+import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
@@ -27,9 +26,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const tokenData = poolData.baseToken;
   const symbol = tokenData?.symbol ? tokenData?.symbol : "";
 
-  const { baseAssetData } = useBaseAssetData(poolData);
+  const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
   const { tokenRewardData } = useTokenRewardData(poolData);
-  const { priceFeedData } = usePriceFeedContext();
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
 
   const isMobile = useIsMobile();
@@ -45,8 +43,6 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
         isBase={true}
         isOpen={isModalOpen}
         onClose={closeModal}
-        baseAssetData={baseAssetData}
-        collateralAssetData={undefined}
       />
 
       <Row

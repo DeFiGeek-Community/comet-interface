@@ -3,7 +3,7 @@ import { Spinner } from "@chakra-ui/react";
 import { Column, Center, useIsMobile } from "utils/chakraUtils";
 import usePoolData from "hooks/pool/shared/usePoolConfig";
 import { useChainPool } from "hooks/useChainPool";
-import { PriceFeedProvider } from "components/Provider/PriceFeedProvider";
+import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProvider";
 import StatsBar from "components/pool/StatsBar";
 import CollateralRatioBar from "components/pool/CollateralRatioBar";
 import BaseList from "components/pool/BaseList";
@@ -20,7 +20,7 @@ const PoolPage = memo(() => {
   const poolData = usePoolData();
 
   return (
-    <PriceFeedProvider poolData={poolData}>
+    <PoolPrimaryDataProvider poolData={poolData}>
       <Column
         mainAxisAlignment="flex-start"
         crossAxisAlignment="center"
@@ -64,7 +64,7 @@ const PoolPage = memo(() => {
         </DashboardBox>
         <Footer />
       </Column>
-    </PriceFeedProvider>
+    </PoolPrimaryDataProvider>
   );
 });
 

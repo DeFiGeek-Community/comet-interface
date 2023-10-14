@@ -12,8 +12,7 @@ import {
 import { parseUnits } from "viem";
 import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
-import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
-import { CollateralAssetData } from "hooks/pool/indivisual/useCollateralAsset";
+import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 import { Mode } from "components/PoolModal";
@@ -39,8 +38,6 @@ const AmountSelect = ({
   baseAsset,
   collateralAsset,
   onClose,
-  baseAssetData,
-  collateralAssetData,
 }: {
   mode: Mode;
   setMode: (mode: Mode) => any;
@@ -48,8 +45,6 @@ const AmountSelect = ({
   baseAsset: BaseAsset;
   collateralAsset: CollateralAsset;
   onClose: () => any;
-  baseAssetData: BaseAssetData | undefined,
-  collateralAssetData: CollateralAssetData | undefined,
 }) => {
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
   const uintMax = 2 ** 255 - 1;
@@ -72,6 +67,9 @@ const AmountSelect = ({
     cacheTime: 60_000,
     enabled: Boolean(asset?.address) && Boolean(address),
   });
+  const { baseAssetData,  collateralAssetsData } = usePoolPrimaryDataContext();
+
+  const collateralAssetData = collateralAssetsData ? collateralAssetsData[asset.symbol] : undefined;
 
   const baseSupplyBalance = baseAssetData?.yourSupply ?? 0;
   const baseBorrowBalance = baseAssetData?.yourBorrow ?? 0;
@@ -286,15 +284,12 @@ const AmountSelect = ({
               mode={mode}
               asset={baseAsset}
               amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
-              baseAssetData={baseAssetData}
             />
           ) : (
             <CollateralStatsColumn
               mode={mode}
               asset={collateralAsset}
               amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
-              baseAssetData={baseAssetData}
-              collateralAssetData={collateralAssetData}
             />
           )}
 

@@ -3,30 +3,25 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "@chakra-ui/react";
 import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
 import { Column, Center } from "utils/chakraUtils";
-import { usePriceFeedContext } from "hooks/usePriceFeedContext";
+import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import DashboardBox from "components/shared/DashboardBox";
 import StatsRow from "components/shared/StatsRow";
 import { Mode } from "components/PoolModal";
-import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
-import { CollateralAssetData } from "hooks/pool/indivisual/useCollateralAsset";
 import { CollateralAsset } from "interfaces/pool";
 
 export const CollateralStatsColumn = ({
   mode,
   asset,
   amount,
-  baseAssetData,
-  collateralAssetData,
 }: {
   mode: Mode;
   asset: CollateralAsset;
   amount: number;
-  baseAssetData: BaseAssetData | undefined,
-  collateralAssetData: CollateralAssetData | undefined,
 }) => {
   const { t } = useTranslation();
-  const { priceFeedData } = usePriceFeedContext();
+  const { priceFeedData, baseAssetData,  collateralAssetsData } = usePoolPrimaryDataContext();
 
+  const collateralAssetData = collateralAssetsData ? collateralAssetsData[asset.symbol] : undefined;
   const yourSupply = collateralAssetData?.yourSupply ?? 0;
   const availableToBorrow = baseAssetData?.availableToBorrow ?? 0;
   const yourBorrow = baseAssetData?.yourBorrow ?? 0;

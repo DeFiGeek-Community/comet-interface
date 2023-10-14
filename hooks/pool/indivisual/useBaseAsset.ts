@@ -11,7 +11,7 @@ export interface BaseAssetData {
   availableToBorrow: number | undefined;
 }
 
-const useBaseAssetData = (poolData: PoolConfig | undefined) => {
+const useBaseAsset = (poolData: PoolConfig | undefined) => {
   const [baseAssetData, setBaseAssetData] = useState<BaseAssetData>();
   const [error, setError] = useState<Error | null>(null);
 
@@ -56,4 +56,4 @@ const useBaseAssetData = (poolData: PoolConfig | undefined) => {
   return { baseAssetData, error };
 };
 
-export default useBaseAssetData;
+export default useBaseAsset;

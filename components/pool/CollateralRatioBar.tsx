@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Box, Progress, Text, Spinner } from "@chakra-ui/react";
 import { Row, Center } from "utils/chakraUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
-import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
+import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import usePositionSummary from "hooks/pool/indivisual/usePositionSummary";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
@@ -11,7 +11,7 @@ import { PoolConfig } from "interfaces/pool";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
-  const { baseAssetData } = useBaseAssetData(poolData);
+  const { baseAssetData } = usePoolPrimaryDataContext();
   const { positionSummary } = usePositionSummary(poolData);
 
   return (
