@@ -27,20 +27,24 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
 
     try {
       const jpyPrice = await fetchPriceFeed(poolData.jpyPriceFeed);
-      const usdjpy = jpyPrice ? Number(formatUnits(jpyPrice, 6)) : undefined;
+      const usdjpy = jpyPrice
+        ? Number(formatUnits(jpyPrice, poolData.jpyPriceFeedDecimals))
+        : undefined;
       const basePrice = await fetchPriceFeed(poolData.baseToken.priceFeed);
       const baseAsset = basePrice
-        ? Number(formatUnits(basePrice, 6))
+        ? Number(formatUnits(basePrice, poolData.baseToken.priceFeedDecimals))
         : undefined;
       const rewardPrice = await fetchPriceFeed(poolData.rewardToken.priceFeed);
       const rewardAsset = rewardPrice
-        ? Number(formatUnits(rewardPrice, 6))
+        ? Number(
+            formatUnits(rewardPrice, poolData.rewardToken.priceFeedDecimals),
+          )
         : undefined;
       const collateralAssets: { [key: string]: number | undefined } = {};
       for (const assetConfig of poolData.assetConfigs) {
         const assetPrice = await fetchPriceFeed(assetConfig.priceFeed);
         collateralAssets[assetConfig.symbol] = assetPrice
-          ? Number(formatUnits(assetPrice, 6))
+          ? Number(formatUnits(assetPrice, assetConfig.priceFeedDecimals))
           : undefined;
       }
 
