@@ -30,7 +30,7 @@ const APRComponent = ({
       my={2}
     >
       <>
-        {baseAPR !== undefined  ? (
+        {baseAPR !== undefined ? (
           <Text color={"#FF"} fontWeight="bold" fontSize="17px">
             {baseAPR} %
           </Text>
@@ -39,7 +39,7 @@ const APRComponent = ({
             <Spinner />
           </Center>
         )}
-        {tokenReward !== undefined  ? (
+        {tokenReward !== undefined ? (
           <Row
             crossAxisAlignment="center"
             mainAxisAlignment="flex-start"

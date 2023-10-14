@@ -67,9 +67,11 @@ const AmountSelect = ({
     cacheTime: 60_000,
     enabled: Boolean(asset?.address) && Boolean(address),
   });
-  const { baseAssetData,  collateralAssetsData } = usePoolPrimaryDataContext();
+  const { baseAssetData, collateralAssetsData } = usePoolPrimaryDataContext();
 
-  const collateralAssetData = collateralAssetsData ? collateralAssetsData[asset.symbol] : undefined;
+  const collateralAssetData = collateralAssetsData
+    ? collateralAssetsData[asset.symbol]
+    : undefined;
 
   const baseSupplyBalance = baseAssetData?.yourSupply ?? 0;
   const baseBorrowBalance = baseAssetData?.yourBorrow ?? 0;

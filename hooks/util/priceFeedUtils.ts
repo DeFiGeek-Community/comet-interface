@@ -23,8 +23,6 @@ export const fetchPriceFeed = async (
   const priceFeed = await getPriceFeedContract(priceFeedAddress);
   const { address } = getAccount();
   if (!address) return undefined;
-  const data = await priceFeed.read.latestRoundData() as (bigint | number)[];
+  const data = (await priceFeed.read.latestRoundData()) as (bigint | number)[];
   return typeof data[1] === "bigint" ? data[1] : undefined;
 };
-
-

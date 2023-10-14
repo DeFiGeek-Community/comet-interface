@@ -23,19 +23,14 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
       return;
     }
     try {
-      const [
-        supplyAPR,
-        yourSupply,
-        borrowAPR,
-        yourBorrow,
-        availableToBorrow,
-      ] = await Promise.all([
-        undefined,
-        fetchDataFromComet("balanceOf", poolData),
-        undefined,
-        fetchDataFromComet("borrowBalanceOf", poolData),
-        undefined,
-      ]);
+      const [supplyAPR, yourSupply, borrowAPR, yourBorrow, availableToBorrow] =
+        await Promise.all([
+          undefined,
+          fetchDataFromComet("balanceOf", poolData),
+          undefined,
+          fetchDataFromComet("borrowBalanceOf", poolData),
+          undefined,
+        ]);
 
       setBaseAssetData({
         supplyAPR,

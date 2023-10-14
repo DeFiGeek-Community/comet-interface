@@ -34,7 +34,7 @@ export interface PoolConfig {
   baseBorrowMin: number;
   targetReserves: number;
   jpyPriceFeed: Address;
-  jpyPriceFeedDecimals: number,
+  jpyPriceFeedDecimals: number;
   assetConfigs: CollateralAsset[];
 }
 

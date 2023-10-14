@@ -19,7 +19,10 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
       return;
     }
     try {
-      const yourTokenReward = await fetchDataFromComet("baseTrackingAccrued", poolData);
+      const yourTokenReward = await fetchDataFromComet(
+        "baseTrackingAccrued",
+        poolData,
+      );
       setClaimReward({ yourTokenReward });
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));

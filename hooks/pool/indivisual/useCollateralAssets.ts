@@ -12,10 +12,9 @@ export interface CollateralAssetInfo {
   collateralValue: number | undefined;
 }
 
-const useCollateralAssets = (
-  poolData: PoolConfig | undefined
-) => {
-  const [collateralAssetsData, setCollateralAssetsData] = useState<CollateralAssetsData>();
+const useCollateralAssets = (poolData: PoolConfig | undefined) => {
+  const [collateralAssetsData, setCollateralAssetsData] =
+    useState<CollateralAssetsData>();
 
   const reload = useReload();
 
@@ -28,10 +27,15 @@ const useCollateralAssets = (
     try {
       const data: CollateralAssetsData = {};
       for (const assetConfig of poolData.assetConfigs) {
-        const assetSupply = await fetchDataFromComet("collateralBalanceOf", poolData, assetConfig.address);
-        const collateralValue = assetSupply !== undefined
-          ? assetSupply * (assetConfig.borrowCollateralFactor * 0.001)
-          : undefined;
+        const assetSupply = await fetchDataFromComet(
+          "collateralBalanceOf",
+          poolData,
+          assetConfig.address,
+        );
+        const collateralValue =
+          assetSupply !== undefined
+            ? assetSupply * (assetConfig.borrowCollateralFactor * 0.001)
+            : undefined;
 
         data[assetConfig.symbol] = {
           yourSupply: assetSupply,

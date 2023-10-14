@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { PoolConfig } from "interfaces/pool";
 import { fetchPriceFeed } from "hooks/util/priceFeedUtils";
-import { formatUnits } from 'viem';
+import { formatUnits } from "viem";
 import { useReload } from "context/ReloadContext";
 
 export interface PriceFeedData {
@@ -29,13 +29,19 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
       const jpyPrice = await fetchPriceFeed(poolData.jpyPriceFeed);
       const usdjpy = jpyPrice ? Number(formatUnits(jpyPrice, 6)) : undefined;
       const basePrice = await fetchPriceFeed(poolData.baseToken.priceFeed);
-      const baseAsset = basePrice ? Number(formatUnits(basePrice, 6)) : undefined;
+      const baseAsset = basePrice
+        ? Number(formatUnits(basePrice, 6))
+        : undefined;
       const rewardPrice = await fetchPriceFeed(poolData.rewardToken.priceFeed);
-      const rewardAsset = rewardPrice ? Number(formatUnits(rewardPrice, 6)) : undefined;
+      const rewardAsset = rewardPrice
+        ? Number(formatUnits(rewardPrice, 6))
+        : undefined;
       const collateralAssets: { [key: string]: number | undefined } = {};
       for (const assetConfig of poolData.assetConfigs) {
         const assetPrice = await fetchPriceFeed(assetConfig.priceFeed);
-        collateralAssets[assetConfig.symbol] = assetPrice ? Number(formatUnits(assetPrice, 6)) : undefined;
+        collateralAssets[assetConfig.symbol] = assetPrice
+          ? Number(formatUnits(assetPrice, 6))
+          : undefined;
       }
 
       setPriceFeedData({
@@ -51,7 +57,7 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
 
   useEffect(() => {
     fetchPriceFeedData();
-    console.log("fetchPriceFeedData")
+    console.log("fetchPriceFeedData");
   }, [fetchPriceFeedData, reload]);
 
   return { priceFeedData, error };

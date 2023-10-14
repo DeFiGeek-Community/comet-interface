@@ -95,7 +95,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
               crossAxisAlignment="center"
               width={"33%"}
             >
-              {baseAssetData?.yourSupply !== undefined  && assetPrice ? (
+              {baseAssetData?.yourSupply !== undefined && assetPrice ? (
                 <>
                   <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                     {smallUsdPriceFormatter(
@@ -140,7 +140,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData?.yourBorrow !== undefined  && assetPrice ? (
+                {baseAssetData?.yourBorrow !== undefined && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                       {smallUsdPriceFormatter(
@@ -164,7 +164,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData?.availableToBorrow !== undefined  && assetPrice ? (
+                {baseAssetData?.availableToBorrow !== undefined &&
+                assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                       {smallUsdPriceFormatter(

@@ -19,9 +19,12 @@ export const CollateralStatsColumn = ({
   amount: number;
 }) => {
   const { t } = useTranslation();
-  const { priceFeedData, baseAssetData,  collateralAssetsData } = usePoolPrimaryDataContext();
+  const { priceFeedData, baseAssetData, collateralAssetsData } =
+    usePoolPrimaryDataContext();
 
-  const collateralAssetData = collateralAssetsData ? collateralAssetsData[asset.symbol] : undefined;
+  const collateralAssetData = collateralAssetsData
+    ? collateralAssetsData[asset.symbol]
+    : undefined;
   const yourSupply = collateralAssetData?.yourSupply ?? 0;
   const availableToBorrow = baseAssetData?.availableToBorrow ?? 0;
   const yourBorrow = baseAssetData?.yourBorrow ?? 0;

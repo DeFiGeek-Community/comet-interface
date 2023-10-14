@@ -28,7 +28,9 @@ const CollateralAssetRow = ({
   const isMobile = useIsMobile();
 
   const { priceFeedData, collateralAssetsData } = usePoolPrimaryDataContext();
-  const collateralAssetData = collateralAssetsData ? collateralAssetsData[symbol] : undefined;
+  const collateralAssetData = collateralAssetsData
+    ? collateralAssetsData[symbol]
+    : undefined;
 
   const assetPrice = priceFeedData
     ? priceFeedData.collateralAssets[symbol]
@@ -107,7 +109,7 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralAssetData?.collateralValue !== undefined  && assetPrice ? (
+          {collateralAssetData?.collateralValue !== undefined && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {smallUsdPriceFormatter(
