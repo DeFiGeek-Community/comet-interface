@@ -13,6 +13,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
     [SupportedPoolName[SupportedChainId.GOERLI].CJPY]: {
       proxy: "0x0000000000000000000000000000000000000000",
       reward: "0x0000000000000000000000000000000000000000",
+      cometDecimals: 6,
       baseToken: {
         name: "Convertible JPY Token",
         symbol: "CJPY",
@@ -87,6 +88,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
     [SupportedPoolName[SupportedChainId.GOERLI].USDC]: {
       proxy: "0x3EE77595A8459e93C2888b13aDB354017B198188",
       reward: "0xef9e070044d62C38D2e316146dDe92AD02CF2c2c",
+      cometDecimals: 6,
       baseToken: {
         name: "USD Coin",
         symbol: "USDC",
