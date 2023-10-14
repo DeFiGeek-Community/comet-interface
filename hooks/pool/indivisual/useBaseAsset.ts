@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { formatUnits } from "viem";
 import { PoolConfig } from "interfaces/pool";
 import { fetchDataFromComet } from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
@@ -34,9 +35,9 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
 
       setBaseAssetData({
         supplyAPR,
-        yourSupply,
+        yourSupply: yourSupply !== undefined ? Number(formatUnits(yourSupply, poolData.cometDecimals)) : undefined,
         borrowAPR,
-        yourBorrow,
+        yourBorrow: yourBorrow !== undefined ? Number(formatUnits(yourBorrow, poolData.cometDecimals)) : undefined,
         availableToBorrow,
       });
     } catch (err) {

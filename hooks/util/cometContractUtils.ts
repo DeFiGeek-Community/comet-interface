@@ -22,12 +22,12 @@ export const fetchDataFromComet = async (
   method: string,
   poolData: PoolConfig,
   asset?: Address,
-): Promise<number | undefined> => {
+): Promise<bigint | undefined> => {
   const comet = await getCometContract(poolData.proxy);
   const { address } = getAccount();
   if (!address) return undefined;
   console.log(method);
   const args = asset ? [address, asset] : [address];
   const data = await comet.read[method](args);
-  return Number(data);
+  return typeof data === "bigint" ? data : undefined;
 };

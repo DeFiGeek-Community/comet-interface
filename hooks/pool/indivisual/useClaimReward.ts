@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { formatUnits } from "viem";
 import { PoolConfig } from "interfaces/pool";
 import { fetchDataFromComet } from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
@@ -19,10 +20,11 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
       return;
     }
     try {
-      const yourTokenReward = await fetchDataFromComet(
+      const tokenReward = await fetchDataFromComet(
         "baseTrackingAccrued",
         poolData,
       );
+      const yourTokenReward = tokenReward !== undefined ? Number(formatUnits(tokenReward, poolData.cometDecimals)) : undefined;
       setClaimReward({ yourTokenReward });
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
