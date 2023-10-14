@@ -61,7 +61,6 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
 
   useEffect(() => {
     fetchPriceFeedData();
-    console.log("fetchPriceFeedData");
   }, [fetchPriceFeedData, reload]);
 
   return { priceFeedData, error };
