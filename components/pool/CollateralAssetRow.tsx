@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import useCollateralAssetData from "hooks/pool/indivisual/useCollateralAsset";
-import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
+import { usePriceFeedContext } from "hooks/usePriceFeedContext";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import PoolModal, { Mode } from "components/PoolModal";
@@ -28,8 +28,8 @@ const CollateralAssetRow = ({
 
   const isMobile = useIsMobile();
 
-  const { collateralAssetData } = useCollateralAssetData(asset);
-  const { priceFeedData } = usePriceFeedData(poolData);
+  const { collateralAssetData } = useCollateralAssetData(asset, poolData);
+  const { priceFeedData } = usePriceFeedContext();
   const assetPrice = priceFeedData
     ? priceFeedData.collateralAssets[symbol]
     : null;
@@ -45,6 +45,8 @@ const CollateralAssetRow = ({
         isBase={false}
         isOpen={isModalOpen}
         onClose={closeModal}
+        baseAssetData={undefined}
+        collateralAssetData={collateralAssetData}
       />
 
       <Row
@@ -82,7 +84,7 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralAssetData?.yourSupply && assetPrice ? (
+          {collateralAssetData?.yourSupply !== undefined && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {smallUsdPriceFormatter(
@@ -107,7 +109,7 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralAssetData?.collateralValue && assetPrice ? (
+          {collateralAssetData?.collateralValue !== undefined  && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {smallUsdPriceFormatter(

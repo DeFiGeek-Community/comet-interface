@@ -33,12 +33,13 @@ const usePoolMetrics = (poolData: PoolConfig | undefined) => {
 
         // ダミーデータを使用
         fetchedData = {
-          totalBaseSupplyBalance: 10000,
-          totalBaseBorrowBalance: 500,
-          totalCollateralBalance: 7500,
-          availableLiquidity: 2500,
+          totalBaseSupplyBalance: undefined,
+          totalBaseBorrowBalance: undefined,
+          totalCollateralBalance: undefined,
+          availableLiquidity: undefined,
         };
       } catch (err) {
+        console.log("usePoolMetrics", err);
         if (err instanceof Error) {
           setError(err);
         } else {

@@ -1,12 +1,9 @@
 import { Address } from "abitype";
 import { Token } from "interfaces/token";
 
-export interface BaseAsset extends Token {
-  priceFeed: Address;
-}
+export interface BaseAsset extends Token {}
 
 export interface CollateralAsset extends Token {
-  priceFeed: Address;
   borrowCollateralFactor: number;
   liquidateCollateralFactor: number;
   liquidationFactor: number;
@@ -14,9 +11,7 @@ export interface CollateralAsset extends Token {
   supplyCap: number;
 }
 
-export interface RewardAsset extends Token {
-  priceFeed: Address;
-}
+export interface RewardAsset extends Token {}
 
 export interface PoolConfig {
   proxy: Address;
@@ -39,7 +34,7 @@ export interface PoolConfig {
   baseBorrowMin: number;
   targetReserves: number;
   jpyPriceFeed: Address;
-
+  jpyPriceFeedDecimals: number,
   assetConfigs: CollateralAsset[];
 }
 

@@ -7,21 +7,21 @@ import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import DashboardBox from "components/shared/DashboardBox";
 import StatsRow from "components/shared/StatsRow";
 import { Mode } from "components/PoolModal";
-import { PoolConfig, BaseAsset } from "interfaces/pool";
+import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
+import { BaseAsset } from "interfaces/pool";
 
 export const BaseStatsColumn = ({
   mode,
   asset,
-  poolData,
   amount,
+  baseAssetData,
 }: {
   mode: Mode;
   asset: BaseAsset;
-  poolData: PoolConfig;
   amount: number;
+  baseAssetData: BaseAssetData | undefined,
 }) => {
   const { t } = useTranslation();
-  const { baseAssetData } = useBaseAssetData(poolData);
   const color = asset?.color;
   const symbol = asset?.symbol;
 

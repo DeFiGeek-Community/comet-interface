@@ -5,7 +5,7 @@ import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { smallUsdPriceFormatter, smallFormatter } from "utils/bigUtils";
 import useBaseAssetData from "hooks/pool/indivisual/useBaseAsset";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
-import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
+import { usePriceFeedContext } from "hooks/usePriceFeedContext";
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
@@ -29,7 +29,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   const { baseAssetData } = useBaseAssetData(poolData);
   const { tokenRewardData } = useTokenRewardData(poolData);
-  const { priceFeedData } = usePriceFeedData(poolData);
+  const { priceFeedData } = usePriceFeedContext();
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
 
   const isMobile = useIsMobile();
@@ -45,6 +45,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
         isBase={true}
         isOpen={isModalOpen}
         onClose={closeModal}
+        baseAssetData={baseAssetData}
+        collateralAssetData={undefined}
       />
 
       <Row
@@ -97,7 +99,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
               crossAxisAlignment="center"
               width={"33%"}
             >
-              {baseAssetData?.yourSupply && assetPrice ? (
+              {baseAssetData?.yourSupply !== undefined  && assetPrice ? (
                 <>
                   <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                     {smallUsdPriceFormatter(
@@ -142,7 +144,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData?.yourBorrow && assetPrice ? (
+                {baseAssetData?.yourBorrow !== undefined  && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                       {smallUsdPriceFormatter(
@@ -166,7 +168,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData?.availableToBorrow && assetPrice ? (
+                {baseAssetData?.availableToBorrow !== undefined  && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                       {smallUsdPriceFormatter(

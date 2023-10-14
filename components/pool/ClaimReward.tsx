@@ -9,7 +9,6 @@ import { PoolConfig } from "interfaces/pool";
 const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
   const { claimReward } = useClaimReward(poolData);
-
   const asset = poolData.rewardToken;
 
   const isMobile = useIsMobile();
@@ -93,7 +92,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
             crossAxisAlignment="center"
             width="33%"
           >
-            {claimReward ? (
+            {claimReward !== undefined ? (
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
                   {claimReward?.yourTokenReward} {asset?.symbol}

@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PoolConfig } from "interfaces/pool";
+import { useReload } from "context/ReloadContext";
 
 interface PositionSummary {
   collateralBalance: number | undefined;
@@ -9,46 +10,44 @@ interface PositionSummary {
 }
 
 const usePositionSummary = (poolData: PoolConfig | undefined) => {
+  const [positionSummary, setPositionSummary] = useState<PositionSummary>();
   const [error, setError] = useState<Error | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
 
-  const positionSummary = useMemo<PositionSummary | undefined>(() => {
+  const reload = useReload();
+
+  const fetchPositionSummary = useCallback(async () => {
     if (!poolData) {
-      return undefined;
+      setPositionSummary(undefined);
+      return;
     }
 
-    let fetchedData: PositionSummary | undefined;
+    try {
+      // ここでデータを取得するロジックを書く
 
-    const fetchPositionSummary = async () => {
-      try {
-        // ここでデータを取得するロジックを書く
+      // ダミーデータを使用
+      const fetchedData: PositionSummary = {
+        collateralBalance: undefined,
+        LiquidationPoint: undefined,
+        BorrowCapacity: undefined,
+        LiquidationPercentage: undefined,
+      };
 
-        // ダミーデータを使用
-        fetchedData = {
-          collateralBalance: 180,
-          LiquidationPoint: 160,
-          BorrowCapacity: 150,
-          LiquidationPercentage: 30,
-        };
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err);
-        } else {
-          setError(new Error(String(err)));
-        }
+      setPositionSummary(fetchedData);
+    } catch (err) {
+      console.log("usePositionSummary", err);
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error(String(err)));
       }
-    };
+    }
+  }, [poolData]);
 
+  useEffect(() => {
     fetchPositionSummary();
+  }, [fetchPositionSummary, reload]);
 
-    return fetchedData;
-  }, [poolData, reloadKey]);
-
-  const reload = () => {
-    setReloadKey((prevKey) => prevKey + 1);
-  };
-
-  return { positionSummary, error, reload };
+  return { positionSummary, error };
 };
 
 export default usePositionSummary;

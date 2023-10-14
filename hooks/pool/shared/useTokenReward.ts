@@ -39,10 +39,11 @@ const useTokenRewardData = (poolData: PoolConfig) => {
 
         // ダミーデータを使用
         fetchedData = {
-          supplyRewardAPR: 15,
-          borrowRewardAPR: 10,
+          supplyRewardAPR: undefined,
+          borrowRewardAPR: undefined,
         };
       } catch (err) {
+        console.log("useTokenRewardData", err);
         if (err instanceof Error) {
           setError(err);
         } else {

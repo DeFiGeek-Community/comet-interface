@@ -1,53 +1,48 @@
-import { useState, useMemo } from "react";
-import { useAccount } from "wagmi";
-import { BaseAsset, CollateralAsset } from "interfaces/pool";
+import { useState, useEffect, useCallback } from "react";
+import { PoolConfig, CollateralAsset } from "interfaces/pool";
+import { fetchDataFromComet } from "hooks/util/cometContractUtils";
+import { useReload } from "context/ReloadContext";
 
-interface collateralAssetData {
+export interface CollateralAssetData {
   yourSupply: number | undefined;
   collateralValue: number | undefined;
 }
 
-const useCollateralAssetData = (asset: CollateralAsset | undefined) => {
+const useCollateralAssetData = (
+  asset: CollateralAsset | undefined,
+  poolData: PoolConfig,
+) => {
+  const [collateralAssetData, setCollateralAssetData] = useState<CollateralAssetData>();
   const [error, setError] = useState<Error | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
 
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const reload = useReload();
 
-  const collateralAssetData = useMemo<collateralAssetData | undefined>(() => {
-    if (!asset) {
-      return undefined;
+  const fetchCollateralAsset = useCallback(async () => {
+    if (!asset || !poolData) {
+      setCollateralAssetData(undefined);
+      return;
     }
 
-    let fetchedData: collateralAssetData | undefined;
+    try {
+      const yourSupply = await fetchDataFromComet("collateralBalanceOf", poolData, asset.address);
+      const collateralValue = yourSupply !== undefined
+        ? yourSupply * (asset.borrowCollateralFactor * 0.001)
+        : undefined;
 
-    const fetchCollateralAsset = async () => {
-      try {
-        // ここでデータを取得するロジックを書く
+      setCollateralAssetData({
+        yourSupply,
+        collateralValue,
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+    }
+  }, [asset, poolData]);
 
-        // ダミーデータを使用
-        fetchedData = {
-          yourSupply: 100,
-          collateralValue: 80,
-        };
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err);
-        } else {
-          setError(new Error(String(err)));
-        }
-      }
-    };
-
+  useEffect(() => {
     fetchCollateralAsset();
+  }, [fetchCollateralAsset, reload]);
 
-    return fetchedData;
-  }, [asset, reloadKey]);
-
-  const reload = () => {
-    setReloadKey((prevKey) => prevKey + 1);
-  };
-
-  return { collateralAssetData, error, reload };
+  return { collateralAssetData, error };
 };
 
 export default useCollateralAssetData;

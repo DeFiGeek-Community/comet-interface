@@ -1,18 +1,18 @@
-import usePoolData from "hooks/pool/shared/usePoolConfig";
 import {
   getAccount,
   getContract,
   getNetwork,
   getWalletClient,
 } from "@wagmi/core";
-import cometAbi from "statuc/comet.json";
+import cometAbi from "static/comet.json";
+import { PoolConfig } from "interfaces/pool";
 import { Address } from "abitype";
 
 export const getCometContract = async (address: Address) => {
   const network = getNetwork();
   const walletClient = await getWalletClient({ chainId: network.chain?.id });
   return getContract({
-    address,
+    address: address,
     abi: cometAbi,
     walletClient: walletClient as any,
   });
@@ -20,12 +20,14 @@ export const getCometContract = async (address: Address) => {
 
 export const fetchDataFromComet = async (
   method: string,
+  poolData: PoolConfig,
+  asset?: Address,
 ): Promise<number | undefined> => {
-  const poolData = usePoolData();
-  if (!poolData) return undefined;
   const comet = await getCometContract(poolData.proxy);
   const { address } = getAccount();
   if (!address) return undefined;
-  const data = await comet.read[method]([address]);
-  return data as number;
+  console.log(method);
+  const args = asset ? [address, asset] : [address];
+  const data = await comet.read[method](args);
+  return Number(data);
 };

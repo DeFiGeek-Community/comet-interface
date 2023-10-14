@@ -1,48 +1,36 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PoolConfig } from "interfaces/pool";
+import { fetchDataFromComet } from "hooks/util/cometContractUtils";
+import { useReload } from "context/ReloadContext";
 
 interface ClaimReward {
   yourTokenReward: number | undefined;
 }
 
 const useClaimReward = (poolData: PoolConfig | undefined) => {
+  const [claimReward, setClaimReward] = useState<ClaimReward>();
   const [error, setError] = useState<Error | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
 
-  const claimReward = useMemo<ClaimReward | undefined>(() => {
+  const reload = useReload();
+
+  const fetchClaimReward = useCallback(async () => {
     if (!poolData) {
-      return undefined;
+      setClaimReward(undefined);
+      return;
     }
+    try {
+      const yourTokenReward = await fetchDataFromComet("baseTrackingAccrued", poolData);
+      setClaimReward({ yourTokenReward });
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+    }
+  }, [poolData]);
 
-    let fetchedData: ClaimReward | undefined;
-
-    const fetchClaimReward = async () => {
-      try {
-        // ここでデータを取得するロジックを書く
-
-        // ダミーデータを使用
-        fetchedData = {
-          yourTokenReward: 0,
-        };
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err);
-        } else {
-          setError(new Error(String(err)));
-        }
-      }
-    };
-
+  useEffect(() => {
     fetchClaimReward();
+  }, [fetchClaimReward, reload]);
 
-    return fetchedData;
-  }, [poolData, reloadKey]);
-
-  const reload = () => {
-    setReloadKey((prevKey) => prevKey + 1);
-  };
-
-  return { claimReward, error, reload };
+  return { claimReward, error };
 };
 
 export default useClaimReward;
