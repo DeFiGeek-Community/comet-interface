@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
-import { smallUsdFormatter } from "utils/bigUtils";
+import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import usePoolMetrics from "hooks/pool/shared/usePoolMetrics";
@@ -17,6 +17,15 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { poolMetrics } = usePoolMetrics(poolData);
   const symbol = poolData?.baseToken.symbol ?? "";
   const { priceFeedData } = usePoolPrimaryDataContext();
+  let totalCollateralUsdBalance = 0;
+  const collateralAssets = poolData?.assetConfigs ?? []
+  for (const assetConfig of collateralAssets) {
+    const assetSymbol = assetConfig.symbol ?? "";
+    const assetPrice = priceFeedData?.collateralAssets[assetSymbol] ?? 0;
+    const assetBalance = poolMetrics?.totalCollateralBalances[assetSymbol] ?? 0;
+    totalCollateralUsdBalance += assetPrice * assetBalance;
+  }
+  console.log(poolMetrics)
 
   const { t } = useTranslation();
   return (
@@ -80,8 +89,8 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalBaseSupplyBalance
-                  ? smallUsdFormatter(poolMetrics.totalBaseSupplyBalance)
+                poolMetrics?.totalBaseSupplyBalance !== undefined && priceFeedData?.baseAsset !== undefined
+                  ? smallUsdPriceFormatter(poolMetrics.totalBaseSupplyBalance, priceFeedData.baseAsset)
                   : "$ ?"
               }
               caption={t(`Total ${symbol} Supply Balance`)}
@@ -94,8 +103,8 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalCollateralBalance
-                  ? smallUsdFormatter(poolMetrics.totalCollateralBalance)
+                totalCollateralUsdBalance !== undefined
+                  ? smallUsdFormatter(totalCollateralUsdBalance)
                   : "$ ?"
               }
               caption={t("Total Collateral Balance")}
@@ -117,8 +126,8 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalBaseBorrowBalance
-                  ? smallUsdFormatter(poolMetrics.totalBaseBorrowBalance)
+                poolMetrics?.totalBaseBorrowBalance !== undefined && priceFeedData?.baseAsset !== undefined
+                  ? smallUsdPriceFormatter(poolMetrics.totalBaseBorrowBalance, priceFeedData.baseAsset)
                   : "$ ?"
               }
               caption={t(`Total ${symbol} Borrow Balance`)}
@@ -131,7 +140,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                priceFeedData?.baseAsset
+                priceFeedData?.baseAsset !== undefined
                   ? smallUsdFormatter(priceFeedData?.baseAsset)
                   : "$ ?"
               }

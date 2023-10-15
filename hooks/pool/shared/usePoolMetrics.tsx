@@ -7,7 +7,9 @@ import { fetchTotalDataComet, fetchTotalCollateralDataComet } from "hooks/util/c
 type TotalPoolData = {
   totalBaseSupplyBalance: number | undefined;
   totalBaseBorrowBalance: number | undefined;
-  totalCollateralBalance: number | undefined;
+  totalCollateralBalances: {
+    [key: string]: number | undefined;
+  };
 };
 
 const usePoolMetrics = (poolData: PoolConfig | undefined) => {
@@ -25,23 +27,23 @@ const usePoolMetrics = (poolData: PoolConfig | undefined) => {
     try {
       const getTotalSupply  = await fetchTotalDataComet("totalSupply", poolData);
       const getTotalBorrow = await fetchTotalDataComet("totalBorrow", poolData);
-      let totalCollateralBalance = 0;
+      const totalCollateralBalances: { [key: string]: number | undefined } = {};
       for (const assetConfig of poolData.assetConfigs) {
         const getTotalsCollateral = await fetchTotalCollateralDataComet("totalsCollateral", poolData, assetConfig.address);
-        totalCollateralBalance += getTotalsCollateral !== undefined
+        totalCollateralBalances[assetConfig.symbol] = getTotalsCollateral !== undefined
         ? Number(formatUnits(getTotalsCollateral, assetConfig.decimals))
-        : 0 ;
+        : undefined;
       }
 
       // ダミーデータを使用
       const fetchedData: TotalPoolData = {
         totalBaseSupplyBalance: getTotalSupply !== undefined
-        ? Number(formatUnits(getTotalSupply, 10))
+        ? Number(formatUnits(getTotalSupply, poolData.cometDecimals))
         : undefined,
         totalBaseBorrowBalance: getTotalBorrow !== undefined
-        ? Number(formatUnits(getTotalBorrow, 10))
+        ? Number(formatUnits(getTotalBorrow, poolData.cometDecimals))
         : undefined,
-        totalCollateralBalance: totalCollateralBalance,
+        totalCollateralBalances: totalCollateralBalances,
       };
 
       setPoolMetrics(fetchedData);
