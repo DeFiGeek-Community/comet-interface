@@ -57,7 +57,7 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
     }
-  }, [poolData, ]);
+  }, [poolData]);
 
   useEffect(() => {
     fetchPriceFeedData();

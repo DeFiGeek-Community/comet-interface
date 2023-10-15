@@ -35,9 +35,15 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
 
       setBaseAssetData({
         supplyAPR,
-        yourSupply: yourSupply !== undefined ? Number(formatUnits(yourSupply, poolData.cometDecimals)) : undefined,
+        yourSupply:
+          yourSupply !== undefined
+            ? Number(formatUnits(yourSupply, poolData.cometDecimals))
+            : undefined,
         borrowAPR,
-        yourBorrow: yourBorrow !== undefined ? Number(formatUnits(yourBorrow, poolData.cometDecimals)) : undefined,
+        yourBorrow:
+          yourBorrow !== undefined
+            ? Number(formatUnits(yourBorrow, poolData.cometDecimals))
+            : undefined,
         availableToBorrow,
       });
     } catch (err) {

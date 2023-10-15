@@ -9,12 +9,16 @@ interface PoolPrimaryDataProviderProps {
   children: any;
 }
 
-export const PoolPrimaryDataProvider: React.FC<PoolPrimaryDataProviderProps> = ({ poolData, children }) => {
+export const PoolPrimaryDataProvider: React.FC<
+  PoolPrimaryDataProviderProps
+> = ({ poolData, children }) => {
   const { priceFeedData } = usePriceFeedData(poolData);
   const { baseAssetData } = useBaseAsset(poolData);
   const { collateralAssetsData } = useCollateralAssets(poolData);
   return (
-    <PoolPrimaryDataContext.Provider value={{ priceFeedData, baseAssetData, collateralAssetsData }}>
+    <PoolPrimaryDataContext.Provider
+      value={{ priceFeedData, baseAssetData, collateralAssetsData }}
+    >
       {children}
     </PoolPrimaryDataContext.Provider>
   );

@@ -29,7 +29,6 @@ import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 enum UserAction {
   NO_ACTION,
   WAITING_FOR_TRANSACTIONS,
-  VIEWING_QUOTE,
 }
 
 const AmountSelect = ({
@@ -48,7 +47,6 @@ const AmountSelect = ({
   onClose: () => any;
 }) => {
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
-  const uintMax = 2 ** 255 - 1;
   const [amount, _setAmount] = useState<BigNumber | null>(
     () => new BigNumber(0),
   );
@@ -131,13 +129,15 @@ const AmountSelect = ({
     args: [address ?? "0x0", poolData.proxy],
     enabled: Boolean(address) && Boolean(amount),
   });
-  console.log()
+
   const onConfirm = async () => {
     setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
     const functionName =
       mode === Mode.BASE_SUPPLY || mode === Mode.SUPPLY ? "supply" : "withdraw";
-    console.log("allowance", allowanceData)
-    const allowance = allowanceData ? Number(formatUnits(allowanceData, poolData.baseToken.decimals)) : 0;
+    console.log("allowance", allowanceData);
+    const allowance = allowanceData
+      ? Number(formatUnits(allowanceData, poolData.baseToken.decimals))
+      : 0;
     try {
       if (allowance <= Number(amount)) {
         console.log("approve");
@@ -202,11 +202,6 @@ const AmountSelect = ({
       </Heading>
       <Text fontSize="sm" mt="15px" textAlign="center">
         {t("Do not close this tab until you have sent the transaction!")}
-      </Text>
-      <Text fontSize="xs" mt="5px" textAlign="center">
-        {t(
-          "Do not increase the price of gas more than 1.5x the prefilled amount!",
-        )}
       </Text>
     </Column>
   ) : (

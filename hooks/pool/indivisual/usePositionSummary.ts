@@ -41,7 +41,7 @@ const usePositionSummary = (poolData: PoolConfig | undefined) => {
         setError(new Error(String(err)));
       }
     }
-  }, [poolData, ]);
+  }, [poolData]);
 
   useEffect(() => {
     fetchPositionSummary();

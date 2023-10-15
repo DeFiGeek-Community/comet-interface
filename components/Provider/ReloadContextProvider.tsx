@@ -5,8 +5,9 @@ interface ReloadContextProviderProps {
   children: any;
 }
 
-export const ReloadContextProvider: React.FC<ReloadContextProviderProps> = ({ children }) => {
-
+export const ReloadContextProvider: React.FC<ReloadContextProviderProps> = ({
+  children,
+}) => {
   const [reloadKey, setReloadKey] = useState(0);
 
   const reload = useCallback(() => {
@@ -14,7 +15,7 @@ export const ReloadContextProvider: React.FC<ReloadContextProviderProps> = ({ ch
   }, []);
   return (
     <ReloadContext.Provider value={{ reload, reloadKey }}>
-        {children}
+      {children}
     </ReloadContext.Provider>
   );
 };

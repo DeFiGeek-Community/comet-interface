@@ -36,13 +36,13 @@ const Pool = () => {
       value={{ chainId, poolName, setChainId, setPoolName }}
     >
       <ReloadContextProvider>
-      {isRendered && router.isReady ? (
-        <PoolPage />
-      ) : (
-        <Center height="100vh">
-          <HashLoader color="#FFF" />
-        </Center>
-      )}
+        {isRendered && router.isReady ? (
+          <PoolPage />
+        ) : (
+          <Center height="100vh">
+            <HashLoader color="#FFF" />
+          </Center>
+        )}
       </ReloadContextProvider>
     </PoolContext.Provider>
   );

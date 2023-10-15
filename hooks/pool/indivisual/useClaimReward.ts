@@ -24,7 +24,10 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
         "baseTrackingAccrued",
         poolData,
       );
-      const yourTokenReward = tokenReward !== undefined ? Number(formatUnits(tokenReward, poolData.cometDecimals)) : undefined;
+      const yourTokenReward =
+        tokenReward !== undefined
+          ? Number(formatUnits(tokenReward, poolData.cometDecimals))
+          : undefined;
       setClaimReward({ yourTokenReward });
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
