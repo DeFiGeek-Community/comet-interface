@@ -69,7 +69,6 @@ const AmountSelect = ({
     enabled: Boolean(asset?.address) && Boolean(address),
   });
   const { baseAssetData, collateralAssetsData } = usePoolPrimaryDataContext();
-  console.log(baseAssetData);
   const collateralAssetData = collateralAssetsData
     ? collateralAssetsData[asset.symbol]
     : undefined;

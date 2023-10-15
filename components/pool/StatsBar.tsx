@@ -88,7 +88,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalBaseSupplyBalance !== undefined && priceFeedData?.baseAsset !== undefined
+                poolMetrics?.totalBaseSupplyBalance && priceFeedData?.baseAsset !== undefined
                   ? smallUsdPriceFormatter(poolMetrics.totalBaseSupplyBalance, priceFeedData.baseAsset)
                   : "$ ?"
               }
@@ -102,7 +102,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                totalCollateralUsdBalance !== undefined
+                totalCollateralUsdBalance
                   ? smallUsdFormatter(totalCollateralUsdBalance)
                   : "$ ?"
               }
@@ -125,7 +125,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalBaseBorrowBalance !== undefined && priceFeedData?.baseAsset !== undefined
+                poolMetrics?.totalBaseBorrowBalance && priceFeedData?.baseAsset !== undefined
                   ? smallUsdPriceFormatter(poolMetrics.totalBaseBorrowBalance, priceFeedData.baseAsset)
                   : "$ ?"
               }
