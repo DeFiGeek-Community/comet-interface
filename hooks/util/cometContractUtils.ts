@@ -30,3 +30,26 @@ export const fetchDataFromComet = async (
   const data = await comet.read[method](args);
   return typeof data === "bigint" ? data : undefined;
 };
+
+export const fetchTotalDataComet = async (
+  method: string,
+  poolData: PoolConfig,
+): Promise<bigint | undefined> => {
+  const comet = await getCometContract(poolData.proxy);
+  const { address } = getAccount();
+  if (!address) return undefined;
+  const data = await comet.read[method]();
+  return typeof data === "bigint" ? data : undefined;
+};
+
+export const fetchTotalCollateralDataComet = async (
+  method: string,
+  poolData: PoolConfig,
+  asset: Address,
+): Promise<bigint | undefined> => {
+  const comet = await getCometContract(poolData.proxy);
+  const { address } = getAccount();
+  if (!address) return undefined;
+  const data = await comet.read[method]([asset]) as (bigint | number)[];;
+  return typeof data[0] === "bigint" ? data[0] : undefined;
+};

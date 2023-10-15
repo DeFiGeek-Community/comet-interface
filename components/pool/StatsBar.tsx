@@ -5,6 +5,7 @@ import { CheckCircleIcon } from "@chakra-ui/icons";
 import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
+import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import usePoolMetrics from "hooks/pool/shared/usePoolMetrics";
 import CaptionedStat from "components/shared/CaptionedStat";
 import DashboardBox from "components/shared/DashboardBox";
@@ -13,8 +14,9 @@ import { PoolConfig } from "interfaces/pool";
 
 const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const isMobile = useIsSmallScreen();
-  const { poolMetrics, error, reload } = usePoolMetrics(poolData);
+  const { poolMetrics } = usePoolMetrics(poolData);
   const symbol = poolData?.baseToken.symbol ?? "";
+  const { priceFeedData } = usePoolPrimaryDataContext();
 
   const { t } = useTranslation();
   return (
@@ -129,8 +131,8 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.availableLiquidity
-                  ? smallUsdFormatter(poolMetrics?.availableLiquidity)
+                priceFeedData?.baseAsset
+                  ? smallUsdFormatter(priceFeedData?.baseAsset)
                   : "$ ?"
               }
               caption={t("Base Token Oracle Price")}

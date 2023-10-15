@@ -1,63 +1,65 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { formatUnits } from "viem";
 import { PoolConfig } from "interfaces/pool";
+import { useReload } from "context/ReloadContext";
+import { fetchTotalDataComet, fetchTotalCollateralDataComet } from "hooks/util/cometContractUtils";
 
 type TotalPoolData = {
   totalBaseSupplyBalance: number | undefined;
   totalBaseBorrowBalance: number | undefined;
   totalCollateralBalance: number | undefined;
-  availableLiquidity: number | undefined;
 };
 
 const usePoolMetrics = (poolData: PoolConfig | undefined) => {
+  const [poolMetrics, setPoolMetrics] = useState<TotalPoolData | undefined>();
   const [error, setError] = useState<Error | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
 
-  const poolMetrics = useMemo<TotalPoolData | undefined>(() => {
+  const { reloadKey } = useReload();
+
+  const fetchPoolMetricsData = useCallback(async () => {
     if (!poolData) {
-      return undefined;
+      setPoolMetrics(undefined);
+      return;
     }
 
-    let fetchedData: TotalPoolData | undefined;
-
-    const fetchPoolMetricsData = async () => {
-      try {
-        // ここでデータを取得するロジックを書く
-        // const totalBaseSupplyBalance = comet.totalSupply();
-        // const totalBaseBorrowBalance = comet.totalBorrow();
-        // const totalCollateralBalance = CollateralBalance_TXJP + CollateralBalance_wstETH + CollateralBalance_USDC + CollateralBalance_crvUSD;
-        // const CollateralBalance_TXJP = comet.totalsCollateral[address_TXJP];
-        // const CollateralBalance_wstETH = comet.totalsCollateral[address_wstETH];
-        // const CollateralBalance_USDC = comet.totalsCollateral[address_USDC];
-        // const CollateralBalance_crvUSD = comet.totalsCollateral[address_crvUSD];
-        // const availableLiquidity = ?;
-
-        // ダミーデータを使用
-        fetchedData = {
-          totalBaseSupplyBalance: undefined,
-          totalBaseBorrowBalance: undefined,
-          totalCollateralBalance: undefined,
-          availableLiquidity: undefined,
-        };
-      } catch (err) {
-        console.log("usePoolMetrics", err);
-        if (err instanceof Error) {
-          setError(err);
-        } else {
-          setError(new Error(String(err)));
-        }
+    try {
+      const getTotalSupply  = await fetchTotalDataComet("totalSupply", poolData);
+      const getTotalBorrow = await fetchTotalDataComet("totalBorrow", poolData);
+      let totalCollateralBalance = 0;
+      for (const assetConfig of poolData.assetConfigs) {
+        const getTotalsCollateral = await fetchTotalCollateralDataComet("totalsCollateral", poolData, assetConfig.address);
+        totalCollateralBalance += getTotalsCollateral !== undefined
+        ? Number(formatUnits(getTotalsCollateral, assetConfig.decimals))
+        : 0 ;
       }
-    };
 
-    fetchPoolMetricsData();
+      // ダミーデータを使用
+      const fetchedData: TotalPoolData = {
+        totalBaseSupplyBalance: getTotalSupply !== undefined
+        ? Number(formatUnits(getTotalSupply, 10))
+        : undefined,
+        totalBaseBorrowBalance: getTotalBorrow !== undefined
+        ? Number(formatUnits(getTotalBorrow, 10))
+        : undefined,
+        totalCollateralBalance: totalCollateralBalance,
+      };
 
-    return fetchedData;
+      setPoolMetrics(fetchedData);
+    } catch (err) {
+      console.log("usePoolMetrics", err);
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error(String(err)));
+      }
+    }
   }, [poolData, reloadKey]);
 
-  const reload = () => {
-    setReloadKey((prevKey) => prevKey + 1);
-  };
+  useEffect(() => {
+    fetchPoolMetricsData();
+  }, [fetchPoolMetricsData]);
 
-  return { poolMetrics, error, reload };
+  return { poolMetrics, error };
 };
 
 export default usePoolMetrics;
