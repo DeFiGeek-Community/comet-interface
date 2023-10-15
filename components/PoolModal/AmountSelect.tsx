@@ -69,7 +69,7 @@ const AmountSelect = ({
     enabled: Boolean(asset?.address) && Boolean(address),
   });
   const { baseAssetData, collateralAssetsData } = usePoolPrimaryDataContext();
-
+  console.log(baseAssetData);
   const collateralAssetData = collateralAssetsData
     ? collateralAssetsData[asset.symbol]
     : undefined;
@@ -136,16 +136,10 @@ const AmountSelect = ({
 
     switch (mode) {
       case Mode.BASE_SUPPLY:
-        functionName =
-          baseSupplyBalance > 0 || baseBorrowBalance === 0
-            ? "supply"
-            : "withdraw";
+        functionName = "supply"
         break;
       case Mode.BASE_BORROW:
-        functionName =
-          baseBorrowBalance > 0 || baseSupplyBalance === 0
-            ? "supply"
-            : "withdraw";
+        functionName = "withdraw"
         break;
       case Mode.SUPPLY:
         functionName = "supply";
@@ -156,13 +150,14 @@ const AmountSelect = ({
       default:
         break;
     }
+    console.log("functionName", functionName)
 
     console.log("allowance", allowanceData);
     const allowance = allowanceData
       ? Number(formatUnits(allowanceData, poolData.baseToken.decimals))
       : 0;
     try {
-      if (allowance <= Number(amount)) {
+      if (allowance < Number(amount)) {
         console.log("approve");
         const approveConfig = await prepareWriteContract({
           address: asset.address,
@@ -201,9 +196,9 @@ const AmountSelect = ({
     if (amount === null || amount.isZero()) {
       return false;
     }
-    if (maxValue && Number(amount) > maxValue) {
-      return false;
-    }
+    // if (maxValue && Number(amount) > maxValue) {
+    //   return false;
+    // }
     if (getDecimalPlaces(Number(amount)) > asset.decimals) {
       return false;
     }
