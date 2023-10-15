@@ -55,6 +55,7 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
         rewardAsset,
       });
     } catch (err) {
+      console.log("usePriceFeedData", err)
       setError(err instanceof Error ? err : new Error(String(err)));
     }
   }, [poolData]);
