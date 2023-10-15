@@ -138,15 +138,17 @@ const AmountSelect = ({
       Mode.BASE_SUPPLY || Mode.SUPPLY ? "supply" : "withdraw";
     try {
       if (Number(allowanceData ?? 0) <= Number(amount)) {
+        console.log("approve");
         const approveConfig = await prepareWriteContract({
           address: asset.address,
           abi: erc20ABI,
           functionName: "approve",
-          args: [poolData.proxy, BigInt(uintMax)],
+          args: [poolData.proxy, parseUnits(String(amount), asset.decimals)],
         });
         const { hash: approveHash } = await writeContract(approveConfig);
         const dataAP = await waitForTransaction({ hash: approveHash });
       }
+      console.log(functionName);
       const config = await prepareWriteContract({
         address: poolData.proxy,
         abi: cometAbi,
