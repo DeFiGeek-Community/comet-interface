@@ -132,8 +132,31 @@ const AmountSelect = ({
 
   const onConfirm = async () => {
     setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
-    const functionName =
-      mode === Mode.BASE_SUPPLY || mode === Mode.SUPPLY ? "supply" : "withdraw";
+    let functionName = "";
+
+    switch (mode) {
+      case Mode.BASE_SUPPLY:
+        functionName =
+          baseSupplyBalance > 0 || baseBorrowBalance === 0
+            ? "supply"
+            : "withdraw";
+        break;
+      case Mode.BASE_BORROW:
+        functionName =
+          baseBorrowBalance > 0 || baseSupplyBalance === 0
+            ? "supply"
+            : "withdraw";
+        break;
+      case Mode.SUPPLY:
+        functionName = "supply";
+        break;
+      case Mode.WITHDRAW:
+        functionName = "withdraw";
+        break;
+      default:
+        break;
+    }
+
     console.log("allowance", allowanceData);
     const allowance = allowanceData
       ? Number(formatUnits(allowanceData, poolData.baseToken.decimals))
