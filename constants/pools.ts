@@ -88,7 +88,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           address: "0xb2d619fd3AAf88345f6c4fcbE56fE2e44Bdf9Fd4",
           decimals: 6,
           color: "#627EEA",
-          logoURL: "/tokens/usdc.png",
+          logoURL: "/tokens/USDC.png",
           priceFeed: "0xAb5c49580294Aff77670F839ea425f5b78ab3Ae7",
           priceFeedDecimals: 8,
           borrowCollateralFactor: 85,
