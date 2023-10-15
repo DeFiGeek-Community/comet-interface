@@ -13,6 +13,7 @@ import { parseUnits } from "viem";
 import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
+import { useReload } from "context/ReloadContext";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 import { Mode } from "components/PoolModal";
@@ -55,6 +56,8 @@ const AmountSelect = ({
   const [userAction, setUserAction] = useState(UserAction.NO_ACTION);
 
   const { t } = useTranslation();
+
+  const reload = useReload();
 
   const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
   const asset = isBase ? baseAsset : collateralAsset;
@@ -154,7 +157,7 @@ const AmountSelect = ({
       const data = await waitForTransaction({ hash });
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
+      reload();
       await new Promise((resolve) => setTimeout(resolve, 1000));
       onClose();
     } catch (err) {
