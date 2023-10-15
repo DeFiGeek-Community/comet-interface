@@ -3,7 +3,6 @@ import { formatUnits } from "viem";
 import { PoolConfig } from "interfaces/pool";
 import { fetchDataFromComet } from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
-import { number } from "react-i18next/icu.macro";
 
 export interface CollateralAssetsData {
   [symbol: string]: CollateralAssetInfo;

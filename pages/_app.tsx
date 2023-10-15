@@ -14,7 +14,6 @@ import type { AppProps } from "next/app";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { CacheProvider } from "@chakra-ui/next-js";
 import { CustomAvatar } from "components/shared/AvatarComponent";
-import { Center } from "utils/chakraUtils";
 
 const customTheme = {
   ...theme,
