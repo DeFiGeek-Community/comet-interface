@@ -1,7 +1,15 @@
 import { createContext, useContext } from "react";
 
-export const ReloadContext = createContext<() => void>(() => {});
+export type ReloadContextType = {
+  reload: () => void;
+  reloadKey: number;
+};
 
-export const useReload = () => {
+export const ReloadContext = createContext<ReloadContextType>({
+  reload: () => {},
+  reloadKey: 0,
+});
+
+export const useReload = (): ReloadContextType => {
   return useContext(ReloadContext);
 };

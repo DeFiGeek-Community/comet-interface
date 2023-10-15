@@ -16,7 +16,7 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
   const [baseAssetData, setBaseAssetData] = useState<BaseAssetData>();
   const [error, setError] = useState<Error | null>(null);
 
-  const reload = useReload();
+  const { reloadKey } = useReload();
 
   const fetchBaseAsset = useCallback(async () => {
     if (!poolData) {
@@ -47,7 +47,7 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
 
   useEffect(() => {
     fetchBaseAsset();
-  }, [fetchBaseAsset, reload]);
+  }, [fetchBaseAsset, reloadKey]);
 
   return { baseAssetData, error };
 };

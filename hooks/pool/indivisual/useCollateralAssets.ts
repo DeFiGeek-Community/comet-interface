@@ -18,7 +18,7 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
   const [collateralAssetsData, setCollateralAssetsData] =
     useState<CollateralAssetsData>();
 
-  const reload = useReload();
+  const { reloadKey } = useReload();
 
   const fetchCollateralAssetsData = useCallback(async () => {
     if (!poolData) {
@@ -54,7 +54,7 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
 
   useEffect(() => {
     fetchCollateralAssetsData();
-  }, [fetchCollateralAssetsData, reload]);
+  }, [fetchCollateralAssetsData, reloadKey]);
 
   return { collateralAssetsData };
 };

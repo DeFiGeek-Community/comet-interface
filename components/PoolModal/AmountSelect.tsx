@@ -57,7 +57,7 @@ const AmountSelect = ({
 
   const { t } = useTranslation();
 
-  const reload = useReload();
+  const { reload } = useReload();
 
   const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
   const asset = isBase ? baseAsset : collateralAsset;

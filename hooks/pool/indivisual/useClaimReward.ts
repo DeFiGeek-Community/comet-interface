@@ -12,7 +12,7 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
   const [claimReward, setClaimReward] = useState<ClaimReward>();
   const [error, setError] = useState<Error | null>(null);
 
-  const reload = useReload();
+  const { reloadKey } = useReload();
 
   const fetchClaimReward = useCallback(async () => {
     if (!poolData) {
@@ -33,7 +33,7 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
 
   useEffect(() => {
     fetchClaimReward();
-  }, [fetchClaimReward, reload]);
+  }, [fetchClaimReward, reloadKey]);
 
   return { claimReward, error };
 };

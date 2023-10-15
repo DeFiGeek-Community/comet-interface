@@ -17,7 +17,7 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
   const [priceFeedData, setPriceFeedData] = useState<PriceFeedData>();
   const [error, setError] = useState<Error | null>(null);
 
-  const reload = useReload();
+  const { reloadKey } = useReload();
 
   const fetchPriceFeedData = useCallback(async () => {
     if (!poolData) {
@@ -57,11 +57,11 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
     }
-  }, [poolData]);
+  }, [poolData, ]);
 
   useEffect(() => {
     fetchPriceFeedData();
-  }, [fetchPriceFeedData, reload]);
+  }, [fetchPriceFeedData, reloadKey]);
 
   return { priceFeedData, error };
 };

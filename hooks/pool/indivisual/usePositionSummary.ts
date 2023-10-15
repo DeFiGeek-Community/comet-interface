@@ -13,7 +13,7 @@ const usePositionSummary = (poolData: PoolConfig | undefined) => {
   const [positionSummary, setPositionSummary] = useState<PositionSummary>();
   const [error, setError] = useState<Error | null>(null);
 
-  const reload = useReload();
+  const { reloadKey } = useReload();
 
   const fetchPositionSummary = useCallback(async () => {
     if (!poolData) {
@@ -41,11 +41,11 @@ const usePositionSummary = (poolData: PoolConfig | undefined) => {
         setError(new Error(String(err)));
       }
     }
-  }, [poolData]);
+  }, [poolData, ]);
 
   useEffect(() => {
     fetchPositionSummary();
-  }, [fetchPositionSummary, reload]);
+  }, [fetchPositionSummary, reloadKey]);
 
   return { positionSummary, error };
 };
