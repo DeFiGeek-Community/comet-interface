@@ -12,6 +12,7 @@ import {
 import { parseUnits, formatUnits } from "viem";
 import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
+import { formatErrorMessage } from "utils/formatErrorMessage";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import { useReload } from "context/ReloadContext";
 import DashboardBox from "components/shared/DashboardBox";
@@ -29,6 +30,7 @@ import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 enum UserAction {
   NO_ACTION,
   WAITING_FOR_TRANSACTIONS,
+  ERROR
 }
 
 const AmountSelect = ({
@@ -52,6 +54,7 @@ const AmountSelect = ({
   );
 
   const [userAction, setUserAction] = useState(UserAction.NO_ACTION);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { t } = useTranslation();
 
@@ -183,6 +186,8 @@ const AmountSelect = ({
       onClose();
     } catch (err) {
       console.log("ErrorApprove", err);
+      setUserAction(UserAction.ERROR);
+      setErrorMessage(formatErrorMessage(String(err)));
     }
   };
 
@@ -219,6 +224,21 @@ const AmountSelect = ({
       </Heading>
       <Text fontSize="sm" mt="15px" textAlign="center">
         {t("Do not close this tab until you have sent the transaction!")}
+      </Text>
+    </Column>
+  ) : userAction === UserAction.ERROR ? (
+    <Column expand mainAxisAlignment="center" crossAxisAlignment="center" p={4}>
+      <Image
+        src="/exclamation-triangle-fill.svg"
+        alt="Error Icon"
+        width="50px"
+        height="50px"
+      />
+      <Heading mt="30px" textAlign="center" size="md">
+        An error occurred!
+      </Heading>
+      <Text fontSize="sm" mt="15px" textAlign="center" maxWidth="400px">
+        {errorMessage}
       </Text>
     </Column>
   ) : (
