@@ -89,8 +89,8 @@ export const BaseStatsColumn = ({
           label={t(mode === Mode.BASE_SUPPLY ? "Supply APR" : "Borrow APR")}
           value={`${
             mode === Mode.BASE_SUPPLY
-              ? baseAssetData.supplyAPR
-              : baseAssetData.borrowAPR
+              ? baseAssetData.supplyAPR ?? 0
+              : baseAssetData.borrowAPR ?? 0
           } %`}
         />
         <StatsRow

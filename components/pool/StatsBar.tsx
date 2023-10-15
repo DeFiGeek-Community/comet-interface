@@ -78,9 +78,9 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics
-                  ? smallUsdFormatter(poolMetrics?.totalBaseSupplyBalance)
-                  : "$?"
+                poolMetrics?.totalBaseSupplyBalance
+                  ? smallUsdFormatter(poolMetrics.totalBaseSupplyBalance)
+                  : "$ ?"
               }
               caption={t(`Total ${symbol} Supply Balance`)}
             />
@@ -92,9 +92,9 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics
-                  ? smallUsdFormatter(poolMetrics?.totalCollateralBalance)
-                  : "$?"
+                poolMetrics?.totalCollateralBalance
+                  ? smallUsdFormatter(poolMetrics.totalCollateralBalance)
+                  : "$ ?"
               }
               caption={t("Total Collateral Balance")}
             />
@@ -115,9 +115,9 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics
-                  ? smallUsdFormatter(poolMetrics?.totalBaseBorrowBalance)
-                  : "$?"
+                poolMetrics?.totalBaseBorrowBalance
+                  ? smallUsdFormatter(poolMetrics.totalBaseBorrowBalance)
+                  : "$ ?"
               }
               caption={t(`Total ${symbol} Borrow Balance`)}
             />
@@ -129,11 +129,11 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics
+                poolMetrics?.availableLiquidity
                   ? smallUsdFormatter(poolMetrics?.availableLiquidity)
-                  : "$?"
+                  : "$ ?"
               }
-              caption={t("Available Liquidity")}
+              caption={t("Base Token Oracle Price")}
             />
           </StatBox>
         </RowOrColumn>
