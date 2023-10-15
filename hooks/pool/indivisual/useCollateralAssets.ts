@@ -34,10 +34,10 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
           poolData,
           assetConfig.address,
         );
-        const assetSupply = supplyData !== undefined ? Number(formatUnits(supplyData, poolData.cometDecimals)) : undefined;
+        const assetSupply = supplyData !== undefined ? Number(formatUnits(supplyData, assetConfig.decimals)) : undefined;
         const collateralValue =
           assetSupply !== undefined
-            ? assetSupply * (assetConfig.borrowCollateralFactor * 0.001)
+            ? assetSupply * (assetConfig.borrowCollateralFactor * 0.01)
             : undefined;
 
         data[assetConfig.symbol] = {
