@@ -9,7 +9,7 @@ import {
   waitForTransaction,
   writeContract,
 } from "@wagmi/core";
-import { parseUnits } from "viem";
+import { parseUnits, formatUnits } from "viem";
 import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
@@ -131,13 +131,15 @@ const AmountSelect = ({
     args: [address ?? "0x0", poolData.proxy],
     enabled: Boolean(address) && Boolean(amount),
   });
-
+  console.log()
   const onConfirm = async () => {
     setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
     const functionName =
-      Mode.BASE_SUPPLY || Mode.SUPPLY ? "supply" : "withdraw";
+      mode === Mode.BASE_SUPPLY || mode === Mode.SUPPLY ? "supply" : "withdraw";
+    console.log("allowance", allowanceData)
+    const allowance = allowanceData ? Number(formatUnits(allowanceData, poolData.baseToken.decimals)) : 0;
     try {
-      if (Number(allowanceData ?? 0) <= Number(amount)) {
+      if (allowance <= Number(amount)) {
         console.log("approve");
         const approveConfig = await prepareWriteContract({
           address: asset.address,
