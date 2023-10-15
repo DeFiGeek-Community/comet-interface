@@ -25,7 +25,6 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
     const assetBalance = poolMetrics?.totalCollateralBalances[assetSymbol] ?? 0;
     totalCollateralUsdBalance += assetPrice * assetBalance;
   }
-  console.log(poolMetrics)
 
   const { t } = useTranslation();
   return (

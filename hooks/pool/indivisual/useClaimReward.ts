@@ -30,6 +30,7 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
           : undefined;
       setClaimReward({ yourTokenReward });
     } catch (err) {
+      console.log("useClaimReward", err);
       setError(err instanceof Error ? err : new Error(String(err)));
     }
   }, [poolData]);

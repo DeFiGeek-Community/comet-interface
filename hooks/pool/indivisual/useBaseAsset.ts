@@ -47,6 +47,7 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
         availableToBorrow,
       });
     } catch (err) {
+      console.log("useBaseAsset", err);
       setError(err instanceof Error ? err : new Error(String(err)));
     }
   }, [poolData]);
