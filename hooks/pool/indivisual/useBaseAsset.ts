@@ -44,11 +44,11 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
       console.log("useBaseAsset", err);
       setError(err instanceof Error ? err : new Error(String(err)));
     }
-  }, [poolData]);
+  }, [poolData, reloadKey]);
 
   useEffect(() => {
     fetchBaseAsset();
-  }, [fetchBaseAsset, reloadKey]);
+  }, [fetchBaseAsset]);
 
   return { baseAssetData, error };
 };

@@ -27,6 +27,7 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
     try {
       const data: CollateralAssetsData = {};
       for (const assetConfig of poolData.assetConfigs) {
+        const collateralFactor = assetConfig.borrowCollateralFactor * 0.01;
         const supplyData = await fetchDataFromComet(
           "collateralBalanceOf",
           poolData,
@@ -34,9 +35,8 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
         );
         const assetSupply = supplyData !== undefined ? supplyData : undefined;
         const collateralValue =
-          assetSupply !== undefined
-            ? assetSupply *
-              (BigInt(assetConfig.borrowCollateralFactor) * BigInt(0.01))
+          supplyData !== undefined
+            ? BigInt(Number(supplyData) * collateralFactor)
             : undefined;
 
         data[assetConfig.symbol] = {
@@ -49,11 +49,11 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
     } catch (err) {
       console.log(err);
     }
-  }, [poolData]);
+  }, [poolData, reloadKey]);
 
   useEffect(() => {
     fetchCollateralAssetsData();
-  }, [fetchCollateralAssetsData, reloadKey]);
+  }, [fetchCollateralAssetsData]);
 
   return { collateralAssetsData };
 };

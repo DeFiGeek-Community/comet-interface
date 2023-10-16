@@ -33,11 +33,11 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
       console.log("useClaimReward", err);
       setError(err instanceof Error ? err : new Error(String(err)));
     }
-  }, [poolData]);
+  }, [poolData, reloadKey]);
 
   useEffect(() => {
     fetchClaimReward();
-  }, [fetchClaimReward, reloadKey]);
+  }, [fetchClaimReward]);
 
   return { claimReward, error };
 };
