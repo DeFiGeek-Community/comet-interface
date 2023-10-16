@@ -4,6 +4,7 @@ import { Column, Row, Center } from "utils/chakraUtils";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { CTokenIcon } from "components/shared/CTokenIcon";
 import { RewardAsset } from "interfaces/pool";
+import { truncateTo3DecimalPlaces } from "utils/numberUtils";
 
 const APRComponent = ({
   rewardToken,
@@ -32,7 +33,7 @@ const APRComponent = ({
       <>
         {baseAPR !== undefined ? (
           <Text color={"#FF"} fontWeight="bold" fontSize="17px">
-            {baseAPR} %
+            {truncateTo3DecimalPlaces(baseAPR * 100)} %
           </Text>
         ) : (
           <Center height="35px">

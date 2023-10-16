@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { formatUnits } from "viem";
+import { formatEther } from "viem";
 import { PoolConfig } from "interfaces/pool";
-import { fetchDataFromComet } from "hooks/util/cometContractUtils";
+import { fetchDataFromComet, fetchTotalDataComet, fetchRateDataComet } from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
 
 export interface BaseAssetData {
@@ -23,22 +23,26 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
       setBaseAssetData(undefined);
       return;
     }
+    const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
     try {
-      const [supplyAPR, yourSupply, borrowAPR, yourBorrow, availableToBorrow] =
-        await Promise.all([
-          undefined,
-          fetchDataFromComet("balanceOf", poolData),
-          undefined,
-          fetchDataFromComet("borrowBalanceOf", poolData),
-          undefined,
-        ]);
+      const utilization = await fetchTotalDataComet("getUtilization" ,poolData);
 
-      setBaseAssetData({
-        supplyAPR,
+      const [supplyRate, yourSupply, borrowRate, yourBorrow] =
+        await Promise.all([
+          fetchRateDataComet("getSupplyRate", poolData, utilization),
+          fetchDataFromComet("balanceOf", poolData),
+          fetchRateDataComet("getBorrowRate", poolData, utilization),
+          fetchDataFromComet("borrowBalanceOf", poolData),
+        ]);
+        const borrowAPR = borrowRate ? Number(formatEther(borrowRate)) * SECONDS_PER_YEAR : undefined;
+        const supplyAPR = supplyRate ? Number(formatEther(supplyRate)) * SECONDS_PER_YEAR : undefined;
+        console.log("useBaseAsset", supplyAPR, borrowAPR);
+        setBaseAssetData({
+        supplyAPR: supplyAPR,
         yourSupply: yourSupply !== undefined ? yourSupply : undefined,
-        borrowAPR,
+        borrowAPR : borrowAPR,
         yourBorrow: yourBorrow !== undefined ? yourBorrow : undefined,
-        availableToBorrow,
+        availableToBorrow: undefined,
       });
     } catch (err) {
       console.log("useBaseAsset", err);

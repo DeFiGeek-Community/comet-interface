@@ -75,3 +75,7 @@ export function smallUsdPriceFormatter(
 export function truncateTo2DecimalPlaces(num: number): number {
   return Math.floor(num * 100) / 100;
 }
+
+export function truncateTo3DecimalPlaces(num: number): number {
+  return Math.floor(num * 1000) / 1000;
+}

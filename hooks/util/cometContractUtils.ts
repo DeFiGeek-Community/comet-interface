@@ -53,3 +53,16 @@ export const fetchTotalCollateralDataComet = async (
   const data = (await comet.read[method]([asset])) as (bigint | number)[];
   return typeof data[0] === "bigint" ? data[0] : undefined;
 };
+
+export const fetchRateDataComet = async (
+  method: string,
+  poolData: PoolConfig,
+  utilization: bigint | undefined,
+): Promise<bigint | undefined> => {
+  const comet = await getCometContract(poolData.proxy);
+  const { address } = getAccount();
+  if (!address) return undefined;
+  if (utilization === undefined) return undefined;
+  const data = (await comet.read[method]([utilization])) as (bigint | number)[];
+  return typeof data === "bigint" ? data : undefined;
+};
