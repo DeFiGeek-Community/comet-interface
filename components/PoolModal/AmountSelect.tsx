@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
-import { Heading, Box, Button, Text, Image } from "@chakra-ui/react";
+import { Heading, Box, Button, Text, Image, Spinner } from "@chakra-ui/react";
 import { HashLoader } from "react-spinners";
 import { useBalance, useAccount, useContractRead, erc20ABI } from "wagmi";
 import {
@@ -31,6 +31,8 @@ enum UserAction {
   NO_ACTION,
   WAITING_FOR_TRANSACTIONS,
   ERROR,
+  APPROVE_EXECUTING,
+  APPROVE_IN_PROGRESS,
 }
 
 const AmountSelect = ({
@@ -55,6 +57,8 @@ const AmountSelect = ({
 
   const [userAction, setUserAction] = useState(UserAction.NO_ACTION);
   const [errorMessage, setErrorMessage] = useState("");
+  const [approveNeeded, setApproveNeeded] = useState(true);
+  const [isOperation , setIsOperation] = useState(false);
 
   const { t } = useTranslation();
 
@@ -130,12 +134,29 @@ const AmountSelect = ({
     functionName: "allowance",
     args: [address ?? "0x0", poolData.proxy],
     enabled: Boolean(address) && Boolean(amount),
+    onSuccess(data) {
+      if (Number(formatUnits(data, asset.decimals)) < Number(amount)) {
+        console.log("allowance", data);
+        setApproveNeeded(false);
+      }
+    },
   });
 
-  const onConfirm = async () => {
-    setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
-    let functionName = "";
+  const approve = async () => {
+    setUserAction(UserAction.APPROVE_EXECUTING);
+    const approveConfig = await prepareWriteContract({
+      address: asset.address,
+      abi: erc20ABI,
+      functionName: "approve",
+      args: [poolData.proxy, parseUnits(String(amount), asset.decimals)],
+    });
+    const { hash: approveHash } = await writeContract(approveConfig);
+    setUserAction(UserAction.APPROVE_IN_PROGRESS);
+    const dataAP = await waitForTransaction({ hash: approveHash });
+  };
 
+  const executeFunction = async () => {
+    let functionName = "";
     switch (mode) {
       case Mode.BASE_SUPPLY:
         functionName = "supply";
@@ -153,41 +174,36 @@ const AmountSelect = ({
         break;
     }
     console.log("functionName", functionName);
+    setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
+    const config = await prepareWriteContract({
+      address: poolData.proxy,
+      abi: cometAbi,
+      functionName: functionName,
+      args: [asset.address, parseUnits(String(amount), asset.decimals)],
+    });
+    const { hash } = await writeContract(config);
+    const data = await waitForTransaction({ hash });
 
-    console.log("allowance", allowanceData);
-    const allowance = allowanceData
-      ? Number(formatUnits(allowanceData, poolData.baseToken.decimals))
-      : 0;
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    reload();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    onClose();
+    setUserAction(UserAction.NO_ACTION);
+  };
+
+  const onConfirm = async () => {
+    setIsOperation(true);
     try {
-      if (allowance < Number(amount)) {
+      if (approveNeeded) {
         console.log("approve");
-        const approveConfig = await prepareWriteContract({
-          address: asset.address,
-          abi: erc20ABI,
-          functionName: "approve",
-          args: [poolData.proxy, parseUnits(String(amount), asset.decimals)],
-        });
-        const { hash: approveHash } = await writeContract(approveConfig);
-        const dataAP = await waitForTransaction({ hash: approveHash });
+        await approve();
       }
-      console.log(functionName);
-      const config = await prepareWriteContract({
-        address: poolData.proxy,
-        abi: cometAbi,
-        functionName: functionName,
-        args: [asset.address, parseUnits(String(amount), asset.decimals)],
-      });
-      const { hash } = await writeContract(config);
-      const data = await waitForTransaction({ hash });
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      reload();
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      onClose();
+      await executeFunction();
     } catch (err) {
-      console.log("ErrorApprove", err);
       setUserAction(UserAction.ERROR);
-      setErrorMessage(formatErrorMessage(String(err)));
+      setErrorMessage(formatErrorMessage(err));
+    } finally {
+      setIsOperation(false);
     }
   };
 
@@ -198,15 +214,15 @@ const AmountSelect = ({
 
   const amountIsValid = (() => {
     if (amount === null || amount.isZero()) {
-      return false;
+      return true;
     }
     // if (maxValue && Number(amount) > maxValue) {
-    //   return false;
+    //   return true;
     // }
     if (getDecimalPlaces(Number(amount)) > asset.decimals) {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   })();
 
   let depositOrWithdrawAlert = null;
@@ -356,9 +372,17 @@ const AmountSelect = ({
             _hover={{ transform: "scale(1.02)" }}
             _active={{ transform: "scale(0.95)" }}
             onClick={onConfirm}
-            isDisabled={!amountIsValid}
+            isDisabled={amountIsValid || isOperation}
           >
-            {depositOrWithdrawAlert ?? t("Confirm")}
+            {userAction === UserAction.APPROVE_EXECUTING
+              ? t("Execute Approve")
+              : userAction === UserAction.APPROVE_IN_PROGRESS
+              ? 
+              <>
+                <Spinner mr={2} />
+                {t("Approve underway")}
+              </>
+              : t("Submit")}
           </Button>
         </Column>
       </>
