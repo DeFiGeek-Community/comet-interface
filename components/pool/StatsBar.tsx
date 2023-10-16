@@ -6,7 +6,6 @@ import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
 import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
-import usePoolMetrics from "hooks/pool/shared/usePoolMetrics";
 import CaptionedStat from "components/shared/CaptionedStat";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
@@ -14,15 +13,14 @@ import { PoolConfig } from "interfaces/pool";
 
 const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const isMobile = useIsSmallScreen();
-  const { poolMetrics } = usePoolMetrics(poolData);
   const symbol = poolData?.baseToken.symbol ?? "";
-  const { priceFeedData } = usePoolPrimaryDataContext();
+  const { priceFeedData, totalPoolData } = usePoolPrimaryDataContext();
   let totalCollateralUsdBalance = 0;
   const collateralAssets = poolData?.assetConfigs ?? [];
   for (const assetConfig of collateralAssets) {
     const assetSymbol = assetConfig.symbol ?? "";
     const assetPrice = priceFeedData?.collateralAssets[assetSymbol] ?? 0;
-    const assetBalance = poolMetrics?.totalCollateralBalances[assetSymbol] ?? 0;
+    const assetBalance = totalPoolData?.totalCollateralBalances[assetSymbol] ?? 0;
     totalCollateralUsdBalance += assetPrice * assetBalance;
   }
 
@@ -88,10 +86,10 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalBaseSupplyBalance &&
+                totalPoolData?.totalBaseSupplyBalance &&
                 priceFeedData?.baseAsset !== undefined
                   ? smallUsdPriceFormatter(
-                      poolMetrics.totalBaseSupplyBalance,
+                      totalPoolData.totalBaseSupplyBalance,
                       priceFeedData.baseAsset,
                     )
                   : "$ ?"
@@ -129,10 +127,10 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalBaseBorrowBalance &&
+                totalPoolData?.totalBaseBorrowBalance &&
                 priceFeedData?.baseAsset !== undefined
                   ? smallUsdPriceFormatter(
-                      poolMetrics.totalBaseBorrowBalance,
+                      totalPoolData.totalBaseBorrowBalance,
                       priceFeedData.baseAsset,
                     )
                   : "$ ?"

@@ -7,23 +7,26 @@ import {
   fetchTotalCollateralDataComet,
 } from "hooks/util/cometContractUtils";
 
-type TotalPoolData = {
+
+
+export interface TotalCollateralData {
+  [key: string]: number | undefined;
+}
+export interface TotalPoolData {
   totalBaseSupplyBalance: number | undefined;
   totalBaseBorrowBalance: number | undefined;
-  totalCollateralBalances: {
-    [key: string]: number | undefined;
-  };
+  totalCollateralBalances: TotalCollateralData ;
 };
 
-const usePoolMetrics = (poolData: PoolConfig | undefined) => {
-  const [poolMetrics, setPoolMetrics] = useState<TotalPoolData | undefined>();
+const useTotalPoolData = (poolData: PoolConfig | undefined) => {
+  const [totalPoolData, setTotalPoolData] = useState<TotalPoolData | undefined>();
   const [error, setError] = useState<Error | null>(null);
 
   const { reloadKey } = useReload();
 
   const fetchPoolMetricsData = useCallback(async () => {
     if (!poolData) {
-      setPoolMetrics(undefined);
+      setTotalPoolData(undefined);
       return;
     }
 
@@ -56,7 +59,7 @@ const usePoolMetrics = (poolData: PoolConfig | undefined) => {
         totalCollateralBalances: totalCollateralBalances,
       };
 
-      setPoolMetrics(fetchedData);
+      setTotalPoolData(fetchedData);
     } catch (err) {
       console.log("usePoolMetrics", err);
       if (err instanceof Error) {
@@ -71,7 +74,7 @@ const usePoolMetrics = (poolData: PoolConfig | undefined) => {
     fetchPoolMetricsData();
   }, [fetchPoolMetricsData]);
 
-  return { poolMetrics, error };
+  return { totalPoolData, error };
 };
 
-export default usePoolMetrics;
+export default useTotalPoolData;
