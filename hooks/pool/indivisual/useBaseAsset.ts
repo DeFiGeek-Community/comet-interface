@@ -6,10 +6,10 @@ import { useReload } from "context/ReloadContext";
 
 export interface BaseAssetData {
   supplyAPR: number | undefined;
-  yourSupply: number | undefined;
+  yourSupply: bigint | undefined;
   borrowAPR: number | undefined;
-  yourBorrow: number | undefined;
-  availableToBorrow: number | undefined;
+  yourBorrow: bigint | undefined;
+  availableToBorrow: bigint | undefined;
 }
 
 const useBaseAsset = (poolData: PoolConfig | undefined) => {
@@ -35,15 +35,9 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
 
       setBaseAssetData({
         supplyAPR,
-        yourSupply:
-          yourSupply !== undefined
-            ? Number(formatUnits(yourSupply, poolData.cometDecimals))
-            : undefined,
+        yourSupply: yourSupply !== undefined ? yourSupply : undefined,
         borrowAPR,
-        yourBorrow:
-          yourBorrow !== undefined
-            ? Number(formatUnits(yourBorrow, poolData.cometDecimals))
-            : undefined,
+        yourBorrow: yourBorrow !== undefined ? yourBorrow : undefined,
         availableToBorrow,
       });
     } catch (err) {

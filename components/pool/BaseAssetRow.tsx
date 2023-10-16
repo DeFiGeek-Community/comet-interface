@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
+import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
+import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { smallUsdPriceFormatter, smallFormatter } from "utils/bigUtils";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import PoolModal, { Mode } from "components/PoolModal";
@@ -24,12 +25,19 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const [mode, setMode] = useState(Mode.BASE_SUPPLY);
 
   const tokenData = poolData.baseToken;
-  const symbol = tokenData?.symbol ? tokenData?.symbol : "";
+  const symbol = tokenData?.symbol ?? "";
+  const decimals = tokenData?.decimals ?? 0;
 
   const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
   const { tokenRewardData } = useTokenRewardData(poolData);
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
 
+  const yourSupply = toNumber(baseAssetData?.yourSupply, decimals);
+  const yourBorrow = toNumber(baseAssetData?.yourBorrow, decimals);
+  const availableToBorrow = toNumber(
+    baseAssetData?.availableToBorrow,
+    decimals,
+  );
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
@@ -95,17 +103,14 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
               crossAxisAlignment="center"
               width={"33%"}
             >
-              {baseAssetData?.yourSupply !== undefined && assetPrice ? (
+              {yourSupply !== undefined && assetPrice ? (
                 <>
                   <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                    {smallUsdPriceFormatter(
-                      baseAssetData.yourSupply,
-                      assetPrice,
-                    )}
+                    {smallUsdPriceFormatter(yourSupply, assetPrice)}
                   </Text>
 
                   <Text fontSize="sm">
-                    {smallFormatter(baseAssetData.yourSupply)} {symbol}
+                    {truncateTo2DecimalPlaces(yourSupply)} {symbol}
                   </Text>
                 </>
               ) : (
@@ -140,17 +145,14 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData?.yourBorrow !== undefined && assetPrice ? (
+                {yourBorrow !== undefined && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdPriceFormatter(
-                        baseAssetData.yourBorrow,
-                        assetPrice,
-                      )}
+                      {smallUsdPriceFormatter(yourBorrow, assetPrice)}
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallFormatter(baseAssetData.yourBorrow)} {symbol}
+                      {truncateTo2DecimalPlaces(yourBorrow)} {symbol}
                     </Text>
                   </>
                 ) : (
@@ -164,18 +166,14 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData?.availableToBorrow !== undefined &&
-                assetPrice ? (
+                {availableToBorrow !== undefined && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdPriceFormatter(
-                        baseAssetData.availableToBorrow,
-                        assetPrice,
-                      )}
+                      {smallUsdPriceFormatter(availableToBorrow, assetPrice)}
                     </Text>
 
                     <Text fontSize="sm">
-                      {smallFormatter(baseAssetData.availableToBorrow)} {symbol}
+                      {truncateTo2DecimalPlaces(availableToBorrow)} {symbol}
                     </Text>
                   </>
                 ) : (

@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { formatUnits } from "viem";
 import { PoolConfig } from "interfaces/pool";
 import { fetchDataFromComet } from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
@@ -9,8 +8,8 @@ export interface CollateralAssetsData {
 }
 
 export interface CollateralAssetInfo {
-  yourSupply: number | undefined;
-  collateralValue: number | undefined;
+  yourSupply: bigint | undefined;
+  collateralValue: bigint | undefined;
 }
 
 const useCollateralAssets = (poolData: PoolConfig | undefined) => {
@@ -33,13 +32,11 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
           poolData,
           assetConfig.address,
         );
-        const assetSupply =
-          supplyData !== undefined
-            ? Number(formatUnits(supplyData, assetConfig.decimals))
-            : undefined;
+        const assetSupply = supplyData !== undefined ? supplyData : undefined;
         const collateralValue =
           assetSupply !== undefined
-            ? assetSupply * (assetConfig.borrowCollateralFactor * 0.01)
+            ? assetSupply *
+              (BigInt(assetConfig.borrowCollateralFactor) * BigInt(0.01))
             : undefined;
 
         data[assetConfig.symbol] = {

@@ -1,13 +1,17 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@chakra-ui/react";
-import { smallFormatter } from "utils/bigUtils";
 import { Column, Center } from "utils/chakraUtils";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import DashboardBox from "components/shared/DashboardBox";
 import StatsRow from "components/shared/StatsRow";
 import { Mode } from "components/PoolModal";
 import { BaseAsset } from "interfaces/pool";
+import {
+  toNumber,
+  toFixed2,
+  truncateTo2DecimalPlaces,
+} from "utils/numberUtils";
 
 export const BaseStatsColumn = ({
   mode,
@@ -23,6 +27,7 @@ export const BaseStatsColumn = ({
 
   const color = asset?.color;
   const symbol = asset?.symbol;
+  const decimals = asset?.decimals;
 
   if (!baseAssetData) {
     return (
@@ -34,8 +39,8 @@ export const BaseStatsColumn = ({
     );
   }
 
-  const supplyBalance = baseAssetData?.yourSupply ?? 0;
-  const borrowBalance = baseAssetData.yourBorrow ?? 0;
+  const supplyBalance = toNumber(baseAssetData.yourSupply, decimals);
+  const borrowBalance = toNumber(baseAssetData.yourBorrow, decimals);
 
   let primaryValue1 = 0;
   let secondaryValue1 = 0;
@@ -77,10 +82,10 @@ export const BaseStatsColumn = ({
             t(mode === Mode.BASE_SUPPLY ? "Supply Balance" : "Borrow Balance") +
             ":"
           }
-          value={`${smallFormatter(primaryValue1)} ${symbol}`}
+          value={`${truncateTo2DecimalPlaces(supplyBalance)} ${symbol}`}
           secondaryValue={
             amount && primaryValue1 !== secondaryValue1
-              ? `${smallFormatter(secondaryValue1)} ${symbol}`
+              ? `${secondaryValue1} ${symbol}`
               : 0
           }
           color={color}
@@ -98,21 +103,24 @@ export const BaseStatsColumn = ({
             t(mode === Mode.BASE_SUPPLY ? "Borrow Balance" : "Supply Balance") +
             ":"
           }
-          value={`${smallFormatter(primaryValue2)} ${symbol}`}
+          value={`${truncateTo2DecimalPlaces(borrowBalance)} ${symbol}`}
           secondaryValue={
             amount && primaryValue2 !== secondaryValue2
-              ? `${smallFormatter(secondaryValue2)} ${symbol}`
+              ? `${secondaryValue2} ${symbol}`
               : 0
           }
           color={color}
         />
         <StatsRow
           label={t("Available to Borrow") + ":"}
-          value={`${smallFormatter(
-            baseAssetData.availableToBorrow ?? 0,
+          value={`${toFixed2(
+            baseAssetData.availableToBorrow,
+            decimals,
           )} ${symbol}`}
         />
       </Column>
     </DashboardBox>
   );
 };
+
+export default BaseStatsColumn;

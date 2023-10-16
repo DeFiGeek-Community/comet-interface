@@ -30,7 +30,7 @@ import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 enum UserAction {
   NO_ACTION,
   WAITING_FOR_TRANSACTIONS,
-  ERROR
+  ERROR,
 }
 
 const AmountSelect = ({
@@ -86,20 +86,20 @@ const AmountSelect = ({
     case Mode.BASE_SUPPLY:
       maxValue =
         baseSupplyBalance > 0 || baseBorrowBalance === 0
-          ? Number(tokenBalance?.formatted)
-          : baseBorrowBalance;
+          ? tokenBalance?.value
+          : baseAssetData?.yourBorrow;
       break;
     case Mode.BASE_BORROW:
       maxValue =
         baseBorrowBalance > 0 || baseSupplyBalance === 0
-          ? baseAvailableToBorrow
-          : baseSupplyBalance;
+          ? baseAssetData?.availableToBorrow
+          : baseAssetData?.yourSupply;
       break;
     case Mode.SUPPLY:
-      maxValue = Number(tokenBalance?.formatted);
+      maxValue = tokenBalance?.value;
       break;
     case Mode.WITHDRAW:
-      maxValue = Number(collateralAssetData?.yourSupply);
+      maxValue = collateralAssetData?.yourSupply;
       break;
     default:
       break;
@@ -138,10 +138,10 @@ const AmountSelect = ({
 
     switch (mode) {
       case Mode.BASE_SUPPLY:
-        functionName = "supply"
+        functionName = "supply";
         break;
       case Mode.BASE_BORROW:
-        functionName = "withdraw"
+        functionName = "withdraw";
         break;
       case Mode.SUPPLY:
         functionName = "supply";
@@ -152,7 +152,7 @@ const AmountSelect = ({
       default:
         break;
     }
-    console.log("functionName", functionName)
+    console.log("functionName", functionName);
 
     console.log("allowance", allowanceData);
     const allowance = allowanceData

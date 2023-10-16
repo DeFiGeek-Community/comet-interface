@@ -18,7 +18,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const symbol = poolData?.baseToken.symbol ?? "";
   const { priceFeedData } = usePoolPrimaryDataContext();
   let totalCollateralUsdBalance = 0;
-  const collateralAssets = poolData?.assetConfigs ?? []
+  const collateralAssets = poolData?.assetConfigs ?? [];
   for (const assetConfig of collateralAssets) {
     const assetSymbol = assetConfig.symbol ?? "";
     const assetPrice = priceFeedData?.collateralAssets[assetSymbol] ?? 0;
@@ -88,8 +88,12 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalBaseSupplyBalance && priceFeedData?.baseAsset !== undefined
-                  ? smallUsdPriceFormatter(poolMetrics.totalBaseSupplyBalance, priceFeedData.baseAsset)
+                poolMetrics?.totalBaseSupplyBalance &&
+                priceFeedData?.baseAsset !== undefined
+                  ? smallUsdPriceFormatter(
+                      poolMetrics.totalBaseSupplyBalance,
+                      priceFeedData.baseAsset,
+                    )
                   : "$ ?"
               }
               caption={t(`Total ${symbol} Supply Balance`)}
@@ -125,8 +129,12 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               statSize={isMobile ? "3xl" : "2xl"}
               captionSize="sm"
               stat={
-                poolMetrics?.totalBaseBorrowBalance && priceFeedData?.baseAsset !== undefined
-                  ? smallUsdPriceFormatter(poolMetrics.totalBaseBorrowBalance, priceFeedData.baseAsset)
+                poolMetrics?.totalBaseBorrowBalance &&
+                priceFeedData?.baseAsset !== undefined
+                  ? smallUsdPriceFormatter(
+                      poolMetrics.totalBaseBorrowBalance,
+                      priceFeedData.baseAsset,
+                    )
                   : "$ ?"
               }
               caption={t(`Total ${symbol} Borrow Balance`)}

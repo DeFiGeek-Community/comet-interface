@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading, Box, Button, Image } from "@chakra-ui/react";
+import { formatUnits } from "viem";
 import { Row } from "utils/chakraUtils";
 import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
@@ -12,22 +13,23 @@ export const TokenNameAndMaxButton = ({
 }: {
   updateAmount: (newAmount: string) => any;
   asset: BaseAsset | CollateralAsset | undefined;
-  maxValue: number | undefined;
+  maxValue: bigint | undefined;
   isMaxLoading: boolean;
 }) => {
   const [isClickLoading, setIsClickLoading] = useState(false);
 
   const { t } = useTranslation();
 
-  const setToMax = async () => {
-    setIsClickLoading(true);
-    updateAmount(maxValue?.toString() ?? "0");
-    setIsClickLoading(false);
-  };
-
+  const decimals = asset?.decimals ?? 0;
   const logoURL =
     asset?.logoURL ??
     "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg";
+
+  const setToMax = async () => {
+    setIsClickLoading(true);
+    updateAmount(formatUnits(maxValue ?? BigInt(0), decimals) ?? "0");
+    setIsClickLoading(false);
+  };
 
   return (
     <Row

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@chakra-ui/react";
-import { smallUsdFormatter, smallFormatter } from "utils/bigUtils";
+import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
 import { Column, Center } from "utils/chakraUtils";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import DashboardBox from "components/shared/DashboardBox";
@@ -25,9 +25,13 @@ export const CollateralStatsColumn = ({
   const collateralAssetData = collateralAssetsData
     ? collateralAssetsData[asset.symbol]
     : undefined;
-  const yourSupply = collateralAssetData?.yourSupply ?? 0;
-  const availableToBorrow = baseAssetData?.availableToBorrow ?? 0;
-  const yourBorrow = baseAssetData?.yourBorrow ?? 0;
+  const decimals = asset?.decimals;
+  const yourSupply = toNumber(collateralAssetData?.yourSupply, decimals);
+  const availableToBorrow = toNumber(
+    baseAssetData?.availableToBorrow,
+    decimals,
+  );
+  const yourBorrow = toNumber(baseAssetData?.yourBorrow, decimals);
   const color = asset?.color;
   const symbol = asset?.symbol;
 
@@ -38,9 +42,9 @@ export const CollateralStatsColumn = ({
     if (!priceFeedData) return undefined;
     const price = priceFeedData.collateralAssets[asset.symbol] ?? 0;
     return isAmountAndSupply
-      ? smallUsdFormatter(baseValue + amount * price)
+      ? truncateTo2DecimalPlaces(baseValue + amount * price).toString()
       : isAmountAndWithdraw
-      ? smallUsdFormatter(baseValue - amount * price)
+      ? truncateTo2DecimalPlaces(baseValue - amount * price).toString()
       : undefined;
   };
 
@@ -58,24 +62,24 @@ export const CollateralStatsColumn = ({
           <>
             <StatsRow
               label={t("Supply Balance") + ":"}
-              value={`${smallFormatter(yourSupply)} ${symbol}`}
+              value={`${truncateTo2DecimalPlaces(yourSupply)} ${symbol}`}
               secondaryValue={
                 isAmountAndSupply
-                  ? `${smallFormatter(yourSupply + amount)} ${symbol}`
+                  ? `${truncateTo2DecimalPlaces(yourSupply + amount)} ${symbol}`
                   : isAmountAndWithdraw
-                  ? `${smallFormatter(yourSupply - amount)} ${symbol}`
+                  ? `${truncateTo2DecimalPlaces(yourSupply - amount)} ${symbol}`
                   : undefined
               }
               color={color}
             />
             <StatsRow
               label={t("Available to Borrow") + ":"}
-              value={smallUsdFormatter(availableToBorrow)}
+              value={truncateTo2DecimalPlaces(availableToBorrow).toString()}
               secondaryValue={getSecondaryValue(availableToBorrow)}
             />
             <StatsRow
               label={t("Borrow Balance") + ":"}
-              value={smallUsdFormatter(yourBorrow)}
+              value={truncateTo2DecimalPlaces(yourBorrow).toString()}
             />
           </>
         ) : (
@@ -87,3 +91,5 @@ export const CollateralStatsColumn = ({
     </DashboardBox>
   );
 };
+
+export default CollateralStatsColumn;

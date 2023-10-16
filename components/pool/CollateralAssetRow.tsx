@@ -1,9 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
-import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
+import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
+import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { smallFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
+import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import PoolModal, { Mode } from "components/PoolModal";
 import { PoolConfig } from "interfaces/pool";
 
@@ -24,8 +25,7 @@ const CollateralAssetRow = ({
 
   const asset = poolData.assetConfigs[index];
   const symbol = asset?.symbol ? asset?.symbol : "";
-
-  const isMobile = useIsMobile();
+  const decimals = asset?.decimals ?? 0;
 
   const { priceFeedData, collateralAssetsData } = usePoolPrimaryDataContext();
   const collateralAssetData = collateralAssetsData
@@ -35,6 +35,14 @@ const CollateralAssetRow = ({
   const assetPrice = priceFeedData
     ? priceFeedData.collateralAssets[symbol]
     : null;
+
+  const yourSupply = toNumber(collateralAssetData?.yourSupply, decimals);
+  const collateralValue = toNumber(
+    collateralAssetData?.collateralValue,
+    decimals,
+  );
+
+  const isMobile = useIsMobile();
 
   const { t } = useTranslation();
 
@@ -84,17 +92,14 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralAssetData?.yourSupply !== undefined && assetPrice ? (
+          {yourSupply !== undefined && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdPriceFormatter(
-                  collateralAssetData.yourSupply,
-                  assetPrice,
-                )}
+                {smallUsdPriceFormatter(yourSupply, assetPrice)}
               </Text>
 
               <Text fontSize="sm">
-                {smallFormatter(collateralAssetData.yourSupply)} {symbol}
+                {truncateTo2DecimalPlaces(yourSupply)} {symbol}
               </Text>
             </>
           ) : (
@@ -109,17 +114,14 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralAssetData?.collateralValue !== undefined && assetPrice ? (
+          {collateralValue !== undefined && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdPriceFormatter(
-                  collateralAssetData.collateralValue,
-                  assetPrice,
-                )}
+                {smallUsdPriceFormatter(collateralValue, assetPrice)}
               </Text>
 
               <Text fontSize="sm">
-                {smallFormatter(collateralAssetData.collateralValue)} {symbol}
+                {truncateTo2DecimalPlaces(collateralValue)} {symbol}
               </Text>
             </>
           ) : (

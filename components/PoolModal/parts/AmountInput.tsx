@@ -12,7 +12,7 @@ export const AmountInput = ({
   updateAmount: (symbol: string) => any;
   color: string;
   disabled?: boolean;
-  maxValue: number | undefined;
+  maxValue: bigint | undefined;
 }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
@@ -37,7 +37,7 @@ export const AmountInput = ({
       onChange={handleInputChange}
       mr={4}
       disabled={disabled}
-      max={maxValue ?? 1000000000}
+      // max={maxValue ?? 1000000000}
     />
   );
 };

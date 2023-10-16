@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Box, Progress, Text, Spinner } from "@chakra-ui/react";
 import { Row, Center } from "utils/chakraUtils";
+import { toNumber } from "utils/numberUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
 import usePositionSummary from "hooks/pool/indivisual/usePositionSummary";
@@ -13,6 +14,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
   const { baseAssetData } = usePoolPrimaryDataContext();
   const { positionSummary } = usePositionSummary(poolData);
+
+  const decimals = poolData?.baseToken.decimals ?? 0;
+  const yourBorrow = toNumber(baseAssetData?.yourBorrow, decimals);
 
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
@@ -30,7 +34,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
 
           <SimpleTooltip label={t("This is how much you have borrowed.")}>
             <Text flexShrink={0} mt="2px" mr={3} fontSize="10px">
-              {smallUsdFormatter(baseAssetData?.yourBorrow ?? 0)}
+              {smallUsdFormatter(yourBorrow)}
             </Text>
           </SimpleTooltip>
 
