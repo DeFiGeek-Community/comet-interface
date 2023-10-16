@@ -73,7 +73,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           address: "0x2794382CF3c5194F9Beb22B8c9e508E3dd4014A5",
           decimals: 18,
           color: "#627EEA",
-          logoURL: "/tokens/ethereum_logo.png",
+          logoURL: "/tokens/stETH.png",
           priceFeed: "0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e",
           priceFeedDecimals: 8,
           borrowCollateralFactor: 85,
