@@ -85,7 +85,7 @@ export const BaseStatsColumn = ({
           value={`${truncateTo2DecimalPlaces(supplyBalance)} ${symbol}`}
           secondaryValue={
             amount && primaryValue1 !== secondaryValue1
-              ? `${secondaryValue1} ${symbol}`
+              ? `${truncateTo2DecimalPlaces(secondaryValue1)} ${symbol}`
               : 0
           }
           color={color}
@@ -106,7 +106,7 @@ export const BaseStatsColumn = ({
           value={`${truncateTo2DecimalPlaces(borrowBalance)} ${symbol}`}
           secondaryValue={
             amount && primaryValue2 !== secondaryValue2
-              ? `${secondaryValue2} ${symbol}`
+              ? `${truncateTo2DecimalPlaces(secondaryValue2)} ${symbol}`
               : 0
           }
           color={color}
