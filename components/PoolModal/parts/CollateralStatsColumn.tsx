@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "@chakra-ui/react";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
 import { Column, Center } from "utils/chakraUtils";
-import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
+import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import DashboardBox from "components/shared/DashboardBox";
 import StatsRow from "components/shared/StatsRow";
 import { Mode } from "components/PoolModal";

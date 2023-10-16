@@ -4,7 +4,7 @@ import { PoolConfig } from "interfaces/pool";
 import { fetchDataFromComet } from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
 
-interface ClaimReward {
+export interface ClaimReward {
   yourTokenReward: number | undefined;
 }
 

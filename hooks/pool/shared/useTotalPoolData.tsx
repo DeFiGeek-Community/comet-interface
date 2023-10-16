@@ -7,19 +7,19 @@ import {
   fetchTotalCollateralDataComet,
 } from "hooks/util/cometContractUtils";
 
-
-
 export interface TotalCollateralData {
   [key: string]: number | undefined;
 }
 export interface TotalPoolData {
   totalBaseSupplyBalance: number | undefined;
   totalBaseBorrowBalance: number | undefined;
-  totalCollateralBalances: TotalCollateralData ;
-};
+  totalCollateralBalances: TotalCollateralData;
+}
 
 const useTotalPoolData = (poolData: PoolConfig | undefined) => {
-  const [totalPoolData, setTotalPoolData] = useState<TotalPoolData | undefined>();
+  const [totalPoolData, setTotalPoolData] = useState<
+    TotalPoolData | undefined
+  >();
   const [error, setError] = useState<Error | null>(null);
 
   const { reloadKey } = useReload();

@@ -5,10 +5,11 @@ import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
-import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
+import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
+import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
 
 const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const {
@@ -29,7 +30,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const decimals = tokenData?.decimals ?? 0;
 
   const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
-  const { tokenRewardData } = useTokenRewardData(poolData);
+  const { tokenRewardData } = usePoolSecondaryDataContext();
+
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
 
   const yourSupply = toNumber(baseAssetData?.yourSupply, decimals);
@@ -166,7 +168,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData?.availableToBorrow !== undefined && assetPrice ? (
+                {baseAssetData?.availableToBorrow !== undefined &&
+                assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                       {smallUsdPriceFormatter(availableToBorrow, assetPrice)}

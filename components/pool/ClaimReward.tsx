@@ -2,13 +2,14 @@ import React from "react";
 import { Heading, Text, Avatar, Button, Spinner } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import useClaimReward from "hooks/pool/indivisual/useClaimReward";
+import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 
 const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
-  const { claimReward } = useClaimReward(poolData);
+  const { claimReward } = usePoolPrimaryDataContext();
+
   const asset = poolData.rewardToken;
 
   const isMobile = useIsMobile();

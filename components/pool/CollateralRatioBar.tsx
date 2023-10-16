@@ -4,8 +4,8 @@ import { Box, Progress, Text, Spinner } from "@chakra-ui/react";
 import { Row, Center } from "utils/chakraUtils";
 import { toNumber } from "utils/numberUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
-import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
-import usePositionSummary from "hooks/pool/indivisual/usePositionSummary";
+import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
+import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
@@ -13,7 +13,7 @@ import { PoolConfig } from "interfaces/pool";
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
   const { baseAssetData } = usePoolPrimaryDataContext();
-  const { positionSummary } = usePositionSummary(poolData);
+  const { positionSummary } = usePoolSecondaryDataContext();
 
   const decimals = poolData?.baseToken.decimals ?? 0;
   const yourBorrow = toNumber(baseAssetData?.yourBorrow, decimals);

@@ -1,15 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
 import { PoolConfig } from "interfaces/pool";
 import { useReload } from "context/ReloadContext";
+import { PoolPrimaryDataContextType } from "context/PoolPrimaryDataContext";
 
-interface PositionSummary {
+export interface PositionSummary {
   collateralBalance: number | undefined;
   LiquidationPoint: number | undefined;
   BorrowCapacity: number | undefined;
   LiquidationPercentage: number | undefined;
 }
 
-const usePositionSummary = (poolData: PoolConfig | undefined) => {
+const usePositionSummary = (
+  poolData: PoolConfig | undefined,
+  primaryData: PoolPrimaryDataContextType | undefined,
+) => {
   const [positionSummary, setPositionSummary] = useState<PositionSummary>();
   const [error, setError] = useState<Error | null>(null);
 

@@ -13,7 +13,7 @@ import { parseUnits, formatUnits } from "viem";
 import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import { formatErrorMessage } from "utils/formatErrorMessage";
-import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
+import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useReload } from "context/ReloadContext";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
@@ -58,7 +58,7 @@ const AmountSelect = ({
   const [userAction, setUserAction] = useState(UserAction.NO_ACTION);
   const [errorMessage, setErrorMessage] = useState("");
   const [approveNeeded, setApproveNeeded] = useState(true);
-  const [isOperation , setIsOperation] = useState(false);
+  const [isOperation, setIsOperation] = useState(false);
 
   const { t } = useTranslation();
 
@@ -374,15 +374,16 @@ const AmountSelect = ({
             onClick={onConfirm}
             isDisabled={amountIsValid || isOperation}
           >
-            {userAction === UserAction.APPROVE_EXECUTING
-              ? t("Execute Approve")
-              : userAction === UserAction.APPROVE_IN_PROGRESS
-              ? 
+            {userAction === UserAction.APPROVE_EXECUTING ? (
+              t("Execute Approve")
+            ) : userAction === UserAction.APPROVE_IN_PROGRESS ? (
               <>
                 <Spinner mr={2} />
                 {t("Approve underway")}
               </>
-              : t("Submit")}
+            ) : (
+              t("Submit")
+            )}
           </Button>
         </Column>
       </>

@@ -4,7 +4,7 @@ import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
+import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import PoolModal, { Mode } from "components/PoolModal";
 import { PoolConfig } from "interfaces/pool";
 

@@ -1,7 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { formatEther } from "viem";
 import { PoolConfig } from "interfaces/pool";
-import { fetchDataFromComet, fetchTotalDataComet, fetchRateDataComet } from "hooks/util/cometContractUtils";
+import {
+  fetchDataFromComet,
+  fetchTotalDataComet,
+  fetchRateDataComet,
+} from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
 
 export interface BaseAssetData {
@@ -25,7 +29,7 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
     }
     const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
     try {
-      const utilization = await fetchTotalDataComet("getUtilization" ,poolData);
+      const utilization = await fetchTotalDataComet("getUtilization", poolData);
 
       const [supplyRate, yourSupply, borrowRate, yourBorrow] =
         await Promise.all([
@@ -34,13 +38,16 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
           fetchRateDataComet("getBorrowRate", poolData, utilization),
           fetchDataFromComet("borrowBalanceOf", poolData),
         ]);
-        const borrowAPR = borrowRate ? Number(formatEther(borrowRate)) * SECONDS_PER_YEAR : undefined;
-        const supplyAPR = supplyRate ? Number(formatEther(supplyRate)) * SECONDS_PER_YEAR : undefined;
-        console.log("useBaseAsset", supplyAPR, borrowAPR);
-        setBaseAssetData({
+      const borrowAPR = borrowRate
+        ? Number(formatEther(borrowRate)) * SECONDS_PER_YEAR
+        : undefined;
+      const supplyAPR = supplyRate
+        ? Number(formatEther(supplyRate)) * SECONDS_PER_YEAR
+        : undefined;
+      setBaseAssetData({
         supplyAPR: supplyAPR,
         yourSupply: yourSupply !== undefined ? yourSupply : undefined,
-        borrowAPR : borrowAPR,
+        borrowAPR: borrowAPR,
         yourBorrow: yourBorrow !== undefined ? yourBorrow : undefined,
         availableToBorrow: undefined,
       });

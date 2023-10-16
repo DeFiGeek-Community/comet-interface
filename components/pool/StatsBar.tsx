@@ -5,7 +5,7 @@ import { CheckCircleIcon } from "@chakra-ui/icons";
 import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
 import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
-import { usePoolPrimaryDataContext } from "hooks/usePoolPrimaryDataContext";
+import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import CaptionedStat from "components/shared/CaptionedStat";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
@@ -20,7 +20,8 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   for (const assetConfig of collateralAssets) {
     const assetSymbol = assetConfig.symbol ?? "";
     const assetPrice = priceFeedData?.collateralAssets[assetSymbol] ?? 0;
-    const assetBalance = totalPoolData?.totalCollateralBalances[assetSymbol] ?? 0;
+    const assetBalance =
+      totalPoolData?.totalCollateralBalances[assetSymbol] ?? 0;
     totalCollateralUsdBalance += assetPrice * assetBalance;
   }
 

@@ -1,14 +1,18 @@
 import { useState, useMemo } from "react";
 import { useAccount } from "wagmi";
 import { PoolConfig } from "interfaces/pool";
+import { PoolPrimaryDataContextType } from "context/PoolPrimaryDataContext";
 import usePriceFeedData from "./usePriceFeed";
 
-interface TokenRewardData {
+export interface TokenRewardData {
   supplyRewardAPR: number | undefined;
   borrowRewardAPR: number | undefined;
 }
 
-const useTokenRewardData = (poolData: PoolConfig) => {
+const useTokenRewardData = (
+  poolData: PoolConfig | undefined,
+  primaryData: PoolPrimaryDataContextType | undefined,
+) => {
   const [error, setError] = useState<Error | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
