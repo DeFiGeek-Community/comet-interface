@@ -63,7 +63,7 @@ const APRComponent = ({
               </SimpleTooltip>
             </AvatarGroup>
             <Text color={color} fontWeight="bold" pl={1} fontSize="sm">
-              {tokenReward} %
+              {truncateTo3DecimalPlaces(tokenReward)} %
             </Text>
           </Row>
         ) : (

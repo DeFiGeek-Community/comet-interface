@@ -1,8 +1,8 @@
-import { useState, useMemo } from "react";
-import { useAccount } from "wagmi";
-import { PoolConfig } from "interfaces/pool";
+import { useState, useEffect, useCallback } from "react";
+import { useReload } from "context/ReloadContext";
 import { PoolPrimaryDataContextType } from "context/PoolPrimaryDataContext";
-import usePriceFeedData from "./usePriceFeed";
+import { PoolConfig } from "interfaces/pool";
+import { fetchTotalDataComet } from "hooks/util/cometContractUtils";
 
 export interface TokenRewardData {
   supplyRewardAPR: number | undefined;
@@ -13,59 +13,74 @@ const useTokenRewardData = (
   poolData: PoolConfig | undefined,
   primaryData: PoolPrimaryDataContextType | undefined,
 ) => {
+  const [tokenRewardData, setTokenRewardData] = useState<TokenRewardData>();
   const [error, setError] = useState<Error | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
+  const { reloadKey } = useReload();
 
-  const { address, isConnecting, isDisconnected } = useAccount();
-  const { priceFeedData } = usePriceFeedData(poolData);
+  const fetchTokenRewardData = useCallback(async () => {
+    if (!poolData || !primaryData) {
+      setTokenRewardData(undefined);
+      return;
+    }
 
-  const tokenRewardData = useMemo<TokenRewardData | undefined>(() => {
-    let fetchedData: TokenRewardData | undefined;
-
-    const fetchTokenRewardData = async () => {
-      try {
-        // ここでデータを取得するロジックを書く
-        // const SECONDS_PER_YEAR = 60*60*365;
-        // const rewardPrice = getRewardPrice();
-        // const basePrice = getBasePrice();
-
-        // const supplyTotalAmount = getSupplyTotalAmount();
-        // const supplyIndividualAmount = getSupplyIndividualAmount();
-        // const supplyRewardAmount = getRewardSupplyAmount() * SECONDS_PER_YEAR;
-        // const supplyRewardIndivisualAmount = getRewardSupplyAmount() * supplyIndividualAmount / supplyTotalAmount;
-        // const supplyAPR = supplyRewardIndivisualAmount * rewardPrice / (supplyIndividualAmount*basePrice) * 100;
-
-        // const borrowTotalAmount = getBorrowTotalAmount();
-        // const borrowIndividualAmount = getBorrowIndividualAmount();
-        // const borrowRewardAmount = getRewardBorrowAmount() * SECONDS_PER_YEAR;
-        // const borrowRewardIndivisualAmount = getRewardBorrowAmount() * borrowIndividualAmount / borrowTotalAmount;
-        // const borrowAPR = borrowRewardIndivisualAmount * rewardPrice / (borrowIndividualAmount*basePrice) * 100;
-
-        // ダミーデータを使用
-        fetchedData = {
-          supplyRewardAPR: undefined,
-          borrowRewardAPR: undefined,
-        };
-      } catch (err) {
-        console.log("useTokenRewardData", err);
-        if (err instanceof Error) {
-          setError(err);
-        } else {
-          setError(new Error(String(err)));
-        }
+    try {
+      const { baseAssetData, priceFeedData, totalPoolData } = primaryData;
+      if (!baseAssetData || !priceFeedData || !totalPoolData) {
+        setTokenRewardData(undefined);
+        return;
       }
-    };
+      const secondsPerDay = 60 * 60 * 24;
+      const daysInYear = 365;
+      const totalSupply = totalPoolData?.totalBaseSupplyBalance ?? 0;
+      const totalBorrow = totalPoolData?.totalBaseBorrowBalance ?? 0;
+      const baseAssetPrice = priceFeedData?.baseAsset ?? 0;
+      const rewardAssetPrice = priceFeedData?.rewardAsset ?? 0;
+      const getBaseIndexScale = await fetchTotalDataComet(
+        "baseIndexScale",
+        poolData,
+      );
+      const baseIndexScale = Number(getBaseIndexScale) ?? 0;
+      const getBaseTrackingSupplySpeed = await fetchTotalDataComet(
+        "baseTrackingSupplySpeed",
+        poolData,
+      );
+      const baseTrackingSupplySpeed = Number(getBaseTrackingSupplySpeed) ?? 0;
+      const getBaseTrackingBorrowSpeed = await fetchTotalDataComet(
+        "baseTrackingBorrowSpeed",
+        poolData,
+      );
+      const baseTrackingBorrowSpeed = Number(getBaseTrackingBorrowSpeed) ?? 0;
+      const suppliersPerDay =
+        (baseTrackingSupplySpeed / baseIndexScale) * secondsPerDay;
+      const borrowersPerDay =
+        (baseTrackingBorrowSpeed / baseIndexScale) * secondsPerDay;
+      const supplyCompRewardApr =
+        ((rewardAssetPrice * suppliersPerDay) /
+          (totalSupply * baseAssetPrice)) *
+        daysInYear *
+        100;
+      const borrowCompRewardApr =
+        ((rewardAssetPrice * borrowersPerDay) /
+          (totalBorrow * baseAssetPrice)) *
+        daysInYear *
+        100;
+      const fetchedData: TokenRewardData = {
+        supplyRewardAPR: supplyCompRewardApr,
+        borrowRewardAPR: borrowCompRewardApr,
+      };
 
+      setTokenRewardData(fetchedData);
+    } catch (err) {
+      console.log("useTokenRewardData", err);
+      setError(err instanceof Error ? err : new Error(String(err)));
+    }
+  }, [poolData, primaryData]);
+
+  useEffect(() => {
     fetchTokenRewardData();
+  }, [fetchTokenRewardData]);
 
-    return fetchedData;
-  }, [poolData, reloadKey]);
-
-  const reload = () => {
-    setReloadKey((prevKey) => prevKey + 1);
-  };
-
-  return { tokenRewardData, error, reload };
+  return { tokenRewardData, error };
 };
 
 export default useTokenRewardData;
