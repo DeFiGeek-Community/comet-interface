@@ -14,6 +14,7 @@ import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import { formatErrorMessage } from "utils/formatErrorMessage";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
+import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
 import { useReload } from "context/ReloadContext";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
@@ -76,13 +77,18 @@ const AmountSelect = ({
     enabled: Boolean(asset?.address) && Boolean(address),
   });
   const { baseAssetData, collateralAssetsData } = usePoolPrimaryDataContext();
+  const { positionSummary } = usePoolSecondaryDataContext();
   const collateralAssetData = collateralAssetsData
     ? collateralAssetsData[asset.symbol]
     : undefined;
 
   const baseSupplyBalance = baseAssetData?.yourSupply ?? 0;
   const baseBorrowBalance = baseAssetData?.yourBorrow ?? 0;
-  const baseAvailableToBorrow = baseAssetData?.availableToBorrow ?? 0;
+  const baseAvailableToBorrow = positionSummary?.availableToBorrow ?? 0;
+  const baseAvailableToBorrowBigint = parseUnits(
+    baseAvailableToBorrow.toString(),
+    poolData.cometDecimals,
+  );
 
   let maxValue;
 
@@ -96,7 +102,7 @@ const AmountSelect = ({
     case Mode.BASE_BORROW:
       maxValue =
         baseBorrowBalance > 0 || baseSupplyBalance === 0
-          ? baseAssetData?.availableToBorrow
+          ? baseAvailableToBorrowBigint
           : baseAssetData?.yourSupply;
       break;
     case Mode.SUPPLY:
@@ -135,9 +141,11 @@ const AmountSelect = ({
     args: [address ?? "0x0", poolData.proxy],
     enabled: Boolean(address) && Boolean(amount),
     onSuccess(data) {
+      console.log("allowance", data);
       if (Number(formatUnits(data, asset.decimals)) < Number(amount)) {
-        console.log("allowance", data);
         setApproveNeeded(false);
+      } else {
+        setApproveNeeded(true);
       }
     },
   });
@@ -155,7 +163,27 @@ const AmountSelect = ({
     const dataAP = await waitForTransaction({ hash: approveHash });
   };
 
-  const executeFunction = async () => {
+  const executeFunction = async (functionName: string) => {
+    console.log("functionName", functionName);
+    setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
+    const config = await prepareWriteContract({
+      address: poolData.proxy,
+      abi: cometAbi,
+      functionName: functionName,
+      args: [asset.address, parseUnits(String(amount), asset.decimals)],
+    });
+    const { hash } = await writeContract(config);
+    const data = await waitForTransaction({ hash });
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    reload();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    onClose();
+  };
+
+  const onConfirm = async () => {
+    setIsOperation(true);
+
     let functionName = "";
     switch (mode) {
       case Mode.BASE_SUPPLY:
@@ -173,32 +201,13 @@ const AmountSelect = ({
       default:
         break;
     }
-    console.log("functionName", functionName);
-    setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
-    const config = await prepareWriteContract({
-      address: poolData.proxy,
-      abi: cometAbi,
-      functionName: functionName,
-      args: [asset.address, parseUnits(String(amount), asset.decimals)],
-    });
-    const { hash } = await writeContract(config);
-    const data = await waitForTransaction({ hash });
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    reload();
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    onClose();
-    setUserAction(UserAction.NO_ACTION);
-  };
-
-  const onConfirm = async () => {
-    setIsOperation(true);
     try {
-      if (approveNeeded) {
+      if (approveNeeded && functionName === "supply") {
         console.log("approve");
         await approve();
       }
-      await executeFunction();
+      await executeFunction(functionName);
     } catch (err) {
       setUserAction(UserAction.ERROR);
       setErrorMessage(formatErrorMessage(err));
@@ -340,13 +349,13 @@ const AmountSelect = ({
             <BaseStatsColumn
               mode={mode}
               asset={baseAsset}
-              amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
+              amount={Number(amount)}
             />
           ) : (
             <CollateralStatsColumn
               mode={mode}
               asset={collateralAsset}
-              amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0}
+              amount={Number(amount)}
             />
           )}
 

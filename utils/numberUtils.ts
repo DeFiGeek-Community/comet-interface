@@ -79,3 +79,7 @@ export function truncateTo2DecimalPlaces(num: number): number {
 export function truncateTo3DecimalPlaces(num: number): number {
   return Math.floor(num * 1000) / 1000;
 }
+
+export function nonNegativeNumber(value: number): number {
+  return value < 0 ? 0 : value;
+}

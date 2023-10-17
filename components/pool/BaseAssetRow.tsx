@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
-import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
+import {
+  toNumber,
+  truncateTo2DecimalPlaces,
+  nonNegativeNumber,
+} from "utils/numberUtils";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
+import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
-import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
 
 const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const {
@@ -30,15 +33,14 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const decimals = tokenData?.decimals ?? 0;
 
   const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
-  const { tokenRewardData } = usePoolSecondaryDataContext();
+  const { tokenRewardData, positionSummary } = usePoolSecondaryDataContext();
 
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
 
   const yourSupply = toNumber(baseAssetData?.yourSupply, decimals);
   const yourBorrow = toNumber(baseAssetData?.yourBorrow, decimals);
-  const availableToBorrow = toNumber(
-    baseAssetData?.availableToBorrow,
-    decimals,
+  const availableToBorrow = nonNegativeNumber(
+    positionSummary?.availableToBorrow ?? 0,
   );
   const isMobile = useIsMobile();
 
@@ -168,8 +170,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 width={"33%"}
               >
-                {baseAssetData?.availableToBorrow !== undefined &&
-                assetPrice ? (
+                {availableToBorrow !== undefined && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                       {smallUsdPriceFormatter(availableToBorrow, assetPrice)}

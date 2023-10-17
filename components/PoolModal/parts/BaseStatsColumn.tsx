@@ -3,14 +3,15 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "@chakra-ui/react";
 import { Column, Center } from "utils/chakraUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
+import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
 import DashboardBox from "components/shared/DashboardBox";
 import StatsRow from "components/shared/StatsRow";
 import { Mode } from "components/PoolModal";
 import { BaseAsset } from "interfaces/pool";
 import {
   toNumber,
-  toFixed2,
   truncateTo2DecimalPlaces,
+  nonNegativeNumber,
 } from "utils/numberUtils";
 
 export const BaseStatsColumn = ({
@@ -24,6 +25,7 @@ export const BaseStatsColumn = ({
 }) => {
   const { t } = useTranslation();
   const { baseAssetData } = usePoolPrimaryDataContext();
+  const { positionSummary } = usePoolSecondaryDataContext();
 
   const color = asset?.color;
   const symbol = asset?.symbol;
@@ -41,7 +43,7 @@ export const BaseStatsColumn = ({
 
   const supplyBalance = toNumber(baseAssetData.yourSupply, decimals);
   const borrowBalance = toNumber(baseAssetData.yourBorrow, decimals);
-
+  const availableToBorrow = positionSummary?.availableToBorrow ?? 0;
   let primaryValue1 = 0;
   let secondaryValue1 = 0;
   let primaryValue2 = 0;
@@ -82,7 +84,7 @@ export const BaseStatsColumn = ({
             t(mode === Mode.BASE_SUPPLY ? "Supply Balance" : "Borrow Balance") +
             ":"
           }
-          value={`${truncateTo2DecimalPlaces(supplyBalance)} ${symbol}`}
+          value={`${truncateTo2DecimalPlaces(primaryValue1)} ${symbol}`}
           secondaryValue={
             amount && primaryValue1 !== secondaryValue1
               ? `${truncateTo2DecimalPlaces(secondaryValue1)} ${symbol}`
@@ -94,8 +96,8 @@ export const BaseStatsColumn = ({
           label={t(mode === Mode.BASE_SUPPLY ? "Supply APR" : "Borrow APR")}
           value={`${
             mode === Mode.BASE_SUPPLY
-              ? baseAssetData.supplyAPR ?? 0
-              : baseAssetData.borrowAPR ?? 0
+              ? truncateTo2DecimalPlaces((baseAssetData.supplyAPR ?? 0) * 100)
+              : truncateTo2DecimalPlaces((baseAssetData.borrowAPR ?? 0) * 100)
           } %`}
         />
         <StatsRow
@@ -103,7 +105,7 @@ export const BaseStatsColumn = ({
             t(mode === Mode.BASE_SUPPLY ? "Borrow Balance" : "Supply Balance") +
             ":"
           }
-          value={`${truncateTo2DecimalPlaces(borrowBalance)} ${symbol}`}
+          value={`${truncateTo2DecimalPlaces(primaryValue2)} ${symbol}`}
           secondaryValue={
             amount && primaryValue2 !== secondaryValue2
               ? `${truncateTo2DecimalPlaces(secondaryValue2)} ${symbol}`
@@ -113,9 +115,8 @@ export const BaseStatsColumn = ({
         />
         <StatsRow
           label={t("Available to Borrow") + ":"}
-          value={`${toFixed2(
-            baseAssetData.availableToBorrow,
-            decimals,
+          value={`${truncateTo2DecimalPlaces(
+            nonNegativeNumber(availableToBorrow),
           )} ${symbol}`}
         />
       </Column>

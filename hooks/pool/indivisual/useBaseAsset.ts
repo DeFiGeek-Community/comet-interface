@@ -13,7 +13,6 @@ export interface BaseAssetData {
   yourSupply: bigint | undefined;
   borrowAPR: number | undefined;
   yourBorrow: bigint | undefined;
-  availableToBorrow: bigint | undefined;
 }
 
 const useBaseAsset = (poolData: PoolConfig | undefined) => {
@@ -49,7 +48,6 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
         yourSupply: yourSupply !== undefined ? yourSupply : undefined,
         borrowAPR: borrowAPR,
         yourBorrow: yourBorrow !== undefined ? yourBorrow : undefined,
-        availableToBorrow: undefined,
       });
     } catch (err) {
       console.log("useBaseAsset", err);
