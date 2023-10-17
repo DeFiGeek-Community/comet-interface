@@ -57,6 +57,9 @@ export const BaseStatsColumn = ({
       secondaryValue1 = supplyBalance + amount;
     } else if (borrowBalance > 0) {
       secondaryValue2 = borrowBalance - amount;
+      if(amount > borrowBalance){
+        secondaryValue1 = (borrowBalance - amount) * -1;
+      }
     }
   } else if (mode === Mode.BASE_BORROW) {
     primaryValue1 = borrowBalance;
@@ -66,6 +69,9 @@ export const BaseStatsColumn = ({
       secondaryValue1 = borrowBalance + amount;
     } else if (supplyBalance > 0) {
       secondaryValue2 = supplyBalance - amount;
+      if(amount > supplyBalance){
+        secondaryValue1 = (supplyBalance - amount) * -1;
+      }
     }
   }
 
@@ -87,7 +93,7 @@ export const BaseStatsColumn = ({
           value={`${truncateTo2DecimalPlaces(primaryValue1)} ${symbol}`}
           secondaryValue={
             amount && primaryValue1 !== secondaryValue1
-              ? `${truncateTo2DecimalPlaces(secondaryValue1)} ${symbol}`
+              ? `${truncateTo2DecimalPlaces(nonNegativeNumber(secondaryValue1))} ${symbol}`
               : 0
           }
           color={color}
@@ -108,7 +114,7 @@ export const BaseStatsColumn = ({
           value={`${truncateTo2DecimalPlaces(primaryValue2)} ${symbol}`}
           secondaryValue={
             amount && primaryValue2 !== secondaryValue2
-              ? `${truncateTo2DecimalPlaces(secondaryValue2)} ${symbol}`
+              ? `${truncateTo2DecimalPlaces(nonNegativeNumber(secondaryValue2))} ${symbol}`
               : 0
           }
           color={color}
