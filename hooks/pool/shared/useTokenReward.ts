@@ -35,11 +35,12 @@ const useTokenRewardData = (
       const totalBorrow = totalPoolData?.totalBaseBorrowBalance ?? 0;
       const baseAssetPrice = priceFeedData?.baseAsset ?? 0;
       const rewardAssetPrice = priceFeedData?.rewardAsset ?? 0;
-      const getBaseIndexScale = await fetchTotalDataComet(
-        "baseIndexScale",
-        poolData,
-      );
-      const baseIndexScale = Number(getBaseIndexScale) ?? 0;
+      // const getBaseIndexScale = await fetchTotalDataComet(
+      //   "baseIndexScale",
+      //   poolData,
+      // );
+      // console.log("getBaseIndexScale", getBaseIndexScale)
+      const baseIndexScale = Number(1e15);
       const getBaseTrackingSupplySpeed = await fetchTotalDataComet(
         "baseTrackingSupplySpeed",
         poolData,

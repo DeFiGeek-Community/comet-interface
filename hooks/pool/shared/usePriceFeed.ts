@@ -35,11 +35,12 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
         ? Number(formatUnits(basePrice, poolData.baseToken.priceFeedDecimals))
         : undefined;
       const rewardPrice = await fetchPriceFeed(poolData.rewardToken.priceFeed);
-      const rewardAsset = rewardPrice
-        ? Number(
-            formatUnits(rewardPrice, poolData.rewardToken.priceFeedDecimals),
-          )
-        : undefined;
+      // const rewardAsset = rewardPrice
+      //   ? Number(
+      //       formatUnits(rewardPrice, poolData.rewardToken.priceFeedDecimals),
+      //     )
+      //   : undefined;
+      const rewardAsset = 1;
       const collateralAssets: { [key: string]: number | undefined } = {};
       for (const assetConfig of poolData.assetConfigs) {
         const assetPrice = await fetchPriceFeed(assetConfig.priceFeed);
