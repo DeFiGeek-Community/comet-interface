@@ -17,6 +17,28 @@ const useTokenRewardData = (
   const [error, setError] = useState<Error | null>(null);
   const { reloadKey } = useReload();
 
+  const SECONDS_PER_DAY = 60 * 60 * 24;
+  const DAYS_IN_YEAR = 365;
+  const BASE_INDEX_SCALE = 1e15;
+
+  // Helper function to calculate APR
+  const calculateAPR = (
+    assetPrice: number,
+    total: number,
+    trackingSpeed: number,
+    baseAssetPrice: number
+  ) => {
+    if (!total) return 0;
+    
+    const perDay = (trackingSpeed / BASE_INDEX_SCALE) * SECONDS_PER_DAY;
+    return ((assetPrice * perDay) / (total * baseAssetPrice)) * DAYS_IN_YEAR * 100;
+  };
+
+  const fetchTrackingSpeed = async (type: "baseTrackingSupplySpeed" | "baseTrackingBorrowSpeed", poolData: PoolConfig) => {
+    const speed = await fetchTotalDataComet(type, poolData);
+    return Number(speed) ?? 0;
+  };
+
   const fetchTokenRewardData = useCallback(async () => {
     if (!poolData || !primaryData) {
       setTokenRewardData(undefined);
@@ -29,42 +51,21 @@ const useTokenRewardData = (
         setTokenRewardData(undefined);
         return;
       }
-      const secondsPerDay = 60 * 60 * 24;
-      const daysInYear = 365;
-      const totalSupply = totalPoolData?.totalBaseSupplyBalance ?? 0;
-      const totalBorrow = totalPoolData?.totalBaseBorrowBalance ?? 0;
+      const totalBaseSupply = totalPoolData?.totalBaseSupplyBalance ?? 0;
+      const totalBaseBorrow = totalPoolData?.totalBaseBorrowBalance ?? 0;
+      
+      const totalSupply = totalBaseSupply >= poolData?.baseMinForRewards ? totalBaseSupply : 0;
+      const totalBorrow = totalBaseBorrow >= poolData?.baseMinForRewards ? totalBaseBorrow : 0;
+      
       const baseAssetPrice = priceFeedData?.baseAsset ?? 0;
       const rewardAssetPrice = priceFeedData?.rewardAsset ?? 0;
-      // const getBaseIndexScale = await fetchTotalDataComet(
-      //   "baseIndexScale",
-      //   poolData,
-      // );
-      // console.log("getBaseIndexScale", getBaseIndexScale)
-      const baseIndexScale = Number(1e15);
-      const getBaseTrackingSupplySpeed = await fetchTotalDataComet(
-        "baseTrackingSupplySpeed",
-        poolData,
-      );
-      const baseTrackingSupplySpeed = Number(getBaseTrackingSupplySpeed) ?? 0;
-      const getBaseTrackingBorrowSpeed = await fetchTotalDataComet(
-        "baseTrackingBorrowSpeed",
-        poolData,
-      );
-      const baseTrackingBorrowSpeed = Number(getBaseTrackingBorrowSpeed) ?? 0;
-      const suppliersPerDay =
-        (baseTrackingSupplySpeed / baseIndexScale) * secondsPerDay;
-      const borrowersPerDay =
-        (baseTrackingBorrowSpeed / baseIndexScale) * secondsPerDay;
-      const supplyCompRewardApr =
-        ((rewardAssetPrice * suppliersPerDay) /
-          (totalSupply * baseAssetPrice)) *
-        daysInYear *
-        100;
-      const borrowCompRewardApr =
-        ((rewardAssetPrice * borrowersPerDay) /
-          (totalBorrow * baseAssetPrice)) *
-        daysInYear *
-        100;
+      
+      const baseTrackingSupplySpeed = await fetchTrackingSpeed("baseTrackingSupplySpeed", poolData);
+      const baseTrackingBorrowSpeed = await fetchTrackingSpeed("baseTrackingBorrowSpeed", poolData);
+      
+      const supplyCompRewardApr = calculateAPR(rewardAssetPrice, totalSupply, baseTrackingSupplySpeed, baseAssetPrice);
+      const borrowCompRewardApr = calculateAPR(rewardAssetPrice, totalBorrow, baseTrackingBorrowSpeed, baseAssetPrice);
+      
       const fetchedData: TokenRewardData = {
         supplyRewardAPR: supplyCompRewardApr,
         borrowRewardAPR: borrowCompRewardApr,
@@ -75,7 +76,7 @@ const useTokenRewardData = (
       console.log("useTokenRewardData", err);
       setError(err instanceof Error ? err : new Error(String(err)));
     }
-  }, [poolData, primaryData]);
+  }, [poolData, primaryData, reloadKey]);
 
   useEffect(() => {
     fetchTokenRewardData();
