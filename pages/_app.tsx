@@ -9,6 +9,7 @@ import {
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { mainnet, goerli } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 import type { AppProps } from "next/app";
 import { ChakraProvider, theme } from "@chakra-ui/react";
@@ -28,6 +29,7 @@ const { chains, publicClient } = configureChains(
   [mainnet, goerli],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID ?? "" }),
+    infuraProvider({apiKey: process.env.NEXT_PUBLIC_INFURA_ID ?? "" }),
     publicProvider(),
   ],
 );
