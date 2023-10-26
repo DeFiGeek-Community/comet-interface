@@ -29,6 +29,7 @@ const useTokenRewardData = (
     baseAssetPrice: number
   ) => {
     if (!total) return 0;
+    if (!trackingSpeed) return 0;
     
     const perDay = (trackingSpeed / BASE_INDEX_SCALE) * SECONDS_PER_DAY;
     return ((assetPrice * perDay) / (total * baseAssetPrice)) * DAYS_IN_YEAR * 100;

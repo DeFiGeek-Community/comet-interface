@@ -19,8 +19,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const yourBorrow = toNumber(baseAssetData?.yourBorrow, baseDecimals);
   const yourBorrowUSD = yourBorrow * basePrice;
   const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0;
-  const liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100;
-
+  let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0;
   const colorScheme =
     liquidationPercentage > 90
       ? "red"

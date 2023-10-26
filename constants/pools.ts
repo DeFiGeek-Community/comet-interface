@@ -2,6 +2,10 @@ import { PoolConfigMap } from "interfaces/pool";
 import { SupportedChainId } from "./chains";
 
 export const SupportedPoolName = {
+  [SupportedChainId.MAINNET]: {
+    CJPY: "CJPY",
+    USDC: "USDC",
+  },
   [SupportedChainId.GOERLI]: {
     CJPY: "CJPY",
     USDC: "USDC",
@@ -30,7 +34,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
         address: "0x5FFF1443Cb859E17e9a6786f7e24c369F22FD002",
         decimals: 8,
         color: "#bc1c4c",
-        logoURL: "/tokens/TXJP.png",
+        logoURL: undefined,
         priceFeed: "0x0000000000000000000000000000000000000000",
         priceFeedDecimals: 8,
       },

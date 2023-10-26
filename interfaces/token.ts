@@ -6,7 +6,7 @@ export interface Token {
   address: Address;
   decimals: number;
   color: string;
-  logoURL: string;
+  logoURL: string | undefined;
   priceFeed: Address;
   priceFeedDecimals: number;
 }

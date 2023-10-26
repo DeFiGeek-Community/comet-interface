@@ -39,11 +39,11 @@ export const Header = () => {
           route="/"
           isGreyedOut={poolName === "CJPY"}
         />
-        <HeaderLink
+        {/* <HeaderLink
           name="USDC Pool"
           route="/?pool=USDC"
           isGreyedOut={poolName === "USDC"}
-        />
+        /> */}
         <HeaderLink name="Document" route="#" />
       </Row>
       <Row expand crossAxisAlignment="flex-end" mainAxisAlignment="flex-end">

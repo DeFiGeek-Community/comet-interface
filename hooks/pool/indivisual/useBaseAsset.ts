@@ -39,10 +39,10 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
         ]);
       const borrowAPR = borrowRate
         ? Number(formatEther(borrowRate)) * SECONDS_PER_YEAR
-        : undefined;
+        : 0;
       const supplyAPR = supplyRate
         ? Number(formatEther(supplyRate)) * SECONDS_PER_YEAR
-        : undefined;
+        : 0;
       setBaseAssetData({
         supplyAPR: supplyAPR,
         yourSupply: yourSupply !== undefined ? yourSupply : undefined,
