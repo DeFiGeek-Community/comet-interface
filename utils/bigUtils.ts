@@ -4,6 +4,12 @@ const formatter = Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
+const fourDecimalUsdFormatter = Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 4,
+  maximumFractionDigits: 4,
+});
 
 const shortFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
@@ -12,6 +18,9 @@ const shortFormatter = new Intl.NumberFormat("en-US", {
 
 export function smallUsdFormatter(num: number) {
   return formatter.format(num);
+}
+export function formatUsdWithFourDecimals(num: number) {
+  return fourDecimalUsdFormatter.format(num);
 }
 export function smallUsdPriceFormatter(num: number | undefined, price: number) {
   if (num === undefined) return formatter.format(0);

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
-import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
+import { smallUsdFormatter, smallUsdPriceFormatter, formatUsdWithFourDecimals } from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import CaptionedStat from "components/shared/CaptionedStat";
@@ -158,7 +158,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               captionSize="sm"
               stat={
                 priceFeedData?.baseAsset !== undefined
-                  ? smallUsdFormatter(priceFeedData?.baseAsset)
+                  ? formatUsdWithFourDecimals(priceFeedData?.baseAsset)
                   : "$ ?"
               }
               caption={t("Base Token Oracle Price")}
