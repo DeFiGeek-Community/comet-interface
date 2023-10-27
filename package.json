@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "serve out",
     "lint": "next lint",
     "format": "prettier --write ."
   },
@@ -32,5 +32,8 @@
     "viem": "^1.10.7",
     "wagmi": "^1.4.1",
     "web3": "^4.1.1"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
   }
 }
