@@ -24,10 +24,10 @@ const CollateralAssetRow = ({
 
   const { address } = useAccount();
 
-  const authedOpenModal = () =>{
-    if(!address) return;
+  const authedOpenModal = () => {
+    if (!address) return;
     openModal();
-  } 
+  };
 
   const asset = poolData.assetConfigs[index];
   const symbol = asset?.symbol ? asset?.symbol : "";
@@ -72,7 +72,7 @@ const CollateralAssetRow = ({
         className="hover-row"
         as="button"
         onClick={authedOpenModal}
-        style={{ pointerEvents: address ? 'auto' : 'none' }}
+        style={{ pointerEvents: address ? "auto" : "none" }}
       >
         {/* Underlying Token Data */}
         <Row

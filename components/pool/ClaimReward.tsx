@@ -27,7 +27,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
   const isMobile = useIsMobile();
 
   const onClaim = async () => {
-    try{
+    try {
       const config = await prepareWriteContract({
         address: poolData.reward,
         abi: rewardAbi,
@@ -36,7 +36,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
       });
       const { hash } = await writeContract(config);
       const data = await waitForTransaction({ hash });
-  
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
       reload();
     } catch (err) {
@@ -126,7 +126,8 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
             {claimReward !== undefined ? (
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {truncateTo3DecimalPlaces(claimReward.yourTokenReward ?? 0)} {asset?.symbol}
+                  {truncateTo3DecimalPlaces(claimReward.yourTokenReward ?? 0)}{" "}
+                  {asset?.symbol}
                 </Text>
               </Row>
             ) : (

@@ -24,7 +24,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   const { address } = useAccount();
   const authedOpenModal = (mode: Mode) => {
-    if(!address) return;
+    if (!address) return;
     setMode(mode);
     openModal();
   };
@@ -75,7 +75,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
           className="hover-row"
           as="button"
           onClick={() => authedOpenModal(Mode.BASE_SUPPLY)}
-          style={{ pointerEvents: address ? 'auto' : 'none' }}
+          style={{ pointerEvents: address ? "auto" : "none" }}
         >
           {/* Underlying Token Data */}
           <Row
