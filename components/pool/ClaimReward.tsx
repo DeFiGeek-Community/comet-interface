@@ -1,18 +1,43 @@
 import React from "react";
 import { Heading, Text, Avatar, Button, Spinner } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
+import {
+  prepareWriteContract,
+  waitForTransaction,
+  writeContract,
+} from "@wagmi/core";
+import { useAccount } from "wagmi";
+import rewardAbi from "static/Rewards.json";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
+import { truncateTo3DecimalPlaces } from "utils/numberUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
+import { useReload } from "context/ReloadContext";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 
 const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
   const { claimReward } = usePoolPrimaryDataContext();
+  const { address } = useAccount();
+  const { reload } = useReload();
 
   const asset = poolData.rewardToken;
 
   const isMobile = useIsMobile();
+
+  const onClaim = async () => {
+    const config = await prepareWriteContract({
+      address: poolData.reward,
+      abi: rewardAbi,
+      functionName: "claim",
+      args: [poolData.proxy, address, true],
+    });
+    const { hash } = await writeContract(config);
+    const data = await waitForTransaction({ hash });
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    reload();
+  };
 
   return (
     <Column
@@ -96,7 +121,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
             {claimReward !== undefined ? (
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {claimReward?.yourTokenReward} {asset?.symbol}
+                  {truncateTo3DecimalPlaces(claimReward.yourTokenReward ?? 0)} {asset?.symbol}
                 </Text>
               </Row>
             ) : (
@@ -118,6 +143,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
                       claimReward?.yourTokenReward > 0,
                   )
                 }
+                onClick={onClaim}
               >
                 Claim
               </Button>
