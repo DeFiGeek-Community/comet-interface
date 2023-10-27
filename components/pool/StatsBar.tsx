@@ -15,14 +15,25 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const isMobile = useIsSmallScreen();
   const symbol = poolData?.baseToken.symbol ?? "";
   const { priceFeedData, totalPoolData } = usePoolPrimaryDataContext();
-  let totalCollateralUsdBalance = 0;
+  let totalCollateralUsdBalance;
+
   const collateralAssets = poolData?.assetConfigs ?? [];
   for (const assetConfig of collateralAssets) {
     const assetSymbol = assetConfig.symbol ?? "";
-    const assetPrice = priceFeedData?.collateralAssets[assetSymbol] ?? 0;
-    const assetBalance =
-      totalPoolData?.totalCollateralBalances[assetSymbol] ?? 0;
-    totalCollateralUsdBalance += assetPrice * assetBalance;
+    const assetPrice = priceFeedData?.collateralAssets[assetSymbol];
+    const assetBalance = totalPoolData?.totalCollateralBalances[assetSymbol];
+
+    if (
+      !totalPoolData?.totalCollateralBalances ||
+      assetBalance === undefined ||
+      assetPrice === undefined
+    ) {
+      totalCollateralUsdBalance = undefined;
+      break;
+    }
+
+    totalCollateralUsdBalance =
+      (totalCollateralUsdBalance ?? 0) + assetPrice * assetBalance;
   }
 
   const { t } = useTranslation();
