@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
+import { useAccount } from "wagmi";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
@@ -21,7 +22,12 @@ const CollateralAssetRow = ({
     onClose: closeModal,
   } = useDisclosure();
 
-  const authedOpenModal = openModal;
+  const { address } = useAccount();
+
+  const authedOpenModal = () =>{
+    if(!address) return;
+    openModal();
+  } 
 
   const asset = poolData.assetConfigs[index];
   const symbol = asset?.symbol ? asset?.symbol : "";
@@ -66,6 +72,7 @@ const CollateralAssetRow = ({
         className="hover-row"
         as="button"
         onClick={authedOpenModal}
+        style={{ pointerEvents: address ? 'auto' : 'none' }}
       >
         {/* Underlying Token Data */}
         <Row

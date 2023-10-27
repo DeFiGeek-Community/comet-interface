@@ -85,10 +85,10 @@ const AmountSelect = ({
   const baseSupplyBalance = baseAssetData?.yourSupply ?? 0;
   const baseBorrowBalance = baseAssetData?.yourBorrow ?? 0;
   const baseAvailableToBorrow = positionSummary?.availableToBorrow ?? 0;
-  const baseAvailableToBorrowBigint = parseUnits(
-    baseAvailableToBorrow.toString(),
-    poolData.cometDecimals,
-  );
+  const baseAvailableToBorrowBigint = isNaN(baseAvailableToBorrow) 
+      ? BigInt(0) 
+      : parseUnits(baseAvailableToBorrow.toString(), poolData.cometDecimals);
+  
 
   let maxValue;
 

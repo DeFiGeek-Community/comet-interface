@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
+import { useAccount } from "wagmi";
 import {
   toNumber,
   truncateTo2DecimalPlaces,
@@ -21,7 +22,9 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
     onClose: closeModal,
   } = useDisclosure();
 
+  const { address } = useAccount();
   const authedOpenModal = (mode: Mode) => {
+    if(!address) return;
     setMode(mode);
     openModal();
   };
@@ -72,6 +75,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
           className="hover-row"
           as="button"
           onClick={() => authedOpenModal(Mode.BASE_SUPPLY)}
+          style={{ pointerEvents: address ? 'auto' : 'none' }}
         >
           {/* Underlying Token Data */}
           <Row

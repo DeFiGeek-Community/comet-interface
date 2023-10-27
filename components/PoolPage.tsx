@@ -1,8 +1,10 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { Spinner } from "@chakra-ui/react";
+import { useAccount } from "wagmi";
 import { Column, Center, useIsMobile } from "utils/chakraUtils";
 import usePoolData from "hooks/pool/shared/usePoolConfig";
 import { useChainPool } from "hooks/useChainPool";
+import { useReload } from "context/ReloadContext";
 import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProvider";
 import { PoolSecondaryDataProvider } from "components/Provider/PoolSecondaryDataProvider";
 import StatsBar from "components/pool/StatsBar";
@@ -19,6 +21,13 @@ const PoolPage = memo(() => {
   const { chainId, poolName } = useChainPool();
 
   const poolData = usePoolData();
+
+  const { address } = useAccount();
+  const { reload } = useReload();
+
+  useEffect(() => {
+    reload();
+  }, [address]);
 
   return (
     <PoolPrimaryDataProvider poolData={poolData}>
