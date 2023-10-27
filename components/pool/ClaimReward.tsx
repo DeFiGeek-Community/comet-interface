@@ -7,7 +7,7 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { useAccount } from "wagmi";
-import rewardAbi from "static/Rewards.json";
+import rewardAbi from "static/rewards.json";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { truncateTo3DecimalPlaces } from "utils/numberUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
