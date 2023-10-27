@@ -10,6 +10,7 @@ import { useAccount } from "wagmi";
 import rewardAbi from "static/rewards.json";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { truncateTo3DecimalPlaces } from "utils/numberUtils";
+import { formatErrorMessage } from "utils/formatErrorMessage";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useReload } from "context/ReloadContext";
 import { ModalDivider } from "components/shared/Modal";
@@ -26,17 +27,21 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
   const isMobile = useIsMobile();
 
   const onClaim = async () => {
-    const config = await prepareWriteContract({
-      address: poolData.reward,
-      abi: rewardAbi,
-      functionName: "claim",
-      args: [poolData.proxy, address, true],
-    });
-    const { hash } = await writeContract(config);
-    const data = await waitForTransaction({ hash });
-
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    reload();
+    try{
+      const config = await prepareWriteContract({
+        address: poolData.reward,
+        abi: rewardAbi,
+        functionName: "claim",
+        args: [poolData.proxy, address, true],
+      });
+      const { hash } = await writeContract(config);
+      const data = await waitForTransaction({ hash });
+  
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      reload();
+    } catch (err) {
+      alert(formatErrorMessage(err));
+    }
   };
 
   return (
@@ -137,7 +142,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
           >
             <Row crossAxisAlignment="center" mainAxisAlignment="center">
               <Button
-                isLoading={
+                isDisabled={
                   !Boolean(
                     claimReward?.yourTokenReward &&
                       claimReward?.yourTokenReward > 0,
