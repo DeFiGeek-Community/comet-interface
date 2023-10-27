@@ -26,16 +26,21 @@ const useTokenRewardData = (
     assetPrice: number,
     total: number,
     trackingSpeed: number,
-    baseAssetPrice: number
+    baseAssetPrice: number,
   ) => {
     if (!total) return 0;
     if (!trackingSpeed) return 0;
-    
+
     const perDay = (trackingSpeed / BASE_INDEX_SCALE) * SECONDS_PER_DAY;
-    return ((assetPrice * perDay) / (total * baseAssetPrice)) * DAYS_IN_YEAR * 100;
+    return (
+      ((assetPrice * perDay) / (total * baseAssetPrice)) * DAYS_IN_YEAR * 100
+    );
   };
 
-  const fetchTrackingSpeed = async (type: "baseTrackingSupplySpeed" | "baseTrackingBorrowSpeed", poolData: PoolConfig) => {
+  const fetchTrackingSpeed = async (
+    type: "baseTrackingSupplySpeed" | "baseTrackingBorrowSpeed",
+    poolData: PoolConfig,
+  ) => {
     const speed = await fetchTotalDataComet(type, poolData);
     return Number(speed) ?? 0;
   };
@@ -54,19 +59,37 @@ const useTokenRewardData = (
       }
       const totalBaseSupply = totalPoolData?.totalBaseSupplyBalance ?? 0;
       const totalBaseBorrow = totalPoolData?.totalBaseBorrowBalance ?? 0;
-      
-      const totalSupply = totalBaseSupply >= poolData?.baseMinForRewards ? totalBaseSupply : 0;
-      const totalBorrow = totalBaseBorrow >= poolData?.baseMinForRewards ? totalBaseBorrow : 0;
-      
+
+      const totalSupply =
+        totalBaseSupply >= poolData?.baseMinForRewards ? totalBaseSupply : 0;
+      const totalBorrow =
+        totalBaseBorrow >= poolData?.baseMinForRewards ? totalBaseBorrow : 0;
+
       const baseAssetPrice = priceFeedData?.baseAsset ?? 0;
       const rewardAssetPrice = priceFeedData?.rewardAsset ?? 0;
-      
-      const baseTrackingSupplySpeed = await fetchTrackingSpeed("baseTrackingSupplySpeed", poolData);
-      const baseTrackingBorrowSpeed = await fetchTrackingSpeed("baseTrackingBorrowSpeed", poolData);
-      
-      const supplyCompRewardApr = calculateAPR(rewardAssetPrice, totalSupply, baseTrackingSupplySpeed, baseAssetPrice);
-      const borrowCompRewardApr = calculateAPR(rewardAssetPrice, totalBorrow, baseTrackingBorrowSpeed, baseAssetPrice);
-      
+
+      const baseTrackingSupplySpeed = await fetchTrackingSpeed(
+        "baseTrackingSupplySpeed",
+        poolData,
+      );
+      const baseTrackingBorrowSpeed = await fetchTrackingSpeed(
+        "baseTrackingBorrowSpeed",
+        poolData,
+      );
+
+      const supplyCompRewardApr = calculateAPR(
+        rewardAssetPrice,
+        totalSupply,
+        baseTrackingSupplySpeed,
+        baseAssetPrice,
+      );
+      const borrowCompRewardApr = calculateAPR(
+        rewardAssetPrice,
+        totalBorrow,
+        baseTrackingBorrowSpeed,
+        baseAssetPrice,
+      );
+
       const fetchedData: TokenRewardData = {
         supplyRewardAPR: supplyCompRewardApr,
         borrowRewardAPR: borrowCompRewardApr,

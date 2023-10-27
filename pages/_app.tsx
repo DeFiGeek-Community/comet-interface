@@ -29,7 +29,7 @@ const { chains, publicClient } = configureChains(
   [mainnet, goerli],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID ?? "" }),
-    infuraProvider({apiKey: process.env.NEXT_PUBLIC_INFURA_ID ?? "" }),
+    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID ?? "" }),
     publicProvider(),
   ],
 );
