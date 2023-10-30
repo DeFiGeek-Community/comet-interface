@@ -1,9 +1,35 @@
 import React from "react";
 import Image from "next/image";
-import { Box, Link, Text } from "@chakra-ui/react";
+import { Box, Link, Text, Select, VStack } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row } from "utils/chakraUtils";
 import { useChainPool } from "hooks/useChainPool";
+import { useTranslation } from "react-i18next";
+
+export function LanguageChange() {
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lang: any) => {
+    i18n.changeLanguage(lang);
+  };
+
+  return (
+    <VStack spacing={4}>
+      <Select
+        variant="filled"
+        defaultValue=""
+        onChange={(event) => changeLanguage(event.target.value)}
+        style={{ minWidth: "180px", backgroundColor: "black", color: "white" }}
+      >
+        <option value="" disabled>
+          Select Language
+        </option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+      </Select>
+    </VStack>
+  );
+}
 
 export const Header = () => {
   const { chainId, poolName } = useChainPool();
@@ -49,6 +75,7 @@ export const Header = () => {
       <Row expand crossAxisAlignment="flex-end" mainAxisAlignment="flex-end">
         <ConnectButton accountStatus="address" />
       </Row>
+      <LanguageChange />
     </Row>
   );
 };

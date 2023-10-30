@@ -3,7 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
-import { smallUsdFormatter, smallUsdPriceFormatter, formatUsdWithFourDecimals } from "utils/bigUtils";
+import {
+  smallUsdFormatter,
+  smallUsdPriceFormatter,
+  formatUsdWithFourDecimals,
+} from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import CaptionedStat from "components/shared/CaptionedStat";
@@ -70,10 +74,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
           </Row>
 
           {/* Description */}
-          <Text>
-            Fuse is a truly open interest rate protocol. Lend, borrow, and
-            create isolated lending pools with extreme flexibility.
-          </Text>
+          <Text>{t("punodwoɔ is a truly open interest rate protocol.")}</Text>
         </Column>
       </DashboardBox>
 
@@ -106,7 +107,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
                     )
                   : "$ ?"
               }
-              caption={t(`Total ${symbol} Supply Balance`)}
+              caption={t("Total {{symbol}} Supply Balance", { symbol })}
             />
           </StatBox>
           <StatBox width={isMobile ? "100%" : "98%"}>
@@ -147,7 +148,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
                     )
                   : "$ ?"
               }
-              caption={t(`Total ${symbol} Borrow Balance`)}
+              caption={t("Total {{symbol}} Borrow Balance", { symbol })}
             />
           </StatBox>
           <StatBox width={isMobile ? "100%" : "98%"}>
