@@ -1,4 +1,5 @@
 {
+  "An error occurred!": "An error occurred!",
   "Approve underway": "Approve underway",
   "Asset": "Asset",
   "Available to Borrow": "Available to Borrow",
@@ -7,6 +8,7 @@
   "Borrow APR": "Borrow APR",
   "Borrow Balance": "Borrow Balance",
   "Check your wallet to submit the transaction": "Check your wallet to submit the transaction",
+  "Claim": "Claim",
   "Collateral Asset": "Collateral Asset",
   "Collateral Factor": "Collateral Factor",
   "Collateral Value": "Collateral Value",
@@ -36,6 +38,7 @@
   },
   "Token Claim": "Token Claim",
   "Token Reward": "Token Reward",
+  "tooltipMessage": "You're using {{liquidationPercentage}}% of your {{liquidationPoint}} Liquidation limit.",
   "Total {{symbol}} Supply Balance": "Total {{symbol}} Supply Balance",
   "Total {{symbol}} Borrow Balance": "Total {{symbol}} Borrow Balance",
   "Total Collateral Balance": "Total Collateral Balance",

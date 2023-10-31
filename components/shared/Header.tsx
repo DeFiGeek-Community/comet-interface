@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Box, Link, Text, Select, VStack } from "@chakra-ui/react";
+import { Box, Link, Text, Select, Spacer } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row } from "utils/chakraUtils";
 import { useChainPool } from "hooks/useChainPool";
@@ -14,20 +14,20 @@ export function LanguageChange() {
   };
 
   return (
-    <VStack spacing={4}>
+    <Box minW="fit-content">
       <Select
         variant="filled"
         defaultValue=""
         onChange={(event) => changeLanguage(event.target.value)}
-        style={{ minWidth: "180px", backgroundColor: "black", color: "white" }}
+        style={{ backgroundColor: "black", color: "white" }}
       >
         <option value="" disabled>
-          Select Language
+          Language
         </option>
         <option value="en">English</option>
         <option value="ja">日本語</option>
       </Select>
-    </VStack>
+    </Box>
   );
 }
 
@@ -73,9 +73,10 @@ export const Header = () => {
         <HeaderLink name="Document" route="#" />
       </Row>
       <Row expand crossAxisAlignment="flex-end" mainAxisAlignment="flex-end">
+        <LanguageChange />
+        <Spacer flex="0.05" />
         <ConnectButton accountStatus="address" />
       </Row>
-      <LanguageChange />
     </Row>
   );
 };

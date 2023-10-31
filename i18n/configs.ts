@@ -14,10 +14,16 @@ const resources = {
   },
 };
 
+let defaultLanguage = "en";
+
+if (typeof window !== "undefined") {
+  defaultLanguage = window.navigator.language || "en";
+}
+
 i18next.use(initReactI18next).init({
   resources,
-  lng: "ja",
-  preload: ["ja"],
+  lng: defaultLanguage,
+  preload: [defaultLanguage],
   interpolation: { escapeValue: false },
 });
 
