@@ -26,7 +26,10 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
       : liquidationPercentage > 80
       ? "orange"
       : "whatsapp";
-
+  const tooltipMessage = t("tooltipMessage", {
+    liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
+    liquidationPoint: smallUsdFormatter(liquidationPoint),
+  });
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
       {baseAssetData && positionSummary ? (
@@ -47,13 +50,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             </Text>
           </SimpleTooltip>
 
-          <SimpleTooltip
-            label={`You're using ${truncateTo2DecimalPlaces(
-              liquidationPercentage,
-            )}% of your ${smallUsdFormatter(
-              liquidationPoint,
-            )} Liquidation limit.`}
-          >
+          <SimpleTooltip label={tooltipMessage}>
             <Box width="100%">
               <Progress
                 size="xs"

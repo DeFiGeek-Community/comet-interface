@@ -259,7 +259,7 @@ const AmountSelect = ({
         height="50px"
       />
       <Heading mt="30px" textAlign="center" size="md">
-        An error occurred!
+        {t("An error occurred!")}
       </Heading>
       <Text fontSize="sm" mt="15px" textAlign="center" maxWidth="400px">
         {errorMessage}

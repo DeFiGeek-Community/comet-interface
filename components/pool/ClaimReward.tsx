@@ -151,7 +151,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
                 }
                 onClick={onClaim}
               >
-                Claim
+                {t("Claim")}
               </Button>
             </Row>
           </Column>
