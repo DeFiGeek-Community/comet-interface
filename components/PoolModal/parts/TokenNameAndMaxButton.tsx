@@ -67,7 +67,8 @@ export const TokenNameAndMaxButton = ({
         _hover={{}}
         _active={{}}
         onClick={setToMax}
-        isLoading={isMaxLoading || isClickLoading}
+        isDisabled={isMaxLoading}
+        isLoading={isClickLoading}
       >
         {t("MAX")}
       </Button>
