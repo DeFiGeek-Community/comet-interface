@@ -11,6 +11,14 @@ export enum Mode {
   BASE_BORROW,
 }
 
+enum UserAction {
+  NO_ACTION,
+  WAITING_FOR_TRANSACTIONS,
+  ERROR,
+  APPROVE_EXECUTING,
+  APPROVE_IN_PROGRESS,
+}
+
 const DepositModal = ({
   defaultMode,
   poolData,
@@ -27,6 +35,7 @@ const DepositModal = ({
   onClose: () => any;
 }) => {
   const [mode, setMode] = useState(defaultMode);
+  const [userAction, setUserAction] = useState(UserAction.NO_ACTION);
 
   useEffect(() => {
     setMode(defaultMode);
@@ -42,6 +51,7 @@ const DepositModal = ({
       motionPreset="slideInBottom"
       isOpen={isOpen}
       onClose={onClose}
+      // closeOnOverlayClick={}
       isCentered
     >
       <ModalOverlay />
@@ -53,6 +63,8 @@ const DepositModal = ({
           baseAsset={baseAsset}
           collateralAsset={collateralAsset}
           onClose={onClose}
+          userAction={userAction}
+          setUserAction={setUserAction}
         />
       </ModalContent>
     </Modal>

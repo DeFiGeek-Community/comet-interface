@@ -3,11 +3,12 @@ import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
 import { Heading, Box, Button, Text, Image, Spinner } from "@chakra-ui/react";
 import { HashLoader } from "react-spinners";
-import { useBalance, useAccount, useContractRead, erc20ABI } from "wagmi";
+import { useBalance, useAccount, erc20ABI } from "wagmi";
 import {
   prepareWriteContract,
   waitForTransaction,
   writeContract,
+  readContract,
 } from "@wagmi/core";
 import { parseUnits, formatUnits } from "viem";
 import cometAbi from "static/comet.json";
@@ -43,6 +44,8 @@ const AmountSelect = ({
   baseAsset,
   collateralAsset,
   onClose,
+  userAction,
+  setUserAction,
 }: {
   mode: Mode;
   setMode: (mode: Mode) => any;
@@ -50,15 +53,15 @@ const AmountSelect = ({
   baseAsset: BaseAsset;
   collateralAsset: CollateralAsset;
   onClose: () => any;
+  userAction: any;
+  setUserAction: (userAction: any) => any;
 }) => {
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
   const [amount, _setAmount] = useState<BigNumber | null>(
     () => new BigNumber(0),
   );
 
-  const [userAction, setUserAction] = useState(UserAction.NO_ACTION);
   const [errorMessage, setErrorMessage] = useState("");
-  const [approveNeeded, setApproveNeeded] = useState(true);
   const [isOperation, setIsOperation] = useState(false);
 
   const { t } = useTranslation();
@@ -133,22 +136,6 @@ const AmountSelect = ({
     setUserAction(UserAction.NO_ACTION);
   };
 
-  const { data: allowanceData } = useContractRead({
-    address: asset.address,
-    abi: erc20ABI,
-    functionName: "allowance",
-    args: [address ?? "0x0", poolData.proxy],
-    enabled: Boolean(address) && Boolean(amount),
-    onSuccess(data) {
-      console.log("allowance", data);
-      if (Number(formatUnits(data, asset.decimals)) < Number(amount)) {
-        setApproveNeeded(false);
-      } else {
-        setApproveNeeded(true);
-      }
-    },
-  });
-
   const approve = async () => {
     setUserAction(UserAction.APPROVE_EXECUTING);
     const approveConfig = await prepareWriteContract({
@@ -202,7 +189,14 @@ const AmountSelect = ({
     }
 
     try {
-      if (approveNeeded && functionName === "supply") {
+      const allowanceData = await readContract({
+        address: asset.address,
+        abi: erc20ABI,
+        functionName: "allowance",
+        args: [address ?? "0x0", poolData.proxy],
+      });
+      console.log("allowanceData", allowanceData);
+      if (Number(formatUnits(allowanceData, asset.decimals)) < Number(amount) && functionName === "supply") {
         console.log("approve");
         await approve();
       }
@@ -212,6 +206,7 @@ const AmountSelect = ({
       setErrorMessage(formatErrorMessage(err));
     } finally {
       setIsOperation(false);
+      setUserAction(UserAction.NO_ACTION);
     }
   };
 
