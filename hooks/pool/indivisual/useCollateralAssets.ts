@@ -36,7 +36,7 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
         const assetSupply = supplyData !== undefined ? supplyData : undefined;
         const collateralValue =
           supplyData !== undefined
-            ? BigInt(Number(supplyData) * collateralFactor)
+            ? BigInt(Math.floor(Number(supplyData) * collateralFactor))
             : undefined;
 
         data[assetConfig.symbol] = {
