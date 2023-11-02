@@ -5,6 +5,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row } from "utils/chakraUtils";
 import { useChainPool } from "hooks/useChainPool";
 import { useTranslation } from "react-i18next";
+import { useCurrency } from "context/currencyContext";
 
 export function LanguageChange() {
   const { i18n } = useTranslation();
@@ -31,9 +32,29 @@ export function LanguageChange() {
   );
 }
 
+interface CurrencySelectProps {
+  currency: string;
+  toggleCurrency: (newCurrency: string) => void;
+}
+
+function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
+  return (
+    <Select
+      variant="filled"
+      value={currency}
+      onChange={(event) => toggleCurrency(event.target.value)}
+      style={{ backgroundColor: "black", color: "white", fontSize: "14px" }}
+      width="fit-content"
+    >
+      <option value="USD">USD</option>
+      <option value="JPY">JPY</option>
+    </Select>
+  );
+}
+
 export const Header = () => {
   const { chainId, poolName } = useChainPool();
-
+  const { currency, toggleCurrency } = useCurrency();
   return (
     <Row
       color="#FFFFFF"
@@ -72,10 +93,15 @@ export const Header = () => {
         /> */}
         <HeaderLink name="Document" route="#" />
       </Row>
-      <Row expand crossAxisAlignment="flex-end" mainAxisAlignment="flex-end">
+      <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
         <LanguageChange />
+        <CurrencySelect currency={currency} toggleCurrency={toggleCurrency} />
         <Spacer flex="0.05" />
-        <ConnectButton accountStatus="address" />
+        <ConnectButton
+          chainStatus="name"
+          showBalance={false}
+          accountStatus="address"
+        />
       </Row>
     </Row>
   );
