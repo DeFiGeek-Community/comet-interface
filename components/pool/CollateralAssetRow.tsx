@@ -52,7 +52,7 @@ const CollateralAssetRow = ({
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
-  const { currency, usdjpy } = useCurrency();
+  const { currency, rate } = useCurrency();
 
   return (
     <>
@@ -108,7 +108,7 @@ const CollateralAssetRow = ({
                   yourSupply,
                   assetPrice,
                   currency,
-                  usdjpy || 0,
+                  rate || 0,
                 )}
               </Text>
 
@@ -135,7 +135,7 @@ const CollateralAssetRow = ({
                   collateralValue,
                   assetPrice,
                   currency,
-                  usdjpy || 0,
+                  rate || 0,
                 )}
               </Text>
 

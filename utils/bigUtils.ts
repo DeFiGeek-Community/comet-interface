@@ -26,6 +26,14 @@ export function nonNegativeNumber(value: number): number {
 
 // formatter for USD and JPY
 
+function getFormatter(currency: string) {
+  if (currency === "JPY") {
+    return jformatter;
+  } else {
+    return formatter;
+  }
+}
+
 const formatter = Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -65,37 +73,17 @@ const jshortFormatter = new Intl.NumberFormat("en-US", {
 
 // Function Formatter
 
-export function smallUsdFormatter(
-  num: number,
-  currency: string,
-  usdjpy: number,
-) {
-  let selectedFormatter;
-  let rate;
-  if (currency === "JPY") {
-    selectedFormatter = jformatter;
-    rate = usdjpy;
-  } else {
-    selectedFormatter = formatter;
-    rate = 1;
-  }
+export function smallUsdFormatter(num: number, currency: string, rate: number) {
+  const selectedFormatter = getFormatter(currency);
   return selectedFormatter.format(num / rate);
 }
 
 export function formatUsdWithFourDecimals(
   num: number,
   currency: string,
-  usdjpy: number,
+  rate: number,
 ) {
-  let selectedFormatter;
-  let rate;
-  if (currency === "JPY") {
-    selectedFormatter = jfourDecimalUsdFormatter;
-    rate = usdjpy;
-  } else {
-    selectedFormatter = fourDecimalUsdFormatter;
-    rate = 1;
-  }
+  const selectedFormatter = getFormatter(currency);
   return selectedFormatter.format(num / rate);
 }
 
@@ -103,17 +91,9 @@ export function smallUsdPriceFormatter(
   num: number | undefined,
   price: number,
   currency: string,
-  usdjpy: number,
+  rate: number,
 ) {
-  let selectedFormatter;
-  let rate;
-  if (currency === "JPY") {
-    selectedFormatter = jformatter;
-    rate = usdjpy;
-  } else {
-    selectedFormatter = formatter;
-    rate = 1;
-  }
+  const selectedFormatter = getFormatter(currency);
   if (num === undefined) return selectedFormatter.format(0);
   return selectedFormatter.format((num * price) / rate);
 }

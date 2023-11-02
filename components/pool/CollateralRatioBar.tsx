@@ -13,7 +13,7 @@ import { useCurrency } from "context/currencyContext";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
-  const { currency, usdjpy } = useCurrency();
+  const { currency, rate } = useCurrency();
   const { baseAssetData, priceFeedData } = usePoolPrimaryDataContext();
   const { positionSummary } = usePoolSecondaryDataContext();
   const basePrice = priceFeedData?.baseAsset ?? 0;
@@ -30,11 +30,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
       : "whatsapp";
   const tooltipMessage = t("tooltipMessage", {
     liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
-    liquidationPoint: smallUsdFormatter(
-      liquidationPoint,
-      currency,
-      usdjpy || 0,
-    ),
+    liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
   });
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
@@ -52,7 +48,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
 
           <SimpleTooltip label={t("This is how much you have borrowed.")}>
             <Text flexShrink={0} mt="2px" mr={3} fontSize="10px">
-              {smallUsdFormatter(yourBorrowUSD, currency, usdjpy || 0)}
+              {smallUsdFormatter(yourBorrowUSD, currency, rate || 0)}
             </Text>
           </SimpleTooltip>
 
@@ -74,7 +70,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             )}
           >
             <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
-              {smallUsdFormatter(liquidationPoint, currency, usdjpy || 0)}
+              {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
             </Text>
           </SimpleTooltip>
         </Row>

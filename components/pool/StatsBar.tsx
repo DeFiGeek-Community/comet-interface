@@ -42,7 +42,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   }
 
   const { t } = useTranslation();
-  const { currency, usdjpy } = useCurrency();
+  const { currency, rate } = useCurrency();
 
   return (
     <RowOrColumn
@@ -108,7 +108,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
                       totalPoolData?.totalBaseSupplyBalance,
                       priceFeedData.baseAsset,
                       currency,
-                      usdjpy || 0,
+                      rate || 0,
                     )
                   : "$ ?"
               }
@@ -126,7 +126,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
                   ? smallUsdFormatter(
                       totalCollateralUsdBalance,
                       currency,
-                      usdjpy || 0,
+                      rate || 0,
                     )
                   : "$ ?"
               }
@@ -155,7 +155,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
                       totalPoolData.totalBaseBorrowBalance,
                       priceFeedData.baseAsset,
                       currency,
-                      usdjpy || 0,
+                      rate || 0,
                     )
                   : "$ ?"
               }
@@ -173,7 +173,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
                   ? formatUsdWithFourDecimals(
                       priceFeedData?.baseAsset,
                       currency,
-                      usdjpy || 0,
+                      rate || 0,
                     )
                   : "$ ?"
               }

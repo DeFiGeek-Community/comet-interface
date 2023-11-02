@@ -49,7 +49,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
-  const { currency, usdjpy } = useCurrency();
+  const { currency, rate } = useCurrency();
 
   return (
     <>
@@ -120,7 +120,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                       yourSupply,
                       assetPrice,
                       currency,
-                      usdjpy || 0,
+                      rate || 0,
                     )}
                   </Text>
 
@@ -167,7 +167,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                         yourBorrow,
                         assetPrice,
                         currency,
-                        usdjpy || 0,
+                        rate || 0,
                       )}
                     </Text>
 
@@ -193,7 +193,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                         availableToBorrow,
                         assetPrice,
                         currency,
-                        usdjpy || 0,
+                        rate || 0,
                       )}
                     </Text>
 

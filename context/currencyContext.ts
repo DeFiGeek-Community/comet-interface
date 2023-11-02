@@ -4,7 +4,7 @@ type Currency = "USD" | "JPY";
 
 type CurrencyContextType = {
   currency: Currency;
-  usdjpy?: number;
+  rate?: number;
   toggleCurrency: () => void;
 };
 

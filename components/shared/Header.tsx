@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Box, Link, Text, Select, Spacer } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Row } from "utils/chakraUtils";
+import { Row, useIsMobile } from "utils/chakraUtils";
 import { useChainPool } from "hooks/useChainPool";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "context/currencyContext";
@@ -39,27 +39,29 @@ interface CurrencySelectProps {
 
 function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
   return (
-    <Select
-      variant="filled"
-      value={currency}
-      onChange={(event) => toggleCurrency(event.target.value)}
-      style={{ backgroundColor: "black", color: "white", fontSize: "14px" }}
-      width="fit-content"
-    >
-      <option value="USD">USD</option>
-      <option value="JPY">JPY</option>
-    </Select>
+    <Box minW="fit-content">
+      <Select
+        variant="filled"
+        value={currency}
+        onChange={(event) => toggleCurrency(event.target.value)}
+        style={{ backgroundColor: "black", color: "white" }}
+      >
+        <option value="USD">USD</option>
+        <option value="JPY">JPY</option>
+      </Select>
+    </Box>
   );
 }
 
 export const Header = () => {
+  const isMobile = useIsMobile();
   const { chainId, poolName } = useChainPool();
   const { currency, toggleCurrency } = useCurrency();
   return (
     <Row
       color="#FFFFFF"
       px={4}
-      height="38px"
+      height={isMobile ? "100px" : "38px"}
       my={4}
       mainAxisAlignment="space-between"
       crossAxisAlignment="center"
@@ -74,7 +76,7 @@ export const Header = () => {
       <Row
         mx={4}
         expand
-        crossAxisAlignment="flex-start"
+        crossAxisAlignment="center"
         mainAxisAlignment="flex-start"
         overflowX="auto"
         overflowY="hidden"
@@ -93,16 +95,36 @@ export const Header = () => {
         /> */}
         <HeaderLink name="Document" route="#" />
       </Row>
-      <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
-        <LanguageChange />
-        <CurrencySelect currency={currency} toggleCurrency={toggleCurrency} />
-        <Spacer flex="0.05" />
-        <ConnectButton
-          chainStatus="name"
-          showBalance={false}
-          accountStatus="address"
-        />
-      </Row>
+      {isMobile ? (
+        <Box>
+          <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
+            <ConnectButton
+              chainStatus="name"
+              showBalance={false}
+              accountStatus="address"
+            />
+          </Row>
+          <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
+            <LanguageChange />
+            <Spacer flex="0.05" />{" "}
+            <CurrencySelect
+              currency={currency}
+              toggleCurrency={toggleCurrency}
+            />
+          </Row>
+        </Box>
+      ) : (
+        <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
+          <LanguageChange />
+          <CurrencySelect currency={currency} toggleCurrency={toggleCurrency} />
+          <Spacer flex="0.05" />
+          <ConnectButton
+            chainStatus="name"
+            showBalance={false}
+            accountStatus="address"
+          />
+        </Row>
+      )}
     </Row>
   );
 };

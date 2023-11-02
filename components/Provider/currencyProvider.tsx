@@ -12,14 +12,21 @@ export const CurrencyProvider = ({ children }: CurrencyProviderProps) => {
   const { priceFeedData } = usePoolPrimaryDataContext();
 
   const [currency, setCurrency] = useState<Currency>("USD");
-  const usdjpy = priceFeedData?.usdjpy;
+
+  let rate: number | undefined;
+
+  if (currency === "USD") {
+    rate = 1;
+  } else if (currency === "JPY") {
+    rate = priceFeedData?.usdjpy;
+  }
 
   const toggleCurrency = () => {
     setCurrency((prevCurrency) => (prevCurrency === "USD" ? "JPY" : "USD"));
   };
 
   return (
-    <CurrencyContext.Provider value={{ currency, usdjpy, toggleCurrency }}>
+    <CurrencyContext.Provider value={{ currency, rate, toggleCurrency }}>
       {children}
     </CurrencyContext.Provider>
   );
