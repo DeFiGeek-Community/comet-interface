@@ -27,7 +27,7 @@ export const CollateralStatsColumn = ({
   amount: number;
 }) => {
   const { t } = useTranslation();
-  const { currency, usdjpy } = useCurrency();
+  const { currency, rate } = useCurrency();
   const poolData = usePoolData();
   const { priceFeedData, baseAssetData, collateralAssetsData } =
     usePoolPrimaryDataContext();
@@ -57,9 +57,9 @@ export const CollateralStatsColumn = ({
     if (!priceFeedData) return undefined;
     const price = priceFeedData.collateralAssets[asset.symbol] ?? 0;
     return isAmountAndSupply
-      ? smallUsdFormatter(baseValue + amount * price, currency, usdjpy || 0)
+      ? smallUsdFormatter(baseValue + amount * price, currency, rate || 0)
       : isAmountAndWithdraw
-      ? smallUsdFormatter(baseValue - amount * price, currency, usdjpy || 0)
+      ? smallUsdFormatter(baseValue - amount * price, currency, rate || 0)
       : undefined;
   };
 
@@ -92,7 +92,7 @@ export const CollateralStatsColumn = ({
               value={smallUsdFormatter(
                 availableToBorrowUSD,
                 currency,
-                usdjpy || 0,
+                rate || 0,
               )}
               secondaryValue={getSecondaryValue(availableToBorrowUSD)}
             />
@@ -101,7 +101,7 @@ export const CollateralStatsColumn = ({
               value={`${smallUsdFormatter(
                 yourBorrow * basePrice,
                 currency,
-                usdjpy || 0,
+                rate || 0,
               )}`}
             />
           </>
