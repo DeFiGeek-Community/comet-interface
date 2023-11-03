@@ -1,3 +1,5 @@
+/** 
+ * Migrated to bigUtils
 import { formatUnits } from "viem";
 
 const formatter = Intl.NumberFormat("en-US", {
@@ -6,6 +8,7 @@ const formatter = Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
+*/
 
 /**
  * Convert the given value using the provided decimals and return as a number.
@@ -15,6 +18,8 @@ const formatter = Intl.NumberFormat("en-US", {
  * @param decimals The number of decimals to use for conversion.
  * @returns The converted number.
  */
+/** 
+ * Migrated to bigUtils
 export const toNumber = (
   value: bigint | undefined,
   decimals: number,
@@ -24,6 +29,7 @@ export const toNumber = (
   }
   return Number(formatUnits(value, decimals));
 };
+*/
 
 /**
  * Convert the given value using the provided decimals, truncate to 2 decimal places, and return as a number.
@@ -33,6 +39,8 @@ export const toNumber = (
  * @param decimals The number of decimals to use for conversion.
  * @returns The converted number truncated to 2 decimal places.
  */
+/** 
+ * Migrated to bigUtils
 export const toFixed2 = (
   value: bigint | undefined,
   decimals: number,
@@ -40,6 +48,7 @@ export const toFixed2 = (
   const numberValue = toNumber(value, decimals);
   return Math.floor(numberValue * 100) / 100;
 };
+*/
 
 /**
  * Format the given number as a USD string.
@@ -47,9 +56,12 @@ export const toFixed2 = (
  * @param num The number to be formatted.
  * @returns The formatted USD string.
  */
+/** 
+ * Migrated to bigUtils
 export function smallUsdFormatter(value: bigint, decimals: number): string {
   return formatter.format(toNumber(value, decimals));
 }
+*/
 
 /**
  * Multiply the given number by the provided price and format as a USD string.
@@ -58,6 +70,8 @@ export function smallUsdFormatter(value: bigint, decimals: number): string {
  * @param price The price to multiply by.
  * @returns The formatted USD string.
  */
+/** 
+ * Migrated to bigUtils
 export function smallUsdPriceFormatter(
   value: bigint,
   decimals: number,
@@ -65,6 +79,7 @@ export function smallUsdPriceFormatter(
 ): string {
   return formatter.format(toNumber(value, decimals) * price);
 }
+*/
 
 /**
  * Truncate the given number to 2 decimal places.
@@ -72,6 +87,8 @@ export function smallUsdPriceFormatter(
  * @param num The number to be truncated.
  * @returns The number truncated to 2 decimal places.
  */
+/** 
+ * Migrated to bigUtils
 export function truncateTo2DecimalPlaces(num: number): number {
   return Math.floor(num * 100) / 100;
 }
@@ -83,3 +100,4 @@ export function truncateTo3DecimalPlaces(num: number): number {
 export function nonNegativeNumber(value: number): number {
   return value < 0 ? 0 : value;
 }
+*/

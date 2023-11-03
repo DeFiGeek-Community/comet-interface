@@ -9,7 +9,7 @@ import {
 import { useAccount } from "wagmi";
 import rewardAbi from "static/rewards.json";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { truncateTo3DecimalPlaces } from "utils/numberUtils";
+import { truncateTo3DecimalPlaces } from "utils/bigUtils";
 import { formatErrorMessage } from "utils/formatErrorMessage";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useReload } from "context/ReloadContext";
