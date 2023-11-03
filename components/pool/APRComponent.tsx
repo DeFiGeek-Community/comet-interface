@@ -4,7 +4,7 @@ import { Column, Row, Center } from "utils/chakraUtils";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { CTokenIcon } from "components/shared/CTokenIcon";
 import { RewardAsset } from "interfaces/pool";
-import { truncateTo3DecimalPlaces } from "utils/numberUtils";
+import { truncateTo3DecimalPlaces } from "utils/bigUtils";
 
 const APRComponent = ({
   rewardToken,

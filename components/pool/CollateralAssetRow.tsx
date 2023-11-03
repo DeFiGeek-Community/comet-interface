@@ -2,12 +2,13 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Text, useDisclosure, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
-import { toNumber, truncateTo2DecimalPlaces } from "utils/numberUtils";
+import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import PoolModal, { Mode } from "components/PoolModal";
 import { PoolConfig } from "interfaces/pool";
+import { useCurrency } from "context/currencyContext";
 
 const CollateralAssetRow = ({
   poolData,
@@ -51,6 +52,7 @@ const CollateralAssetRow = ({
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
+  const { currency, rate } = useCurrency();
 
   return (
     <>
@@ -102,7 +104,12 @@ const CollateralAssetRow = ({
           {yourSupply !== undefined && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdPriceFormatter(yourSupply, assetPrice)}
+                {smallUsdPriceFormatter(
+                  yourSupply,
+                  assetPrice,
+                  currency,
+                  rate || 0,
+                )}
               </Text>
 
               <Text fontSize="sm">
@@ -124,7 +131,12 @@ const CollateralAssetRow = ({
           {collateralValue !== undefined && assetPrice ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                {smallUsdPriceFormatter(collateralValue, assetPrice)}
+                {smallUsdPriceFormatter(
+                  collateralValue,
+                  assetPrice,
+                  currency,
+                  rate || 0,
+                )}
               </Text>
 
               <Text fontSize="sm">

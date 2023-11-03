@@ -12,7 +12,7 @@ import {
   toNumber,
   truncateTo2DecimalPlaces,
   nonNegativeNumber,
-} from "utils/numberUtils";
+} from "utils/bigUtils";
 
 export const BaseStatsColumn = ({
   mode,

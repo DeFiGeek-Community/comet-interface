@@ -6,7 +6,7 @@ import {
   toNumber,
   truncateTo2DecimalPlaces,
   nonNegativeNumber,
-} from "utils/numberUtils";
+} from "utils/bigUtils";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
@@ -14,6 +14,7 @@ import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataCont
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
+import { useCurrency } from "context/currencyContext";
 
 const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const {
@@ -48,6 +49,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
+  const { currency, rate } = useCurrency();
 
   return (
     <>
@@ -114,7 +116,12 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
               {baseAssetData?.yourSupply !== undefined && assetPrice ? (
                 <>
                   <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                    {smallUsdPriceFormatter(yourSupply, assetPrice)}
+                    {smallUsdPriceFormatter(
+                      yourSupply,
+                      assetPrice,
+                      currency,
+                      rate || 0,
+                    )}
                   </Text>
 
                   <Text fontSize="sm">
@@ -156,7 +163,12 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 {baseAssetData?.yourBorrow !== undefined && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdPriceFormatter(yourBorrow, assetPrice)}
+                      {smallUsdPriceFormatter(
+                        yourBorrow,
+                        assetPrice,
+                        currency,
+                        rate || 0,
+                      )}
                     </Text>
 
                     <Text fontSize="sm">
@@ -177,7 +189,12 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
                 {availableToBorrow !== undefined && assetPrice ? (
                   <>
                     <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                      {smallUsdPriceFormatter(availableToBorrow, assetPrice)}
+                      {smallUsdPriceFormatter(
+                        availableToBorrow,
+                        assetPrice,
+                        currency,
+                        rate || 0,
+                      )}
                     </Text>
 
                     <Text fontSize="sm">

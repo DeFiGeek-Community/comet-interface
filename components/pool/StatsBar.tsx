@@ -14,6 +14,7 @@ import CaptionedStat from "components/shared/CaptionedStat";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
+import { useCurrency } from "context/currencyContext";
 
 const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const isMobile = useIsSmallScreen();
@@ -41,6 +42,8 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   }
 
   const { t } = useTranslation();
+  const { currency, rate } = useCurrency();
+
   return (
     <RowOrColumn
       width="100%"
@@ -104,6 +107,8 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
                   ? smallUsdPriceFormatter(
                       totalPoolData?.totalBaseSupplyBalance,
                       priceFeedData.baseAsset,
+                      currency,
+                      rate || 0,
                     )
                   : "$ ?"
               }
@@ -118,7 +123,11 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               captionSize="sm"
               stat={
                 totalCollateralUsdBalance !== undefined
-                  ? smallUsdFormatter(totalCollateralUsdBalance)
+                  ? smallUsdFormatter(
+                      totalCollateralUsdBalance,
+                      currency,
+                      rate || 0,
+                    )
                   : "$ ?"
               }
               caption={t("Total Collateral Balance")}
@@ -145,6 +154,8 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
                   ? smallUsdPriceFormatter(
                       totalPoolData.totalBaseBorrowBalance,
                       priceFeedData.baseAsset,
+                      currency,
+                      rate || 0,
                     )
                   : "$ ?"
               }
@@ -159,7 +170,11 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
               captionSize="sm"
               stat={
                 priceFeedData?.baseAsset !== undefined
-                  ? formatUsdWithFourDecimals(priceFeedData?.baseAsset)
+                  ? formatUsdWithFourDecimals(
+                      priceFeedData?.baseAsset,
+                      currency,
+                      rate || 0,
+                    )
                   : "$ ?"
               }
               caption={t("Base Token Oracle Price")}
