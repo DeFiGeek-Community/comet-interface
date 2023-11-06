@@ -7,6 +7,8 @@ import { useChainPool } from "hooks/useChainPool";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "context/currencyContext";
 
+const selectStyle = { backgroundColor: "black", color: "white" }
+
 export function LanguageChange() {
   const { i18n } = useTranslation();
 
@@ -20,13 +22,13 @@ export function LanguageChange() {
         variant="filled"
         defaultValue=""
         onChange={(event) => changeLanguage(event.target.value)}
-        style={{ backgroundColor: "black", color: "white" }}
+        style={selectStyle}
       >
-        <option value="" disabled>
+        <option style={selectStyle} value="" disabled>
           Language
         </option>
-        <option value="en">English</option>
-        <option value="ja">日本語</option>
+        <option style={selectStyle} value="en">English</option>
+        <option style={selectStyle} value="ja">日本語</option>
       </Select>
     </Box>
   );
@@ -44,10 +46,10 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
         variant="filled"
         value={currency}
         onChange={(event) => toggleCurrency(event.target.value)}
-        style={{ backgroundColor: "black", color: "white" }}
+        style={selectStyle}
       >
-        <option value="USD">USD</option>
-        <option value="JPY">JPY</option>
+        <option style={selectStyle} value="USD">USD</option>
+        <option style={selectStyle} value="JPY">JPY</option>
       </Select>
     </Box>
   );
@@ -80,7 +82,6 @@ export const Header = () => {
         mainAxisAlignment="flex-start"
         overflowX="auto"
         overflowY="hidden"
-        transform="translate(0px, 7px)"
         width="80%"
       >
         <HeaderLink
