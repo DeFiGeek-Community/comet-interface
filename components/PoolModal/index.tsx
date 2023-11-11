@@ -50,7 +50,10 @@ const DepositModal = ({
     <Modal
       motionPreset="slideInBottom"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={()=>{
+        setUserAction(UserAction.NO_ACTION);
+        onClose();
+      }}
       // closeOnOverlayClick={}
       isCentered
     >

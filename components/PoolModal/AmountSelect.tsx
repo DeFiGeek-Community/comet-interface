@@ -201,12 +201,11 @@ const AmountSelect = ({
         await approve();
       }
       await executeFunction(functionName);
+      setUserAction(UserAction.NO_ACTION);
+      setIsOperation(false);
     } catch (err) {
       setUserAction(UserAction.ERROR);
       setErrorMessage(formatErrorMessage(err));
-    } finally {
-      setIsOperation(false);
-      setUserAction(UserAction.NO_ACTION);
     }
   };
 
