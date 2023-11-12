@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
 import { Heading, Box, Button, Text, Image, Spinner } from "@chakra-ui/react";
@@ -26,6 +26,7 @@ import {
   CollateralStatsColumn,
   TabBar,
   TokenNameAndMaxButton,
+  AllButton,
 } from "components/PoolModal/parts";
 import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 
@@ -61,6 +62,8 @@ const AmountSelect = ({
     () => new BigNumber(0),
   );
 
+  const [isVisibleMaxButton, setIsVisibleMaxButton] = useState(true);
+
   const [errorMessage, setErrorMessage] = useState("");
   const [isOperation, setIsOperation] = useState(false);
 
@@ -94,28 +97,40 @@ const AmountSelect = ({
 
   let maxValue;
 
-  switch (mode) {
-    case Mode.BASE_SUPPLY:
-      maxValue =
-        baseSupplyBalance > 0 || baseBorrowBalance === 0
-          ? tokenBalance?.value
-          : baseAssetData?.yourBorrow;
-      break;
-    case Mode.BASE_BORROW:
-      maxValue =
-        baseBorrowBalance > 0 || baseSupplyBalance === 0
-          ? baseAvailableToBorrowBigint
-          : baseAssetData?.yourSupply;
-      break;
-    case Mode.SUPPLY:
-      maxValue = tokenBalance?.value;
-      break;
-    case Mode.WITHDRAW:
-      maxValue = collateralAssetData?.yourSupply;
-      break;
-    default:
-      break;
-  }
+  useEffect(() => {
+    let shouldShowMaxButton = true;
+    switch (mode) {
+      case Mode.BASE_SUPPLY:
+        if(baseSupplyBalance > 0 || baseBorrowBalance === 0){
+          maxValue = tokenBalance?.value;
+          shouldShowMaxButton = true;
+        }
+        else{
+          shouldShowMaxButton = false;
+          console.log("supply : true");
+        }
+        break;
+      case Mode.BASE_BORROW:
+        if(baseBorrowBalance > 0 || baseSupplyBalance === 0){
+          maxValue = baseAvailableToBorrowBigint;
+          shouldShowMaxButton = true;
+        }else{
+          shouldShowMaxButton = false;
+          console.log(isVisibleMaxButton);
+          console.log("borrow : true");
+        }
+        break;
+      case Mode.SUPPLY:
+        maxValue = tokenBalance?.value;
+        break;
+      case Mode.WITHDRAW:
+        maxValue = collateralAssetData?.yourSupply;
+        break;
+      default:
+        break;
+    }
+    setIsVisibleMaxButton(shouldShowMaxButton);
+  }, [mode, baseSupplyBalance, baseBorrowBalance]);
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -328,12 +343,22 @@ const AmountSelect = ({
                   updateAmount={updateAmount}
                   maxValue={maxValue}
                 />
-                <TokenNameAndMaxButton
-                  updateAmount={updateAmount}
-                  asset={asset}
-                  maxValue={maxValue}
-                  isMaxLoading={!Boolean(maxValue)}
-                />
+                {isVisibleMaxButton ?
+                  <TokenNameAndMaxButton
+                    updateAmount={updateAmount}
+                    asset={asset}
+                    maxValue={maxValue}
+                    isMaxLoading={!Boolean(maxValue)}
+                  />
+                  :
+                  <AllButton
+                    updateAmount={updateAmount}
+                    asset={asset}
+                    maxValue={maxValue}
+                    isMaxLoading={!Boolean(maxValue)}
+                  />
+                }
+                
               </Row>
             </DashboardBox>
           </Column>
