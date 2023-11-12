@@ -70,7 +70,7 @@ export const AllButton = ({
         isDisabled={false}
         isLoading={isClickLoading}
       >
-        {t("全額返済")}
+        {t("Repay All")}
       </Button>
     </Row>
   );

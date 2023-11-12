@@ -36,6 +36,7 @@
   "This is how much you have borrowed": {
     "": "This is how much you have borrowed"
   },
+  "Repay All": "Repay All",
   "Token Claim": "Token Claim",
   "Token Reward": "Token Reward",
   "tooltipMessage": "You're using {{liquidationPercentage}}% of your {{liquidationPoint}} Liquidation limit.",
@@ -45,6 +46,7 @@
   "USDC Pool": "USDC Pool",
   "Withdraw": "Withdraw",
   "Withdraw (Borrow)": "Withdraw (Borrow)",
+  "Withdraw All": "Withdraw All",
   "Your Borrow": "Your Borrow",
   "Your Supply": "Your Supply",
   "Your Token Reward": "Your Token Reward",
