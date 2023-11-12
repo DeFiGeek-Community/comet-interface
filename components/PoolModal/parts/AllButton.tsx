@@ -25,9 +25,9 @@ export const AllButton = ({
     asset?.logoURL ??
     "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg";
 
-  const setToMax = async () => {
+  const setToUintMax = async () => {
     setIsClickLoading(true);
-    updateAmount(formatUnits(maxValue ?? BigInt(0), decimals) ?? "0");
+    updateAmount((115792089237316195423570985008687907853269984665640564039457584007913129639935).toString() ?? "0");
     setIsClickLoading(false);
   };
 
@@ -66,8 +66,8 @@ export const AllButton = ({
         color={"#FFF"}
         _hover={{}}
         _active={{}}
-        onClick={setToMax}
-        isDisabled={isMaxLoading}
+        onClick={setToUintMax}
+        isDisabled={false}
         isLoading={isClickLoading}
       >
         {t("全額返済")}
