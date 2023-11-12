@@ -26,7 +26,7 @@ import {
   CollateralStatsColumn,
   TabBar,
   TokenNameAndMaxButton,
-  AllButton,
+  RepayAllAndWithdrawAllButon,
 } from "components/PoolModal/parts";
 import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 
@@ -351,7 +351,7 @@ const AmountSelect = ({
                     isMaxLoading={!Boolean(maxValue)}
                   />
                   :
-                  <AllButton
+                  <RepayAllAndWithdrawAllButon
                     updateAmount={updateAmount}
                     asset={asset}
                     maxValue={maxValue}

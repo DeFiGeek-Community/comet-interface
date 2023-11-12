@@ -5,7 +5,7 @@ import { formatUnits } from "viem";
 import { Row } from "utils/chakraUtils";
 import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
-export const AllButton = ({
+export const RepayAllAndWithdrawAllButon = ({
   updateAmount,
   asset,
   maxValue,
