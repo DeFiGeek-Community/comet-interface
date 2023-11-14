@@ -9,12 +9,12 @@ export const RepayAllAndWithdrawAllButon = ({
   updateAmount,
   asset,
   maxValue,
-  isMaxLoading,
+  isSupplyMode,
 }: {
   updateAmount: (newAmount: string) => any;
   asset: BaseAsset | CollateralAsset | undefined;
   maxValue: bigint | undefined;
-  isMaxLoading: boolean;
+  isSupplyMode: boolean;
 }) => {
   const [isClickLoading, setIsClickLoading] = useState(false);
 
@@ -52,16 +52,16 @@ export const RepayAllAndWithdrawAllButon = ({
           {asset?.symbol}
         </Heading>
       </Row>
-
+      {isSupplyMode?
       <Button
         ml={1}
         height="28px"
-        width="58px"
+        width="88px"
         bg="transparent"
         border="2px"
         borderRadius="8px"
         borderColor="#272727"
-        fontSize="sm"
+        fontSize="xs"
         fontWeight="extrabold"
         color={"#FFF"}
         _hover={{}}
@@ -72,6 +72,27 @@ export const RepayAllAndWithdrawAllButon = ({
       >
         {t("Repay All")}
       </Button>
+      :
+      <Button
+        ml={1}
+        height="28px"
+        width="90px"
+        bg="transparent"
+        border="2px"
+        borderRadius="8px"
+        borderColor="#272727"
+        fontSize="xs"
+        fontWeight="extrabold"
+        color={"#FFF"}
+        _hover={{}}
+        _active={{}}
+        onClick={setToUintMax}
+        isDisabled={false}
+        isLoading={isClickLoading}
+      >
+        {t("Withdraw All")}
+      </Button>
+      }
     </Row>
   );
 };

@@ -63,6 +63,7 @@ const AmountSelect = ({
   );
 
   const [isVisibleMaxButton, setIsVisibleMaxButton] = useState(true);
+  const [isA, setIsA] = useState(true);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [isOperation, setIsOperation] = useState(false);
@@ -99,6 +100,7 @@ const AmountSelect = ({
 
   useEffect(() => {
     let shouldShowMaxButton = true;
+    let stateA = true;
     switch (mode) {
       case Mode.BASE_SUPPLY:
         if(baseSupplyBalance > 0 || baseBorrowBalance === 0){
@@ -109,6 +111,7 @@ const AmountSelect = ({
           shouldShowMaxButton = false;
           console.log("supply : true");
         }
+        stateA = true;
         break;
       case Mode.BASE_BORROW:
         if(baseBorrowBalance > 0 || baseSupplyBalance === 0){
@@ -119,6 +122,7 @@ const AmountSelect = ({
           console.log(isVisibleMaxButton);
           console.log("borrow : true");
         }
+        stateA = false;
         break;
       case Mode.SUPPLY:
         maxValue = tokenBalance?.value;
@@ -130,6 +134,7 @@ const AmountSelect = ({
         break;
     }
     setIsVisibleMaxButton(shouldShowMaxButton);
+    setIsA(stateA);
   }, [mode, baseSupplyBalance, baseBorrowBalance]);
 
   const updateAmount = (newAmount: string) => {
@@ -355,7 +360,7 @@ const AmountSelect = ({
                     updateAmount={updateAmount}
                     asset={asset}
                     maxValue={maxValue}
-                    isMaxLoading={!Boolean(maxValue)}
+                    isSupplyMode={isA}
                   />
                 }
                 
