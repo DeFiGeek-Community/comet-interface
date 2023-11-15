@@ -30,6 +30,7 @@ export const RepayAllAndWithdrawAllButon = ({
   const [isWithdrawAllButtonOn, setIsWithdrawAllButtonOn] = useState(false);
 
   const { t } = useTranslation();
+  const UintMax = 115792089237316195423570985008687907853269984665640564039457584007913129639935;
 
   const decimals = asset?.decimals ?? 0;
   const logoURL =
@@ -38,7 +39,7 @@ export const RepayAllAndWithdrawAllButon = ({
 
   const setToUintMaxRepayAll = async () => {
     setIsClickLoading(true);
-    updateAmount(formatUnits(BigInt(115792089237316195423570985008687907853269984665640564039457584007913129639935), decimals));
+    updateAmount(formatUnits(BigInt(UintMax), decimals));
     setIsRepayAllButtonOn(!isRepayAllButtonOn);
     toggleRepayAllButton(!isRepayAllButtonOn);
     setIsClickLoading(false);
@@ -46,7 +47,7 @@ export const RepayAllAndWithdrawAllButon = ({
 
   const setToUintMaxWithdrawAll = async () => {
     setIsClickLoading(true);
-    updateAmount(formatUnits(BigInt(115792089237316195423570985008687907853269984665640564039457584007913129639935), decimals));
+    updateAmount(formatUnits(BigInt(UintMax), decimals));
     setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
     toggleWithdrawAllButton(!isWithdrawAllButtonOn);
     setIsClickLoading(false);
