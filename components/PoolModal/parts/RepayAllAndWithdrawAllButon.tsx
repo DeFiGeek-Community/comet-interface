@@ -79,47 +79,47 @@ export const RepayAllAndWithdrawAllButon = ({
         </Heading>
       </Row>
       {isSupplyMode?
-      <Button
-        ml={1}
-        height="28px"
-        minWidth="58px"
-        bg="transparent"
-        border="2px"
-        borderRadius="8px"
-        borderColor="#272727"
-        fontSize="xs"
-        fontWeight="extrabold"
-        pl={2}
-        pr={2}
-        color={"#FFF"}
-        _hover={{}}
-        _active={{}}
-        onClick={setToUintMaxRepayAll}
-        isLoading={isClickLoading}
-      >
-        {t("Repay All")}
-      </Button>
+        <Button
+          ml={1}
+          height="28px"
+          minWidth="58px"
+          bg="transparent"
+          border="2px"
+          borderRadius="8px"
+          borderColor="#272727"
+          fontSize="xs"
+          fontWeight="extrabold"
+          pl={2}
+          pr={2}
+          color={"#FFF"}
+          _hover={{}}
+          _active={{}}
+          onClick={setToUintMaxRepayAll}
+          isLoading={isClickLoading}
+        >
+          {t("Repay All")}
+        </Button>
       :
-      <Button
-        ml={1}
-        height="28px"
-        minWidth="58px"
-        bg="transparent"
-        border="2px"
-        borderRadius="8px"
-        borderColor="#272727"
-        fontSize="xs"
-        fontWeight="extrabold"
-        pl={2}
-        pr={2}
-        color={"#FFF"}
-        _hover={{}}
-        _active={{}}
-        onClick={setToUintMaxWithdrawAll}
-        isLoading={isClickLoading}
-      >
-        {t("Withdraw All")}
-      </Button>
+        <Button
+          ml={1}
+          height="28px"
+          minWidth="58px"
+          bg="transparent"
+          border="2px"
+          borderRadius="8px"
+          borderColor="#272727"
+          fontSize="xs"
+          fontWeight="extrabold"
+          pl={2}
+          pr={2}
+          color={"#FFF"}
+          _hover={{}}
+          _active={{}}
+          onClick={setToUintMaxWithdrawAll}
+          isLoading={isClickLoading}
+        >
+          {t("Withdraw All")}
+        </Button>
       }
     </Row>
   );
