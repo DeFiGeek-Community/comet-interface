@@ -63,7 +63,10 @@ const AmountSelect = ({
   );
 
   const [isVisibleMaxButton, setIsVisibleMaxButton] = useState(true);
-  const [isA, setIsA] = useState(true);
+  const [isSupply, setIsSupply] = useState(true);
+
+  const [stateRepayAllButton, setStateRepayAllButton] = useState(false);
+  const [stateWithdrawAllButton, setStateWithdrawAllButton] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [isOperation, setIsOperation] = useState(false);
@@ -100,7 +103,7 @@ const AmountSelect = ({
 
   useEffect(() => {
     let shouldShowMaxButton = true;
-    let stateA = true;
+    let stateSupply = true;
     switch (mode) {
       case Mode.BASE_SUPPLY:
         if(baseSupplyBalance > 0 || baseBorrowBalance === 0){
@@ -109,9 +112,10 @@ const AmountSelect = ({
         }
         else{
           shouldShowMaxButton = false;
-          console.log("supply : true");
         }
-        stateA = true;
+        stateSupply = true;
+        setStateRepayAllButton(false);
+        setStateWithdrawAllButton(false);
         break;
       case Mode.BASE_BORROW:
         if(baseBorrowBalance > 0 || baseSupplyBalance === 0){
@@ -119,10 +123,10 @@ const AmountSelect = ({
           shouldShowMaxButton = true;
         }else{
           shouldShowMaxButton = false;
-          console.log(isVisibleMaxButton);
-          console.log("borrow : true");
         }
-        stateA = false;
+        stateSupply = false;
+        setStateRepayAllButton(false);
+        setStateWithdrawAllButton(false);
         break;
       case Mode.SUPPLY:
         maxValue = tokenBalance?.value;
@@ -134,15 +138,19 @@ const AmountSelect = ({
         break;
     }
     setIsVisibleMaxButton(shouldShowMaxButton);
-    setIsA(stateA);
+    setIsSupply(stateSupply);
   }, [mode, baseSupplyBalance, baseBorrowBalance]);
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
       return;
     }
-
-    _setUserEnteredAmount(newAmount);
+    if(stateRepayAllButton || stateWithdrawAllButton){
+      if(stateRepayAllButton) _setUserEnteredAmount(formatUnits(BigInt(baseSupplyBalance), baseAsset.decimals));
+      if(stateWithdrawAllButton) _setUserEnteredAmount(formatUnits(BigInt(baseBorrowBalance), baseAsset.decimals));
+    }else{
+      _setUserEnteredAmount(newAmount);
+    }
 
     try {
       BigNumber.DEBUG = true;
@@ -154,6 +162,15 @@ const AmountSelect = ({
     }
 
     setUserAction(UserAction.NO_ACTION);
+  };
+
+  const toggleRepayAllButton = (isRepayAllButtonOn: boolean) => {
+    setStateRepayAllButton(isRepayAllButtonOn);
+    if(!isRepayAllButtonOn) updateAmount("0.0");
+  };
+  const toggleWithdrawAllButton = (isWithdrawAllButtonOn: boolean) => {
+    setStateWithdrawAllButton(isWithdrawAllButtonOn);
+    if(!isWithdrawAllButtonOn) updateAmount("0.0");
   };
 
   const approve = async () => {
@@ -342,12 +359,32 @@ const AmountSelect = ({
                 crossAxisAlignment="center"
                 expand
               >
-                <AmountInput
-                  color={"#FFF"}
-                  displayAmount={userEnteredAmount}
-                  updateAmount={updateAmount}
-                  maxValue={maxValue}
-                />
+                {mode === Mode.BASE_SUPPLY &&
+                  <AmountInput
+                    color={"#FFF"}
+                    displayAmount={userEnteredAmount}
+                    updateAmount={updateAmount}
+                    maxValue={maxValue}
+                    disabled={stateRepayAllButton}
+                  />
+                }
+                {mode === Mode.BASE_BORROW &&
+                  <AmountInput
+                    color={"#FFF"}
+                    displayAmount={userEnteredAmount}
+                    updateAmount={updateAmount}
+                    maxValue={maxValue}
+                    disabled={stateWithdrawAllButton}
+                  />
+                }
+                {!isBase &&
+                  <AmountInput
+                    color={"#FFF"}
+                    displayAmount={userEnteredAmount}
+                    updateAmount={updateAmount}
+                    maxValue={maxValue}
+                  />
+                } 
                 {isVisibleMaxButton ?
                   <TokenNameAndMaxButton
                     updateAmount={updateAmount}
@@ -358,9 +395,13 @@ const AmountSelect = ({
                   :
                   <RepayAllAndWithdrawAllButon
                     updateAmount={updateAmount}
+                    toggleRepayAllButton={toggleRepayAllButton}
+                    toggleWithdrawAllButton={toggleWithdrawAllButton}
                     asset={asset}
                     maxValue={maxValue}
-                    isSupplyMode={isA}
+                    isSupplyMode={isSupply}
+                    isRepayOn={stateRepayAllButton}
+                    isWithdrawOn={stateWithdrawAllButton}
                   />
                 }
                 
@@ -404,7 +445,7 @@ const AmountSelect = ({
             _hover={{ transform: "scale(1.02)" }}
             _active={{ transform: "scale(0.95)" }}
             onClick={onConfirm}
-            isDisabled={amountIsValid || isOperation}
+            isDisabled={stateRepayAllButton || stateWithdrawAllButton ? false : amountIsValid || isOperation}
           >
             {userAction === UserAction.APPROVE_EXECUTING ? (
               t("Execute Approve")

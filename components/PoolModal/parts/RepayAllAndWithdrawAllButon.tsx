@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading, Box, Button, Image } from "@chakra-ui/react";
 import { formatUnits } from "viem";
@@ -7,16 +7,27 @@ import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
 export const RepayAllAndWithdrawAllButon = ({
   updateAmount,
+  toggleRepayAllButton,
+  toggleWithdrawAllButton,
   asset,
   maxValue,
   isSupplyMode,
+  isRepayOn,
+  isWithdrawOn,
 }: {
   updateAmount: (newAmount: string) => any;
+  toggleRepayAllButton: (isRepayAllButtonOn: boolean) => any;
+  toggleWithdrawAllButton: (isWithdrawAllButtonOn: boolean) => any;
   asset: BaseAsset | CollateralAsset | undefined;
   maxValue: bigint | undefined;
   isSupplyMode: boolean;
+  isRepayOn: boolean;
+  isWithdrawOn: boolean;
 }) => {
   const [isClickLoading, setIsClickLoading] = useState(false);
+
+  const [isRepayAllButtonOn, setIsRepayAllButtonOn] = useState(false);
+  const [isWithdrawAllButtonOn, setIsWithdrawAllButtonOn] = useState(false);
 
   const { t } = useTranslation();
 
@@ -25,11 +36,26 @@ export const RepayAllAndWithdrawAllButon = ({
     asset?.logoURL ??
     "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg";
 
-  const setToUintMax = async () => {
+  const setToUintMaxRepayAll = async () => {
     setIsClickLoading(true);
-    updateAmount((115792089237316195423570985008687907853269984665640564039457584007913129639935).toString() ?? "0");
+    updateAmount(formatUnits(BigInt(115792089237316195423570985008687907853269984665640564039457584007913129639935), decimals));
+    setIsRepayAllButtonOn(!isRepayAllButtonOn);
+    toggleRepayAllButton(!isRepayAllButtonOn);
     setIsClickLoading(false);
   };
+
+  const setToUintMaxWithdrawAll = async () => {
+    setIsClickLoading(true);
+    updateAmount(formatUnits(BigInt(115792089237316195423570985008687907853269984665640564039457584007913129639935), decimals));
+    setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
+    toggleWithdrawAllButton(!isWithdrawAllButtonOn);
+    setIsClickLoading(false);
+  };
+
+  useEffect(() => {
+    if(!isRepayOn)setIsRepayAllButtonOn(false);
+    if(!isWithdrawOn)setIsWithdrawAllButtonOn(false);
+  }, [isRepayOn, isWithdrawOn]);
 
   return (
     <Row
@@ -63,13 +89,12 @@ export const RepayAllAndWithdrawAllButon = ({
         borderColor="#272727"
         fontSize="xs"
         fontWeight="extrabold"
-        paddingLeft={2}
-        paddingRight={2}
+        pl={2}
+        pr={2}
         color={"#FFF"}
         _hover={{}}
         _active={{}}
-        onClick={setToUintMax}
-        isDisabled={false}
+        onClick={setToUintMaxRepayAll}
         isLoading={isClickLoading}
       >
         {t("Repay All")}
@@ -85,13 +110,12 @@ export const RepayAllAndWithdrawAllButon = ({
         borderColor="#272727"
         fontSize="xs"
         fontWeight="extrabold"
-        paddingLeft={2}
-        paddingRight={2}
+        pl={2}
+        pr={2}
         color={"#FFF"}
         _hover={{}}
         _active={{}}
-        onClick={setToUintMax}
-        isDisabled={false}
+        onClick={setToUintMaxWithdrawAll}
         isLoading={isClickLoading}
       >
         {t("Withdraw All")}
