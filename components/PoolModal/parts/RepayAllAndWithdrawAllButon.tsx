@@ -14,6 +14,8 @@ export const RepayAllAndWithdrawAllButon = ({
   isSupplyMode,
   isRepayOn,
   isWithdrawOn,
+  baseBorrowBalanceValue,
+  baseSupplyBalanceValue,
 }: {
   updateAmount: (newAmount: string) => any;
   toggleRepayAllButton: (isRepayAllButtonOn: boolean) => any;
@@ -23,6 +25,8 @@ export const RepayAllAndWithdrawAllButon = ({
   isSupplyMode: boolean;
   isRepayOn: boolean;
   isWithdrawOn: boolean;
+  baseBorrowBalanceValue: number | bigint;
+  baseSupplyBalanceValue: number | bigint;
 }) => {
   const [isClickLoading, setIsClickLoading] = useState(false);
 
@@ -39,7 +43,7 @@ export const RepayAllAndWithdrawAllButon = ({
 
   const setToUintMaxRepayAll = async () => {
     setIsClickLoading(true);
-    updateAmount(formatUnits(BigInt(UintMax), decimals));
+    updateAmount(formatUnits(BigInt(baseBorrowBalanceValue), decimals));
     setIsRepayAllButtonOn(!isRepayAllButtonOn);
     toggleRepayAllButton(!isRepayAllButtonOn);
     setIsClickLoading(false);
@@ -47,7 +51,7 @@ export const RepayAllAndWithdrawAllButon = ({
 
   const setToUintMaxWithdrawAll = async () => {
     setIsClickLoading(true);
-    updateAmount(formatUnits(BigInt(UintMax), decimals));
+    updateAmount(formatUnits(BigInt(baseSupplyBalanceValue), decimals));
     setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
     toggleWithdrawAllButton(!isWithdrawAllButtonOn);
     setIsClickLoading(false);

@@ -73,6 +73,8 @@ const AmountSelect = ({
 
   const { t } = useTranslation();
 
+  const UintMax = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
+
   const { reload } = useReload();
 
   const isBase = mode === Mode.BASE_SUPPLY || mode === Mode.BASE_BORROW;
@@ -145,12 +147,7 @@ const AmountSelect = ({
     if (newAmount.startsWith("-")) {
       return;
     }
-    if(stateRepayAllButton || stateWithdrawAllButton){
-      if(stateRepayAllButton) _setUserEnteredAmount(formatUnits(BigInt(baseSupplyBalance), baseAsset.decimals));
-      if(stateWithdrawAllButton) _setUserEnteredAmount(formatUnits(BigInt(baseBorrowBalance), baseAsset.decimals));
-    }else{
-      _setUserEnteredAmount(newAmount);
-    }
+    _setUserEnteredAmount(newAmount);
 
     try {
       BigNumber.DEBUG = true;
@@ -166,15 +163,18 @@ const AmountSelect = ({
 
   const toggleRepayAllButton = (isRepayAllButtonOn: boolean) => {
     setStateRepayAllButton(isRepayAllButtonOn);
-    if(!isRepayAllButtonOn) updateAmount("0.0");
+    console.log("isRepayAllButtonOn : "+isRepayAllButtonOn );
+    if(!isRepayAllButtonOn) updateAmount("");
   };
+
   const toggleWithdrawAllButton = (isWithdrawAllButtonOn: boolean) => {
     setStateWithdrawAllButton(isWithdrawAllButtonOn);
-    if(!isWithdrawAllButtonOn) updateAmount("0.0");
+    if(!isWithdrawAllButtonOn) updateAmount("");
   };
 
   const approve = async () => {
     setUserAction(UserAction.APPROVE_EXECUTING);
+    console.log("stateRepayAllButton : "+stateRepayAllButton );
     const approveConfig = await prepareWriteContract({
       address: asset.address,
       abi: erc20ABI,
@@ -189,11 +189,12 @@ const AmountSelect = ({
   const executeFunction = async (functionName: string) => {
     console.log("functionName", functionName);
     setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
+    console.log("stateRepayAllButton : "+stateRepayAllButton );
     const config = await prepareWriteContract({
       address: poolData.proxy,
       abi: cometAbi,
       functionName: functionName,
-      args: [asset.address, parseUnits(String(amount), asset.decimals)],
+      args: [asset.address, stateRepayAllButton || stateWithdrawAllButton ? BigInt(UintMax) : parseUnits(String(amount), asset.decimals)],
     });
     const { hash } = await writeContract(config);
     const data = await waitForTransaction({ hash });
@@ -402,6 +403,8 @@ const AmountSelect = ({
                     isSupplyMode={isSupply}
                     isRepayOn={stateRepayAllButton}
                     isWithdrawOn={stateWithdrawAllButton}
+                    baseBorrowBalanceValue={baseBorrowBalance}
+                    baseSupplyBalanceValue={baseSupplyBalance}
                   />
                 }
                 
