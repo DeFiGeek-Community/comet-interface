@@ -34,26 +34,23 @@ export const RepayAllAndWithdrawAllButon = ({
   const [isWithdrawAllButtonOn, setIsWithdrawAllButtonOn] = useState(false);
 
   const { t } = useTranslation();
-  const UintMax = 115792089237316195423570985008687907853269984665640564039457584007913129639935;
 
   const decimals = asset?.decimals ?? 0;
   const logoURL =
     asset?.logoURL ??
     "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg";
 
-  const setToUintMaxRepayAll = async () => {
+  const setToUintMax = async () => {
     setIsClickLoading(true);
-    updateAmount(formatUnits(BigInt(baseBorrowBalanceValue), decimals));
-    setIsRepayAllButtonOn(!isRepayAllButtonOn);
-    toggleRepayAllButton(!isRepayAllButtonOn);
-    setIsClickLoading(false);
-  };
-
-  const setToUintMaxWithdrawAll = async () => {
-    setIsClickLoading(true);
-    updateAmount(formatUnits(BigInt(baseSupplyBalanceValue), decimals));
-    setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
-    toggleWithdrawAllButton(!isWithdrawAllButtonOn);
+    if(isSupplyMode){ 
+      updateAmount(formatUnits(BigInt(baseBorrowBalanceValue), decimals));
+      setIsRepayAllButtonOn(!isRepayAllButtonOn);
+      toggleRepayAllButton(!isRepayAllButtonOn);
+    }else {
+      updateAmount(formatUnits(BigInt(baseSupplyBalanceValue), decimals));
+      setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
+      toggleWithdrawAllButton(!isWithdrawAllButtonOn);
+    }
     setIsClickLoading(false);
   };
 
@@ -83,7 +80,7 @@ export const RepayAllAndWithdrawAllButon = ({
           {asset?.symbol}
         </Heading>
       </Row>
-      {isSupplyMode?
+      
         <Button
           ml={1}
           height="28px"
@@ -99,33 +96,11 @@ export const RepayAllAndWithdrawAllButon = ({
           color={"#FFF"}
           _hover={{}}
           _active={{}}
-          onClick={setToUintMaxRepayAll}
+          onClick={setToUintMax}
           isLoading={isClickLoading}
         >
-          {t("Repay All")}
+          {isSupplyMode?t("Repay All"):t("Withdraw All")}
         </Button>
-      :
-        <Button
-          ml={1}
-          height="28px"
-          minWidth="58px"
-          bg="transparent"
-          border="2px"
-          borderRadius="8px"
-          borderColor="#272727"
-          fontSize="xs"
-          fontWeight="extrabold"
-          pl={2}
-          pr={2}
-          color={"#FFF"}
-          _hover={{}}
-          _active={{}}
-          onClick={setToUintMaxWithdrawAll}
-          isLoading={isClickLoading}
-        >
-          {t("Withdraw All")}
-        </Button>
-      }
     </Row>
   );
 };

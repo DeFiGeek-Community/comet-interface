@@ -116,8 +116,7 @@ const AmountSelect = ({
           shouldShowMaxButton = false;
         }
         stateSupply = true;
-        setStateRepayAllButton(false);
-        setStateWithdrawAllButton(false);
+        setAllButtonOff();
         break;
       case Mode.BASE_BORROW:
         if(baseBorrowBalance > 0 || baseSupplyBalance === 0){
@@ -127,8 +126,7 @@ const AmountSelect = ({
           shouldShowMaxButton = false;
         }
         stateSupply = false;
-        setStateRepayAllButton(false);
-        setStateWithdrawAllButton(false);
+        setAllButtonOff();
         break;
       case Mode.SUPPLY:
         maxValue = tokenBalance?.value;
@@ -163,7 +161,6 @@ const AmountSelect = ({
 
   const toggleRepayAllButton = (isRepayAllButtonOn: boolean) => {
     setStateRepayAllButton(isRepayAllButtonOn);
-    console.log("isRepayAllButtonOn : "+isRepayAllButtonOn );
     if(!isRepayAllButtonOn) updateAmount("");
   };
 
@@ -172,9 +169,13 @@ const AmountSelect = ({
     if(!isWithdrawAllButtonOn) updateAmount("");
   };
 
+  const setAllButtonOff = () => {
+    setStateRepayAllButton(false);
+    setStateWithdrawAllButton(false);
+  };
+
   const approve = async () => {
     setUserAction(UserAction.APPROVE_EXECUTING);
-    console.log("stateRepayAllButton : "+stateRepayAllButton );
     const approveConfig = await prepareWriteContract({
       address: asset.address,
       abi: erc20ABI,
@@ -189,7 +190,6 @@ const AmountSelect = ({
   const executeFunction = async (functionName: string) => {
     console.log("functionName", functionName);
     setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
-    console.log("stateRepayAllButton : "+stateRepayAllButton );
     const config = await prepareWriteContract({
       address: poolData.proxy,
       abi: cometAbi,
