@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading, Box, Button, Image } from "@chakra-ui/react";
 import { formatUnits } from "viem";
@@ -7,16 +7,35 @@ import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
 export const TokenNameAndMaxButton = ({
   updateAmount,
+  toggleRepayAllButton,
+  toggleWithdrawAllButton,
   asset,
   maxValue,
   isMaxLoading,
+  isSupplyMode,
+  isRepayOn,
+  isWithdrawOn,
+  baseBorrowBalanceValue,
+  baseSupplyBalanceValue,
+  isMaxButtonMode
 }: {
   updateAmount: (newAmount: string) => any;
+  toggleRepayAllButton: (isRepayAllButtonOn: boolean) => any;
+  toggleWithdrawAllButton: (isWithdrawAllButtonOn: boolean) => any;
   asset: BaseAsset | CollateralAsset | undefined;
   maxValue: bigint | undefined;
   isMaxLoading: boolean;
+  isSupplyMode: boolean;
+  isRepayOn: boolean;
+  isWithdrawOn: boolean;
+  baseBorrowBalanceValue: number | bigint;
+  baseSupplyBalanceValue: number | bigint;
+  isMaxButtonMode: boolean;
 }) => {
   const [isClickLoading, setIsClickLoading] = useState(false);
+
+  const [isRepayAllButtonOn, setIsRepayAllButtonOn] = useState(false);
+  const [isWithdrawAllButtonOn, setIsWithdrawAllButtonOn] = useState(false);
 
   const { t } = useTranslation();
 
@@ -27,9 +46,25 @@ export const TokenNameAndMaxButton = ({
 
   const setToMax = async () => {
     setIsClickLoading(true);
-    updateAmount(formatUnits(maxValue ?? BigInt(0), decimals) ?? "0");
+    if(isMaxButtonMode){ updateAmount(formatUnits(maxValue ?? BigInt(0), decimals) ?? "0");}
+    else{
+      if(isSupplyMode){ 
+        updateAmount(formatUnits(BigInt(baseBorrowBalanceValue), decimals));
+        setIsRepayAllButtonOn(!isRepayAllButtonOn);
+        toggleRepayAllButton(!isRepayAllButtonOn);
+      }else {
+        updateAmount(formatUnits(BigInt(baseSupplyBalanceValue), decimals));
+        setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
+        toggleWithdrawAllButton(!isWithdrawAllButtonOn);
+      }
+    }
     setIsClickLoading(false);
   };
+
+  useEffect(() => {
+    if(!isRepayOn)setIsRepayAllButtonOn(false);
+    if(!isWithdrawOn)setIsWithdrawAllButtonOn(false);
+  }, [isRepayOn, isWithdrawOn]);
 
   return (
     <Row
@@ -56,7 +91,7 @@ export const TokenNameAndMaxButton = ({
       <Button
         ml={1}
         height="28px"
-        width="58px"
+        minWidth="58px"
         bg="transparent"
         border="2px"
         borderRadius="8px"
@@ -64,13 +99,15 @@ export const TokenNameAndMaxButton = ({
         fontSize="sm"
         fontWeight="extrabold"
         color={"#FFF"}
+        pl={2}
+        pr={2}
         _hover={{}}
         _active={{}}
         onClick={setToMax}
-        isDisabled={isMaxLoading}
+        isDisabled={isMaxButtonMode?isMaxLoading:false}
         isLoading={isClickLoading}
       >
-        {t("MAX")}
+        {isMaxButtonMode?t("MAX"):isSupplyMode?t("Repay All"):t("Withdraw All")}
       </Button>
     </Row>
   );

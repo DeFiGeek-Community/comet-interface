@@ -367,28 +367,20 @@ const AmountSelect = ({
                   maxValue={maxValue}
                   disabled={isBase?isSupply?stateRepayAllButton:stateWithdrawAllButton:false}
                 />
-                {isVisibleMaxButton ?
-                  <TokenNameAndMaxButton
-                    updateAmount={updateAmount}
-                    asset={asset}
-                    maxValue={maxValue}
-                    isMaxLoading={!Boolean(maxValue)}
-                  />
-                  :
-                  <RepayAllAndWithdrawAllButon
-                    updateAmount={updateAmount}
-                    toggleRepayAllButton={toggleRepayAllButton}
-                    toggleWithdrawAllButton={toggleWithdrawAllButton}
-                    asset={asset}
-                    maxValue={maxValue}
-                    isSupplyMode={isSupply}
-                    isRepayOn={stateRepayAllButton}
-                    isWithdrawOn={stateWithdrawAllButton}
-                    baseBorrowBalanceValue={baseBorrowBalance}
-                    baseSupplyBalanceValue={baseSupplyBalance}
-                  />
-                }
-                
+                <TokenNameAndMaxButton
+                  updateAmount={updateAmount}
+                  toggleRepayAllButton={toggleRepayAllButton}
+                  toggleWithdrawAllButton={toggleWithdrawAllButton}
+                  asset={asset}
+                  maxValue={maxValue}
+                  isMaxLoading={!Boolean(maxValue)}
+                  isSupplyMode={isSupply}
+                  isRepayOn={stateRepayAllButton}
+                  isWithdrawOn={stateWithdrawAllButton}
+                  baseBorrowBalanceValue={baseBorrowBalance}
+                  baseSupplyBalanceValue={baseSupplyBalance}
+                  isMaxButtonMode={isVisibleMaxButton}
+                />
               </Row>
             </DashboardBox>
           </Column>
