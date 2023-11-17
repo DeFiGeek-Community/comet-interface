@@ -3,4 +3,3 @@ export { BaseStatsColumn } from "./BaseStatsColumn";
 export { CollateralStatsColumn } from "./CollateralStatsColumn";
 export { TabBar } from "./TabBar";
 export { TokenNameAndMaxButton } from "./TokenNameAndMaxButton";
-export { RepayAllAndWithdrawAllButon } from "./RepayAllAndWithdrawAllButon";

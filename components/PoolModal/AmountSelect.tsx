@@ -26,7 +26,6 @@ import {
   CollateralStatsColumn,
   TabBar,
   TokenNameAndMaxButton,
-  RepayAllAndWithdrawAllButon,
 } from "components/PoolModal/parts";
 import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 
