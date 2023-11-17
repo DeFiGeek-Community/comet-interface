@@ -360,32 +360,13 @@ const AmountSelect = ({
                 crossAxisAlignment="center"
                 expand
               >
-                {mode === Mode.BASE_SUPPLY &&
-                  <AmountInput
-                    color={"#FFF"}
-                    displayAmount={userEnteredAmount}
-                    updateAmount={updateAmount}
-                    maxValue={maxValue}
-                    disabled={stateRepayAllButton}
-                  />
-                }
-                {mode === Mode.BASE_BORROW &&
-                  <AmountInput
-                    color={"#FFF"}
-                    displayAmount={userEnteredAmount}
-                    updateAmount={updateAmount}
-                    maxValue={maxValue}
-                    disabled={stateWithdrawAllButton}
-                  />
-                }
-                {!isBase &&
-                  <AmountInput
-                    color={"#FFF"}
-                    displayAmount={userEnteredAmount}
-                    updateAmount={updateAmount}
-                    maxValue={maxValue}
-                  />
-                } 
+                <AmountInput
+                  color={"#FFF"}
+                  displayAmount={userEnteredAmount}
+                  updateAmount={updateAmount}
+                  maxValue={maxValue}
+                  disabled={isBase?isSupply?stateRepayAllButton:stateWithdrawAllButton:false}
+                />
                 {isVisibleMaxButton ?
                   <TokenNameAndMaxButton
                     updateAmount={updateAmount}
