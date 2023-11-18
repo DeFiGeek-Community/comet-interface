@@ -159,11 +159,8 @@ const AmountSelect = ({
   };
 
   const toggleAllButtons = (state: boolean) => {
-    if(isSupply){
-      setStateRepayAllButton(state);
-    }else{
-      setStateWithdrawAllButton(state);
-    }
+    if(isSupply) setStateRepayAllButton(state);
+    else setStateWithdrawAllButton(state);
     if(!state) updateAmount("");
   };
 
