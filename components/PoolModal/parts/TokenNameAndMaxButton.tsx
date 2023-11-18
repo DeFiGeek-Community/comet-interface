@@ -15,8 +15,7 @@ export const TokenNameAndMaxButton = ({
   isSupplyMode,
   isRepayOn,
   isWithdrawOn,
-  baseBorrowBalanceValue,
-  baseSupplyBalanceValue,
+  balanceValue,
   isMaxButtonMode
 }: {
   updateAmount: (newAmount: string) => any;
@@ -28,8 +27,7 @@ export const TokenNameAndMaxButton = ({
   isSupplyMode: boolean;
   isRepayOn: boolean;
   isWithdrawOn: boolean;
-  baseBorrowBalanceValue: number | bigint;
-  baseSupplyBalanceValue: number | bigint;
+  balanceValue: number | bigint;
   isMaxButtonMode: boolean;
 }) => {
   const [isClickLoading, setIsClickLoading] = useState(false);
@@ -48,12 +46,11 @@ export const TokenNameAndMaxButton = ({
     setIsClickLoading(true);
     if(isMaxButtonMode){ updateAmount(formatUnits(maxValue ?? BigInt(0), decimals) ?? "0");}
     else{
+      updateAmount(formatUnits(BigInt(balanceValue), decimals));
       if(isSupplyMode){ 
-        updateAmount(formatUnits(BigInt(baseBorrowBalanceValue), decimals));
         setIsRepayAllButtonOn(!isRepayAllButtonOn);
         toggleRepayAllButton(!isRepayAllButtonOn);
       }else {
-        updateAmount(formatUnits(BigInt(baseSupplyBalanceValue), decimals));
         setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
         toggleWithdrawAllButton(!isWithdrawAllButtonOn);
       }

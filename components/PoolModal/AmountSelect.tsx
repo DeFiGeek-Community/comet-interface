@@ -376,8 +376,7 @@ const AmountSelect = ({
                   isSupplyMode={isSupply}
                   isRepayOn={stateRepayAllButton}
                   isWithdrawOn={stateWithdrawAllButton}
-                  baseBorrowBalanceValue={baseBorrowBalance}
-                  baseSupplyBalanceValue={baseSupplyBalance}
+                  balanceValue={isSupply ? baseBorrowBalance : baseSupplyBalance}
                   isMaxButtonMode={isVisibleMaxButton}
                 />
               </Row>
