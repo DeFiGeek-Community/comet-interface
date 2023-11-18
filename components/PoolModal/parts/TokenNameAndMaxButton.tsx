@@ -7,8 +7,7 @@ import { BaseAsset, CollateralAsset } from "interfaces/pool";
 
 export const TokenNameAndMaxButton = ({
   updateAmount,
-  toggleRepayAllButton,
-  toggleWithdrawAllButton,
+  toggleAllButtons,
   asset,
   maxValue,
   isMaxLoading,
@@ -19,8 +18,7 @@ export const TokenNameAndMaxButton = ({
   isMaxButtonMode
 }: {
   updateAmount: (newAmount: string) => any;
-  toggleRepayAllButton: (isRepayAllButtonOn: boolean) => any;
-  toggleWithdrawAllButton: (isWithdrawAllButtonOn: boolean) => any;
+  toggleAllButtons: (state: boolean) => any;
   asset: BaseAsset | CollateralAsset | undefined;
   maxValue: bigint | undefined;
   isMaxLoading: boolean;
@@ -49,10 +47,10 @@ export const TokenNameAndMaxButton = ({
       updateAmount(formatUnits(BigInt(balanceValue), decimals));
       if(isSupplyMode){ 
         setIsRepayAllButtonOn(!isRepayAllButtonOn);
-        toggleRepayAllButton(!isRepayAllButtonOn);
+        toggleAllButtons(!isRepayAllButtonOn);
       }else {
         setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
-        toggleWithdrawAllButton(!isWithdrawAllButtonOn);
+        toggleAllButtons(!isWithdrawAllButtonOn);
       }
     }
     setIsClickLoading(false);

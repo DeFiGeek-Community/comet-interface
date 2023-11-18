@@ -158,14 +158,14 @@ const AmountSelect = ({
     setUserAction(UserAction.NO_ACTION);
   };
 
-  const toggleRepayAllButton = (isRepayAllButtonOn: boolean) => {
-    setStateRepayAllButton(isRepayAllButtonOn);
-    if(!isRepayAllButtonOn) updateAmount("");
-  };
-
-  const toggleWithdrawAllButton = (isWithdrawAllButtonOn: boolean) => {
-    setStateWithdrawAllButton(isWithdrawAllButtonOn);
-    if(!isWithdrawAllButtonOn) updateAmount("");
+  const toggleAllButtons = (state: boolean) => {
+    if(isSupply){
+      setStateRepayAllButton(state);
+    if(!state) updateAmount("");
+    }else{
+    setStateWithdrawAllButton(state);
+    if(!state) updateAmount("");
+    }
   };
 
   const setAllButtonOff = () => {
@@ -368,8 +368,7 @@ const AmountSelect = ({
                 />
                 <TokenNameAndMaxButton
                   updateAmount={updateAmount}
-                  toggleRepayAllButton={toggleRepayAllButton}
-                  toggleWithdrawAllButton={toggleWithdrawAllButton}
+                  toggleAllButtons={toggleAllButtons}
                   asset={asset}
                   maxValue={maxValue}
                   isMaxLoading={!Boolean(maxValue)}
