@@ -72,7 +72,8 @@ const AmountSelect = ({
 
   const { t } = useTranslation();
 
-  const UintMax = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
+  const UintMax =
+    "115792089237316195423570985008687907853269984665640564039457584007913129639935";
 
   const { reload } = useReload();
 
@@ -107,21 +108,20 @@ const AmountSelect = ({
     let stateSupply = true;
     switch (mode) {
       case Mode.BASE_SUPPLY:
-        if(baseSupplyBalance > 0 || baseBorrowBalance === 0){
+        if (baseSupplyBalance > 0 || baseBorrowBalance === 0) {
           maxValue = tokenBalance?.value;
           shouldShowMaxButton = true;
-        }
-        else{
+        } else {
           shouldShowMaxButton = false;
         }
         stateSupply = true;
         setAllButtonOff();
         break;
       case Mode.BASE_BORROW:
-        if(baseBorrowBalance > 0 || baseSupplyBalance === 0){
+        if (baseBorrowBalance > 0 || baseSupplyBalance === 0) {
           maxValue = baseAvailableToBorrowBigint;
           shouldShowMaxButton = true;
-        }else{
+        } else {
           shouldShowMaxButton = false;
         }
         stateSupply = false;
@@ -159,8 +159,12 @@ const AmountSelect = ({
   };
 
   const toggleAllButtons = (state: boolean) => {
-    {isSupply?setStateRepayAllButton(state):setStateWithdrawAllButton(state)}
-    if(!state) updateAmount("");
+    {
+      isSupply
+        ? setStateRepayAllButton(state)
+        : setStateWithdrawAllButton(state);
+    }
+    if (!state) updateAmount("");
   };
 
   const setAllButtonOff = () => {
@@ -188,7 +192,12 @@ const AmountSelect = ({
       address: poolData.proxy,
       abi: cometAbi,
       functionName: functionName,
-      args: [asset.address, stateRepayAllButton || stateWithdrawAllButton ? BigInt(UintMax) : parseUnits(String(amount), asset.decimals)],
+      args: [
+        asset.address,
+        stateRepayAllButton || stateWithdrawAllButton
+          ? BigInt(UintMax)
+          : parseUnits(String(amount), asset.decimals),
+      ],
     });
     const { hash } = await writeContract(config);
     const data = await waitForTransaction({ hash });
@@ -228,7 +237,10 @@ const AmountSelect = ({
         args: [address ?? "0x0", poolData.proxy],
       });
       console.log("allowanceData", allowanceData);
-      if (Number(formatUnits(allowanceData, asset.decimals)) < Number(amount) && functionName === "supply") {
+      if (
+        Number(formatUnits(allowanceData, asset.decimals)) < Number(amount) &&
+        functionName === "supply"
+      ) {
         console.log("approve");
         await approve();
       }
@@ -359,7 +371,13 @@ const AmountSelect = ({
                   displayAmount={userEnteredAmount}
                   updateAmount={updateAmount}
                   maxValue={maxValue}
-                  disabled={isBase?isSupply?stateRepayAllButton:stateWithdrawAllButton:false}
+                  disabled={
+                    isBase
+                      ? isSupply
+                        ? stateRepayAllButton
+                        : stateWithdrawAllButton
+                      : false
+                  }
                 />
                 <TokenNameAndMaxButton
                   updateAmount={updateAmount}
@@ -370,7 +388,9 @@ const AmountSelect = ({
                   isSupplyMode={isSupply}
                   isRepayOn={stateRepayAllButton}
                   isWithdrawOn={stateWithdrawAllButton}
-                  balanceValue={isSupply ? baseBorrowBalance : baseSupplyBalance}
+                  balanceValue={
+                    isSupply ? baseBorrowBalance : baseSupplyBalance
+                  }
                   isMaxButtonMode={isVisibleMaxButton}
                 />
               </Row>
@@ -413,7 +433,11 @@ const AmountSelect = ({
             _hover={{ transform: "scale(1.02)" }}
             _active={{ transform: "scale(0.95)" }}
             onClick={onConfirm}
-            isDisabled={stateRepayAllButton || stateWithdrawAllButton ? false : amountIsValid || isOperation}
+            isDisabled={
+              stateRepayAllButton || stateWithdrawAllButton
+                ? false
+                : amountIsValid || isOperation
+            }
           >
             {userAction === UserAction.APPROVE_EXECUTING ? (
               t("Execute Approve")

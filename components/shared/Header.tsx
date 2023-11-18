@@ -7,7 +7,7 @@ import { useChainPool } from "hooks/useChainPool";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "context/currencyContext";
 
-const selectStyle = { backgroundColor: "black", color: "white" }
+const selectStyle = { backgroundColor: "black", color: "white" };
 
 export function LanguageChange() {
   const { i18n } = useTranslation();
@@ -27,8 +27,12 @@ export function LanguageChange() {
         <option style={selectStyle} value="" disabled>
           Language
         </option>
-        <option style={selectStyle} value="en">English</option>
-        <option style={selectStyle} value="ja">日本語</option>
+        <option style={selectStyle} value="en">
+          English
+        </option>
+        <option style={selectStyle} value="ja">
+          日本語
+        </option>
       </Select>
     </Box>
   );
@@ -48,8 +52,12 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
         onChange={(event) => toggleCurrency(event.target.value)}
         style={selectStyle}
       >
-        <option style={selectStyle} value="USD">USD</option>
-        <option style={selectStyle} value="JPY">JPY</option>
+        <option style={selectStyle} value="USD">
+          USD
+        </option>
+        <option style={selectStyle} value="JPY">
+          JPY
+        </option>
       </Select>
     </Box>
   );

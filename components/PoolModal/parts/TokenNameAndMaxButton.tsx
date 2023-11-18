@@ -15,7 +15,7 @@ export const TokenNameAndMaxButton = ({
   isRepayOn,
   isWithdrawOn,
   balanceValue,
-  isMaxButtonMode
+  isMaxButtonMode,
 }: {
   updateAmount: (newAmount: string) => any;
   toggleAllButtons: (state: boolean) => any;
@@ -33,6 +33,8 @@ export const TokenNameAndMaxButton = ({
   const [isRepayAllButtonOn, setIsRepayAllButtonOn] = useState(false);
   const [isWithdrawAllButtonOn, setIsWithdrawAllButtonOn] = useState(false);
 
+  const isOn = isRepayAllButtonOn || isWithdrawAllButtonOn;
+
   const { t } = useTranslation();
 
   const decimals = asset?.decimals ?? 0;
@@ -42,13 +44,14 @@ export const TokenNameAndMaxButton = ({
 
   const setToMax = async () => {
     setIsClickLoading(true);
-    if(isMaxButtonMode){ updateAmount(formatUnits(maxValue ?? BigInt(0), decimals) ?? "0");}
-    else{
+    if (isMaxButtonMode) {
+      updateAmount(formatUnits(maxValue ?? BigInt(0), decimals) ?? "0");
+    } else {
       updateAmount(formatUnits(BigInt(balanceValue), decimals));
-      if(isSupplyMode){ 
+      if (isSupplyMode) {
         setIsRepayAllButtonOn(!isRepayAllButtonOn);
         toggleAllButtons(!isRepayAllButtonOn);
-      }else {
+      } else {
         setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
         toggleAllButtons(!isWithdrawAllButtonOn);
       }
@@ -57,8 +60,8 @@ export const TokenNameAndMaxButton = ({
   };
 
   useEffect(() => {
-    if(!isRepayOn)setIsRepayAllButtonOn(false);
-    if(!isWithdrawOn)setIsWithdrawAllButtonOn(false);
+    if (!isRepayOn) setIsRepayAllButtonOn(false);
+    if (!isWithdrawOn) setIsWithdrawAllButtonOn(false);
   }, [isRepayOn, isWithdrawOn]);
 
   return (
@@ -88,6 +91,7 @@ export const TokenNameAndMaxButton = ({
         height="28px"
         minWidth="58px"
         bg="transparent"
+        backgroundColor={isMaxButtonMode ? "black" : !isOn ? "green" : "red"}
         border="2px"
         borderRadius="8px"
         borderColor="#272727"
@@ -99,10 +103,18 @@ export const TokenNameAndMaxButton = ({
         _hover={{}}
         _active={{}}
         onClick={setToMax}
-        isDisabled={isMaxButtonMode?isMaxLoading:false}
+        isDisabled={isMaxButtonMode ? isMaxLoading : false}
         isLoading={isClickLoading}
       >
-        {isMaxButtonMode?t("MAX"):isSupplyMode?t("Repay All"):t("Withdraw All")}
+        {isMaxButtonMode
+          ? t("MAX")
+          : isSupplyMode
+          ? !isOn
+            ? t("Repay All")
+            : t("All cancel")
+          : !isOn
+          ? t("Withdraw All")
+          : t("All cancel")}
       </Button>
     </Row>
   );
