@@ -34,6 +34,14 @@ function getFormatter(currency: string) {
   }
 }
 
+function getfourDecimalFormatter(currency: string) {
+  if (currency === "JPY") {
+    return jfourDecimalUsdFormatter;
+  } else {
+    return fourDecimalUsdFormatter;
+  }
+}
+
 const formatter = Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -83,7 +91,7 @@ export function formatUsdWithFourDecimals(
   currency: string,
   rate: number,
 ) {
-  const selectedFormatter = getFormatter(currency);
+  const selectedFormatter = getfourDecimalFormatter(currency);
   return selectedFormatter.format(num / rate);
 }
 
