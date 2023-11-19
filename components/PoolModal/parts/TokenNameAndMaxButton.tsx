@@ -4,16 +4,16 @@ import { Heading, Box, Button, Image } from "@chakra-ui/react";
 import { formatUnits } from "viem";
 import { Row } from "utils/chakraUtils";
 import { BaseAsset, CollateralAsset } from "interfaces/pool";
+import { Mode } from "components/PoolModal";
 
 export const TokenNameAndMaxButton = ({
   updateAmount,
   toggleAllButtons,
   asset,
   maxValue,
+  mode,
   isMaxLoading,
   isSupplyMode,
-  isRepayOn,
-  isWithdrawOn,
   balanceValue,
   isMaxButtonMode,
 }: {
@@ -21,19 +21,15 @@ export const TokenNameAndMaxButton = ({
   toggleAllButtons: (state: boolean) => any;
   asset: BaseAsset | CollateralAsset | undefined;
   maxValue: bigint | undefined;
+  mode: Mode;
   isMaxLoading: boolean;
   isSupplyMode: boolean;
-  isRepayOn: boolean;
-  isWithdrawOn: boolean;
   balanceValue: number | bigint;
   isMaxButtonMode: boolean;
 }) => {
   const [isClickLoading, setIsClickLoading] = useState(false);
 
-  const [isRepayAllButtonOn, setIsRepayAllButtonOn] = useState(false);
-  const [isWithdrawAllButtonOn, setIsWithdrawAllButtonOn] = useState(false);
-
-  const isOn = isRepayAllButtonOn || isWithdrawAllButtonOn;
+  const [isAllButtonOn, setIsAllButtonOn] = useState(false);
 
   const { t } = useTranslation();
 
@@ -42,27 +38,40 @@ export const TokenNameAndMaxButton = ({
     asset?.logoURL ??
     "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg";
 
+  useEffect(() => {
+    setIsAllButtonOn(false);
+  }, [mode]);
+
   const setToMax = async () => {
     setIsClickLoading(true);
     if (isMaxButtonMode) {
       updateAmount(formatUnits(maxValue ?? BigInt(0), decimals) ?? "0");
     } else {
       updateAmount(formatUnits(BigInt(balanceValue), decimals));
-      if (isSupplyMode) {
-        setIsRepayAllButtonOn(!isRepayAllButtonOn);
-        toggleAllButtons(!isRepayAllButtonOn);
-      } else {
-        setIsWithdrawAllButtonOn(!isWithdrawAllButtonOn);
-        toggleAllButtons(!isWithdrawAllButtonOn);
-      }
+      toggleAllButtons(!isAllButtonOn);
+      setIsAllButtonOn(!isAllButtonOn);
     }
     setIsClickLoading(false);
   };
 
-  useEffect(() => {
-    if (!isRepayOn) setIsRepayAllButtonOn(false);
-    if (!isWithdrawOn) setIsWithdrawAllButtonOn(false);
-  }, [isRepayOn, isWithdrawOn]);
+  const getButtonProps = () => {
+    if (isMaxButtonMode) {
+      return { backgroundColor: "black", label: t("MAX") };
+    }
+
+    return {
+      backgroundColor: isAllButtonOn ? "#E53E3E" : "#38A169",
+      label: isSupplyMode
+        ? isAllButtonOn
+          ? t("All cancel")
+          : t("Repay All")
+        : isAllButtonOn
+        ? t("All cancel")
+        : t("Withdraw All"),
+    };
+  };
+
+  const { backgroundColor, label } = getButtonProps();
 
   return (
     <Row
@@ -91,7 +100,7 @@ export const TokenNameAndMaxButton = ({
         height="28px"
         minWidth="58px"
         bg="transparent"
-        backgroundColor={isMaxButtonMode ? "black" : !isOn ? "green" : "red"}
+        backgroundColor={backgroundColor}
         border="2px"
         borderRadius="8px"
         borderColor="#272727"
@@ -106,15 +115,7 @@ export const TokenNameAndMaxButton = ({
         isDisabled={isMaxButtonMode ? isMaxLoading : false}
         isLoading={isClickLoading}
       >
-        {isMaxButtonMode
-          ? t("MAX")
-          : isSupplyMode
-          ? !isOn
-            ? t("Repay All")
-            : t("All cancel")
-          : !isOn
-          ? t("Withdraw All")
-          : t("All cancel")}
+        {label}
       </Button>
     </Row>
   );

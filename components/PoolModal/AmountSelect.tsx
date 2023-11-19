@@ -61,14 +61,12 @@ const AmountSelect = ({
     () => new BigNumber(0),
   );
 
-  const [isVisibleMaxButton, setIsVisibleMaxButton] = useState(true);
+  const [isMaxButtonMode, setIsMaxButtonMode] = useState(true);
   const [isSupply, setIsSupply] = useState(true);
-
-  const [stateRepayAllButton, setStateRepayAllButton] = useState(false);
-  const [stateWithdrawAllButton, setStateWithdrawAllButton] = useState(false);
-
+  const [stateAllButton, setAllButton] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isOperation, setIsOperation] = useState(false);
+  const [maxValue, setMaxValue] = useState<bigint | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -101,44 +99,47 @@ const AmountSelect = ({
     ? BigInt(0)
     : parseUnits(baseAvailableToBorrow.toString(), poolData.cometDecimals);
 
-  let maxValue;
-
   useEffect(() => {
     let shouldShowMaxButton = true;
-    let stateSupply = true;
     switch (mode) {
       case Mode.BASE_SUPPLY:
-        if (baseSupplyBalance > 0 || baseBorrowBalance === 0) {
-          maxValue = tokenBalance?.value;
+        if (baseSupplyBalance > 0 || baseBorrowBalance == 0) {
+          setMaxValue(tokenBalance?.value);
           shouldShowMaxButton = true;
         } else {
           shouldShowMaxButton = false;
         }
-        stateSupply = true;
-        setAllButtonOff();
+        setIsSupply(true);
+        setAllButton(false);
         break;
       case Mode.BASE_BORROW:
-        if (baseBorrowBalance > 0 || baseSupplyBalance === 0) {
-          maxValue = baseAvailableToBorrowBigint;
+        if (baseBorrowBalance > 0 || baseSupplyBalance == 0) {
+          setMaxValue(baseAvailableToBorrowBigint);
           shouldShowMaxButton = true;
         } else {
           shouldShowMaxButton = false;
         }
-        stateSupply = false;
-        setAllButtonOff();
+        setIsSupply(false);
+        setAllButton(false);
         break;
       case Mode.SUPPLY:
-        maxValue = tokenBalance?.value;
+        setMaxValue(tokenBalance?.value);
         break;
       case Mode.WITHDRAW:
-        maxValue = collateralAssetData?.yourSupply;
+        setMaxValue(collateralAssetData?.yourSupply);
         break;
       default:
         break;
     }
-    setIsVisibleMaxButton(shouldShowMaxButton);
-    setIsSupply(stateSupply);
-  }, [mode, baseSupplyBalance, baseBorrowBalance]);
+    setIsMaxButtonMode(shouldShowMaxButton);
+  }, [
+    mode,
+    baseSupplyBalance,
+    baseBorrowBalance,
+    baseAvailableToBorrowBigint,
+    tokenBalance,
+    collateralAssetData,
+  ]);
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
@@ -159,17 +160,8 @@ const AmountSelect = ({
   };
 
   const toggleAllButtons = (state: boolean) => {
-    {
-      isSupply
-        ? setStateRepayAllButton(state)
-        : setStateWithdrawAllButton(state);
-    }
+    setAllButton(state);
     if (!state) updateAmount("");
-  };
-
-  const setAllButtonOff = () => {
-    setStateRepayAllButton(false);
-    setStateWithdrawAllButton(false);
   };
 
   const approve = async () => {
@@ -194,7 +186,7 @@ const AmountSelect = ({
       functionName: functionName,
       args: [
         asset.address,
-        stateRepayAllButton || stateWithdrawAllButton
+        stateAllButton
           ? BigInt(UintMax)
           : parseUnits(String(amount), asset.decimals),
       ],
@@ -371,27 +363,20 @@ const AmountSelect = ({
                   displayAmount={userEnteredAmount}
                   updateAmount={updateAmount}
                   maxValue={maxValue}
-                  disabled={
-                    isBase
-                      ? isSupply
-                        ? stateRepayAllButton
-                        : stateWithdrawAllButton
-                      : false
-                  }
+                  disabled={isBase ? stateAllButton : false}
                 />
                 <TokenNameAndMaxButton
                   updateAmount={updateAmount}
                   toggleAllButtons={toggleAllButtons}
                   asset={asset}
                   maxValue={maxValue}
+                  mode={mode}
                   isMaxLoading={!Boolean(maxValue)}
                   isSupplyMode={isSupply}
-                  isRepayOn={stateRepayAllButton}
-                  isWithdrawOn={stateWithdrawAllButton}
                   balanceValue={
                     isSupply ? baseBorrowBalance : baseSupplyBalance
                   }
-                  isMaxButtonMode={isVisibleMaxButton}
+                  isMaxButtonMode={isMaxButtonMode}
                 />
               </Row>
             </DashboardBox>
@@ -433,11 +418,7 @@ const AmountSelect = ({
             _hover={{ transform: "scale(1.02)" }}
             _active={{ transform: "scale(0.95)" }}
             onClick={onConfirm}
-            isDisabled={
-              stateRepayAllButton || stateWithdrawAllButton
-                ? false
-                : amountIsValid || isOperation
-            }
+            isDisabled={stateAllButton ? false : amountIsValid || isOperation}
           >
             {userAction === UserAction.APPROVE_EXECUTING ? (
               t("Execute Approve")
