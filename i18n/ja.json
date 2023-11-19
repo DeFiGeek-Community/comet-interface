@@ -1,4 +1,5 @@
 {
+  "All cancel": "全額解除",
   "An error occurred!": "エラーが発生しました",
   "Approve underway": "承認中",
   "Asset": "資産",
@@ -36,6 +37,7 @@
   "This is how much you have borrowed": {
     "": "既存の借入額"
   },
+  "Repay All": "全額返済",
   "Token Claim": "請求",
   "Token Reward": "トークン報酬",
   "tooltipMessage": "{{liquidationPoint}}の清算猶予枠の内、{{liquidationPercentage}}%を利用中です",
@@ -45,6 +47,7 @@
   "USDC Pool": "USDCプール",
   "Withdraw": "引出",
   "Withdraw (Borrow)": "引出（もしくは借入）",
+  "Withdraw All": "全額引出",
   "Your Borrow": "借入",
   "Your Supply": "預入",
   "Your Token Reward": "報酬"

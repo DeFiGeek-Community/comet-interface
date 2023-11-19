@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
 import { Heading, Box, Button, Text, Image, Spinner } from "@chakra-ui/react";
@@ -61,10 +61,17 @@ const AmountSelect = ({
     () => new BigNumber(0),
   );
 
+  const [isMaxButtonMode, setIsMaxButtonMode] = useState(true);
+  const [isSupply, setIsSupply] = useState(true);
+  const [stateAllButton, setAllButton] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isOperation, setIsOperation] = useState(false);
+  const [maxValue, setMaxValue] = useState<bigint | undefined>(undefined);
 
   const { t } = useTranslation();
+
+  const UintMax =
+    "115792089237316195423570985008687907853269984665640564039457584007913129639935";
 
   const { reload } = useReload();
 
@@ -92,36 +99,52 @@ const AmountSelect = ({
     ? BigInt(0)
     : parseUnits(baseAvailableToBorrow.toString(), poolData.cometDecimals);
 
-  let maxValue;
-
-  switch (mode) {
-    case Mode.BASE_SUPPLY:
-      maxValue =
-        baseSupplyBalance > 0 || baseBorrowBalance === 0
-          ? tokenBalance?.value
-          : baseAssetData?.yourBorrow;
-      break;
-    case Mode.BASE_BORROW:
-      maxValue =
-        baseBorrowBalance > 0 || baseSupplyBalance === 0
-          ? baseAvailableToBorrowBigint
-          : baseAssetData?.yourSupply;
-      break;
-    case Mode.SUPPLY:
-      maxValue = tokenBalance?.value;
-      break;
-    case Mode.WITHDRAW:
-      maxValue = collateralAssetData?.yourSupply;
-      break;
-    default:
-      break;
-  }
+  useEffect(() => {
+    let shouldShowMaxButton = true;
+    switch (mode) {
+      case Mode.BASE_SUPPLY:
+        if (baseSupplyBalance > 0 || baseBorrowBalance == 0) {
+          setMaxValue(tokenBalance?.value);
+          shouldShowMaxButton = true;
+        } else {
+          shouldShowMaxButton = false;
+        }
+        setIsSupply(true);
+        setAllButton(false);
+        break;
+      case Mode.BASE_BORROW:
+        if (baseBorrowBalance > 0 || baseSupplyBalance == 0) {
+          setMaxValue(baseAvailableToBorrowBigint);
+          shouldShowMaxButton = true;
+        } else {
+          shouldShowMaxButton = false;
+        }
+        setIsSupply(false);
+        setAllButton(false);
+        break;
+      case Mode.SUPPLY:
+        setMaxValue(tokenBalance?.value);
+        break;
+      case Mode.WITHDRAW:
+        setMaxValue(collateralAssetData?.yourSupply);
+        break;
+      default:
+        break;
+    }
+    setIsMaxButtonMode(shouldShowMaxButton);
+  }, [
+    mode,
+    baseSupplyBalance,
+    baseBorrowBalance,
+    baseAvailableToBorrowBigint,
+    tokenBalance,
+    collateralAssetData,
+  ]);
 
   const updateAmount = (newAmount: string) => {
     if (newAmount.startsWith("-")) {
       return;
     }
-
     _setUserEnteredAmount(newAmount);
 
     try {
@@ -134,6 +157,11 @@ const AmountSelect = ({
     }
 
     setUserAction(UserAction.NO_ACTION);
+  };
+
+  const toggleAllButtons = (state: boolean) => {
+    setAllButton(state);
+    if (!state) updateAmount("");
   };
 
   const approve = async () => {
@@ -156,7 +184,12 @@ const AmountSelect = ({
       address: poolData.proxy,
       abi: cometAbi,
       functionName: functionName,
-      args: [asset.address, parseUnits(String(amount), asset.decimals)],
+      args: [
+        asset.address,
+        stateAllButton
+          ? BigInt(UintMax)
+          : parseUnits(String(amount), asset.decimals),
+      ],
     });
     const { hash } = await writeContract(config);
     const data = await waitForTransaction({ hash });
@@ -196,7 +229,10 @@ const AmountSelect = ({
         args: [address ?? "0x0", poolData.proxy],
       });
       console.log("allowanceData", allowanceData);
-      if (Number(formatUnits(allowanceData, asset.decimals)) < Number(amount) && functionName === "supply") {
+      if (
+        Number(formatUnits(allowanceData, asset.decimals)) < Number(amount) &&
+        functionName === "supply"
+      ) {
         console.log("approve");
         await approve();
       }
@@ -327,12 +363,20 @@ const AmountSelect = ({
                   displayAmount={userEnteredAmount}
                   updateAmount={updateAmount}
                   maxValue={maxValue}
+                  disabled={isBase ? stateAllButton : false}
                 />
                 <TokenNameAndMaxButton
                   updateAmount={updateAmount}
+                  toggleAllButtons={toggleAllButtons}
                   asset={asset}
                   maxValue={maxValue}
+                  mode={mode}
                   isMaxLoading={!Boolean(maxValue)}
+                  isSupplyMode={isSupply}
+                  balanceValue={
+                    isSupply ? baseBorrowBalance : baseSupplyBalance
+                  }
+                  isMaxButtonMode={isMaxButtonMode}
                 />
               </Row>
             </DashboardBox>
@@ -374,7 +418,7 @@ const AmountSelect = ({
             _hover={{ transform: "scale(1.02)" }}
             _active={{ transform: "scale(0.95)" }}
             onClick={onConfirm}
-            isDisabled={amountIsValid || isOperation}
+            isDisabled={stateAllButton ? false : amountIsValid || isOperation}
           >
             {userAction === UserAction.APPROVE_EXECUTING ? (
               t("Execute Approve")
