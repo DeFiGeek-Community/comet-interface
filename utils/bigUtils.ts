@@ -34,6 +34,14 @@ function getFormatter(currency: string) {
   }
 }
 
+function getfourDecimalFormatter(currency: string) {
+  if (currency === "JPY") {
+    return jfourDecimalUsdFormatter;
+  } else {
+    return fourDecimalUsdFormatter;
+  }
+}
+
 const formatter = Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -59,11 +67,11 @@ const jformatter = Intl.NumberFormat("ja-JP", {
   maximumFractionDigits: 0,
 });
 
-const jfourDecimalUsdFormatter = Intl.NumberFormat("en-US", {
+const jfourDecimalUsdFormatter = Intl.NumberFormat("ja-JP", {
   style: "currency",
   currency: "JPY",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 4,
+  maximumFractionDigits: 4,
 });
 
 const jshortFormatter = new Intl.NumberFormat("en-US", {
@@ -83,7 +91,7 @@ export function formatUsdWithFourDecimals(
   currency: string,
   rate: number,
 ) {
-  const selectedFormatter = getFormatter(currency);
+  const selectedFormatter = getfourDecimalFormatter(currency);
   return selectedFormatter.format(num / rate);
 }
 
