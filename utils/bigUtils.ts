@@ -70,8 +70,8 @@ const jformatter = Intl.NumberFormat("ja-JP", {
 const jfourDecimalUsdFormatter = Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "JPY",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 4,
+  maximumFractionDigits: 4,
 });
 
 const jshortFormatter = new Intl.NumberFormat("en-US", {
