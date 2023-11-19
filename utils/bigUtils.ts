@@ -67,7 +67,7 @@ const jformatter = Intl.NumberFormat("ja-JP", {
   maximumFractionDigits: 0,
 });
 
-const jfourDecimalUsdFormatter = Intl.NumberFormat("en-US", {
+const jfourDecimalUsdFormatter = Intl.NumberFormat("ja-JP", {
   style: "currency",
   currency: "JPY",
   minimumFractionDigits: 4,
