@@ -70,16 +70,14 @@ const PoolList = memo(() => {
                   <Thead>
                     <Tr>
                       <Th>Pool Assets</Th>
-                      <Th isNumeric>Pool Number</Th>
-                      <Th isNumeric>Total Supplied</Th>
-                      <Th isNumeric>Total Borrowed</Th>
-                      <Th isNumeric>Pool Risk Score</Th>
+                      <Th isNumeric>Total Supply Balance</Th>
+                      <Th isNumeric>Total Borrow Balance</Th>
+                      <Th isNumeric>Collateral Total Balance</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
                     <Tr>
                       <Td>⭕️⭕️⭕️⭕️</Td>
-                      <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>
@@ -89,23 +87,20 @@ const PoolList = memo(() => {
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>30.48</Td>
                       <Td isNumeric>25.4</Td>
-                      <Td isNumeric>25.4</Td>
                     </Tr>
                     <Tr>
                       <Td>⭕️⭕️⭕️⭕️</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>0.91444</Td>
                       <Td isNumeric>25.4</Td>
-                      <Td isNumeric>25.4</Td>
                     </Tr>
                   </Tbody>
                   <Tfoot>
                     <Tr>
-                      <Th>Pool Assets</Th>
-                      <Th isNumeric>Pool Number</Th>
-                      <Th isNumeric>Total Supplied</Th>
-                      <Th isNumeric>Total Borrowed</Th>
-                      <Th isNumeric>Pool Risk Score</Th>
+                    <Th>Pool Assets</Th>
+                      <Th isNumeric>Total Supply Balance</Th>
+                      <Th isNumeric>Total Borrow Balance</Th>
+                      <Th isNumeric>Collateral Total Balance</Th>
                     </Tr>
                   </Tfoot>
                 </Table>
