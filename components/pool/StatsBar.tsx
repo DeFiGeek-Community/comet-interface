@@ -59,7 +59,7 @@ const StatsBar = ({
       height={isMobile ? "auto" : "170px"}
     >
       <DashboardBox
-        width={isMobile ? "100%" : "50%"}
+        width={isMobile ? "100%" : isPoolList ? "100%" : "50%"}
         height={isMobile ? "auto" : "100%"}
       >
         <Column
@@ -87,13 +87,7 @@ const StatsBar = ({
         </Column>
       </DashboardBox>
 
-      {isPoolList ? (
-        <DashboardBox
-          width={isMobile ? "100%" : "50%"}
-          height={isMobile ? "auto" : "100%"}
-          marginLeft={"20px"}
-        ></DashboardBox>
-      ) : (
+      {!isPoolList && (
         <RowOrColumn
           isRow={!isMobile}
           mainAxisAlignment="flex-start"

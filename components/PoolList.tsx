@@ -56,13 +56,17 @@ const PoolList = memo(() => {
             <Header />
             {/* <TabBar /> */}
             <StatsBar poolData={poolData} isPoolList={true} />
-            <CollateralRatioBar poolData={poolData} />
-            <DashboardBox width="100%" height="100%" mt={4} p={4}>
+            <DashboardBox
+              width="100%"
+              height="100%"
+              mt={4}
+              p={4}
+              fontSize="lm"
+              fontWeight="bold"
+            >
               <TableContainer>
                 <Table variant="simple">
-                  <TableCaption>
-                    Pool List
-                  </TableCaption>
+                  <TableCaption>Pool List</TableCaption>
                   <Thead>
                     <Tr>
                       <Th>Pool Assets</Th>
