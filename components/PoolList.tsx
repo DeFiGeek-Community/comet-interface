@@ -1,5 +1,16 @@
 import React, { memo, useEffect } from "react";
 import { Spinner } from "@chakra-ui/react";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Column, Center, useIsMobile } from "utils/chakraUtils";
 import usePoolData from "hooks/pool/shared/usePoolConfig";
@@ -46,7 +57,56 @@ const PoolList = memo(() => {
             {/* <TabBar /> */}
             <StatsBar poolData={poolData} isPoolList={true} />
             <CollateralRatioBar poolData={poolData} />
-
+            <DashboardBox width="100%" height="100%" mt={4} p={4}>
+              <TableContainer>
+                <Table variant="simple">
+                  <TableCaption>
+                    Pool List
+                  </TableCaption>
+                  <Thead>
+                    <Tr>
+                      <Th>Pool Assets</Th>
+                      <Th isNumeric>Pool Number</Th>
+                      <Th isNumeric>Total Supplied</Th>
+                      <Th isNumeric>Total Borrowed</Th>
+                      <Th isNumeric>Pool Risk Score</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    <Tr>
+                      <Td>⭕️⭕️⭕️⭕️</Td>
+                      <Td isNumeric>25.4</Td>
+                      <Td isNumeric>25.4</Td>
+                      <Td isNumeric>25.4</Td>
+                      <Td isNumeric>25.4</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>⭕️⭕️⭕️⭕️</Td>
+                      <Td isNumeric>25.4</Td>
+                      <Td isNumeric>30.48</Td>
+                      <Td isNumeric>25.4</Td>
+                      <Td isNumeric>25.4</Td>
+                    </Tr>
+                    <Tr>
+                      <Td>⭕️⭕️⭕️⭕️</Td>
+                      <Td isNumeric>25.4</Td>
+                      <Td isNumeric>0.91444</Td>
+                      <Td isNumeric>25.4</Td>
+                      <Td isNumeric>25.4</Td>
+                    </Tr>
+                  </Tbody>
+                  <Tfoot>
+                    <Tr>
+                      <Th>Pool Assets</Th>
+                      <Th isNumeric>Pool Number</Th>
+                      <Th isNumeric>Total Supplied</Th>
+                      <Th isNumeric>Total Borrowed</Th>
+                      <Th isNumeric>Pool Risk Score</Th>
+                    </Tr>
+                  </Tfoot>
+                </Table>
+              </TableContainer>
+            </DashboardBox>
             <Footer />
           </Column>
         </PoolSecondaryDataProvider>
