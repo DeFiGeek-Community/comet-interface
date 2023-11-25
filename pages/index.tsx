@@ -3,6 +3,7 @@ import { useNetwork } from "wagmi";
 import { HashLoader } from "react-spinners";
 import { Center } from "utils/chakraUtils";
 import PoolPage from "components/PoolPage";
+import PoolList from "components/PoolList";
 import { ReloadContextProvider } from "components/Provider/ReloadContextProvider";
 import { PoolContext } from "context/PoolContext";
 import { useRouter } from "next/router";
@@ -37,7 +38,7 @@ const Pool = () => {
     >
       <ReloadContextProvider>
         {isRendered && router.isReady ? (
-          <PoolPage />
+          <PoolList />
         ) : (
           <Center height="100vh">
             <HashLoader color="#FFF" />
