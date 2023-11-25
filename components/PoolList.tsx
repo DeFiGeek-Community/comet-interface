@@ -44,8 +44,9 @@ const PoolList = memo(() => {
           >
             <Header />
             {/* <TabBar /> */}
-            <StatsBar poolData={poolData} />
+            <StatsBar poolData={poolData} isPoolList={true} />
             <CollateralRatioBar poolData={poolData} />
+
             <Footer />
           </Column>
         </PoolSecondaryDataProvider>

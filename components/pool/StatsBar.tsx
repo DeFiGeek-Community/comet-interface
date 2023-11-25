@@ -16,7 +16,13 @@ import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
 import { useCurrency } from "context/currencyContext";
 
-const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
+const StatsBar = ({
+  poolData,
+  isPoolList,
+}: {
+  poolData?: PoolConfig;
+  isPoolList?: boolean;
+}) => {
   const isMobile = useIsSmallScreen();
   const symbol = poolData?.baseToken.symbol ?? "";
   const { priceFeedData, totalPoolData } = usePoolPrimaryDataContext();
@@ -81,107 +87,115 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
         </Column>
       </DashboardBox>
 
-      <RowOrColumn
-        isRow={!isMobile}
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="flex-start"
-        height="100%"
-        width={isMobile ? "100%" : "50%"}
-      >
+      {isPoolList ? (
+        <DashboardBox
+          width={isMobile ? "100%" : "50%"}
+          height={isMobile ? "auto" : "100%"}
+          marginLeft={"20px"}
+        ></DashboardBox>
+      ) : (
         <RowOrColumn
-          isRow={false}
+          isRow={!isMobile}
           mainAxisAlignment="flex-start"
           crossAxisAlignment="flex-start"
           height="100%"
-          width={isMobile ? "100%" : "60%"}
+          width={isMobile ? "100%" : "50%"}
         >
-          <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
-            <CaptionedStat
-              crossAxisAlignment="center"
-              captionFirst={false}
-              statSize={isMobile ? "3xl" : "2xl"}
-              captionSize="sm"
-              stat={
-                totalPoolData?.totalBaseSupplyBalance !== undefined &&
-                priceFeedData?.baseAsset !== undefined
-                  ? smallUsdPriceFormatter(
-                      totalPoolData?.totalBaseSupplyBalance,
-                      priceFeedData.baseAsset,
-                      currency,
-                      rate || 0,
-                    )
-                  : "$ ?"
-              }
-              caption={t("Total {{symbol}} Supply Balance", { symbol })}
-            />
-          </StatBox>
-          <StatBox width={isMobile ? "100%" : "98%"}>
-            <CaptionedStat
-              crossAxisAlignment="center"
-              captionFirst={false}
-              statSize={isMobile ? "3xl" : "2xl"}
-              captionSize="sm"
-              stat={
-                totalCollateralUsdBalance !== undefined
-                  ? smallUsdFormatter(
-                      totalCollateralUsdBalance,
-                      currency,
-                      rate || 0,
-                    )
-                  : "$ ?"
-              }
-              caption={t("Total Collateral Balance")}
-            />
-          </StatBox>
-        </RowOrColumn>
+          <RowOrColumn
+            isRow={false}
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="flex-start"
+            height="100%"
+            width={isMobile ? "100%" : "60%"}
+          >
+            <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
+              <CaptionedStat
+                crossAxisAlignment="center"
+                captionFirst={false}
+                statSize={isMobile ? "3xl" : "2xl"}
+                captionSize="sm"
+                stat={
+                  totalPoolData?.totalBaseSupplyBalance !== undefined &&
+                  priceFeedData?.baseAsset !== undefined
+                    ? smallUsdPriceFormatter(
+                        totalPoolData?.totalBaseSupplyBalance,
+                        priceFeedData.baseAsset,
+                        currency,
+                        rate || 0,
+                      )
+                    : "$ ?"
+                }
+                caption={t("Total {{symbol}} Supply Balance", { symbol })}
+              />
+            </StatBox>
+            <StatBox width={isMobile ? "100%" : "98%"}>
+              <CaptionedStat
+                crossAxisAlignment="center"
+                captionFirst={false}
+                statSize={isMobile ? "3xl" : "2xl"}
+                captionSize="sm"
+                stat={
+                  totalCollateralUsdBalance !== undefined
+                    ? smallUsdFormatter(
+                        totalCollateralUsdBalance,
+                        currency,
+                        rate || 0,
+                      )
+                    : "$ ?"
+                }
+                caption={t("Total Collateral Balance")}
+              />
+            </StatBox>
+          </RowOrColumn>
 
-        <RowOrColumn
-          isRow={false}
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-start"
-          height="100%"
-          width={isMobile ? "100%" : "60%"}
-        >
-          <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
-            <CaptionedStat
-              crossAxisAlignment="center"
-              captionFirst={false}
-              statSize={isMobile ? "3xl" : "2xl"}
-              captionSize="sm"
-              stat={
-                totalPoolData?.totalBaseBorrowBalance !== undefined &&
-                priceFeedData?.baseAsset !== undefined
-                  ? smallUsdPriceFormatter(
-                      totalPoolData.totalBaseBorrowBalance,
-                      priceFeedData.baseAsset,
-                      currency,
-                      rate || 0,
-                    )
-                  : "$ ?"
-              }
-              caption={t("Total {{symbol}} Borrow Balance", { symbol })}
-            />
-          </StatBox>
-          <StatBox width={isMobile ? "100%" : "98%"}>
-            <CaptionedStat
-              crossAxisAlignment="center"
-              captionFirst={false}
-              statSize={isMobile ? "3xl" : "2xl"}
-              captionSize="sm"
-              stat={
-                priceFeedData?.baseAsset !== undefined
-                  ? formatUsdWithFourDecimals(
-                      priceFeedData?.baseAsset,
-                      currency,
-                      rate || 0,
-                    )
-                  : "$ ?"
-              }
-              caption={t("Base Token Oracle Price")}
-            />
-          </StatBox>
+          <RowOrColumn
+            isRow={false}
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="flex-start"
+            height="100%"
+            width={isMobile ? "100%" : "60%"}
+          >
+            <StatBox mb={!isMobile && 2} width={isMobile ? "100%" : "98%"}>
+              <CaptionedStat
+                crossAxisAlignment="center"
+                captionFirst={false}
+                statSize={isMobile ? "3xl" : "2xl"}
+                captionSize="sm"
+                stat={
+                  totalPoolData?.totalBaseBorrowBalance !== undefined &&
+                  priceFeedData?.baseAsset !== undefined
+                    ? smallUsdPriceFormatter(
+                        totalPoolData.totalBaseBorrowBalance,
+                        priceFeedData.baseAsset,
+                        currency,
+                        rate || 0,
+                      )
+                    : "$ ?"
+                }
+                caption={t("Total {{symbol}} Borrow Balance", { symbol })}
+              />
+            </StatBox>
+            <StatBox width={isMobile ? "100%" : "98%"}>
+              <CaptionedStat
+                crossAxisAlignment="center"
+                captionFirst={false}
+                statSize={isMobile ? "3xl" : "2xl"}
+                captionSize="sm"
+                stat={
+                  priceFeedData?.baseAsset !== undefined
+                    ? formatUsdWithFourDecimals(
+                        priceFeedData?.baseAsset,
+                        currency,
+                        rate || 0,
+                      )
+                    : "$ ?"
+                }
+                caption={t("Base Token Oracle Price")}
+              />
+            </StatBox>
+          </RowOrColumn>
         </RowOrColumn>
-      </RowOrColumn>
+      )}
     </RowOrColumn>
   );
 };
