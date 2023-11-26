@@ -75,17 +75,9 @@ const PoolList = memo(() => {
                       <Th isNumeric>Collateral Total Balance</Th>
                     </Tr>
                   </Thead>
-                  <Thead>
-                    <Tr>
-                      <Th>Base Assets</Th>
-                      <Th></Th>
-                      <Th></Th>
-                      <Th></Th>
-                    </Tr>
-                  </Thead>
                   <Tbody>
                     <Tr>
-                      <Td>⭕️⭕️⭕️⭕️</Td>
+                      <Td>CJPY Pool</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>
@@ -98,34 +90,6 @@ const PoolList = memo(() => {
                     </Tr>
                     <Tr>
                       <Td>⭕️⭕️⭕️⭕️</Td>
-                      <Td isNumeric>25.4</Td>
-                      <Td isNumeric>0.91444</Td>
-                      <Td isNumeric>25.4</Td>
-                    </Tr>
-                  </Tbody>
-                  <Thead>
-                    <Tr>
-                      <Th>Collateral Assets</Th>
-                      <Th></Th>
-                      <Th></Th>
-                      <Th></Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    <Tr>
-                      <Td>🟠🟠🟠🟠</Td>
-                      <Td isNumeric>25.4</Td>
-                      <Td isNumeric>25.4</Td>
-                      <Td isNumeric>25.4</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>🟠🟠🟠🟠</Td>
-                      <Td isNumeric>25.4</Td>
-                      <Td isNumeric>30.48</Td>
-                      <Td isNumeric>25.4</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>🟠🟠🟠🟠</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>0.91444</Td>
                       <Td isNumeric>25.4</Td>

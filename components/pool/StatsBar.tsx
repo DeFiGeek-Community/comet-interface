@@ -77,9 +77,14 @@ const StatsBar = ({
           >
             {/* Title */}
             <WhitelistedIcon mb={1} />
+            {isPoolList?
+            <Heading size="lg" isTruncated>
+              punodwoɔ
+            </Heading>:
             <Heading size="lg" isTruncated>
               {symbol} {"Pool"}
             </Heading>
+            }
           </Row>
 
           {/* Description */}
