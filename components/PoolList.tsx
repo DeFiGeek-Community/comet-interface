@@ -97,7 +97,7 @@ const PoolList = memo(() => {
                   </Tbody>
                   <Tfoot>
                     <Tr>
-                    <Th>Pool Assets</Th>
+                      <Th>Pool Assets</Th>
                       <Th isNumeric>Total Supply Balance</Th>
                       <Th isNumeric>Total Borrow Balance</Th>
                       <Th isNumeric>Collateral Total Balance</Th>
