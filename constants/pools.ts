@@ -123,7 +123,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       ],
     },
     [SupportedPoolName[SupportedChainId.MAINNET].crvUSD]: {
-      proxy: "0xAA59F501c92092E624D30Cff77eAFf5EA4E7BfA2",
+      proxy: "0xE0e2d860797eF02F18c474847787A6C8f8389044",
       reward: "0xA1D458530da3C4a4F0ED26BEC5E6CdE6ad0B7aC4",
       cometDecimals: 18,
       baseToken: {
@@ -227,7 +227,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       ],
     },
     [SupportedPoolName[SupportedChainId.MAINNET].WETH]: {
-      proxy: "0xAA59F501c92092E624D30Cff77eAFf5EA4E7BfA2",
+      proxy: "0x2bf8B07e41572FB09d9F002b2500E3eeDC5d7922",
       reward: "0xA1D458530da3C4a4F0ED26BEC5E6CdE6ad0B7aC4",
       cometDecimals: 18,
       baseToken: {
