@@ -27,6 +27,7 @@ import DashboardBox from "components/shared/DashboardBox";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 import { CurrencyProvider } from "components/Provider/currencyProvider";
+import Link from 'next/link'
 
 const PoolList = memo(() => {
   const isMobile = useIsMobile();
@@ -77,7 +78,17 @@ const PoolList = memo(() => {
                   </Thead>
                   <Tbody>
                     <Tr>
-                      <Td>CJPY Pool</Td>
+                      <Td>
+                        {/* <Link
+                  href={{
+                    pathname: '/blog/[slug]',
+                    query: { slug: 'my-post' },
+                  }}
+                > */}
+                {/*<Link href={{ pathname: '/PoolPage', query: { pool: 'CJPY' } }}>*/}
+                  CJPY Pool
+                {/*</Link>*/}
+                </Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>

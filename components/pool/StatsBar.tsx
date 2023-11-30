@@ -79,7 +79,8 @@ const StatsBar = ({
             <WhitelistedIcon mb={1} />
             {isPoolList ? (
               <Heading size="lg" isTruncated>
-                punodwoɔ
+                
+                  punodwoɔ
               </Heading>
             ) : (
               <Heading size="lg" isTruncated>
