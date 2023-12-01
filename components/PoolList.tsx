@@ -28,8 +28,11 @@ import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 import { CurrencyProvider } from "components/Provider/currencyProvider";
 import Link from 'next/link'
+import { useTranslation } from "react-i18next";
 
 const PoolList = memo(() => {
+  const { t } = useTranslation();
+
   const isMobile = useIsMobile();
   const { chainId, poolName } = useChainPool();
 
@@ -80,11 +83,11 @@ const PoolList = memo(() => {
                   </Thead>
                   <Thead>
                     <Tr>
-                      <Th>ベース資産</Th>
-                      <Th>担保資産</Th>
-                      <Th isNumeric>Total Supply Balance</Th>
-                      <Th isNumeric>Total Borrow Balance</Th>
-                      <Th isNumeric>Collateral Total Balance</Th>
+                      <Th>{t("Base Asset")}</Th>
+                      <Th>{t("Collateral Asset")}</Th>
+                      <Th isNumeric>{t("Total {{symbol}} Supply Balance")}</Th>
+                      <Th isNumeric>{t("Total {{symbol}} Borrow Balance")}</Th>
+                      <Th isNumeric>{t("Total Collateral Balance")}</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
