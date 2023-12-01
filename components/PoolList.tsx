@@ -61,16 +61,7 @@ const PoolList = memo(() => {
             <Header />
             {/* <TabBar /> */}
             <StatsBar poolData={poolData} isPoolList={true} />
-            <DashboardBox
-              width="100%"
-              height="100%"
-              mt={4}
-              p={4}
-              fontSize="lm"
-              fontWeight="bold"
-            >
-              <PoolTable />
-            </DashboardBox>
+            <PoolTable />
             <Footer />
           </Column>
         </PoolSecondaryDataProvider>

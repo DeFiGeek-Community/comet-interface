@@ -46,70 +46,80 @@ const PoolTable = memo(() => {
   }, [address]);
 
   return (
-    <TableContainer>
-      <Table variant="simple">
-        <TableCaption>Pool List</TableCaption>
-        <Thead>
-          <Tr>
-            <Th colSpan={2} rowSpan={2} borderBottomWidth={0}>
-              Pool Assets
-            </Th>
-            {/* <Th>ベース資産</Th>
+    <DashboardBox
+      width="100%"
+      height="100%"
+      mt={4}
+      p={4}
+      fontSize="lm"
+      fontWeight="bold"
+    >
+      <TableContainer>
+        <Table variant="simple">
+          <TableCaption>Pool List</TableCaption>
+          <Thead>
+            <Tr>
+              <Th colSpan={2} rowSpan={2} borderBottomWidth={0}>
+                Pool Assets
+              </Th>
+              {/* <Th>ベース資産</Th>
                       <Th>担保資産</Th> */}
-            <Th borderBottomWidth={0}></Th>
-            <Th borderBottomWidth={0}></Th>
-            <Th borderBottomWidth={0}></Th>
-          </Tr>
-        </Thead>
-        <Thead>
-          <Tr>
-            <Th>{t("Base Asset")}</Th>
-            <Th>{t("Collateral Asset")}</Th>
-            <Th isNumeric>{t("Total {{symbol}} Supply Balance")}</Th>
-            <Th isNumeric>{t("Total {{symbol}} Borrow Balance")}</Th>
-            <Th isNumeric>{t("Total Collateral Balance")}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {/* <Tr>
+              <Th borderBottomWidth={0}></Th>
+              <Th borderBottomWidth={0}></Th>
+              <Th borderBottomWidth={0}></Th>
+            </Tr>
+          </Thead>
+          <Thead>
+            <Tr>
+              <Th>{t("Base Asset")}</Th>
+              <Th>{t("Collateral Asset")}</Th>
+              <Th isNumeric>{t("Total {{symbol}} Supply Balance")}</Th>
+              <Th isNumeric>{t("Total {{symbol}} Borrow Balance")}</Th>
+              <Th isNumeric>{t("Total Collateral Balance")}</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {/* <Tr>
                       <Td>ベース資産</Td>
                       <Td>担保資産</Td>
                       <Td isNumeric></Td>
                       <Td isNumeric></Td>
                       <Td isNumeric></Td>
                     </Tr> */}
-          <Tr>
-            <Td>CJPY Pool</Td>
-            <Td>CJPY Pool</Td>
-            <Td isNumeric>25.4</Td>
-            <Td isNumeric>25.4</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>⭕️⭕️⭕️⭕️</Td>
-            <Td>⭕️⭕️⭕️⭕️</Td>
-            <Td isNumeric>25.4</Td>
-            <Td isNumeric>30.48</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>⭕️⭕️⭕️⭕️</Td>
-            <Td>⭕️⭕️⭕️⭕️</Td>
-            <Td isNumeric>25.4</Td>
-            <Td isNumeric>0.91444</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-        </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th colSpan={2}>Pool Assets</Th>
-            <Th isNumeric>Total Supply Balance</Th>
-            <Th isNumeric>Total Borrow Balance</Th>
-            <Th isNumeric>Collateral Total Balance</Th>
-          </Tr>
-        </Tfoot>
-      </Table>
-    </TableContainer>
+            <Tr>
+              <Td>CJPY Pool</Td>
+              <Td>CJPY Pool</Td>
+              <Td isNumeric>25.4</Td>
+              <Td isNumeric>25.4</Td>
+              <Td isNumeric>25.4</Td>
+            </Tr>
+            <Tr>
+              <Td>⭕️⭕️⭕️⭕️</Td>
+              <Td>⭕️⭕️⭕️⭕️</Td>
+              <Td isNumeric>25.4</Td>
+              <Td isNumeric>30.48</Td>
+              <Td isNumeric>25.4</Td>
+            </Tr>
+            <Tr>
+              <Td>⭕️⭕️⭕️⭕️</Td>
+              <Td>⭕️⭕️⭕️⭕️</Td>
+              <Td isNumeric>25.4</Td>
+              <Td isNumeric>0.91444</Td>
+              <Td isNumeric>25.4</Td>
+            </Tr>
+          </Tbody>
+          <Tfoot>
+            <Tr>
+              <Th>{t("Base Asset")}</Th>
+              <Th>{t("Collateral Asset")}</Th>
+              <Th isNumeric>{t("Total {{symbol}} Supply Balance")}</Th>
+              <Th isNumeric>{t("Total {{symbol}} Borrow Balance")}</Th>
+              <Th isNumeric>{t("Total Collateral Balance")}</Th>
+            </Tr>
+          </Tfoot>
+        </Table>
+      </TableContainer>
+    </DashboardBox>
   );
 });
 
