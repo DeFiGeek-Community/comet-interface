@@ -70,36 +70,47 @@ const PoolList = memo(() => {
                   <TableCaption>Pool List</TableCaption>
                   <Thead>
                     <Tr>
-                      <Th>Pool Assets</Th>
+                      <Th colSpan={2} rowSpan={2} borderBottomWidth={0}>Pool Assets</Th>
+                      {/* <Th>ベース資産</Th>
+                      <Th>担保資産</Th> */}
+                      <Th borderBottomWidth={0}></Th>
+                      <Th borderBottomWidth={0}></Th>
+                      <Th borderBottomWidth={0}></Th>
+                    </Tr>
+                  </Thead>
+                  <Thead>
+                    <Tr>
+                      <Th>ベース資産</Th>
+                      <Th>担保資産</Th>
                       <Th isNumeric>Total Supply Balance</Th>
                       <Th isNumeric>Total Borrow Balance</Th>
                       <Th isNumeric>Collateral Total Balance</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
+                    {/* <Tr>
+                      <Td>ベース資産</Td>
+                      <Td>担保資産</Td>
+                      <Td isNumeric></Td>
+                      <Td isNumeric></Td>
+                      <Td isNumeric></Td>
+                    </Tr> */}
                     <Tr>
-                      <Td>
-                        {/* <Link
-                  href={{
-                    pathname: '/blog/[slug]',
-                    query: { slug: 'my-post' },
-                  }}
-                > */}
-                {/*<Link href={{ pathname: '/PoolPage', query: { pool: 'CJPY' } }}>*/}
-                  CJPY Pool
-                {/*</Link>*/}
-                </Td>
+                      <Td >CJPY Pool</Td>
+                      <Td >CJPY Pool</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>25.4</Td>
                     </Tr>
                     <Tr>
                       <Td>⭕️⭕️⭕️⭕️</Td>
+                      <Td>⭕️⭕️⭕️⭕️</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>30.48</Td>
                       <Td isNumeric>25.4</Td>
                     </Tr>
                     <Tr>
+                      <Td>⭕️⭕️⭕️⭕️</Td>
                       <Td>⭕️⭕️⭕️⭕️</Td>
                       <Td isNumeric>25.4</Td>
                       <Td isNumeric>0.91444</Td>
@@ -108,7 +119,7 @@ const PoolList = memo(() => {
                   </Tbody>
                   <Tfoot>
                     <Tr>
-                      <Th>Pool Assets</Th>
+                    <Th colSpan={2}>Pool Assets</Th>
                       <Th isNumeric>Total Supply Balance</Th>
                       <Th isNumeric>Total Borrow Balance</Th>
                       <Th isNumeric>Collateral Total Balance</Th>
