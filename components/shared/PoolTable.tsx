@@ -30,6 +30,7 @@ import { Header } from "components/shared/Header";
 import { CurrencyProvider } from "components/Provider/currencyProvider";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { ModalDivider } from "components/shared/Modal";
 
 const PoolTable = memo(() => {
   const { t } = useTranslation();
@@ -64,6 +65,48 @@ const PoolTable = memo(() => {
         <Heading size="md" px={4} py={3}>
           {t("Pool Lists")}
         </Heading>
+        <ModalDivider />
+        <Row
+        mainAxisAlignment="flex-start"
+        crossAxisAlignment="flex-start"
+        width="100%"
+        px={4}
+        mt={4}
+      >
+        <Text width={isMobile ? "33%" : "20%"} fontWeight="bold" pl={1}>
+          {t("Asset")}
+        </Text>
+        <Text
+          width={isMobile ? "33%" : "20%"}
+          textAlign="center"
+          fontWeight="bold"
+          pl={1}
+        >
+          {t("Your Supply")}
+        </Text>
+        <Text
+          width={isMobile ? "33%" : "20%"}
+          textAlign="center"
+          fontWeight="bold"
+          pl={1}
+        >
+          {t("Collateral Value")}
+        </Text>
+
+        {!isMobile && (
+          <>
+            <Text width="20%" textAlign="center" fontWeight="bold">
+              {t("Collateral Factor")}
+            </Text>
+            <Text width="20%" textAlign="center" fontWeight="bold">
+              {t("Liquidation Factor")}
+            </Text>
+            <Text width="20%" textAlign="center" fontWeight="bold">
+              {t("Liquidation Penalty")}
+            </Text>
+          </>
+        )}
+      </Row>
       </Column>
       {/* <TableContainer>
         <Table variant="striped">
