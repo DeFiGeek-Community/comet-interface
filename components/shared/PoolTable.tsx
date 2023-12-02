@@ -55,11 +55,11 @@ const PoolTable = memo(() => {
       fontWeight="bold"
     >
       <TableContainer>
-        <Table variant="simple">
+        <Table variant="striped">
           <TableCaption>Pool List</TableCaption>
           <Thead>
             <Tr>
-              <Th colSpan={2} rowSpan={2} borderBottomWidth={0}>
+              <Th colSpan={2} rowSpan={2} borderBottomWidth={0} w="100px">
                 Pool Assets
               </Th>
               {/* <Th>ベース資産</Th>
@@ -71,8 +71,8 @@ const PoolTable = memo(() => {
           </Thead>
           <Thead>
             <Tr>
-              <Th>{t("Base Asset")}</Th>
-              <Th>{t("Collateral Asset")}</Th>
+              <Th w="20px">{t("Base Asset")}</Th>
+              <Th w="80px">{t("Collateral Asset")}</Th>
               <Th isNumeric>{t("Total {{symbol}} Supply Balance")}</Th>
               <Th isNumeric>{t("Total {{symbol}} Borrow Balance")}</Th>
               <Th isNumeric>{t("Total Collateral Balance")}</Th>
