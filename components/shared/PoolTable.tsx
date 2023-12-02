@@ -54,7 +54,7 @@ const PoolTable = memo(() => {
       fontSize="lm"
       fontWeight="bold"
     >
-      <TableContainer>
+      {/* <TableContainer>
         <Table variant="striped">
           <TableCaption>Pool List</TableCaption>
           <Thead>
@@ -62,8 +62,6 @@ const PoolTable = memo(() => {
               <Th colSpan={2} rowSpan={2} borderBottomWidth={0} w="100px">
                 Pool Assets
               </Th>
-              {/* <Th>ベース資産</Th>
-                      <Th>担保資産</Th> */}
               <Th borderBottomWidth={0}></Th>
               <Th borderBottomWidth={0}></Th>
               <Th borderBottomWidth={0}></Th>
@@ -79,13 +77,6 @@ const PoolTable = memo(() => {
             </Tr>
           </Thead>
           <Tbody>
-            {/* <Tr>
-                      <Td>ベース資産</Td>
-                      <Td>担保資産</Td>
-                      <Td isNumeric></Td>
-                      <Td isNumeric></Td>
-                      <Td isNumeric></Td>
-                    </Tr> */}
             <Tr>
               <Td>CJPY Pool</Td>
               <Td>CJPY Pool</Td>
@@ -118,7 +109,7 @@ const PoolTable = memo(() => {
             </Tr>
           </Tfoot>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
     </DashboardBox>
   );
 });
