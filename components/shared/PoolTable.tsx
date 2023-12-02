@@ -72,9 +72,27 @@ const PoolTable = memo(() => {
         width="100%"
         px={4}
         mt={4}
+        >
+          <Text width={isMobile ? "33%" : "20%"} fontWeight="bold" pl={1}>
+            {t("Pool Assets")}
+          </Text>
+        </Row>
+        <Row
+        mainAxisAlignment="flex-start"
+        crossAxisAlignment="flex-start"
+        width="100%"
+        px={4}
+        mt={4}
       >
-        <Text width={isMobile ? "33%" : "20%"} fontWeight="bold" pl={1}>
-          {t("Asset")}
+        <Text width={isMobile ? "33%" : "10%"} fontWeight="bold" pl={1}>
+          {t("Base Asset")}
+        </Text>
+        <Text
+          width={isMobile ? "33%" : "30%"}
+          fontWeight="bold"
+          pl={1}
+        >
+          {t("Collateral Asset")}
         </Text>
         <Text
           width={isMobile ? "33%" : "20%"}
@@ -82,88 +100,21 @@ const PoolTable = memo(() => {
           fontWeight="bold"
           pl={1}
         >
-          {t("Your Supply")}
-        </Text>
-        <Text
-          width={isMobile ? "33%" : "20%"}
-          textAlign="center"
-          fontWeight="bold"
-          pl={1}
-        >
-          {t("Collateral Value")}
+          {t("Total {{symbol}} Supply Balance")}
         </Text>
 
         {!isMobile && (
           <>
             <Text width="20%" textAlign="center" fontWeight="bold">
-              {t("Collateral Factor")}
+              {t("Total {{symbol}} Borrow Balance")}
             </Text>
             <Text width="20%" textAlign="center" fontWeight="bold">
-              {t("Liquidation Factor")}
-            </Text>
-            <Text width="20%" textAlign="center" fontWeight="bold">
-              {t("Liquidation Penalty")}
+              {t("Total Collateral Balance")}
             </Text>
           </>
         )}
       </Row>
       </Column>
-      {/* <TableContainer>
-        <Table variant="striped">
-          <TableCaption>Pool List</TableCaption>
-          <Thead>
-            <Tr>
-              <Th colSpan={2} rowSpan={2} borderBottomWidth={0} w="100px">
-                Pool Assets
-              </Th>
-              <Th borderBottomWidth={0}></Th>
-              <Th borderBottomWidth={0}></Th>
-              <Th borderBottomWidth={0}></Th>
-            </Tr>
-          </Thead>
-          <Thead>
-            <Tr>
-              <Th w="20px">{t("Base Asset")}</Th>
-              <Th w="80px">{t("Collateral Asset")}</Th>
-              <Th isNumeric>{t("Total {{symbol}} Supply Balance")}</Th>
-              <Th isNumeric>{t("Total {{symbol}} Borrow Balance")}</Th>
-              <Th isNumeric>{t("Total Collateral Balance")}</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td>CJPY Pool</Td>
-              <Td>CJPY Pool</Td>
-              <Td isNumeric>25.4</Td>
-              <Td isNumeric>25.4</Td>
-              <Td isNumeric>25.4</Td>
-            </Tr>
-            <Tr>
-              <Td>⭕️⭕️⭕️⭕️</Td>
-              <Td>⭕️⭕️⭕️⭕️</Td>
-              <Td isNumeric>25.4</Td>
-              <Td isNumeric>30.48</Td>
-              <Td isNumeric>25.4</Td>
-            </Tr>
-            <Tr>
-              <Td>⭕️⭕️⭕️⭕️</Td>
-              <Td>⭕️⭕️⭕️⭕️</Td>
-              <Td isNumeric>25.4</Td>
-              <Td isNumeric>0.91444</Td>
-              <Td isNumeric>25.4</Td>
-            </Tr>
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>{t("Base Asset")}</Th>
-              <Th>{t("Collateral Asset")}</Th>
-              <Th isNumeric>{t("Total {{symbol}} Supply Balance")}</Th>
-              <Th isNumeric>{t("Total {{symbol}} Borrow Balance")}</Th>
-              <Th isNumeric>{t("Total Collateral Balance")}</Th>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </TableContainer> */}
     </DashboardBox>
   );
 });
