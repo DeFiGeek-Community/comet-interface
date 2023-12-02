@@ -12,7 +12,8 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
-import { Column, Center, useIsMobile } from "utils/chakraUtils";
+import { Heading, Text } from "@chakra-ui/react";
+import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
 import usePoolData from "hooks/pool/shared/usePoolConfig";
 import { useChainPool } from "hooks/useChainPool";
 import { useReload } from "context/ReloadContext";
@@ -54,6 +55,16 @@ const PoolTable = memo(() => {
       fontSize="lm"
       fontWeight="bold"
     >
+      <Column
+        mainAxisAlignment="flex-start"
+        crossAxisAlignment="flex-start"
+        height="100%"
+        pb={1}
+      >
+        <Heading size="md" px={4} py={3}>
+          {t("Pool Lists")}
+        </Heading>
+      </Column>
       {/* <TableContainer>
         <Table variant="striped">
           <TableCaption>Pool List</TableCaption>
