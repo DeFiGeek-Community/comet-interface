@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from "react";
-import { Spinner } from "@chakra-ui/react";
+import { Avatar, Spinner } from "@chakra-ui/react";
 import {
   Table,
   Thead,
@@ -31,14 +31,17 @@ import { CurrencyProvider } from "components/Provider/currencyProvider";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
+import { PoolConfig } from "interfaces/pool";
 
-const PoolTable = memo(() => {
+const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
+
+  const tokenData = poolData.baseToken;
+  const symbol = tokenData?.symbol ?? "";
+  const collateralList = poolData.assetConfigs;
 
   const isMobile = useIsMobile();
   const { chainId, poolName } = useChainPool();
-
-  const poolData = usePoolData();
 
   const { address } = useAccount();
   const { reload } = useReload();
@@ -67,57 +70,175 @@ const PoolTable = memo(() => {
         </Heading>
         <ModalDivider />
         <Row
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="flex-start"
-        width="100%"
-        px={4}
-        mt={4}
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="flex-start"
+          width="100%"
+          px={4}
+          mt={4}
         >
           <Text width={isMobile ? "33%" : "20%"} fontWeight="bold" pl={1}>
             {t("Pool Assets")}
           </Text>
         </Row>
         <Row
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="flex-start"
-        width="100%"
-        px={4}
-        mt={4}
-      >
-        <Text width={isMobile ? "33%" : "10%"} fontWeight="bold" pl={1}>
-          {t("Base Asset")}
-        </Text>
-        <Text
-          width={isMobile ? "33%" : "30%"}
-          fontWeight="bold"
-          pl={1}
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="flex-start"
+          width="100%"
+          px={4}
+          my={4}
         >
-          {t("Collateral Asset")}
-        </Text>
-        <Text
-          width={isMobile ? "33%" : "20%"}
-          textAlign="center"
-          fontWeight="bold"
-          pl={1}
-        >
-          {t("Total {{symbol}} Supply Balance")}
-        </Text>
+          <Text width={isMobile ? "33%" : "10%"} fontWeight="bold" pl={1}>
+            {t("Base Asset")}
+          </Text>
+          <Text width={isMobile ? "33%" : "30%"} fontWeight="bold" pl={1}>
+            {t("Collateral Asset")}
+          </Text>
+          <Text
+            width={isMobile ? "33%" : "20%"}
+            textAlign="center"
+            fontWeight="bold"
+            pl={1}
+          >
+            {t("Total {{symbol}} Supply Balance", { symbol })}
+          </Text>
 
-        {!isMobile && (
-          <>
-            <Text width="20%" textAlign="center" fontWeight="bold">
-              {t("Total {{symbol}} Borrow Balance")}
-            </Text>
-            <Text width="20%" textAlign="center" fontWeight="bold">
-              {t("Total Collateral Balance")}
-            </Text>
-          </>
-        )}
-      </Row>
+          {!isMobile && (
+            <>
+              <Text width="20%" textAlign="center" fontWeight="bold">
+                {t("Total {{symbol}} Borrow Balance", { symbol })}
+              </Text>
+              <Text width="20%" textAlign="center" fontWeight="bold">
+                {t("Total Collateral Balance")}
+              </Text>
+            </>
+          )}
+        </Row>
+        <ModalDivider />
+        <Row
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="center"
+          width="100%"
+          px={4}
+          pt={4}
+          className="hover-row"
+          as="button"
+          style={{ pointerEvents: address ? "auto" : "none" }}
+        >
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="flex-start"
+            width="100%"
+          >
+            <Row
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="flex-start"
+              width="100%"
+            >
+              {/* Underlying Token Data */}
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="center"
+                width={isMobile ? "33%" : "10%"}
+                ml={1}
+              >
+                <Avatar
+                  bg="#FFF"
+                  boxSize="30px"
+                  name={symbol}
+                  src={
+                    tokenData?.logoURL ??
+                    "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                  }
+                />
+              </Row>
+              {/* Underlying Token Data */}
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="center"
+                overflow="scroll"
+                width={isMobile ? "33%" : "30%"}
+              >
+                {collateralList.map((asset, index) => {
+                  return (
+                    <Avatar
+                      bg="#FFF"
+                      boxSize="30px"
+                      mr={1}
+                      name={asset?.symbol ?? ""}
+                      src={
+                        asset?.logoURL ??
+                        "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                      }
+                    />
+                  );
+                })}
+                {collateralList.map((asset, index) => {
+                  return (
+                    <Avatar
+                      bg="#FFF"
+                      boxSize="30px"
+                      mr={1}
+                      name={asset?.symbol ?? ""}
+                      src={
+                        asset?.logoURL ??
+                        "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                      }
+                    />
+                  );
+                })}
+                {collateralList.map((asset, index) => {
+                  return (
+                    <Avatar
+                      bg="#FFF"
+                      boxSize="30px"
+                      mr={1}
+                      name={asset?.symbol ?? ""}
+                      src={
+                        asset?.logoURL ??
+                        "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                      }
+                    />
+                  );
+                })}
+              </Row>
+              <Text width="20%" textAlign="center" fontWeight="bold">
+                {t("Total Collateral Balance")}
+              </Text>
+              <Text width="20%" textAlign="center" fontWeight="bold">
+                {t("Total Collateral Balance")}
+              </Text>
+              <Text width="20%" textAlign="center" fontWeight="bold">
+                {t("Total Collateral Balance")}
+              </Text>
+            </Row>
+            <Row
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="flex-start"
+              width="100%"
+              my={2}
+            >
+              <Text pl={1}>
+                {symbol} {"Pool"}
+              </Text>
+            </Row>
+          </Column>
+        </Row>
+        {/* <Row
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="flex-start"
+          width="100%"
+          px={4}
+          mb={2}
+        >
+          <Text width={isMobile ? "33%" : "20%"} fontWeight="bold" pl={1}>
+            {symbol} {"Pool"}
+          </Text>
+        </Row> */}
+        <ModalDivider />
       </Column>
     </DashboardBox>
   );
-});
+};
 
 PoolTable.displayName = "PoolTable";
 

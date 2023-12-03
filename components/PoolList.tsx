@@ -1,4 +1,5 @@
 import React, { memo, useEffect } from "react";
+import { Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Column, Center, useIsMobile } from "utils/chakraUtils";
 import usePoolData from "hooks/pool/shared/usePoolConfig";
@@ -44,7 +45,13 @@ const PoolList = memo(() => {
             <Header />
             {/* <TabBar /> */}
             <StatsBar poolData={poolData} isPoolList={true} />
-            <PoolTable />
+            {poolData ? (
+              <PoolTable poolData={poolData} />
+            ) : (
+              <Center height="200px">
+                <Spinner />
+              </Center>
+            )}
             <Footer />
           </Column>
         </PoolSecondaryDataProvider>
