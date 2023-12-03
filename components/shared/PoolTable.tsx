@@ -105,14 +105,14 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
                 <Text width="25%" fontWeight="bold" pl={1}>
                   {t("Base Asset")}
                 </Text>
-                <Text  width="75%" fontWeight="bold" pl={1}>
+                <Text width="75%" fontWeight="bold" pl={1}>
                   {t("Collateral Asset")}
                 </Text>
               </Row>
             </Column>
           </Row>
           <Row
-            mainAxisAlignment="flex-start"
+            mainAxisAlignment="center"
             crossAxisAlignment="center"
             height="100%"
             width={isMobile ? "33%" : "20%"}
@@ -122,7 +122,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
             </Text>
           </Row>
           <Row
-            mainAxisAlignment="flex-start"
+            mainAxisAlignment="center"
             crossAxisAlignment="center"
             height="100%"
             width={isMobile ? "33%" : "20%"}
@@ -132,13 +132,149 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
             </Text>
           </Row>
           <Row
-            mainAxisAlignment="flex-start"
+            mainAxisAlignment="center"
             crossAxisAlignment="center"
             height="100%"
             width={isMobile ? "33%" : "20%"}
           >
             <Text textAlign="center" fontWeight="bold">
               {t("Total Collateral Balance")}
+            </Text>
+          </Row>
+        </Row>
+        <ModalDivider />
+        <Row
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="center"
+          width="100%"
+          px={4}
+          pt={4}
+          pb={2}
+          className="hover-row"
+          as="button"
+          style={{ pointerEvents: address ? "auto" : "none" }}
+        >
+          <Row
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="flex-start"
+            width="40%"
+          >
+            <Column
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="flex-start"
+              width="100%"
+            >
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="flex-start"
+                width="100%"
+              >
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="center"
+                  width="25%"
+                  ml={1}
+                >
+                  <Avatar
+                    bg="#FFF"
+                    boxSize="30px"
+                    name={symbol}
+                    src={
+                      tokenData?.logoURL ??
+                      "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                    }
+                  />
+                </Row>
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="center"
+                  overflow="scroll"
+                  width="75%"
+                >
+                  {collateralList.map((asset, index) => {
+                    return (
+                      <Avatar
+                        bg="#FFF"
+                        boxSize="30px"
+                        mr={1}
+                        name={asset?.symbol ?? ""}
+                        src={
+                          asset?.logoURL ??
+                          "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                        }
+                      />
+                    );
+                  })}
+                  {collateralList.map((asset, index) => {
+                    return (
+                      <Avatar
+                        bg="#FFF"
+                        boxSize="30px"
+                        mr={1}
+                        name={asset?.symbol ?? ""}
+                        src={
+                          asset?.logoURL ??
+                          "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                        }
+                      />
+                    );
+                  })}
+                  {collateralList.map((asset, index) => {
+                    return (
+                      <Avatar
+                        bg="#FFF"
+                        boxSize="30px"
+                        mr={1}
+                        name={asset?.symbol ?? ""}
+                        src={
+                          asset?.logoURL ??
+                          "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                        }
+                      />
+                    );
+                  })}
+                </Row>
+              </Row>
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="flex-start"
+                width="100%"
+                mt={1}
+              >
+                <Text fontWeight="bold" pl={1}>
+                  {symbol} {"Pool"}
+                </Text>
+              </Row>
+            </Column>
+          </Row>
+          <Row
+            mainAxisAlignment="center"
+            crossAxisAlignment="center"
+            height="100%"
+            width={isMobile ? "33%" : "20%"}
+          >
+            <Text textAlign="center" fontWeight="bold">
+              20
+            </Text>
+          </Row>
+          <Row
+            mainAxisAlignment="center"
+            crossAxisAlignment="center"
+            height="100%"
+            width={isMobile ? "33%" : "20%"}
+          >
+            <Text textAlign="center" fontWeight="bold">
+              20
+            </Text>
+          </Row>
+          <Row
+            mainAxisAlignment="center"
+            crossAxisAlignment="center"
+            height="100%"
+            width={isMobile ? "33%" : "20%"}
+          >
+            <Text textAlign="center" fontWeight="bold">
+              20
             </Text>
           </Row>
         </Row>
