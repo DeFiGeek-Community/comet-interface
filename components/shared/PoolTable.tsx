@@ -75,16 +75,13 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
           width="100%"
           height="50px"
           px={4}
-          mt={4}
+          my={4}
         >
           <Row
             mainAxisAlignment="flex-start"
             crossAxisAlignment="flex-start"
             width="40%"
           >
-            {/* <Text textAlign="center" fontWeight="bold" pl={1}>
-              {t("Pool Assets")}
-            </Text> */}
             <Column
               mainAxisAlignment="flex-start"
               crossAxisAlignment="flex-start"
@@ -94,6 +91,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="flex-start"
                 width="100%"
+                mb={1}
               >
                 <Text textAlign="center" fontWeight="bold" pl={1}>
                   {t("Pool Assets")}
