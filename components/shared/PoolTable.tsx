@@ -32,6 +32,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
+import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
 const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -39,6 +40,8 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
   const tokenData = poolData.baseToken;
   const symbol = tokenData?.symbol ?? "";
   const collateralList = poolData.assetConfigs;
+
+  const { totalPoolData, error } = useTotalPoolData(poolData);
 
   const isMobile = useIsMobile();
   const { chainId, poolName } = useChainPool();
@@ -190,7 +193,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
                   mainAxisAlignment="flex-start"
                   crossAxisAlignment="center"
                   overflow="scroll"
-                  width="75%"
+                  width="73%"
                 >
                   {collateralList.map((asset, index) => {
                     return (
@@ -255,7 +258,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
             width={isMobile ? "33%" : "20%"}
           >
             <Text textAlign="center" fontWeight="bold">
-              20
+              {totalPoolData?.totalBaseSupplyBalance}
             </Text>
           </Row>
           <Row
@@ -265,7 +268,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
             width={isMobile ? "33%" : "20%"}
           >
             <Text textAlign="center" fontWeight="bold">
-              20
+              {totalPoolData?.totalBaseBorrowBalance}
             </Text>
           </Row>
           <Row
@@ -275,129 +278,40 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
             width={isMobile ? "33%" : "20%"}
           >
             <Text textAlign="center" fontWeight="bold">
-              20
+              {/* {totalPoolData?.totalCollateralBalances} */}
             </Text>
           </Row>
         </Row>
         <ModalDivider />
-        {/* <Row
+        <Row
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
           width="100%"
           px={4}
           pt={4}
+          pb={2}
+          backgroundColor={"gray.900"}
           className="hover-row"
           as="button"
           style={{ pointerEvents: address ? "auto" : "none" }}
         >
-          <Column
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-start"
-            width="100%"
-          >
-            <Row
-              mainAxisAlignment="flex-start"
-              crossAxisAlignment="flex-start"
-              width="100%"
-            >
-              <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="center"
-                width={isMobile ? "33%" : "10%"}
-                ml={1}
-              >
-                <Avatar
-                  bg="#FFF"
-                  boxSize="30px"
-                  name={symbol}
-                  src={
-                    tokenData?.logoURL ??
-                    "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                  }
-                />
-              </Row>
-              <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="center"
-                overflow="scroll"
-                width={isMobile ? "33%" : "30%"}
-              >
-                {collateralList.map((asset, index) => {
-                  return (
-                    <Avatar
-                      bg="#FFF"
-                      boxSize="30px"
-                      mr={1}
-                      name={asset?.symbol ?? ""}
-                      src={
-                        asset?.logoURL ??
-                        "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                      }
-                    />
-                  );
-                })}
-                {collateralList.map((asset, index) => {
-                  return (
-                    <Avatar
-                      bg="#FFF"
-                      boxSize="30px"
-                      mr={1}
-                      name={asset?.symbol ?? ""}
-                      src={
-                        asset?.logoURL ??
-                        "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                      }
-                    />
-                  );
-                })}
-                {collateralList.map((asset, index) => {
-                  return (
-                    <Avatar
-                      bg="#FFF"
-                      boxSize="30px"
-                      mr={1}
-                      name={asset?.symbol ?? ""}
-                      src={
-                        asset?.logoURL ??
-                        "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                      }
-                    />
-                  );
-                })}
-              </Row>
-              <Text width="20%" textAlign="center" fontWeight="bold">
-                {t("Total Collateral Balance")}
-              </Text>
-              <Text width="20%" textAlign="center" fontWeight="bold">
-                {t("Total Collateral Balance")}
-              </Text>
-              <Text width="20%" textAlign="center" fontWeight="bold">
-                {t("Total Collateral Balance")}
-              </Text>
-            </Row>
-            <Row
-              mainAxisAlignment="flex-start"
-              crossAxisAlignment="flex-start"
-              width="100%"
-              my={2}
-            >
-              <Text pl={1}>
-                {symbol} {"Pool"}
-              </Text>
-            </Row>
-          </Column>
-        </Row> */}
-        {/* <Row
+          テスト
+        </Row>
+        <ModalDivider />
+        <Row
           mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-start"
+          crossAxisAlignment="center"
           width="100%"
           px={4}
-          mb={2}
+          pt={4}
+          pb={2}
+          backgroundColor={"gray.900"}
+          className="hover-row"
+          as="button"
+          style={{ pointerEvents: address ? "auto" : "none" }}
         >
-          <Text width={isMobile ? "33%" : "20%"} fontWeight="bold" pl={1}>
-            {symbol} {"Pool"}
-          </Text>
-        </Row> */}
+          テスト
+        </Row>
         <ModalDivider />
       </Column>
     </DashboardBox>
