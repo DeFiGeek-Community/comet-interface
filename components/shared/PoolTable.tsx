@@ -91,7 +91,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="flex-start"
                 width="100%"
-                mb={1}
+                mb={2}
               >
                 <Text textAlign="center" fontWeight="bold" pl={1}>
                   {t("Pool Assets")}
@@ -150,6 +150,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
           px={4}
           pt={4}
           pb={2}
+          backgroundColor={"gray.900"}
           className="hover-row"
           as="button"
           style={{ pointerEvents: address ? "auto" : "none" }}
@@ -173,7 +174,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
                   mainAxisAlignment="flex-start"
                   crossAxisAlignment="center"
                   width="25%"
-                  ml={1}
+                  pl={6}
                 >
                   <Avatar
                     bg="#FFF"
