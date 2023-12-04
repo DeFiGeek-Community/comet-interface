@@ -278,7 +278,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
             width={isMobile ? "33%" : "20%"}
           >
             <Text textAlign="center" fontWeight="bold">
-              {/* {totalPoolData?.totalCollateralBalances} */}
+              {totalPoolData?.totalCollateralBalances["CJPY"]}
             </Text>
           </Row>
         </Row>

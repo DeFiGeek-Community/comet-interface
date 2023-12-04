@@ -46,7 +46,6 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
             : undefined;
       }
 
-      // ダミーデータを使用
       const fetchedData: TotalPoolData = {
         totalBaseSupplyBalance:
           getTotalSupply !== undefined
