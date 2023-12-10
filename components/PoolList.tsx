@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Column, Center, useIsMobile } from "utils/chakraUtils";
@@ -14,17 +14,26 @@ import { CurrencyProvider } from "components/Provider/currencyProvider";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import PoolTable from "components/shared/PoolTable";
+import { useNetwork } from "wagmi";
 
 const PoolList = memo(() => {
   const { t } = useTranslation();
 
   const isMobile = useIsMobile();
-  const { chainId, poolName } = useChainPool();
+  const { chain } = useNetwork();
 
   const poolData = usePoolData();
 
   const { address } = useAccount();
   const { reload } = useReload();
+
+  const [chainId, setChainId] = useState<number>(chain?.id || 1);
+
+  useEffect(() => {
+    if (chain) {
+      setChainId(chain.id);
+    }
+  }, [chain]);
 
   useEffect(() => {
     reload();
