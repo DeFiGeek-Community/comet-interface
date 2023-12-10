@@ -15,12 +15,28 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import PoolTable from "components/shared/PoolTable";
 import { useNetwork } from "wagmi";
+import { POOL_CONFIG_MAP, SupportedPoolName } from "constants/pools";
+import { PoolConfig } from "interfaces/pool";
 
 const PoolList = memo(() => {
   const { t } = useTranslation();
 
   const isMobile = useIsMobile();
   const { chain } = useNetwork();
+
+  const [poolConfig, setPoolConfig] = useState<PoolConfig[] | undefined>();
+  let config:PoolConfig[] = [];
+  useEffect(() => {
+    if (chain) {
+      const abc = SupportedPoolName[chain?.id];
+      //console.log(Object.keys(abc).length);
+      for (let key in abc) {
+        config.push(POOL_CONFIG_MAP[chain?.id][key]);
+      }
+      console.log(config);
+      setPoolConfig(config);
+    }
+  }, [chain]);
 
   const poolData = usePoolData();
 
