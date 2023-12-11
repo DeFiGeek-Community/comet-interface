@@ -49,10 +49,9 @@ const PoolList = memo(() => {
       //   const { totalPoolData, error } = useTotalPoolData(config[i]);
       //   if(totalPoolData) testArray.push(totalPoolData);
       // }
-      console.log(config[0]);
-      console.log(config[1]);
+      console.log(config);
       setPoolConfig(config);
-      console.log(testArray);
+      //console.log(testArray);
     }
   }, [chain]);
 
@@ -95,6 +94,9 @@ const PoolList = memo(() => {
                 <Spinner />
               </Center>
             )}
+            {/* {poolConfig?.map((asset, index) => {
+              return (<PoolTable poolData={asset} />);
+            })} */}
             <Footer />
           </Column>
         </PoolSecondaryDataProvider>
