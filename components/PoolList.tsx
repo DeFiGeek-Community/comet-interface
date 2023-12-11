@@ -18,6 +18,7 @@ import { useNetwork } from "wagmi";
 import { POOL_CONFIG_MAP, SupportedPoolName } from "constants/pools";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
+import PoolTableRow from "components/shared/PoolTableRow";
 
 import { Avatar} from "@chakra-ui/react";
 import { Heading, Text } from "@chakra-ui/react";
@@ -195,7 +196,9 @@ const PoolList = memo(() => {
           </Row>
         </Row>
         <ModalDivider />
-        
+          {poolConfig?.map((asset, index) => {
+            return (<PoolTableRow poolData={asset} />);
+          })}
         <ModalDivider />
       </Column>
     </DashboardBox>

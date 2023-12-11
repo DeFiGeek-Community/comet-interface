@@ -34,7 +34,7 @@ import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
-const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
+const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
 
   const tokenData = poolData.baseToken;
@@ -43,10 +43,10 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
 
   const { totalPoolData, error } = useTotalPoolData(poolData);
   let b = 0;
-  b += totalPoolData?.totalCollateralBalances["TXJP"] !== undefined ? totalPoolData?.totalCollateralBalances["TXJP"] : 0;
-  b += totalPoolData?.totalCollateralBalances["wstETH"] !== undefined ? totalPoolData?.totalCollateralBalances["wstETH"] : 0;
-  b += totalPoolData?.totalCollateralBalances["USDC"] !== undefined ? totalPoolData?.totalCollateralBalances["USDC"] : 0;
-  b += totalPoolData?.totalCollateralBalances["crvUSD"] !== undefined ? totalPoolData?.totalCollateralBalances["crvUSD"] : 0;
+  // b += totalPoolData?.totalCollateralBalances["TXJP"] !== undefined ? totalPoolData?.totalCollateralBalances["TXJP"] : 0;
+  // b += totalPoolData?.totalCollateralBalances["wstETH"] !== undefined ? totalPoolData?.totalCollateralBalances["wstETH"] : 0;
+  // b += totalPoolData?.totalCollateralBalances["USDC"] !== undefined ? totalPoolData?.totalCollateralBalances["USDC"] : 0;
+  // b += totalPoolData?.totalCollateralBalances["crvUSD"] !== undefined ? totalPoolData?.totalCollateralBalances["crvUSD"] : 0;
 
   const isMobile = useIsMobile();
   const { chainId, poolName } = useChainPool();
@@ -59,99 +59,8 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
   }, [address]);
 
   return (
-    <DashboardBox
-      width="100%"
-      height="100%"
-      mt={4}
-      p={4}
-      fontSize="lm"
-      fontWeight="bold"
-    >
-      <Column
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="flex-start"
-        height="100%"
-        pb={1}
-      >
-        <Heading size="md" px={4} py={3}>
-          {t("Pool Lists")}
-        </Heading>
-        <ModalDivider />
-        <Row
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-start"
-          width="100%"
-          height="50px"
-          px={4}
-          my={4}
-        >
-          <Row
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-start"
-            width="40%"
-          >
-            <Column
-              mainAxisAlignment="flex-start"
-              crossAxisAlignment="flex-start"
-              width="100%"
-            >
-              <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="flex-start"
-                width="100%"
-                mb={2}
-              >
-                <Text textAlign="center" fontWeight="bold" pl={1}>
-                  {t("Pool Assets")}
-                </Text>
-              </Row>
-              <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="flex-start"
-                width="100%"
-              >
-                <Text width="25%" fontWeight="bold" pl={1}>
-                  {t("Base Asset")}
-                </Text>
-                <Text width="75%" fontWeight="bold" pl={1}>
-                  {t("Collateral Asset")}
-                </Text>
-              </Row>
-            </Column>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-              {t("Total {{symbol}} Supply Balance", { symbol })}
-            </Text>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-              {t("Total {{symbol}} Borrow Balance", { symbol })}
-            </Text>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-              {t("Total Collateral Balance")}
-            </Text>
-          </Row>
-        </Row>
-        <ModalDivider />
-        <Row
+    <>
+    <Row
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
           width="100%"
@@ -214,34 +123,6 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
                       />
                     );
                   })}
-                  {collateralList.map((asset, index) => {
-                    return (
-                      <Avatar
-                        bg="#FFF"
-                        boxSize="30px"
-                        mr={1}
-                        name={asset?.symbol ?? ""}
-                        src={
-                          asset?.logoURL ??
-                          "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                        }
-                      />
-                    );
-                  })}
-                  {collateralList.map((asset, index) => {
-                    return (
-                      <Avatar
-                        bg="#FFF"
-                        boxSize="30px"
-                        mr={1}
-                        name={asset?.symbol ?? ""}
-                        src={
-                          asset?.logoURL ??
-                          "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                        }
-                      />
-                    );
-                  })}
                 </Row>
               </Row>
               <Row
@@ -288,41 +169,10 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
           </Row>
         </Row>
         <ModalDivider />
-        <Row
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          width="100%"
-          px={4}
-          pt={4}
-          pb={2}
-          backgroundColor={"gray.900"}
-          className="hover-row"
-          as="button"
-          style={{ pointerEvents: address ? "auto" : "none" }}
-        >
-          テスト
-        </Row>
-        <ModalDivider />
-        <Row
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          width="100%"
-          px={4}
-          pt={4}
-          pb={2}
-          backgroundColor={"gray.900"}
-          className="hover-row"
-          as="button"
-          style={{ pointerEvents: address ? "auto" : "none" }}
-        >
-          テスト
-        </Row>
-        <ModalDivider />
-      </Column>
-    </DashboardBox>
+        </>
   );
 };
 
-PoolTable.displayName = "PoolTable";
+PoolTableRow.displayName = "PoolTableRow";
 
-export default PoolTable;
+export default PoolTableRow;
