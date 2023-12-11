@@ -171,7 +171,7 @@ const PoolList = memo(() => {
             width={isMobile ? "33%" : "20%"}
           >
             <Text textAlign="center" fontWeight="bold">
-            全預入残高{/* {t("Total {{symbol}} Supply Balance", { symbol })} */}
+            {t("Total Supply Balance")}
             </Text>
           </Row>
           <Row
@@ -181,7 +181,7 @@ const PoolList = memo(() => {
             width={isMobile ? "33%" : "20%"}
           >
             <Text textAlign="center" fontWeight="bold">
-            全借入残高{/* {t("Total {{symbol}} Borrow Balance", { symbol })} */}
+            {t("Total Borrow Balance")}
             </Text>
           </Row>
           <Row
@@ -191,7 +191,7 @@ const PoolList = memo(() => {
             width={isMobile ? "33%" : "20%"}
           >
             <Text textAlign="center" fontWeight="bold">
-            全担保価値{/* {t("Total Collateral Balance")} */}
+            {t("Total Collateral Balance")}
             </Text>
           </Row>
         </Row>
