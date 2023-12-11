@@ -17,6 +17,17 @@ import PoolTable from "components/shared/PoolTable";
 import { useNetwork } from "wagmi";
 import { POOL_CONFIG_MAP, SupportedPoolName } from "constants/pools";
 import { PoolConfig } from "interfaces/pool";
+import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
+
+export interface TotalCollateralData {
+  [key: string]: number | undefined;
+}
+export interface TotalPoolData {
+  totalBaseSupplyBalance: number | undefined;
+  totalBaseBorrowBalance: number | undefined;
+  totalCollateralBalances: TotalCollateralData;
+  a: bigint | undefined;
+}
 
 const PoolList = memo(() => {
   const { t } = useTranslation();
@@ -26,15 +37,22 @@ const PoolList = memo(() => {
 
   const [poolConfig, setPoolConfig] = useState<PoolConfig[] | undefined>();
   let config:PoolConfig[] = [];
+  let testArray:TotalPoolData[] = [];
   useEffect(() => {
     if (chain) {
-      const abc = SupportedPoolName[chain?.id];
+      const allPoolName = SupportedPoolName[chain?.id];
       //console.log(Object.keys(abc).length);
-      for (let key in abc) {
+      for (let key in allPoolName) {
         config.push(POOL_CONFIG_MAP[chain?.id][key]);
       }
-      console.log(config);
+      // for(let i = 0; i < config.length; i++){
+      //   const { totalPoolData, error } = useTotalPoolData(config[i]);
+      //   if(totalPoolData) testArray.push(totalPoolData);
+      // }
+      console.log(config[0]);
+      console.log(config[1]);
       setPoolConfig(config);
+      console.log(testArray);
     }
   }, [chain]);
 
