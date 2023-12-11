@@ -20,9 +20,9 @@ import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import PoolTableRow from "components/shared/PoolTableRow";
 
-import { Avatar} from "@chakra-ui/react";
+import { Avatar } from "@chakra-ui/react";
 import { Heading, Text } from "@chakra-ui/react";
-import { Row, } from "utils/chakraUtils";
+import { Row } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 
@@ -43,8 +43,8 @@ const PoolList = memo(() => {
   const { chain } = useNetwork();
 
   const [poolConfig, setPoolConfig] = useState<PoolConfig[] | undefined>();
-  let config:PoolConfig[] = [];
-  let testArray:TotalPoolData[] = [];
+  let config: PoolConfig[] = [];
+  let testArray: TotalPoolData[] = [];
   useEffect(() => {
     if (chain) {
       const allPoolName = SupportedPoolName[chain?.id];
@@ -105,103 +105,103 @@ const PoolList = memo(() => {
               return (<PoolTable poolData={asset} />);
             })} */}
             <DashboardBox
-      width="100%"
-      height="100%"
-      mt={4}
-      p={4}
-      fontSize="lm"
-      fontWeight="bold"
-    >
-      <Column
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="flex-start"
-        height="100%"
-        pb={1}
-      >
-        <Heading size="md" px={4} py={3}>
-          {t("Pool Lists")}
-        </Heading>
-        <ModalDivider />
-        <Row
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-start"
-          width="100%"
-          height="50px"
-          px={4}
-          my={4}
-        >
-          <Row
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-start"
-            width="40%"
-          >
-            <Column
-              mainAxisAlignment="flex-start"
-              crossAxisAlignment="flex-start"
               width="100%"
+              height="100%"
+              mt={4}
+              p={4}
+              fontSize="lm"
+              fontWeight="bold"
             >
-              <Row
+              <Column
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="flex-start"
-                width="100%"
-                mb={2}
+                height="100%"
+                pb={1}
               >
-                <Text textAlign="center" fontWeight="bold" pl={1}>
-                  {t("Pool Assets")}
-                </Text>
-              </Row>
-              <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="flex-start"
-                width="100%"
-              >
-                <Text width="25%" fontWeight="bold" pl={1}>
-                  {t("Base Asset")}
-                </Text>
-                <Text width="75%" fontWeight="bold" pl={1}>
-                  {t("Collateral Asset")}
-                </Text>
-              </Row>
-            </Column>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-            {t("Total Supply Balance")}
-            </Text>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-            {t("Total Borrow Balance")}
-            </Text>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-            {t("Total Collateral Balance")}
-            </Text>
-          </Row>
-        </Row>
-        <ModalDivider />
-          {poolConfig?.map((asset, index) => {
-            return (<PoolTableRow poolData={asset} />);
-          })}
-        <ModalDivider />
-      </Column>
-    </DashboardBox>
+                <Heading size="md" px={4} py={3}>
+                  {t("Pool Lists")}
+                </Heading>
+                <ModalDivider />
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="flex-start"
+                  width="100%"
+                  height="50px"
+                  px={4}
+                  my={4}
+                >
+                  <Row
+                    mainAxisAlignment="flex-start"
+                    crossAxisAlignment="flex-start"
+                    width="40%"
+                  >
+                    <Column
+                      mainAxisAlignment="flex-start"
+                      crossAxisAlignment="flex-start"
+                      width="100%"
+                    >
+                      <Row
+                        mainAxisAlignment="flex-start"
+                        crossAxisAlignment="flex-start"
+                        width="100%"
+                        mb={2}
+                      >
+                        <Text textAlign="center" fontWeight="bold" pl={1}>
+                          {t("Pool Assets")}
+                        </Text>
+                      </Row>
+                      <Row
+                        mainAxisAlignment="flex-start"
+                        crossAxisAlignment="flex-start"
+                        width="100%"
+                      >
+                        <Text width="25%" fontWeight="bold" pl={1}>
+                          {t("Base Asset")}
+                        </Text>
+                        <Text width="75%" fontWeight="bold" pl={1}>
+                          {t("Collateral Asset")}
+                        </Text>
+                      </Row>
+                    </Column>
+                  </Row>
+                  <Row
+                    mainAxisAlignment="center"
+                    crossAxisAlignment="center"
+                    height="100%"
+                    width={isMobile ? "33%" : "20%"}
+                  >
+                    <Text textAlign="center" fontWeight="bold">
+                      {t("Total Supply Balance")}
+                    </Text>
+                  </Row>
+                  <Row
+                    mainAxisAlignment="center"
+                    crossAxisAlignment="center"
+                    height="100%"
+                    width={isMobile ? "33%" : "20%"}
+                  >
+                    <Text textAlign="center" fontWeight="bold">
+                      {t("Total Borrow Balance")}
+                    </Text>
+                  </Row>
+                  <Row
+                    mainAxisAlignment="center"
+                    crossAxisAlignment="center"
+                    height="100%"
+                    width={isMobile ? "33%" : "20%"}
+                  >
+                    <Text textAlign="center" fontWeight="bold">
+                      {t("Total Collateral Balance")}
+                    </Text>
+                  </Row>
+                </Row>
+                <ModalDivider />
+                {poolConfig?.map((asset, index) => {
+                  return <PoolTableRow poolData={asset} />;
+                })}
+                <ModalDivider />
+              </Column>
+            </DashboardBox>
             <Footer />
           </Column>
         </PoolSecondaryDataProvider>

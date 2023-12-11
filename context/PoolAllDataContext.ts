@@ -13,8 +13,8 @@ export interface PoolAllDataContextType {
   claimReward: ClaimReward | undefined;
 }
 
-const PoolAllDataContext = createContext<
-PoolAllDataContextType | undefined
->(undefined);
+const PoolAllDataContext = createContext<PoolAllDataContextType | undefined>(
+  undefined,
+);
 
 export default PoolAllDataContext;

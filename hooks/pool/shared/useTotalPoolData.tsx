@@ -35,7 +35,7 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
       const getTotalSupply = await fetchTotalDataComet("totalSupply", poolData);
       const getTotalBorrow = await fetchTotalDataComet("totalBorrow", poolData);
       const totalCollateralBalances: { [key: string]: number | undefined } = {};
-      let tCB: bigint[] =[];
+      let tCB: bigint[] = [];
       let ind: any = 0;
       for (const assetConfig of poolData.assetConfigs) {
         const getTotalsCollateral = await fetchTotalCollateralDataComet(
@@ -47,7 +47,8 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
           getTotalsCollateral !== undefined
             ? Number(formatUnits(getTotalsCollateral, assetConfig.decimals))
             : undefined;
-        tCB[ind] = getTotalsCollateral!== undefined?getTotalsCollateral:BigInt(0);
+        tCB[ind] =
+          getTotalsCollateral !== undefined ? getTotalsCollateral : BigInt(0);
         ind++;
       }
       let a: bigint = BigInt(0);
@@ -63,7 +64,7 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
             ? Number(formatUnits(getTotalBorrow, poolData.cometDecimals))
             : undefined,
         totalCollateralBalances: totalCollateralBalances,
-        a:a,
+        a: a,
       };
 
       setTotalPoolData(fetchedData);

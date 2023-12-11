@@ -43,10 +43,22 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig }) => {
 
   const { totalPoolData, error } = useTotalPoolData(poolData);
   let b = 0;
-  b += totalPoolData?.totalCollateralBalances["TXJP"] !== undefined ? totalPoolData?.totalCollateralBalances["TXJP"] : 0;
-  b += totalPoolData?.totalCollateralBalances["wstETH"] !== undefined ? totalPoolData?.totalCollateralBalances["wstETH"] : 0;
-  b += totalPoolData?.totalCollateralBalances["USDC"] !== undefined ? totalPoolData?.totalCollateralBalances["USDC"] : 0;
-  b += totalPoolData?.totalCollateralBalances["crvUSD"] !== undefined ? totalPoolData?.totalCollateralBalances["crvUSD"] : 0;
+  b +=
+    totalPoolData?.totalCollateralBalances["TXJP"] !== undefined
+      ? totalPoolData?.totalCollateralBalances["TXJP"]
+      : 0;
+  b +=
+    totalPoolData?.totalCollateralBalances["wstETH"] !== undefined
+      ? totalPoolData?.totalCollateralBalances["wstETH"]
+      : 0;
+  b +=
+    totalPoolData?.totalCollateralBalances["USDC"] !== undefined
+      ? totalPoolData?.totalCollateralBalances["USDC"]
+      : 0;
+  b +=
+    totalPoolData?.totalCollateralBalances["crvUSD"] !== undefined
+      ? totalPoolData?.totalCollateralBalances["crvUSD"]
+      : 0;
 
   const isMobile = useIsMobile();
   const { chainId, poolName } = useChainPool();

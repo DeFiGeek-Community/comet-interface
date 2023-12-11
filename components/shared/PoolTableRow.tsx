@@ -60,116 +60,116 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   return (
     <>
-    <Row
+      <Row
+        mainAxisAlignment="flex-start"
+        crossAxisAlignment="center"
+        width="100%"
+        px={4}
+        pt={4}
+        pb={2}
+        backgroundColor={"gray.900"}
+        className="hover-row"
+        as="button"
+        style={{ pointerEvents: address ? "auto" : "none" }}
+      >
+        <Row
           mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          width="100%"
-          px={4}
-          pt={4}
-          pb={2}
-          backgroundColor={"gray.900"}
-          className="hover-row"
-          as="button"
-          style={{ pointerEvents: address ? "auto" : "none" }}
+          crossAxisAlignment="flex-start"
+          width="40%"
         >
-          <Row
+          <Column
             mainAxisAlignment="flex-start"
             crossAxisAlignment="flex-start"
-            width="40%"
+            width="100%"
           >
-            <Column
+            <Row
               mainAxisAlignment="flex-start"
               crossAxisAlignment="flex-start"
               width="100%"
             >
               <Row
                 mainAxisAlignment="flex-start"
-                crossAxisAlignment="flex-start"
-                width="100%"
+                crossAxisAlignment="center"
+                width="25%"
+                pl={6}
               >
-                <Row
-                  mainAxisAlignment="flex-start"
-                  crossAxisAlignment="center"
-                  width="25%"
-                  pl={6}
-                >
-                  <Avatar
-                    bg="#FFF"
-                    boxSize="30px"
-                    name={symbol}
-                    src={
-                      tokenData?.logoURL ??
-                      "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                    }
-                  />
-                </Row>
-                <Row
-                  mainAxisAlignment="flex-start"
-                  crossAxisAlignment="center"
-                  overflow="scroll"
-                  width="73%"
-                >
-                  {collateralList.map((asset, index) => {
-                    return (
-                      <Avatar
-                        bg="#FFF"
-                        boxSize="30px"
-                        mr={1}
-                        name={asset?.symbol ?? ""}
-                        src={
-                          asset?.logoURL ??
-                          "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                        }
-                      />
-                    );
-                  })}
-                </Row>
+                <Avatar
+                  bg="#FFF"
+                  boxSize="30px"
+                  name={symbol}
+                  src={
+                    tokenData?.logoURL ??
+                    "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                  }
+                />
               </Row>
               <Row
                 mainAxisAlignment="flex-start"
-                crossAxisAlignment="flex-start"
-                width="100%"
-                mt={1}
+                crossAxisAlignment="center"
+                overflow="scroll"
+                width="73%"
               >
-                <Text fontWeight="bold" pl={1}>
-                  {symbol} {"Pool"}
-                </Text>
+                {collateralList.map((asset, index) => {
+                  return (
+                    <Avatar
+                      bg="#FFF"
+                      boxSize="30px"
+                      mr={1}
+                      name={asset?.symbol ?? ""}
+                      src={
+                        asset?.logoURL ??
+                        "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                      }
+                    />
+                  );
+                })}
               </Row>
-            </Column>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-              {totalPoolData?.totalBaseSupplyBalance}
-            </Text>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-              {totalPoolData?.totalBaseBorrowBalance}
-            </Text>
-          </Row>
-          <Row
-            mainAxisAlignment="center"
-            crossAxisAlignment="center"
-            height="100%"
-            width={isMobile ? "33%" : "20%"}
-          >
-            <Text textAlign="center" fontWeight="bold">
-              {b}
-            </Text>
-          </Row>
+            </Row>
+            <Row
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="flex-start"
+              width="100%"
+              mt={1}
+            >
+              <Text fontWeight="bold" pl={1}>
+                {symbol} {"Pool"}
+              </Text>
+            </Row>
+          </Column>
         </Row>
-        <ModalDivider />
-        </>
+        <Row
+          mainAxisAlignment="center"
+          crossAxisAlignment="center"
+          height="100%"
+          width={isMobile ? "33%" : "20%"}
+        >
+          <Text textAlign="center" fontWeight="bold">
+            {totalPoolData?.totalBaseSupplyBalance}
+          </Text>
+        </Row>
+        <Row
+          mainAxisAlignment="center"
+          crossAxisAlignment="center"
+          height="100%"
+          width={isMobile ? "33%" : "20%"}
+        >
+          <Text textAlign="center" fontWeight="bold">
+            {totalPoolData?.totalBaseBorrowBalance}
+          </Text>
+        </Row>
+        <Row
+          mainAxisAlignment="center"
+          crossAxisAlignment="center"
+          height="100%"
+          width={isMobile ? "33%" : "20%"}
+        >
+          <Text textAlign="center" fontWeight="bold">
+            {b}
+          </Text>
+        </Row>
+      </Row>
+      <ModalDivider />
+    </>
   );
 };
 
