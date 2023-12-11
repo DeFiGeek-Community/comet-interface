@@ -1,34 +1,9 @@
 import React, { memo, useEffect } from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Heading, Text } from "@chakra-ui/react";
 import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
-import usePoolData from "hooks/pool/shared/usePoolConfig";
-import { useChainPool } from "hooks/useChainPool";
 import { useReload } from "context/ReloadContext";
-import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProvider";
-import { PoolSecondaryDataProvider } from "components/Provider/PoolSecondaryDataProvider";
-import StatsBar from "components/pool/StatsBar";
-import CollateralRatioBar from "components/pool/CollateralRatioBar";
-import BaseList from "components/pool/BaseList";
-import CollateralList from "components/pool/CollateralList";
-import ClaimReward from "components/pool/ClaimReward";
-import DashboardBox from "components/shared/DashboardBox";
-import Footer from "components/shared/Footer";
-import { Header } from "components/shared/Header";
-import { CurrencyProvider } from "components/Provider/currencyProvider";
-import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
@@ -42,26 +17,12 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const collateralList = poolData?.assetConfigs;
 
   const { totalPoolData, error } = useTotalPoolData(poolData);
-  let b = 0;
+  let sumCollateralBalances = 0;
   for( let key in totalPoolData?.totalCollateralBalances){
-    //b += key;
-    //if(totalPoolData?.totalCollateralBalances[key] !== undefined)
-    //console.log(totalPoolData.totalCollateralBalances[key])
-    b += totalPoolData.totalCollateralBalances[key];
-    // if(totalPoolData){
-    //   if(totalPoolData?.totalCollateralBalances[key]){
-    //     b += totalPoolData.totalCollateralBalances[key] !== undefined? totalPoolData.totalCollateralBalances[key]:0;
-    //   }
-    // }
-    //console.log(key);
+    sumCollateralBalances += totalPoolData.totalCollateralBalances[key];
   }
-  // b += totalPoolData?.totalCollateralBalances["TXJP"] !== undefined ? totalPoolData?.totalCollateralBalances["TXJP"] : 0;
-  // b += totalPoolData?.totalCollateralBalances["wstETH"] !== undefined ? totalPoolData?.totalCollateralBalances["wstETH"] : 0;
-  // b += totalPoolData?.totalCollateralBalances["USDC"] !== undefined ? totalPoolData?.totalCollateralBalances["USDC"] : 0;
-  // b += totalPoolData?.totalCollateralBalances["crvUSD"] !== undefined ? totalPoolData?.totalCollateralBalances["crvUSD"] : 0;
-
+  
   const isMobile = useIsMobile();
-  const { chainId, poolName } = useChainPool();
 
   const { address } = useAccount();
   const { reload } = useReload();
@@ -176,7 +137,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
           width={isMobile ? "33%" : "20%"}
         >
           <Text textAlign="center" fontWeight="bold">
-            {b}
+            {sumCollateralBalances}
           </Text>
         </Row>
       </Row>

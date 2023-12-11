@@ -26,16 +26,6 @@ import { Row } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
 
-export interface TotalCollateralData {
-  [key: string]: number | undefined;
-}
-export interface TotalPoolData {
-  totalBaseSupplyBalance: number | undefined;
-  totalBaseBorrowBalance: number | undefined;
-  totalCollateralBalances: TotalCollateralData;
-  a: bigint | undefined;
-}
-
 const PoolList = memo(() => {
   const { t } = useTranslation();
 
@@ -44,21 +34,13 @@ const PoolList = memo(() => {
 
   const [poolConfig, setPoolConfig] = useState<PoolConfig[] | undefined>();
   let config: PoolConfig[] = [];
-  let testArray: TotalPoolData[] = [];
   useEffect(() => {
     if (chain) {
       const allPoolName = SupportedPoolName[chain?.id];
-      //console.log(Object.keys(abc).length);
       for (let key in allPoolName) {
         config.push(POOL_CONFIG_MAP[chain?.id][key]);
       }
-      // for(let i = 0; i < config.length; i++){
-      //   const { totalPoolData, error } = useTotalPoolData(config[i]);
-      //   if(totalPoolData) testArray.push(totalPoolData);
-      // }
-      console.log(config);
       setPoolConfig(config);
-      //console.log(testArray);
     }
   }, [chain]);
 
@@ -66,14 +48,6 @@ const PoolList = memo(() => {
 
   const { address } = useAccount();
   const { reload } = useReload();
-
-  const [chainId, setChainId] = useState<number>(chain?.id || 1);
-
-  useEffect(() => {
-    if (chain) {
-      setChainId(chain.id);
-    }
-  }, [chain]);
 
   useEffect(() => {
     reload();
@@ -92,18 +66,7 @@ const PoolList = memo(() => {
             px={isMobile ? 4 : 0}
           >
             <Header />
-            {/* <TabBar /> */}
             <StatsBar poolData={poolData} isPoolList={true} />
-            {/* {poolData ? (
-              <PoolTable poolData={poolData} />
-            ) : (
-              <Center height="200px">
-                <Spinner />
-              </Center>
-            )} */}
-            {/* {poolConfig?.map((asset, index) => {
-              return (<PoolTable poolData={asset} />);
-            })} */}
             <DashboardBox
               width="100%"
               height="100%"
