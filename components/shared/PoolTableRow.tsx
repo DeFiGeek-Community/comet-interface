@@ -37,9 +37,9 @@ import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
 
-  const tokenData = poolData.baseToken;
+  const tokenData = poolData?.baseToken;
   const symbol = tokenData?.symbol ?? "";
-  const collateralList = poolData.assetConfigs;
+  const collateralList = poolData?.assetConfigs;
 
   const { totalPoolData, error } = useTotalPoolData(poolData);
   let b = 0;
@@ -121,7 +121,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 overflow="scroll"
                 width="73%"
               >
-                {collateralList.map((asset, index) => {
+                {collateralList?.map((asset, index) => {
                   return (
                     <Avatar
                       bg="#FFF"
