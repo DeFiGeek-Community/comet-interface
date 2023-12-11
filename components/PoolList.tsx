@@ -159,8 +159,8 @@ const PoolList = memo(() => {
                   </Row>
                 </Row>
                 <ModalDivider />
-                {poolConfig?.map((asset, index) => {
-                  return <PoolTableRow poolData={asset} />;
+                {poolConfig?.map((data, index) => {
+                  return <PoolTableRow poolData={data} />;
                 })}
                 <ModalDivider />
               </Column>

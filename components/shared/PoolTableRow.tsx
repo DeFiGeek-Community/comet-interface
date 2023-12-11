@@ -18,10 +18,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   const { totalPoolData, error } = useTotalPoolData(poolData);
   let sumCollateralBalances = 0;
-  for( let key in totalPoolData?.totalCollateralBalances){
+  for (let key in totalPoolData?.totalCollateralBalances) {
     sumCollateralBalances += totalPoolData.totalCollateralBalances[key];
   }
-  
+
   const isMobile = useIsMobile();
 
   const { address } = useAccount();
