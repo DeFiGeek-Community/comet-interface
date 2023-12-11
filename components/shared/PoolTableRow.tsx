@@ -43,6 +43,18 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   const { totalPoolData, error } = useTotalPoolData(poolData);
   let b = 0;
+  for( let key in totalPoolData?.totalCollateralBalances){
+    //b += key;
+    //if(totalPoolData?.totalCollateralBalances[key] !== undefined)
+    //console.log(totalPoolData.totalCollateralBalances[key])
+    b += totalPoolData.totalCollateralBalances[key];
+    // if(totalPoolData){
+    //   if(totalPoolData?.totalCollateralBalances[key]){
+    //     b += totalPoolData.totalCollateralBalances[key] !== undefined? totalPoolData.totalCollateralBalances[key]:0;
+    //   }
+    // }
+    //console.log(key);
+  }
   // b += totalPoolData?.totalCollateralBalances["TXJP"] !== undefined ? totalPoolData?.totalCollateralBalances["TXJP"] : 0;
   // b += totalPoolData?.totalCollateralBalances["wstETH"] !== undefined ? totalPoolData?.totalCollateralBalances["wstETH"] : 0;
   // b += totalPoolData?.totalCollateralBalances["USDC"] !== undefined ? totalPoolData?.totalCollateralBalances["USDC"] : 0;

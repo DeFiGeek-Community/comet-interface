@@ -8,7 +8,7 @@ import {
 } from "hooks/util/cometContractUtils";
 
 export interface TotalCollateralData {
-  [key: string]: number | undefined;
+  [key: string]: number | 0;
 }
 export interface TotalPoolData {
   totalBaseSupplyBalance: number | undefined;
@@ -34,7 +34,7 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
     try {
       const getTotalSupply = await fetchTotalDataComet("totalSupply", poolData);
       const getTotalBorrow = await fetchTotalDataComet("totalBorrow", poolData);
-      const totalCollateralBalances: { [key: string]: number | undefined } = {};
+      const totalCollateralBalances: { [key: string]: number | 0 } = {};
       let tCB: bigint[] = [];
       let ind: any = 0;
       for (const assetConfig of poolData.assetConfigs) {
@@ -46,7 +46,7 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
         totalCollateralBalances[assetConfig.symbol] =
           getTotalsCollateral !== undefined
             ? Number(formatUnits(getTotalsCollateral, assetConfig.decimals))
-            : undefined;
+            : 0;
         tCB[ind] =
           getTotalsCollateral !== undefined ? getTotalsCollateral : BigInt(0);
         ind++;
