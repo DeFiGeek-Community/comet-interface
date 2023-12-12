@@ -1,14 +1,11 @@
 import React, { memo, useState, useEffect } from "react";
-import { Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
-import { Column, Center, useIsMobile } from "utils/chakraUtils";
-import usePoolData from "hooks/pool/shared/usePoolConfig";
+import { Column, useIsMobile } from "utils/chakraUtils";
 import { useReload } from "context/ReloadContext";
 import StatsBar from "components/pool/StatsBar";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 import { CurrencyProvider } from "components/Provider/currencyProvider";
-import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import PoolTable from "components/shared/PoolTable";
 import { useNetwork } from "wagmi";
@@ -33,8 +30,6 @@ const PoolList = memo(() => {
       setPoolConfig(config);
     }
   }, [chain]);
-
-  const poolData = usePoolData();
 
   const { address } = useAccount();
   const { reload } = useReload();
