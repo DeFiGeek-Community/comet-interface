@@ -38,7 +38,9 @@ const PoolList = memo(() => {
     if (chain) {
       const allPoolName = SupportedPoolName[chain?.id];
       for (let key in allPoolName) {
-        config.push(POOL_CONFIG_MAP[chain?.id][key]);
+        const tempolaryConfig: PoolConfig = POOL_CONFIG_MAP[chain?.id][key];
+        if(tempolaryConfig)
+        config.push(tempolaryConfig);
       }
       setPoolConfig(config);
     }
