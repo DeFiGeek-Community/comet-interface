@@ -14,7 +14,6 @@ export interface TotalPoolData {
   totalBaseSupplyBalance: number | undefined;
   totalBaseBorrowBalance: number | undefined;
   totalCollateralBalances: TotalCollateralData;
-  a: bigint | undefined;
 }
 
 const useTotalPoolData = (poolData: PoolConfig | undefined) => {
@@ -35,8 +34,6 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
       const getTotalSupply = await fetchTotalDataComet("totalSupply", poolData);
       const getTotalBorrow = await fetchTotalDataComet("totalBorrow", poolData);
       const totalCollateralBalances: { [key: string]: number | 0 } = {};
-      let tCB: bigint[] = [];
-      let ind: any = 0;
       for (const assetConfig of poolData.assetConfigs) {
         const getTotalsCollateral = await fetchTotalCollateralDataComet(
           "totalsCollateral",
@@ -47,12 +44,7 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
           getTotalsCollateral !== undefined
             ? Number(formatUnits(getTotalsCollateral, assetConfig.decimals))
             : 0;
-        tCB[ind] =
-          getTotalsCollateral !== undefined ? getTotalsCollateral : BigInt(0);
-        ind++;
       }
-      let a: bigint = BigInt(0);
-      a = tCB[0] + tCB[1] + tCB[2] + tCB[3];
 
       const fetchedData: TotalPoolData = {
         totalBaseSupplyBalance:
@@ -64,7 +56,6 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
             ? Number(formatUnits(getTotalBorrow, poolData.cometDecimals))
             : undefined,
         totalCollateralBalances: totalCollateralBalances,
-        a: a,
       };
 
       setTotalPoolData(fetchedData);

@@ -1,8 +1,8 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
-import { Heading, Text } from "@chakra-ui/react";
-import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
+import { Text } from "@chakra-ui/react";
+import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { useReload } from "context/ReloadContext";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
