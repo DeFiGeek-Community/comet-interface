@@ -11,9 +11,12 @@ import PoolTable from "components/shared/PoolTable";
 import { useNetwork } from "wagmi";
 import { POOL_CONFIG_MAP, SupportedPoolName } from "constants/pools";
 import { PoolConfig } from "interfaces/pool";
+import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProvider";
+import usePoolData from "hooks/pool/shared/usePoolConfig";
 
 const PoolList = memo(() => {
   const { t } = useTranslation();
+  const poolData = usePoolData();
 
   const isMobile = useIsMobile();
   const { chain } = useNetwork();
@@ -39,6 +42,7 @@ const PoolList = memo(() => {
   }, [address]);
 
   return (
+    <PoolPrimaryDataProvider poolData={poolData}>
     <CurrencyProvider>
       <Column
         mainAxisAlignment="flex-start"
@@ -54,6 +58,7 @@ const PoolList = memo(() => {
         <Footer />
       </Column>
     </CurrencyProvider>
+    </PoolPrimaryDataProvider>
   );
 });
 

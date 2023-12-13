@@ -38,7 +38,7 @@ const Pool = () => {
     >
       <ReloadContextProvider>
         {isRendered && router.isReady ? (
-          <PoolList />
+          <PoolPage />
         ) : (
           <Center height="100vh">
             <HashLoader color="#FFF" />
