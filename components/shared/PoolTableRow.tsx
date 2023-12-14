@@ -11,7 +11,6 @@ import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useCurrency } from "context/currencyContext";
-import { truncateTo2DecimalPlaces } from "utils/bigUtils";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -41,162 +40,183 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   return (
     <>
-      <Row
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="center"
-        width="100%"
-        px={4}
-        pt={4}
-        pb={2}
-        backgroundColor={"gray.900"}
-        className="hover-row"
-        as="button"
-        style={{ pointerEvents: address ? "auto" : "none" }}
-      >
-        <Row
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="flex-start"
-          width="40%"
-        >
-          <Column
+      {isMobile ? (
+        <>
+          <Row
             mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-start"
+            crossAxisAlignment="center"
             width="100%"
+            px={4}
+            pt={4}
+            pb={2}
+            backgroundColor={"gray.900"}
+            className="hover-row"
+            as="button"
+            style={{ pointerEvents: address ? "auto" : "none" }}
+          >
+            test
+          </Row>
+        </>
+      ) : (
+        <>
+          <Row
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            width="100%"
+            px={4}
+            pt={4}
+            pb={2}
+            backgroundColor={"gray.900"}
+            className="hover-row"
+            as="button"
+            style={{ pointerEvents: address ? "auto" : "none" }}
           >
             <Row
               mainAxisAlignment="flex-start"
               crossAxisAlignment="flex-start"
-              width="100%"
+              width="40%"
             >
-              <Row
+              <Column
                 mainAxisAlignment="flex-start"
-                crossAxisAlignment="center"
-                width="25%"
-                pl={6}
+                crossAxisAlignment="flex-start"
+                width="100%"
               >
-                <Avatar
-                  bg="#FFF"
-                  boxSize="30px"
-                  name={symbol}
-                  src={
-                    tokenData?.logoURL ??
-                    "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                  }
-                />
-              </Row>
-              <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="center"
-                overflow="scroll"
-                width="73%"
-              >
-                {collateralList?.map((asset, index) => {
-                  return (
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="flex-start"
+                  width="100%"
+                >
+                  <Row
+                    mainAxisAlignment="flex-start"
+                    crossAxisAlignment="center"
+                    width="25%"
+                    pl={6}
+                  >
                     <Avatar
                       bg="#FFF"
                       boxSize="30px"
-                      mr={1}
-                      name={asset?.symbol ?? ""}
+                      name={symbol}
                       src={
-                        asset?.logoURL ??
+                        tokenData?.logoURL ??
                         "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
                       }
                     />
-                  );
-                })}
-              </Row>
+                  </Row>
+                  <Row
+                    mainAxisAlignment="flex-start"
+                    crossAxisAlignment="center"
+                    overflow="scroll"
+                    width="73%"
+                  >
+                    {collateralList?.map((asset, index) => {
+                      return (
+                        <Avatar
+                          bg="#FFF"
+                          boxSize="30px"
+                          mr={1}
+                          name={asset?.symbol ?? ""}
+                          src={
+                            asset?.logoURL ??
+                            "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                          }
+                        />
+                      );
+                    })}
+                  </Row>
+                </Row>
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="flex-start"
+                  width="100%"
+                  mt={1}
+                >
+                  <Text fontWeight="bold" pl={1}>
+                    {symbol} {"Pool"}
+                  </Text>
+                </Row>
+              </Column>
             </Row>
             <Row
-              mainAxisAlignment="flex-start"
-              crossAxisAlignment="flex-start"
-              width="100%"
-              mt={1}
+              mainAxisAlignment="center"
+              crossAxisAlignment="center"
+              height="100%"
+              width={isMobile ? "33%" : "20%"}
             >
-              <Text fontWeight="bold" pl={1}>
-                {symbol} {"Pool"}
+              <Text textAlign="center">
+                {totalPoolData?.totalBaseSupplyBalance !== undefined &&
+                assetPrice ? (
+                  <>
+                    <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                      {smallUsdPriceFormatter(
+                        totalPoolData?.totalBaseSupplyBalance,
+                        assetPrice,
+                        currency,
+                        rate || 0,
+                      )}
+                    </Text>
+                  </>
+                ) : (
+                  <Center height="50px">
+                    <Spinner />
+                  </Center>
+                )}
               </Text>
             </Row>
-          </Column>
-        </Row>
-        <Row
-          mainAxisAlignment="center"
-          crossAxisAlignment="center"
-          height="100%"
-          width={isMobile ? "33%" : "20%"}
-        >
-          <Text textAlign="center">
-            {totalPoolData?.totalBaseSupplyBalance !== undefined &&
-            assetPrice ? (
-              <>
-                <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                  {smallUsdPriceFormatter(
-                    totalPoolData?.totalBaseSupplyBalance,
-                    assetPrice,
-                    currency,
-                    rate || 0,
-                  )}
-                </Text>
-              </>
-            ) : (
-              <Center height="50px">
-                <Spinner />
-              </Center>
-            )}
-          </Text>
-        </Row>
-        <Row
-          mainAxisAlignment="center"
-          crossAxisAlignment="center"
-          height="100%"
-          width={isMobile ? "33%" : "20%"}
-        >
-          <Text textAlign="center">
-            {totalPoolData?.totalBaseBorrowBalance !== undefined &&
-            assetPrice ? (
-              <>
-                <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                  {smallUsdPriceFormatter(
-                    totalPoolData?.totalBaseBorrowBalance,
-                    assetPrice,
-                    currency,
-                    rate || 0,
-                  )}
-                </Text>
-              </>
-            ) : (
-              <Center height="50px">
-                <Spinner />
-              </Center>
-            )}
-          </Text>
-        </Row>
-        <Row
-          mainAxisAlignment="center"
-          crossAxisAlignment="center"
-          height="100%"
-          width={isMobile ? "33%" : "20%"}
-        >
-          <Text textAlign="center">
-            {sumCollateralBalances !== undefined && assetPrice ? (
-              <>
-                <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
-                  {smallUsdPriceFormatter(
-                    sumCollateralBalances,
-                    assetPrice,
-                    currency,
-                    rate || 0,
-                  )}
-                </Text>
-              </>
-            ) : (
-              <Center height="50px">
-                <Spinner />
-              </Center>
-            )}
-          </Text>
-        </Row>
-      </Row>
-      <ModalDivider />
+            <Row
+              mainAxisAlignment="center"
+              crossAxisAlignment="center"
+              height="100%"
+              width={isMobile ? "33%" : "20%"}
+            >
+              <Text textAlign="center">
+                {totalPoolData?.totalBaseBorrowBalance !== undefined &&
+                assetPrice ? (
+                  <>
+                    <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                      {smallUsdPriceFormatter(
+                        totalPoolData?.totalBaseBorrowBalance,
+                        assetPrice,
+                        currency,
+                        rate || 0,
+                      )}
+                    </Text>
+                  </>
+                ) : (
+                  <Center height="50px">
+                    <Spinner />
+                  </Center>
+                )}
+              </Text>
+            </Row>
+            <Row
+              mainAxisAlignment="center"
+              crossAxisAlignment="center"
+              height="100%"
+              width={isMobile ? "33%" : "20%"}
+            >
+              <Text textAlign="center">
+                {sumCollateralBalances !== undefined && assetPrice ? (
+                  <>
+                    <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                      {smallUsdPriceFormatter(
+                        sumCollateralBalances,
+                        assetPrice,
+                        currency,
+                        rate || 0,
+                      )}
+                    </Text>
+                  </>
+                ) : (
+                  <Center height="50px">
+                    <Spinner />
+                  </Center>
+                )}
+              </Text>
+            </Row>
+          </Row>
+          <ModalDivider />
+        </>
+      )}
     </>
   );
 };
