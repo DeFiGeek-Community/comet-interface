@@ -2,12 +2,16 @@ import React, { useEffect } from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Text } from "@chakra-ui/react";
-import { Column, Row, useIsMobile } from "utils/chakraUtils";
+import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
 import { useReload } from "context/ReloadContext";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
+import { smallUsdPriceFormatter } from "utils/bigUtils";
+import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
+import { useCurrency } from "context/currencyContext";
+import { truncateTo2DecimalPlaces } from "utils/bigUtils";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -21,6 +25,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   for (let key in totalPoolData?.totalCollateralBalances) {
     sumCollateralBalances += totalPoolData.totalCollateralBalances[key];
   }
+
+  const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
+  const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
+  const { currency, rate } = useCurrency();
 
   const isMobile = useIsMobile();
 
@@ -116,8 +124,23 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
           height="100%"
           width={isMobile ? "33%" : "20%"}
         >
-          <Text textAlign="center" fontWeight="bold">
-            {totalPoolData?.totalBaseSupplyBalance}
+          <Text textAlign="center">
+            {totalPoolData?.totalBaseSupplyBalance !== undefined && assetPrice
+              ?( <>
+              <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                {smallUsdPriceFormatter(
+                  totalPoolData?.totalBaseSupplyBalance,
+                  assetPrice,
+                  currency,
+                  rate || 0,
+                )}
+                </Text>
+                </>
+              ): (
+                <Center height="50px">
+                  <Spinner />
+                </Center>
+              )}
           </Text>
         </Row>
         <Row
@@ -126,8 +149,23 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
           height="100%"
           width={isMobile ? "33%" : "20%"}
         >
-          <Text textAlign="center" fontWeight="bold">
-            {totalPoolData?.totalBaseBorrowBalance}
+          <Text textAlign="center">
+            {totalPoolData?.totalBaseBorrowBalance !== undefined && assetPrice
+              ?( <>
+              <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                {smallUsdPriceFormatter(
+                  totalPoolData?.totalBaseBorrowBalance,
+                  assetPrice,
+                  currency,
+                  rate || 0,
+                )}
+                </Text>
+                </>
+              ): (
+                <Center height="50px">
+                  <Spinner />
+                </Center>
+              )}
           </Text>
         </Row>
         <Row
@@ -136,8 +174,24 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
           height="100%"
           width={isMobile ? "33%" : "20%"}
         >
-          <Text textAlign="center" fontWeight="bold">
-            {sumCollateralBalances}
+          
+          <Text textAlign="center">
+            {sumCollateralBalances !== undefined && assetPrice
+              ?( <>
+              <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
+                {smallUsdPriceFormatter(
+                  sumCollateralBalances,
+                  assetPrice,
+                  currency,
+                  rate || 0,
+                )}
+                </Text>
+                </>
+              ): (
+                <Center height="50px">
+                  <Spinner />
+                </Center>
+              )}
           </Text>
         </Row>
       </Row>
