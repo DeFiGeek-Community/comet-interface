@@ -86,38 +86,17 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig[] | undefined }) => {
                 </Text>
               </Row>
               <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="flex-start"
+                mainAxisAlignment="center"
+                crossAxisAlignment="center"
+                height="100%"
                 width="30%"
               >
-                <Column
-                  mainAxisAlignment="flex-start"
-                  crossAxisAlignment="flex-start"
-                  width="100%"
-                >
-                  <Row
-                    mainAxisAlignment="flex-start"
-                    crossAxisAlignment="flex-start"
-                    width="100%"
-                    mb={2}
-                  >
-                    <Text textAlign="center" fontWeight="bold" pl={1}>
-                      {t("Pool Assets")}
-                    </Text>
-                  </Row>
-                  <Row
-                    mainAxisAlignment="flex-start"
-                    crossAxisAlignment="flex-start"
-                    width="100%"
-                  >
-                    <Text width="33%" fontWeight="bold" pl={1}>
-                      {t("Base Asset")}
-                    </Text>
-                    <Text width="67%" fontWeight="bold" pl={1}>
-                      {t("Collateral Asset")}
-                    </Text>
-                  </Row>
-                </Column>
+                <Text width="40%" fontWeight="bold" pl={1}>
+                  {t("Base Asset")}
+                </Text>
+                <Text width="60%" fontWeight="bold" pl={1}>
+                  {t("Collateral Asset")}
+                </Text>
               </Row>
               <Row
                 mainAxisAlignment="center"

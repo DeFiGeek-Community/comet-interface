@@ -89,8 +89,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               <Row
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="center"
-                width="33%"
-                pl={6}
+                width="40%"
+                pl={7}
               >
                 <Avatar
                   bg="#FFF"
@@ -106,7 +106,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="center"
                 overflow="scroll"
-                width="67%"
+                width="60%"
               >
                 {collateralList?.map((asset, index) => {
                   return (
