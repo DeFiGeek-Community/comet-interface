@@ -43,21 +43,21 @@ const PoolList = memo(() => {
 
   return (
     <PoolPrimaryDataProvider poolData={poolData}>
-    <CurrencyProvider>
-      <Column
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="center"
-        color="#FFFFFF"
-        mx="auto"
-        width={isMobile ? "100%" : "1150px"}
-        px={isMobile ? 4 : 0}
-      >
-        <Header />
-        <StatsBar isPoolList={true} />
-        <PoolTable poolData={poolConfig} />
-        <Footer />
-      </Column>
-    </CurrencyProvider>
+      <CurrencyProvider>
+        <Column
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="center"
+          color="#FFFFFF"
+          mx="auto"
+          width={isMobile ? "100%" : "1150px"}
+          px={isMobile ? 4 : 0}
+        >
+          <Header />
+          <StatsBar isPoolList={true} />
+          <PoolTable poolData={poolConfig} />
+          <Footer />
+        </Column>
+      </CurrencyProvider>
     </PoolPrimaryDataProvider>
   );
 });
