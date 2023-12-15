@@ -139,24 +139,24 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 <Text textAlign="left" fontWeight="bold" mr={2}>
                   {t("Total Supply Balance")}
                 </Text>
-                
-                  {totalPoolData?.totalBaseSupplyBalance !== undefined &&
-                  assetPrice ? (
-                    <>
-                      <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
-                        {smallUsdPriceFormatter(
-                          totalPoolData?.totalBaseSupplyBalance,
-                          assetPrice,
-                          currency,
-                          rate || 0,
-                        )}
-                      </Text>
-                    </>
-                  ) : (
-                    <Center height="50px">
-                      <Spinner />
-                    </Center>
-                  )}
+
+                {totalPoolData?.totalBaseSupplyBalance !== undefined &&
+                assetPrice ? (
+                  <>
+                    <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
+                      {smallUsdPriceFormatter(
+                        totalPoolData?.totalBaseSupplyBalance,
+                        assetPrice,
+                        currency,
+                        rate || 0,
+                      )}
+                    </Text>
+                  </>
+                ) : (
+                  <Center height="50px">
+                    <Spinner />
+                  </Center>
+                )}
               </Row>
               <Row
                 mainAxisAlignment="flex-start"
@@ -167,24 +167,24 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 <Text textAlign="left" fontWeight="bold" mr={2}>
                   {t("Total Borrow Balance")}
                 </Text>
-                
-                  {totalPoolData?.totalBaseBorrowBalance !== undefined &&
-                  assetPrice ? (
-                    <>
-                      <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
-                        {smallUsdPriceFormatter(
-                          totalPoolData?.totalBaseBorrowBalance,
-                          assetPrice,
-                          currency,
-                          rate || 0,
-                        )}
-                      </Text>
-                    </>
-                  ) : (
-                    <Center height="50px">
-                      <Spinner />
-                    </Center>
-                  )}
+
+                {totalPoolData?.totalBaseBorrowBalance !== undefined &&
+                assetPrice ? (
+                  <>
+                    <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
+                      {smallUsdPriceFormatter(
+                        totalPoolData?.totalBaseBorrowBalance,
+                        assetPrice,
+                        currency,
+                        rate || 0,
+                      )}
+                    </Text>
+                  </>
+                ) : (
+                  <Center height="50px">
+                    <Spinner />
+                  </Center>
+                )}
               </Row>
               <Row
                 mainAxisAlignment="flex-start"
@@ -195,23 +195,23 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 <Text textAlign="left" fontWeight="bold" mr={2}>
                   {t("Total Collateral Balance")}
                 </Text>
-                
-                  {sumCollateralBalances !== undefined && assetPrice ? (
-                    <>
-                      <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
-                        {smallUsdPriceFormatter(
-                          sumCollateralBalances,
-                          assetPrice,
-                          currency,
-                          rate || 0,
-                        )}
-                      </Text>
-                    </>
-                  ) : (
-                    <Center height="50px">
-                      <Spinner />
-                    </Center>
-                  )}
+
+                {sumCollateralBalances !== undefined && assetPrice ? (
+                  <>
+                    <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
+                      {smallUsdPriceFormatter(
+                        sumCollateralBalances,
+                        assetPrice,
+                        currency,
+                        rate || 0,
+                      )}
+                    </Text>
+                  </>
+                ) : (
+                  <Center height="50px">
+                    <Spinner />
+                  </Center>
+                )}
               </Row>
             </Column>
           </Row>
@@ -291,24 +291,28 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              
-                {totalPoolData?.totalBaseSupplyBalance !== undefined &&
-                assetPrice ? (
-                  <>
-                    <Text color={"#FFF"} fontWeight="bold" fontSize="17px" textAlign="center">
-                      {smallUsdPriceFormatter(
-                        totalPoolData?.totalBaseSupplyBalance,
-                        assetPrice,
-                        currency,
-                        rate || 0,
-                      )}
-                    </Text>
-                  </>
-                ) : (
-                  <Center height="50px">
-                    <Spinner />
-                  </Center>
-                )}
+              {totalPoolData?.totalBaseSupplyBalance !== undefined &&
+              assetPrice ? (
+                <>
+                  <Text
+                    color={"#FFF"}
+                    fontWeight="bold"
+                    fontSize="17px"
+                    textAlign="center"
+                  >
+                    {smallUsdPriceFormatter(
+                      totalPoolData?.totalBaseSupplyBalance,
+                      assetPrice,
+                      currency,
+                      rate || 0,
+                    )}
+                  </Text>
+                </>
+              ) : (
+                <Center height="50px">
+                  <Spinner />
+                </Center>
+              )}
             </Row>
             <Row
               mainAxisAlignment="center"
@@ -316,24 +320,28 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              
-                {totalPoolData?.totalBaseBorrowBalance !== undefined &&
-                assetPrice ? (
-                  <>
-                    <Text color={"#FFF"} fontWeight="bold" fontSize="17px" textAlign="center">
-                      {smallUsdPriceFormatter(
-                        totalPoolData?.totalBaseBorrowBalance,
-                        assetPrice,
-                        currency,
-                        rate || 0,
-                      )}
-                    </Text>
-                  </>
-                ) : (
-                  <Center height="50px">
-                    <Spinner />
-                  </Center>
-                )}
+              {totalPoolData?.totalBaseBorrowBalance !== undefined &&
+              assetPrice ? (
+                <>
+                  <Text
+                    color={"#FFF"}
+                    fontWeight="bold"
+                    fontSize="17px"
+                    textAlign="center"
+                  >
+                    {smallUsdPriceFormatter(
+                      totalPoolData?.totalBaseBorrowBalance,
+                      assetPrice,
+                      currency,
+                      rate || 0,
+                    )}
+                  </Text>
+                </>
+              ) : (
+                <Center height="50px">
+                  <Spinner />
+                </Center>
+              )}
             </Row>
             <Row
               mainAxisAlignment="center"
@@ -341,23 +349,27 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              
-                {sumCollateralBalances !== undefined && assetPrice ? (
-                  <>
-                    <Text color={"#FFF"} fontWeight="bold" fontSize="17px" textAlign="center">
-                      {smallUsdPriceFormatter(
-                        sumCollateralBalances,
-                        assetPrice,
-                        currency,
-                        rate || 0,
-                      )}
-                    </Text>
-                  </>
-                ) : (
-                  <Center height="50px">
-                    <Spinner />
-                  </Center>
-                )}
+              {sumCollateralBalances !== undefined && assetPrice ? (
+                <>
+                  <Text
+                    color={"#FFF"}
+                    fontWeight="bold"
+                    fontSize="17px"
+                    textAlign="center"
+                  >
+                    {smallUsdPriceFormatter(
+                      sumCollateralBalances,
+                      assetPrice,
+                      currency,
+                      rate || 0,
+                    )}
+                  </Text>
+                </>
+              ) : (
+                <Center height="50px">
+                  <Spinner />
+                </Center>
+              )}
             </Row>
           </Row>
           <ModalDivider />
