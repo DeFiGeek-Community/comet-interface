@@ -66,7 +66,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 height="100%"
                 width="100%"
+                pb={4}
               >
+                <img src="/crown.png" height="20px" width="20px"/>
                 <Text textAlign="center" fontWeight="bold" size="md" pl={1}>
                   {symbol} {"Pool"}
                 </Text>
@@ -76,7 +78,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 height="100%"
                 width="100%"
-                pb={1}
+                pb={4}
               >
                 <Text width="40%" textAlign="left" fontWeight="bold" pl={1}>
                   {t("Base Asset")}
@@ -89,7 +91,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="flex-start"
                 width="100%"
-                pb={2}
+                pb={6}
               >
                 <Row
                   mainAxisAlignment="flex-start"
@@ -135,8 +137,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 height="100%"
                 width="100%"
+                pb={6}
               >
-                <Text textAlign="left" fontWeight="bold" mr={2}>
+                <Text width="135px" textAlign="left" fontWeight="bold" mr={2}>
                   {t("Total Supply Balance")}
                 </Text>
 
@@ -163,8 +166,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 height="100%"
                 width="100%"
+                pb={6}
               >
-                <Text textAlign="left" fontWeight="bold" mr={2}>
+                <Text width="135px" textAlign="left" fontWeight="bold" mr={2}>
                   {t("Total Borrow Balance")}
                 </Text>
 
@@ -191,8 +195,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 crossAxisAlignment="center"
                 height="100%"
                 width="100%"
+                pb={1}
               >
-                <Text textAlign="left" fontWeight="bold" mr={2}>
+                <Text width="135px" textAlign="left" fontWeight="bold" mr={2}>
                   {t("Total Collateral Balance")}
                 </Text>
 
