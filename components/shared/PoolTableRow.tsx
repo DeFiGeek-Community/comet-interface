@@ -12,11 +12,7 @@ import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useCurrency } from "context/currencyContext";
 
-const PoolTableRow = ({
-  poolData,
-}: {
-  poolData: PoolConfig;
-}) => {
+const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
 
   const tokenData = poolData?.baseToken;
@@ -58,8 +54,170 @@ const PoolTableRow = ({
             as="button"
             style={{ pointerEvents: address ? "auto" : "none" }}
           >
-            test
+            <Column
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="flex-start"
+              height="100%"
+              width="100%"
+              pb={1}
+            >
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="center"
+                height="100%"
+                width="100%"
+              >
+                <Text textAlign="center" fontWeight="bold" size="md" pl={1}>
+                  {symbol} {"Pool"}
+                </Text>
+              </Row>
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="center"
+                height="100%"
+                width="100%"
+                pb={1}
+              >
+                <Text width="40%" textAlign="left" fontWeight="bold" pl={1}>
+                  {t("Base Asset")}
+                </Text>
+                <Text width="60%" textAlign="left" fontWeight="bold" pl={1}>
+                  {t("Collateral Asset")}
+                </Text>
+              </Row>
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="flex-start"
+                width="100%"
+                pb={2}
+              >
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="center"
+                  width="40%"
+                  pl={7}
+                >
+                  <Avatar
+                    bg="#FFF"
+                    boxSize="30px"
+                    name={symbol}
+                    src={
+                      tokenData?.logoURL ??
+                      "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                    }
+                  />
+                </Row>
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="center"
+                  overflow="scroll"
+                  width="60%"
+                >
+                  {collateralList?.map((asset, index) => {
+                    return (
+                      <Avatar
+                        bg="#FFF"
+                        boxSize="30px"
+                        mr={1}
+                        name={asset?.symbol ?? ""}
+                        src={
+                          asset?.logoURL ??
+                          "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                        }
+                      />
+                    );
+                  })}
+                </Row>
+              </Row>
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="center"
+                height="100%"
+                width="100%"
+              >
+                <Text textAlign="left" fontWeight="bold" mr={2}>
+                  {t("Total Supply Balance")}
+                </Text>
+                <Text textAlign="left" fontWeight="bold">
+                  {totalPoolData?.totalBaseSupplyBalance !== undefined &&
+                  assetPrice ? (
+                    <>
+                      <Text color={"#FFF"}>
+                        {smallUsdPriceFormatter(
+                          totalPoolData?.totalBaseSupplyBalance,
+                          assetPrice,
+                          currency,
+                          rate || 0,
+                        )}
+                      </Text>
+                    </>
+                  ) : (
+                    <Center height="50px">
+                      <Spinner />
+                    </Center>
+                  )}
+                </Text>
+              </Row>
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="center"
+                height="100%"
+                width="100%"
+              >
+                <Text textAlign="left" fontWeight="bold" mr={2}>
+                  {t("Total Borrow Balance")}
+                </Text>
+                <Text textAlign="left" fontWeight="bold">
+                  {totalPoolData?.totalBaseBorrowBalance !== undefined &&
+                  assetPrice ? (
+                    <>
+                      <Text color={"#FFF"}>
+                        {smallUsdPriceFormatter(
+                          totalPoolData?.totalBaseBorrowBalance,
+                          assetPrice,
+                          currency,
+                          rate || 0,
+                        )}
+                      </Text>
+                    </>
+                  ) : (
+                    <Center height="50px">
+                      <Spinner />
+                    </Center>
+                  )}
+                </Text>
+              </Row>
+              <Row
+                mainAxisAlignment="flex-start"
+                crossAxisAlignment="center"
+                height="100%"
+                width="100%"
+              >
+                <Text textAlign="left" fontWeight="bold" mr={2}>
+                  {t("Total Collateral Balance")}
+                </Text>
+                <Text textAlign="left" fontWeight="bold">
+                  {sumCollateralBalances !== undefined && assetPrice ? (
+                    <>
+                      <Text color={"#FFF"}>
+                        {smallUsdPriceFormatter(
+                          sumCollateralBalances,
+                          assetPrice,
+                          currency,
+                          rate || 0,
+                        )}
+                      </Text>
+                    </>
+                  ) : (
+                    <Center height="50px">
+                      <Spinner />
+                    </Center>
+                  )}
+                </Text>
+              </Row>
+            </Column>
           </Row>
+          <ModalDivider />
         </>
       ) : (
         <>
