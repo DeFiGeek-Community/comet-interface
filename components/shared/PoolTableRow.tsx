@@ -12,7 +12,11 @@ import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useCurrency } from "context/currencyContext";
 
-const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
+const PoolTableRow = ({
+  poolData,
+}: {
+  poolData: PoolConfig;
+}) => {
   const { t } = useTranslation();
 
   const tokenData = poolData?.baseToken;
@@ -48,7 +52,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
             width="100%"
             px={4}
             pt={4}
-            pb={2}
+            pb={4}
             backgroundColor={"gray.900"}
             className="hover-row"
             as="button"

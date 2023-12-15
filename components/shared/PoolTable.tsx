@@ -44,7 +44,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig[] | undefined }) => {
             </Heading>
             <ModalDivider />
             {poolData?.map((data, index) => {
-              return <PoolTableRow poolData={data} />;
+              return <PoolTableRow poolData={data} key={index} />;
             })}
           </Column>
         </DashboardBox>
@@ -131,7 +131,7 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig[] | undefined }) => {
             </Row>
             <ModalDivider />
             {poolData?.map((data, index) => {
-              return <PoolTableRow poolData={data} />;
+              return <PoolTableRow poolData={data} key={index} />;
             })}
             <ModalDivider />
           </Column>
