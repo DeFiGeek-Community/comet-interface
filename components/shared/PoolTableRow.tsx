@@ -116,6 +116,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   {collateralList?.map((asset, index) => {
                     return (
                       <Avatar
+                        key={index}
                         bg="#FFF"
                         boxSize="30px"
                         mr={1}
@@ -273,6 +274,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 {collateralList?.map((asset, index) => {
                   return (
                     <Avatar
+                      key={index}
                       bg="#FFF"
                       boxSize="30px"
                       mr={1}
