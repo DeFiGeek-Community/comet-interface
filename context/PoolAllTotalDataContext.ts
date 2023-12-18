@@ -5,7 +5,7 @@ import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets"
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { ClaimReward } from "hooks/pool/indivisual/useClaimReward";
 
-export interface PoolAllDataContextType {
+export interface PoolAllTotalDataContextType {
   priceFeedData: PriceFeedData | undefined;
   baseAssetData: BaseAssetData | undefined;
   collateralAssetsData: CollateralAssetsData | undefined;
@@ -13,8 +13,8 @@ export interface PoolAllDataContextType {
   claimReward: ClaimReward | undefined;
 }
 
-const PoolAllDataContext = createContext<PoolAllDataContextType | undefined>(
+const PoolAllTotalDataContext = createContext<PoolAllTotalDataContextType | undefined>(
   undefined,
 );
 
-export default PoolAllDataContext;
+export default PoolAllTotalDataContext;
