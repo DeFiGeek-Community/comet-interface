@@ -1,6 +1,13 @@
 import { PoolConfigMap } from "interfaces/pool";
 import { SupportedChainId } from "./chains";
 
+export interface PoolNames {
+  CJPY: string;
+  USDC: string;
+  // 新しい要素が追加される場合はここに追加
+  // 例: EUR: string;
+};
+
 export const SupportedPoolName = {
   [SupportedChainId.MAINNET]: {
     CJPY: "CJPY",
