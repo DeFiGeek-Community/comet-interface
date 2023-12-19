@@ -1,6 +1,19 @@
 import React from "react";
 import Image from "next/image";
-import { Box, Link, Text, Select, Spacer } from "@chakra-ui/react";
+import {
+  Box,
+  Link,
+  Text,
+  Select,
+  Spacer,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+} from "@chakra-ui/react";
+import { POOL_CONFIG_MAP } from "constants/pools";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row, useIsMobile } from "utils/chakraUtils";
 import { useChainPool } from "hooks/useChainPool";
@@ -67,6 +80,8 @@ export const Header = () => {
   const isMobile = useIsMobile();
   const { chainId, poolName } = useChainPool();
   const { currency, toggleCurrency } = useCurrency();
+  const chainConfig = POOL_CONFIG_MAP[chainId];
+  const poolNames = chainConfig ? Object.keys(chainConfig) : [];
   return (
     <Row
       color="#FFFFFF"
@@ -92,17 +107,26 @@ export const Header = () => {
         overflowY="hidden"
         width="80%"
       >
-        <HeaderLink
-          name="CJPY Pool"
-          route="/"
-          isGreyedOut={poolName === "CJPY"}
-        />
-        {/* <HeaderLink
-          name="USDC Pool"
-          route="/?pool=USDC"
-          isGreyedOut={poolName === "USDC"}
-        /> */}
-        <HeaderLink name="Document" route="#" />
+        <Menu>
+          <MenuButton
+            as={Button}
+            rightIcon={<ChevronDownIcon />}
+            colorScheme="dark"
+          >
+            Pool
+          </MenuButton>
+          <MenuList bg={"dark"} borderColor={"gray"}>
+            {poolNames.map((name) => (
+              <MenuItem bg={"black"} _focus={{ bg: "#282727" }} key={name}>
+                <HeaderLink
+                  name={`${name} Pool`}
+                  route={`/?pool=${name}`}
+                  isGreyedOut={poolName == name}
+                />
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
       </Row>
       {isMobile ? (
         <Box>
