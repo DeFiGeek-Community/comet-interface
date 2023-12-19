@@ -15,6 +15,16 @@ export interface TotalPoolData {
   totalBaseBorrowBalance: number | undefined;
   totalCollateralBalances: TotalCollateralData;
 }
+export interface TotalPoolDataValue {
+  totalBaseSupplyBalance: number | undefined;
+  totalBaseBorrowBalance: number | undefined;
+  totalCollateralBalances: number | undefined;
+}
+
+export interface BaseAssetAndTotalPoolData {
+  baseAssetName: string | undefined;
+  totalPoolData: TotalPoolDataValue;
+}
 
 const useTotalPoolData = (poolData: PoolConfig | undefined) => {
   const [totalPoolData, setTotalPoolData] = useState<
