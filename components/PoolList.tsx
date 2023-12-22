@@ -58,7 +58,6 @@ const PoolList = memo(() => {
           >
             <Header />
             <StatsBar isPoolList={true} />
-            {/* {isMobile?<PoolTableMobile poolData={poolConfig} />:<PoolTable poolData={poolConfig} />} */}
             <PoolTable poolData={poolConfig} />
             <Footer />
           </Column>

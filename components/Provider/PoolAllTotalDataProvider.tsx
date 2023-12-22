@@ -1,11 +1,7 @@
 import PoolAllTotalDataContext from "context/PoolAllTotalDataContext";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
-import {
-  TotalPoolDataValue,
-  BaseAssetAndTotalPoolData,
-  BaseCollateralAssetAndTotalPoolData,
-} from "hooks/pool/shared/useTotalPoolData";
+import { BaseCollateralAssetAndTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { POOL_CONFIG_MAP, PoolNames } from "constants/pools";
 
 interface PoolAllTotalDataProviderProps {
@@ -17,8 +13,6 @@ interface PoolAllTotalDataProviderProps {
 export const PoolAllTotalDataProvider: React.FC<
   PoolAllTotalDataProviderProps
 > = ({ chainId, allPoolName, children }) => {
-  let test: TotalPoolDataValue[] = [];
-  let baseAssetAndTotalPoolData: BaseAssetAndTotalPoolData[] = [];
   let baseCollateralAssetAndTotalPoolData: BaseCollateralAssetAndTotalPoolData[] =
     [];
   for (let key in allPoolName) {
@@ -29,19 +23,6 @@ export const PoolAllTotalDataProvider: React.FC<
     for (let key in totalPoolData?.totalCollateralBalances) {
       sumCollateralBalances += totalPoolData.totalCollateralBalances[key];
     }
-    test.push({
-      totalBaseSupplyBalance: totalPoolData?.totalBaseSupplyBalance,
-      totalBaseBorrowBalance: totalPoolData?.totalBaseBorrowBalance,
-      totalCollateralBalances: sumCollateralBalances,
-    });
-    baseAssetAndTotalPoolData.push({
-      baseAssetName: tempolaryConfig?.baseToken.name,
-      totalPoolData: {
-        totalBaseSupplyBalance: totalPoolData?.totalBaseSupplyBalance,
-        totalBaseBorrowBalance: totalPoolData?.totalBaseBorrowBalance,
-        totalCollateralBalances: sumCollateralBalances,
-      },
-    });
     baseCollateralAssetAndTotalPoolData.push({
       baseToken: tempolaryConfig?.baseToken,
       assetConfigs: tempolaryConfig?.assetConfigs,
@@ -54,8 +35,6 @@ export const PoolAllTotalDataProvider: React.FC<
   return (
     <PoolAllTotalDataContext.Provider
       value={{
-        test,
-        baseAssetAndTotalPoolData,
         baseCollateralAssetAndTotalPoolData,
       }}
     >
