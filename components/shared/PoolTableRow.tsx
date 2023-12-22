@@ -10,6 +10,7 @@ import { BaseCollateralAssetAndTotalPoolData } from "hooks/pool/shared/useTotalP
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useCurrency } from "context/currencyContext";
+import { Link } from "@chakra-ui/react";
 
 const PoolTableRow = ({
   poolData,
@@ -36,7 +37,7 @@ const PoolTableRow = ({
   }, [address]);
 
   return (
-    <>
+    <Link href={`/PoolPage?pool=${ symbol }`} width="100%" className="no-underline">
       {isMobile ? (
         <>
           <Row
@@ -44,8 +45,7 @@ const PoolTableRow = ({
             crossAxisAlignment="center"
             width="100%"
             px={4}
-            pt={4}
-            pb={4}
+            py={4}
             backgroundColor={"gray.900"}
             className="hover-row"
             as="button"
@@ -227,8 +227,7 @@ const PoolTableRow = ({
             crossAxisAlignment="center"
             width="100%"
             px={4}
-            pt={4}
-            pb={4}
+            py={8}
             backgroundColor={"gray.900"}
             className="hover-row"
             as="button"
@@ -376,7 +375,7 @@ const PoolTableRow = ({
           <ModalDivider />
         </>
       )}
-    </>
+    </Link>
   );
 };
 

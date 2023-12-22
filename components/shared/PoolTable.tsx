@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useAccount } from "wagmi";
 import { Heading, Text } from "@chakra-ui/react";
-import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
+import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { useReload } from "context/ReloadContext";
 import DashboardBox from "components/shared/DashboardBox";
-import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/shared/PoolTableRow";
