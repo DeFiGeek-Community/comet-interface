@@ -9,6 +9,8 @@ import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import PoolTableRow from "components/shared/PoolTableRow";
+import PoolTableRowTest from "components/shared/PoolTableRowTest";
+import { usePoolAllTotalDataContext } from "hooks/pool/usePoolAllTotalDataContext";
 
 const PoolTable = ({ poolData }: { poolData: PoolConfig[] | undefined }) => {
   const { t } = useTranslation();
@@ -17,6 +19,8 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig[] | undefined }) => {
 
   const { address } = useAccount();
   const { reload } = useReload();
+
+  const { baseCollateralAssetAndTotalPoolData } = usePoolAllTotalDataContext();
 
   useEffect(() => {
     reload();
@@ -43,8 +47,13 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig[] | undefined }) => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
-            {poolData?.map((data, index) => {
+            {/* {poolData?.map((data, index) => {
               return <PoolTableRow poolData={data} key={index} />;
+            })} */}
+            {baseCollateralAssetAndTotalPoolData?.map((data, index) => {
+              if (data.baseToken) {
+                return <PoolTableRowTest poolData={data} key={index} />;
+              }
             })}
           </Column>
         </DashboardBox>
@@ -130,8 +139,13 @@ const PoolTable = ({ poolData }: { poolData: PoolConfig[] | undefined }) => {
               </Row>
             </Row>
             <ModalDivider />
-            {poolData?.map((data, index) => {
+            {/* {poolData?.map((data, index) => {
               return <PoolTableRow poolData={data} key={index} />;
+            })} */}
+            {baseCollateralAssetAndTotalPoolData?.map((data, index) => {
+              if (data.baseToken) {
+                return <PoolTableRowTest poolData={data} key={index} />;
+              }
             })}
             <ModalDivider />
           </Column>

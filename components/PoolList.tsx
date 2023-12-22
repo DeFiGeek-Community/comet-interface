@@ -47,21 +47,21 @@ const PoolList = memo(() => {
   return (
     <PoolPrimaryDataProvider poolData={poolData}>
       <CurrencyProvider>
-      <PoolAllTotalDataProvider chainId={chain?.id} allPoolName={allPoolName}>
-        <Column
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          color="#FFFFFF"
-          mx="auto"
-          width={isMobile ? "100%" : "1150px"}
-          px={isMobile ? 4 : 0}
-        >
-          <Header />
-          <StatsBar isPoolList={true} />
-          {/* {isMobile?<PoolTableMobile poolData={poolConfig} />:<PoolTable poolData={poolConfig} />} */}
-          <PoolTable poolData={poolConfig} />
-          <Footer />
-        </Column>
+        <PoolAllTotalDataProvider chainId={chain?.id} allPoolName={allPoolName}>
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            color="#FFFFFF"
+            mx="auto"
+            width={isMobile ? "100%" : "1150px"}
+            px={isMobile ? 4 : 0}
+          >
+            <Header />
+            <StatsBar isPoolList={true} />
+            {/* {isMobile?<PoolTableMobile poolData={poolConfig} />:<PoolTable poolData={poolConfig} />} */}
+            <PoolTable poolData={poolConfig} />
+            <Footer />
+          </Column>
         </PoolAllTotalDataProvider>
       </CurrencyProvider>
     </PoolPrimaryDataProvider>

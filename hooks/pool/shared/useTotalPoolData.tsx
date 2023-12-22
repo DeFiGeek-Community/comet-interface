@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { formatUnits } from "viem";
-import { PoolConfig } from "interfaces/pool";
+import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 import { useReload } from "context/ReloadContext";
 import {
   fetchTotalDataComet,
@@ -24,6 +24,14 @@ export interface TotalPoolDataValue {
 export interface BaseAssetAndTotalPoolData {
   baseAssetName: string | undefined;
   totalPoolData: TotalPoolDataValue;
+}
+
+export interface BaseCollateralAssetAndTotalPoolData {
+  baseToken: BaseAsset;
+  assetConfigs: CollateralAsset[];
+  totalBaseSupplyBalance: number | undefined;
+  totalBaseBorrowBalance: number | undefined;
+  totalCollateralBalances: number | undefined;
 }
 
 const useTotalPoolData = (poolData: PoolConfig | undefined) => {
