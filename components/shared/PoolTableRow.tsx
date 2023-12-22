@@ -6,7 +6,6 @@ import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
 import { useReload } from "context/ReloadContext";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
-import { PoolConfig } from "interfaces/pool";
 import { BaseCollateralAssetAndTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";

@@ -9,8 +9,7 @@ import { CurrencyProvider } from "components/Provider/currencyProvider";
 import { useTranslation } from "react-i18next";
 import PoolTable from "components/shared/PoolTable";
 import { useNetwork } from "wagmi";
-import { POOL_CONFIG_MAP, SupportedPoolName, PoolNames } from "constants/pools";
-import { PoolConfig } from "interfaces/pool";
+import { SupportedPoolName, PoolNames } from "constants/pools";
 import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProvider";
 import usePoolData from "hooks/pool/shared/usePoolConfig";
 import { PoolAllTotalDataProvider } from "components/Provider/PoolAllTotalDataProvider";
@@ -22,17 +21,11 @@ const PoolList = memo(() => {
   const isMobile = useIsMobile();
   const { chain } = useNetwork();
 
-  const [poolConfig, setPoolConfig] = useState<PoolConfig[] | undefined>();
   const [allPoolName, setAllPoolName] = useState<PoolNames | undefined>();
-  let config: PoolConfig[] = [];
+  
   useEffect(() => {
     if (chain) {
       const tempolaryAllPoolName = SupportedPoolName[chain?.id];
-      for (let key in tempolaryAllPoolName) {
-        const tempolaryConfig: PoolConfig = POOL_CONFIG_MAP[chain?.id][key];
-        if (tempolaryConfig) config.push(tempolaryConfig);
-      }
-      setPoolConfig(config);
       setAllPoolName(tempolaryAllPoolName);
     }
   }, [chain]);
@@ -58,7 +51,7 @@ const PoolList = memo(() => {
           >
             <Header />
             <StatsBar isPoolList={true} />
-            <PoolTable poolData={poolConfig} />
+            <PoolTable />
             <Footer />
           </Column>
         </PoolAllTotalDataProvider>

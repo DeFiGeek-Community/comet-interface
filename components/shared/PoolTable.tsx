@@ -7,11 +7,10 @@ import DashboardBox from "components/shared/DashboardBox";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
-import { PoolConfig } from "interfaces/pool";
 import PoolTableRow from "components/shared/PoolTableRow";
 import { usePoolAllTotalDataContext } from "hooks/pool/usePoolAllTotalDataContext";
 
-const PoolTable = ({ poolData }: { poolData: PoolConfig[] | undefined }) => {
+const PoolTable = () => {
   const { t } = useTranslation();
 
   const isMobile = useIsMobile();
