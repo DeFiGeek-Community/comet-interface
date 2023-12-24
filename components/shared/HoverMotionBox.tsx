@@ -14,9 +14,9 @@ const HoverMotionBoxComp = ({ text }: { text: string }) => {
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
       position="absolute"
-      top="100%"
-      left="100%"
-      width={250}
+      top="-150%"
+      left="0%"
+      width={300}
       transform="translateX(-50%)"
       zIndex="tooltip"
     >

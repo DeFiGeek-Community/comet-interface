@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Text } from "@chakra-ui/react";
@@ -23,6 +23,10 @@ const PoolTableRow = ({
   const tokenData = poolData?.baseToken;
   const symbol = tokenData?.symbol ?? "";
   const collateralList = poolData?.assetConfigs;
+  let allCollateralSymbols: string = "";
+  for (const assetConfig of collateralList) {
+    allCollateralSymbols += assetConfig.symbol + ", ";
+  }
 
   const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
@@ -269,30 +273,29 @@ const PoolTableRow = ({
                   }
                 />
               </Row>
-
-              <HoverIcon />
-              <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="center"
-                overflow="scroll"
-                width="60%"
-              >
-                {collateralList?.map((asset, index) => {
-                  return (
-                    <Avatar
-                      key={index}
-                      bg="#FFF"
-                      boxSize="30px"
-                      mr={1}
-                      name={asset?.symbol ?? ""}
-                      src={
-                        asset?.logoURL ??
-                        "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                      }
-                    />
-                  );
-                })}
-              </Row>
+              <HoverIcon hoverText={allCollateralSymbols}>
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="center"
+                  overflow="scroll"
+                >
+                  {collateralList?.map((asset, index) => {
+                    return (
+                      <Avatar
+                        key={index}
+                        bg="#FFF"
+                        boxSize="30px"
+                        mr={1}
+                        name={asset?.symbol ?? ""}
+                        src={
+                          asset?.logoURL ??
+                          "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                        }
+                      />
+                    );
+                  })}
+                </Row>
+              </HoverIcon>
             </Row>
             <Row
               mainAxisAlignment="center"

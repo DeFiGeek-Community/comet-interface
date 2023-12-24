@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import HoverMotionBoxComp from "components/shared/HoverMotionBox";
 
-const HoverIcon = () => {
+const HoverIcon = ({
+  hoverText,
+  children,
+}: {
+  hoverText: string;
+  children: any;
+}) => {
   const [isHovered, setIsHovered] = useState(false);
-  const hoverText = "TXJP";
 
   return (
     <Box
@@ -12,8 +17,9 @@ const HoverIcon = () => {
       display="inline-block"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      width="60%"
     >
-      <img src="/crown.png" height="30px" width="30px" />
+      {children}
       {isHovered && <HoverMotionBoxComp text={hoverText} />}
     </Box>
   );
