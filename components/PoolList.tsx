@@ -22,7 +22,7 @@ const PoolList = memo(() => {
   const { chain } = useNetwork();
 
   const [allPoolName, setAllPoolName] = useState<PoolNames | undefined>();
-  
+
   useEffect(() => {
     if (chain) {
       const tempolaryAllPoolName = SupportedPoolName[chain?.id];

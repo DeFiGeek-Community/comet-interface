@@ -11,51 +11,7 @@ import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useCurrency } from "context/currencyContext";
 import { Link } from "@chakra-ui/react";
-import { CTokenIcon } from "components/shared/CTokenIcon";
-import { Box, ChakraProvider } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
-
-const TooltipMotionBox = motion(Box);
-
-const Tooltip = ({ text }:{ text:string}) => {
-  return (
-    <TooltipMotionBox
-      p="2"
-      bgColor="gray.700"
-      color="white"
-      borderRadius="md"
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3 }}
-      position="absolute"
-      top="100%"
-      left="100%"
-      width={250}
-      transform="translateX(-50%)"
-      zIndex="tooltip"
-    >
-      {text}
-    </TooltipMotionBox>
-  );
-};
-
-const MyIcon = () => {
-  const [isHovered, setIsHovered] = useState(false);
-  const tooltipText = "TXJP";
-
-  return (
-    <Box
-      position="relative"
-      display="inline-block"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img src="/crown.png" height="30px" width="30px" />
-      {isHovered && <Tooltip text={tooltipText} />}
-    </Box>
-  );
-};
+import HoverIcon from "components/shared/HoverIcon";
 
 const PoolTableRow = ({
   poolData,
@@ -72,11 +28,6 @@ const PoolTableRow = ({
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
   const { currency, rate } = useCurrency();
 
-  const [hovered, setHovered] = useState<number>(-1);
-
-  const handleMouseEnter = (index: number) => setHovered(index);
-  const handleMouseLeave = () => setHovered(-1);
-
   const isMobile = useIsMobile();
 
   const { address } = useAccount();
@@ -87,7 +38,11 @@ const PoolTableRow = ({
   }, [address]);
 
   return (
-    <Link href={`/PoolPage?pool=${ symbol }`} width="100%" className="no-underline">
+    <Link
+      href={`/PoolPage?pool=${symbol}`}
+      width="100%"
+      className="no-underline"
+    >
       {isMobile ? (
         <>
           <Row
@@ -314,9 +269,8 @@ const PoolTableRow = ({
                   }
                 />
               </Row>
-              <Box p="10" textAlign="center">
-              <MyIcon />
-              </Box>
+
+              <HoverIcon />
               <Row
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="center"
@@ -331,14 +285,6 @@ const PoolTableRow = ({
                       boxSize="30px"
                       mr={1}
                       name={asset?.symbol ?? ""}
-                      onMouseEnter={() => handleMouseEnter(0)}
-                      onMouseLeave={handleMouseLeave}
-                      _hover={{
-                        zIndex: 9,
-                        border: ".5px solid white",
-                        transform: "scale(1.2);",
-                        bg: "blue.200"
-                      }}
                       src={
                         asset?.logoURL ??
                         "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"

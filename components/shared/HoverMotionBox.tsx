@@ -1,9 +1,8 @@
-
-import { motion } from 'framer-motion';
-import { Box } from '@chakra-ui/react';
+import { motion } from "framer-motion";
+import { Box } from "@chakra-ui/react";
 const HoverMotionBox = motion(Box);
 
-const HoverMotionBoxComp = ({ text }:{ text:string}) => {
+const HoverMotionBoxComp = ({ text }: { text: string }) => {
   return (
     <HoverMotionBox
       p="2"
