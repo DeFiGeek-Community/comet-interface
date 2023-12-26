@@ -17,7 +17,7 @@ export const PoolAllTotalDataProvider: React.FC<
     [];
   for (let key in allPoolName) {
     const tempolaryConfig: PoolConfig =
-      POOL_CONFIG_MAP[chainId ? chainId : 0][key];
+      POOL_CONFIG_MAP[chainId ? chainId : 1][key];
     const { totalPoolData, error } = useTotalPoolData(tempolaryConfig);
     let sumCollateralBalances = 0;
     for (let key in totalPoolData?.totalCollateralBalances) {

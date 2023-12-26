@@ -6,7 +6,6 @@ import StatsBar from "components/pool/StatsBar";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 import { CurrencyProvider } from "components/Provider/currencyProvider";
-import { useTranslation } from "react-i18next";
 import PoolTable from "components/shared/PoolTable";
 import { useNetwork } from "wagmi";
 import { SupportedPoolName, PoolNames } from "constants/pools";
@@ -15,9 +14,8 @@ import usePoolData from "hooks/pool/shared/usePoolConfig";
 import { PoolAllTotalDataProvider } from "components/Provider/PoolAllTotalDataProvider";
 
 const PoolList = memo(() => {
-  const { t } = useTranslation();
-  const poolData = usePoolData();
 
+  const poolData = usePoolData();
   const isMobile = useIsMobile();
   const { chain } = useNetwork();
 
