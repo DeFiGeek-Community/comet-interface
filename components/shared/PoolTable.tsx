@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import { useAccount } from "wagmi";
+import React from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
-import { useReload } from "context/ReloadContext";
 import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
@@ -14,14 +12,7 @@ const PoolTable = () => {
 
   const isMobile = useIsMobile();
 
-  const { address } = useAccount();
-  const { reload } = useReload();
-
   const { baseCollateralAssetAndTotalPoolData } = usePoolAllTotalDataContext();
-
-  useEffect(() => {
-    reload();
-  }, [address]);
 
   return (
     <>
