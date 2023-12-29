@@ -14,7 +14,6 @@ import usePoolData from "hooks/pool/shared/usePoolConfig";
 import { PoolAllTotalDataProvider } from "components/Provider/PoolAllTotalDataProvider";
 
 const PoolList = memo(() => {
-
   const poolData = usePoolData();
   const isMobile = useIsMobile();
   const { chain } = useNetwork();
