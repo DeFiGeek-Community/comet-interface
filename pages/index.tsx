@@ -13,6 +13,7 @@ const Pool = () => {
   const router = useRouter();
   const [chainId, setChainId] = useState<number>(chain?.id || 1);
   const [poolName, setPoolName] = useState<string>("");
+  const [isDetail, setIsDetail] = useState<boolean>(false);
 
   useEffect(() => {
     if (chain) {
@@ -23,8 +24,15 @@ const Pool = () => {
   useEffect(() => {
     if (router.isReady) {
       setPoolName(router.query.pool ? (router.query.pool as string) : "CJPY");
+      setIsDetail(
+        router.query.isDetail
+          ? router.query.isDetail === "true"
+            ? true
+            : false
+          : false,
+      );
     }
-  }, [router.isReady, router.query.pool]);
+  }, [router.isReady, router.query.pool, router.query.isDetail]);
 
   const [isRendered, setIsRendered] = useState(false);
 
@@ -38,7 +46,11 @@ const Pool = () => {
     >
       <ReloadContextProvider>
         {isRendered && router.isReady ? (
-          <PoolList />
+          isDetail ? (
+            <PoolPage />
+          ) : (
+            <PoolList />
+          )
         ) : (
           <Center height="100vh">
             <HashLoader color="#FFF" />

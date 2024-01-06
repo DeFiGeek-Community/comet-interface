@@ -95,7 +95,14 @@ export const Header = () => {
       width="100%"
     >
       <Box boxSize={"37px"} flexShrink={0}>
-        <Image width={37} height={37} src={"/dfgc-logo.png"} alt="Logo" />
+        <Link
+          href={`/?isDetail=false`}
+          whiteSpace="nowrap"
+          className="no-underline"
+          pointerEvents="auto"
+        >
+          <Image width={37} height={37} src={"/dfgc-logo.png"} alt="Logo" />
+        </Link>
       </Box>
 
       <Row
@@ -120,7 +127,7 @@ export const Header = () => {
               <MenuItem bg={"black"} _focus={{ bg: "#282727" }} key={name}>
                 <HeaderLink
                   name={`${name} Pool`}
-                  route={`/?pool=${name}`}
+                  route={`/?pool=${name}&isDetail=true`}
                   isGreyedOut={poolName == name}
                 />
               </MenuItem>

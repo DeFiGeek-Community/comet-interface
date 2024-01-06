@@ -37,9 +37,11 @@ const PoolTableRow = ({
 
   return (
     <Link
-      href={`/PoolPage?pool=${symbol}`}
+      href={`/?pool=${symbol}&isDetail=true`}
       width="100%"
+      whiteSpace="nowrap"
       className="no-underline"
+      pointerEvents="auto"
     >
       {isMobile ? (
         <>
