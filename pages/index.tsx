@@ -4,6 +4,7 @@ import { HashLoader } from "react-spinners";
 import { Center } from "utils/chakraUtils";
 import PoolPage from "components/PoolPage";
 import PoolList from "components/PoolList";
+import PoolContents from "components/PoolContents";
 import { ReloadContextProvider } from "components/Provider/ReloadContextProvider";
 import { PoolContext } from "context/PoolContext";
 import { useRouter } from "next/router";
@@ -46,11 +47,7 @@ const Pool = () => {
     >
       <ReloadContextProvider>
         {isRendered && router.isReady ? (
-          isDetail ? (
-            <PoolPage />
-          ) : (
-            <PoolList />
-          )
+          <PoolContents isDetail={isDetail}/>
         ) : (
           <Center height="100vh">
             <HashLoader color="#FFF" />
