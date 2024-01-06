@@ -251,6 +251,7 @@ const PoolTableRow = ({
               crossAxisAlignment="flex-start"
               width="30%"
             >
+              <HoverIcon isBase={true} hoverText={symbol}>
               <Row
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="center"
@@ -267,7 +268,8 @@ const PoolTableRow = ({
                   }
                 />
               </Row>
-              <HoverIcon hoverText={allCollateralSymbols}>
+              </HoverIcon>
+              <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
                 <Row
                   mainAxisAlignment="flex-start"
                   crossAxisAlignment="center"
