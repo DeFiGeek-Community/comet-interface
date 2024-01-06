@@ -19,7 +19,7 @@ const HoverIcon = ({
       display="inline-block"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      width={isBase?"40%":"60%"}
+      width={isBase ? "40%" : "60%"}
     >
       {children}
       {isHovered && <HoverMotionBoxComp isBase={isBase} text={hoverText} />}

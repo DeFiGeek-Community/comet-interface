@@ -252,22 +252,22 @@ const PoolTableRow = ({
               width="30%"
             >
               <HoverIcon isBase={true} hoverText={symbol}>
-              <Row
-                mainAxisAlignment="flex-start"
-                crossAxisAlignment="center"
-                width="40%"
-                pl={7}
-              >
-                <Avatar
-                  bg="#FFF"
-                  boxSize="30px"
-                  name={symbol}
-                  src={
-                    tokenData?.logoURL ??
-                    "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
-                  }
-                />
-              </Row>
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="center"
+                  width="40%"
+                  pl={7}
+                >
+                  <Avatar
+                    bg="#FFF"
+                    boxSize="30px"
+                    name={symbol}
+                    src={
+                      tokenData?.logoURL ??
+                      "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+                    }
+                  />
+                </Row>
               </HoverIcon>
               <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
                 <Row
