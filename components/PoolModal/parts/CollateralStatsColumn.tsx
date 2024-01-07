@@ -52,15 +52,23 @@ export const CollateralStatsColumn = ({
 
   const isAmountAndSupply = mode === Mode.SUPPLY && Boolean(amount);
   const isAmountAndWithdraw = mode === Mode.WITHDRAW && Boolean(amount);
-  
+
   const getSecondaryValue = (baseValue: number) => {
     if (!priceFeedData) return undefined;
     const price = priceFeedData.collateralAssets[asset.symbol] ?? 0;
     const borrowCollateral = asset?.borrowCollateralFactor / 100 ?? 0;
     return isAmountAndSupply
-      ? smallUsdFormatter(baseValue + amount * price * borrowCollateral, currency, rate || 0)
+      ? smallUsdFormatter(
+          baseValue + amount * price * borrowCollateral,
+          currency,
+          rate || 0,
+        )
       : isAmountAndWithdraw
-      ? smallUsdFormatter(baseValue - amount * price * borrowCollateral, currency, rate || 0)
+      ? smallUsdFormatter(
+          baseValue - amount * price * borrowCollateral,
+          currency,
+          rate || 0,
+        )
       : undefined;
   };
 
