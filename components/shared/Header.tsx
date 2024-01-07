@@ -127,7 +127,7 @@ export const Header = () => {
               <MenuItem bg={"black"} _focus={{ bg: "#282727" }} key={name}>
                 <HeaderLink
                   name={`${name} Pool`}
-                  route={`/?pool=${name}`}
+                  route={`/pool?pool=${name}`}
                   isGreyedOut={poolName == name}
                 />
               </MenuItem>
