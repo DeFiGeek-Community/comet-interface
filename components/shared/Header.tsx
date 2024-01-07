@@ -96,7 +96,7 @@ export const Header = () => {
     >
       <Box boxSize={"37px"} flexShrink={0}>
         <Link
-          href={`/?isDetail=false`}
+          href={`/`}
           whiteSpace="nowrap"
           className="no-underline"
           pointerEvents="auto"
@@ -127,7 +127,7 @@ export const Header = () => {
               <MenuItem bg={"black"} _focus={{ bg: "#282727" }} key={name}>
                 <HeaderLink
                   name={`${name} Pool`}
-                  route={`/?pool=${name}&isDetail=true`}
+                  route={`/?pool=${name}`}
                   isGreyedOut={poolName == name}
                 />
               </MenuItem>
