@@ -1,0 +1,21 @@
+
+name: build_check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "v18.12.1"
+      - name: Install Dependencies
+        run: npm ci
+      - name: check-build
+        run: npm run build
