@@ -1,7 +1,5 @@
 import React, { memo, useState, useEffect } from "react";
-import { useAccount } from "wagmi";
 import { Column, useIsMobile } from "utils/chakraUtils";
-import { useReload } from "context/ReloadContext";
 import StatsBar from "components/pool/StatsBar";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
