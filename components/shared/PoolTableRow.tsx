@@ -1,3 +1,4 @@
+import Image from "next/image"
 import React from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
@@ -70,7 +71,7 @@ const PoolTableRow = ({
                 width="100%"
                 pb={4}
               >
-                <img src="/crown.png" height="20px" width="20px" />
+                <Image src="/crown.png" alt="crown" height={20} width={20} />
                 <Text textAlign="center" fontWeight="bold" size="md" pl={1}>
                   {symbol} {"Pool"}
                 </Text>
