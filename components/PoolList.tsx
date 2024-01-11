@@ -27,13 +27,6 @@ const PoolContents = memo(() => {
     }
   }, [chain]);
 
-  const { address } = useAccount();
-  const { reload } = useReload();
-
-  useEffect(() => {
-    reload();
-  }, [address]);
-
   return (
     <PoolPrimaryDataProvider poolData={poolData}>
       <CurrencyProvider>

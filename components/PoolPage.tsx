@@ -25,7 +25,7 @@ const PoolContents = memo(() => {
 
   useEffect(() => {
     reload();
-  }, [address]);
+  }, [address, reload]);
 
   return (
     <PoolPrimaryDataProvider poolData={poolData}>
