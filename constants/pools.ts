@@ -416,7 +416,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 85,
           liquidateCollateralFactor: 95,
           liquidationFactor: 95,
-          LiquidationPenalty: 10,
+          LiquidationPenalty: 5,
           supplyCap: 50000,
         },
         {
@@ -431,7 +431,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 85,
           liquidateCollateralFactor: 95,
           liquidationFactor: 95,
-          LiquidationPenalty: 10,
+          LiquidationPenalty: 5,
           supplyCap: 50000,
         },
         {
@@ -446,7 +446,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
           borrowCollateralFactor: 95,
           liquidateCollateralFactor: 95,
           liquidationFactor: 98,
-          LiquidationPenalty: 3,
+          LiquidationPenalty: 5,
           supplyCap: 50000,
         },
       ],
