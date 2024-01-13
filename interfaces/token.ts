@@ -9,4 +9,5 @@ export interface Token {
   logoURL: string | undefined;
   priceFeed: Address;
   priceFeedDecimals: number;
+  isNativeToken?: boolean;
 }

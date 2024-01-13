@@ -10,7 +10,13 @@ import {
   writeContract,
   readContract,
 } from "@wagmi/core";
-import { parseUnits, formatUnits } from "viem";
+import {
+  parseUnits,
+  formatUnits,
+  encodeAbiParameters,
+  parseAbiParameters,
+} from "viem";
+import bulkerAbi from "static/bulker.json";
 import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import { formatErrorMessage } from "utils/formatErrorMessage";
@@ -58,7 +64,7 @@ const AmountSelect = ({
 }) => {
   const [userEnteredAmount, _setUserEnteredAmount] = useState("");
   const [amount, _setAmount] = useState<BigNumber | null>(
-    () => new BigNumber(0),
+    () => new BigNumber(0)
   );
 
   const [isMaxButtonMode, setIsMaxButtonMode] = useState(true);
@@ -175,6 +181,39 @@ const AmountSelect = ({
     const { hash: approveHash } = await writeContract(approveConfig);
     setUserAction(UserAction.APPROVE_IN_PROGRESS);
     const dataAP = await waitForTransaction({ hash: approveHash });
+  };
+
+  const executeBulkerFunction = async (functionName: string) => {
+    console.log("functionName", functionName);
+    setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
+
+    let calldata;
+    let config;
+    calldata = encodeAbiParameters(
+      parseAbiParameters("address proxy, address to, uint amount"),
+      [
+        poolData.proxy,
+        address!,
+        stateAllButton
+          ? BigInt(UintMax)
+          : parseUnits(String(amount), asset.decimals),
+      ]
+    );
+    config = await prepareWriteContract({
+      address: poolData.bulker!,
+      abi: bulkerAbi,
+      functionName: "invoke",
+      args: [[functionName], [calldata]],
+      value: parseUnits(String(amount), asset.decimals),
+    });
+
+    const { hash } = await writeContract(config);
+    const data = await waitForTransaction({ hash });
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    reload();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    onClose();
   };
 
   const executeFunction = async (functionName: string) => {

@@ -333,6 +333,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
     [SupportedPoolName[SupportedChainId.MAINNET].WETH]: {
       proxy: "0x2bf8B07e41572FB09d9F002b2500E3eeDC5d7922",
       reward: "0xA1D458530da3C4a4F0ED26BEC5E6CdE6ad0B7aC4",
+      bulker: "0x7d5a4af7Dfb3bd265bfb0153254D91C2ee4E47b9",
       cometDecimals: 18,
       baseToken: {
         name: "Wrapped Ether",
@@ -343,6 +344,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
         logoURL: "/tokens/wETH.png",
         priceFeed: "0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419",
         priceFeedDecimals: 8,
+        isNativeToken: true
       },
       rewardToken: {
         name: "pnd DAO Token",

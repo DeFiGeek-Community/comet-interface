@@ -16,6 +16,7 @@ export interface RewardAsset extends Token {}
 export interface PoolConfig {
   proxy: Address;
   reward: Address;
+  bulker?: Address;
   cometDecimals: number;
   baseToken: BaseAsset;
   rewardToken: RewardAsset;
