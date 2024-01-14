@@ -344,7 +344,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
         logoURL: "/tokens/wETH.png",
         priceFeed: "0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419",
         priceFeedDecimals: 8,
-        isNativeToken: true
+        isWrappedToken: true
       },
       rewardToken: {
         name: "pnd DAO Token",
