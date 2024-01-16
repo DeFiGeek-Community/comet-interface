@@ -4,7 +4,7 @@ import StatsBar from "components/pool/StatsBar";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 import { CurrencyProvider } from "components/Provider/currencyProvider";
-import PoolTable from "components/shared/PoolTable";
+import PoolTable from "components/list/PoolTable";
 import { useNetwork } from "wagmi";
 import { SupportedPoolName, PoolNames } from "constants/pools";
 import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProvider";
