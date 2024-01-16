@@ -20,8 +20,8 @@ const PoolContents = memo(() => {
 
   useEffect(() => {
     if (chain) {
-      const tempolaryAllPoolName = SupportedPoolName[chain?.id];
-      setAllPoolName(tempolaryAllPoolName);
+      const tempAllPoolName = SupportedPoolName[chain?.id];
+      setAllPoolName(tempAllPoolName);
     }
   }, [chain]);
 
