@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image from "next/image";
 import React from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
