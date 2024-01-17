@@ -56,19 +56,23 @@ const useAllTotalPoolData = (
           "totalBorrow",
           temporaryConfig,
         );
-        const totalCollateralBalances: { [key: string]: number | 0 } = {};
+        let sumCollateralBalances = 0;
         for (const assetConfig of temporaryConfig.assetConfigs) {
           const getTotalsCollateral = await fetchTotalCollateralDataComet(
             "totalsCollateral",
             temporaryConfig,
             assetConfig.address,
           );
-          totalCollateralBalances[assetConfig.symbol] =
+          const collateralBalance =
             getTotalsCollateral !== undefined
               ? Number(formatUnits(getTotalsCollateral, assetConfig.decimals))
               : 0;
+          sumCollateralBalances += collateralBalance;
         }
-        const fetchedData: TotalPoolData = {
+
+        tempBaseCollateralAssetAndTotalPoolData.push({
+          baseToken: temporaryConfig?.baseToken,
+          assetConfigs: temporaryConfig?.assetConfigs,
           totalBaseSupplyBalance:
             getTotalSupply !== undefined
               ? Number(
@@ -81,17 +85,6 @@ const useAllTotalPoolData = (
                   formatUnits(getTotalBorrow, temporaryConfig.cometDecimals),
                 )
               : undefined,
-          totalCollateralBalances: totalCollateralBalances,
-        };
-        let sumCollateralBalances = 0;
-        for (let key in fetchedData?.totalCollateralBalances) {
-          sumCollateralBalances += fetchedData.totalCollateralBalances[key];
-        }
-        tempBaseCollateralAssetAndTotalPoolData.push({
-          baseToken: temporaryConfig?.baseToken,
-          assetConfigs: temporaryConfig?.assetConfigs,
-          totalBaseSupplyBalance: fetchedData?.totalBaseSupplyBalance,
-          totalBaseBorrowBalance: fetchedData?.totalBaseBorrowBalance,
           totalCollateralBalances: sumCollateralBalances,
         });
       }
