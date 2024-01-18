@@ -6,14 +6,13 @@ import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 import { usePoolAllTotalDataContext } from "hooks/pool/list/usePoolAllTotalDataContext";
+import { POOL_CONFIG_MAP, PoolNames } from "constants/pools";
+import { useNetwork } from "wagmi";
 
 const PoolTable = () => {
   const { t } = useTranslation();
-
   const isMobile = useIsMobile();
-
-  const { baseCollateralAssetAndTotalPoolData } = usePoolAllTotalDataContext();
-
+  const { chain } = useNetwork();
   return (
     <>
       {isMobile ? (
@@ -35,10 +34,10 @@ const PoolTable = () => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
-            {baseCollateralAssetAndTotalPoolData?.map((data, index) => {
+            {chain?Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
               if (data.baseToken)
                 return <PoolTableRow poolData={data} key={index} />;
-            })}
+            }):<></>}
           </Column>
         </DashboardBox>
       ) : (
@@ -123,10 +122,10 @@ const PoolTable = () => {
               </Row>
             </Row>
             <ModalDivider />
-            {baseCollateralAssetAndTotalPoolData?.map((data, index) => {
+            {chain?Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
               if (data.baseToken)
                 return <PoolTableRow poolData={data} key={index} />;
-            })}
+            }):<></>}
             <ModalDivider />
           </Column>
         </DashboardBox>
