@@ -15,11 +15,7 @@ import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
-const PoolTableRow = ({
-  poolData,
-}: {
-  poolData: PoolConfig | undefined;
-}) => {
+const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const { t } = useTranslation();
 
   const tokenData = poolData?.baseToken;
@@ -213,8 +209,7 @@ const PoolTableRow = ({
                   {t("Total Collateral Balance")}
                 </Text>
 
-                {sumCollateralBalances !== undefined &&
-                assetPrice ? (
+                {sumCollateralBalances !== undefined && assetPrice ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdPriceFormatter(
@@ -311,7 +306,8 @@ const PoolTableRow = ({
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolData?.totalBaseSupplyBalance !== undefined && assetPrice ? (
+              {totalPoolData?.totalBaseSupplyBalance !== undefined &&
+              assetPrice ? (
                 <>
                   <Text
                     color={"#FFF"}
@@ -339,7 +335,8 @@ const PoolTableRow = ({
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolData?.totalBaseBorrowBalance !== undefined && assetPrice ? (
+              {totalPoolData?.totalBaseBorrowBalance !== undefined &&
+              assetPrice ? (
                 <>
                   <Text
                     color={"#FFF"}
