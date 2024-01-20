@@ -13,6 +13,8 @@ const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { chain } = useNetwork();
+  if(chain)
+  console.log(POOL_CONFIG_MAP[chain?.id]);
   return (
     <>
       {isMobile ? (
