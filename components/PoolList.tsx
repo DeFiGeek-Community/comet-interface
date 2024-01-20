@@ -11,7 +11,7 @@ import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProv
 import usePoolData from "hooks/pool/shared/usePoolConfig";
 import { PoolAllTotalDataProvider } from "components/Provider/PoolAllTotalDataProvider";
 
-const PoolContents = memo(() => {
+const PoolList = memo(() => {
   const isMobile = useIsMobile();
 
   return (
@@ -32,6 +32,6 @@ const PoolContents = memo(() => {
   );
 });
 
-PoolContents.displayName = "PoolContents";
+PoolList.displayName = "PoolList";
 
-export default PoolContents;
+export default PoolList;
