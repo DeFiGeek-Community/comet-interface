@@ -16,8 +16,7 @@ const PoolContents = memo(() => {
   const isMobile = useIsMobile();
 
   return (
-    <PoolPrimaryDataProvider poolData={poolData}>
-      <CurrencyProvider>
+    
         <Column
           mainAxisAlignment="flex-start"
           crossAxisAlignment="center"
@@ -31,8 +30,6 @@ const PoolContents = memo(() => {
           <PoolTable />
           <Footer />
         </Column>
-      </CurrencyProvider>
-    </PoolPrimaryDataProvider>
   );
 });
 
