@@ -1,14 +1,12 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Text } from "@chakra-ui/react";
 import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
-import { BaseCollateralAssetAndTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
-import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useCurrency } from "context/currencyContext";
 import { Link } from "@chakra-ui/react";
 import HoverIcon from "components/shared/HoverIcon";
@@ -34,12 +32,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
     sumCollateralBalances += totalPoolData.totalCollateralBalances[key];
   }
 
-  //const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
   const { priceFeedData } = usePriceFeedData(poolData);
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
-  //const { currency, rate } = useCurrency();
-  type Currency = "USD" | "JPY";
-  const [currency, setCurrency] = useState<Currency>("USD");
+  const { currency, toggleCurrency } = useCurrency();
 
   let rate: number | undefined;
 

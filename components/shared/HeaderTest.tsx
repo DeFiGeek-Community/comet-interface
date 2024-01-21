@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import {
   Box,
@@ -16,7 +16,6 @@ import { POOL_CONFIG_MAP } from "constants/pools";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row, useIsMobile } from "utils/chakraUtils";
-import { useChainPool } from "hooks/useChainPool";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "context/currencyContext";
 import { useNetwork } from "wagmi";
@@ -79,14 +78,8 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 
 export const HeaderTest = () => {
   const isMobile = useIsMobile();
-  //const { chainId, poolName } = useChainPool();
   const { chain } = useNetwork();
-  //const { currency, toggleCurrency } = useCurrency();
-  type Currency = "USD" | "JPY";
-  const [currency, setCurrency] = useState<Currency>("USD");
-  const toggleCurrency = () => {
-    setCurrency((prevCurrency) => (prevCurrency === "USD" ? "JPY" : "USD"));
-  };
+  const { currency, toggleCurrency } = useCurrency();
   let chainConfig;
   if (chain) chainConfig = POOL_CONFIG_MAP[chain?.id];
   else chainConfig = POOL_CONFIG_MAP[1];

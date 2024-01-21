@@ -5,8 +5,7 @@ import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
-import { usePoolAllTotalDataContext } from "hooks/pool/list/usePoolAllTotalDataContext";
-import { POOL_CONFIG_MAP, PoolNames } from "constants/pools";
+import { POOL_CONFIG_MAP } from "constants/pools";
 import { useNetwork } from "wagmi";
 
 const PoolTable = () => {
