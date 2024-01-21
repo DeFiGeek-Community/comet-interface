@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect } from "react";
 import { Column, useIsMobile } from "utils/chakraUtils";
 import StatsBar from "components/pool/StatsBar";
 import Footer from "components/shared/Footer";
+import { HeaderTest } from "components/shared/HeaderTest";
 import { Header } from "components/shared/Header";
 import { CurrencyProvider } from "components/Provider/currencyProvider";
 import PoolTable from "components/list/PoolTable";
@@ -15,20 +16,19 @@ const PoolList = memo(() => {
   const isMobile = useIsMobile();
 
   return (
-    
-        <Column
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          color="#FFFFFF"
-          mx="auto"
-          width={isMobile ? "100%" : "1150px"}
-          px={isMobile ? 4 : 0}
-        >
-          <Header />
-          <StatsBar isPoolList={true} />
-          <PoolTable />
-          <Footer />
-        </Column>
+    <Column
+      mainAxisAlignment="flex-start"
+      crossAxisAlignment="center"
+      color="#FFFFFF"
+      mx="auto"
+      width={isMobile ? "100%" : "1150px"}
+      px={isMobile ? 4 : 0}
+    >
+      <HeaderTest />
+      {/* <StatsBar isPoolList={true} /> */}
+      <PoolTable />
+      <Footer />
+    </Column>
   );
 });
 

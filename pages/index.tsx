@@ -17,14 +17,14 @@ const Pool = () => {
 
   return (
     <>
-        {isRendered && router.isReady ? (
-          <PoolList />
-        ) : (
-          <Center height="100vh">
-            <HashLoader color="#FFF" />
-          </Center>
-        )}
-    </>  
+      {isRendered && router.isReady ? (
+        <PoolList />
+      ) : (
+        <Center height="100vh">
+          <HashLoader color="#FFF" />
+        </Center>
+      )}
+    </>
   );
 };
 

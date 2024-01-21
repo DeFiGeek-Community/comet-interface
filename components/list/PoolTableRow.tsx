@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Text } from "@chakra-ui/react";
@@ -14,6 +14,7 @@ import { Link } from "@chakra-ui/react";
 import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
+import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const { t } = useTranslation();
@@ -33,9 +34,20 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
     sumCollateralBalances += totalPoolData.totalCollateralBalances[key];
   }
 
-  const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
+  //const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
+  const { priceFeedData } = usePriceFeedData(poolData);
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
-  const { currency, rate } = useCurrency();
+  //const { currency, rate } = useCurrency();
+  type Currency = "USD" | "JPY";
+  const [currency, setCurrency] = useState<Currency>("USD");
+
+  let rate: number | undefined;
+
+  if (currency === "USD") {
+    rate = 1;
+  } else if (currency === "JPY") {
+    rate = priceFeedData?.usdjpy;
+  }
 
   const isMobile = useIsMobile();
 
