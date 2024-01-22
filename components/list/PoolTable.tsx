@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
@@ -12,7 +12,10 @@ const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { chain } = useNetwork();
-  if (chain) console.log(POOL_CONFIG_MAP[chain?.id]);
+  const [isReady, setIsReady] = useState(false);
+  useEffect(() => {
+    if (chain) setIsReady(true);
+  }, [chain]);
   return (
     <>
       {isMobile ? (
@@ -34,6 +37,14 @@ const PoolTable = () => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
+            {isReady ? (
+              <></>
+            ) : (
+              Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
+                if (data.baseToken)
+                  return <PoolTableRow poolData={data} key={index} />;
+              })
+            )}
             {chain ? (
               Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
                 if (data.baseToken)
@@ -126,6 +137,14 @@ const PoolTable = () => {
               </Row>
             </Row>
             <ModalDivider />
+            {isReady ? (
+              <></>
+            ) : (
+              Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
+                if (data.baseToken)
+                  return <PoolTableRow poolData={data} key={index} />;
+              })
+            )}
             {chain ? (
               Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
                 if (data.baseToken)
