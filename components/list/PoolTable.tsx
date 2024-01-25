@@ -37,21 +37,17 @@ const PoolTable = () => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
-            {isReady ? (
-              <></>
-            ) : (
+            {!isReady && (
               Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })
             )}
-            {chain ? (
+            {chain && (
               Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })
-            ) : (
-              <></>
             )}
           </Column>
         </DashboardBox>
@@ -137,21 +133,17 @@ const PoolTable = () => {
               </Row>
             </Row>
             <ModalDivider />
-            {isReady ? (
-              <></>
-            ) : (
+            {!isReady && (
               Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })
             )}
-            {chain ? (
+            {chain && (
               Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })
-            ) : (
-              <></>
             )}
             <ModalDivider />
           </Column>
