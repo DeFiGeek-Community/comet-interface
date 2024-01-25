@@ -7,15 +7,20 @@ import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 import { POOL_CONFIG_MAP } from "constants/pools";
 import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { chain } = useNetwork();
   const [isReady, setIsReady] = useState(false);
+  const { address } = useAccount();
   useEffect(() => {
     if (chain) setIsReady(true);
   }, [chain]);
+  useEffect(() => {
+    if (!address) setIsReady(false);
+  }, [address]);
   return (
     <>
       {isMobile ? (
