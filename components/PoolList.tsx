@@ -1,11 +1,10 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo } from "react";
 import { Column, useIsMobile } from "utils/chakraUtils";
 import StatsBarTest from "components/pool/StatsBarTest";
 import Footer from "components/shared/Footer";
 import { HeaderTest } from "components/shared/HeaderTest";
 import { CurrencyProviderTest } from "components/Provider/currencyProviderTest";
 import PoolTable from "components/list/PoolTable";
-import { useNetwork } from "wagmi";
 
 const PoolList = memo(() => {
   const isMobile = useIsMobile();
