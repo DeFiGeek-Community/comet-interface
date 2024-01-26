@@ -27,21 +27,23 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
     }
   }
   const { totalPoolData, error } = useTotalPoolData(poolData);
-  let sumCollateralBalances = 0;
-  for (let key in totalPoolData?.totalCollateralBalances) {
-    sumCollateralBalances += totalPoolData.totalCollateralBalances[key];
-  }
-
-  const { priceFeedData } = usePriceFeedData(poolData);
-  const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
   const { currency, toggleCurrency } = useCurrency();
-
+  const { priceFeedData } = usePriceFeedData(poolData);
   let rate: number | undefined;
-
   if (currency === "USD") {
     rate = 1;
   } else if (currency === "JPY") {
     rate = priceFeedData?.usdjpy;
+  }
+  const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
+  let sumCollateralBalances = 0;
+  for (let key in totalPoolData?.totalCollateralBalances) {
+    const tempValue =
+      totalPoolData?.totalCollateralBalances[key] *
+      (priceFeedData?.collateralAssets[key] || 0);
+    if (tempValue) {
+      sumCollateralBalances += tempValue;
+    }
   }
 
   const isMobile = useIsMobile();
@@ -219,6 +221,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                 {sumCollateralBalances !== undefined && assetPrice ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
+                      {/* {sumCollateralBalances} */}
                       {smallUsdPriceFormatter(
                         sumCollateralBalances,
                         assetPrice,
@@ -379,6 +382,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                     fontSize="17px"
                     textAlign="center"
                   >
+                    {/* {sumCollateralBalances} */}
                     {smallUsdPriceFormatter(
                       sumCollateralBalances,
                       assetPrice,
