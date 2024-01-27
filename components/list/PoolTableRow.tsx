@@ -6,7 +6,7 @@ import { Text } from "@chakra-ui/react";
 import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
-import { smallUsdPriceFormatter } from "utils/bigUtils";
+import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { useCurrency } from "context/currencyContext";
 import { Link } from "@chakra-ui/react";
 import HoverIcon from "components/shared/HoverIcon";
@@ -221,10 +221,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                 {sumCollateralBalances !== undefined && assetPrice ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
-                      {/* {sumCollateralBalances} */}
-                      {smallUsdPriceFormatter(
+                      {smallUsdFormatter(
                         sumCollateralBalances,
-                        assetPrice,
                         currency,
                         rate || 0,
                       )}
@@ -382,10 +380,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                     fontSize="17px"
                     textAlign="center"
                   >
-                    {/* {sumCollateralBalances} */}
-                    {smallUsdPriceFormatter(
+                    {smallUsdFormatter(
                       sumCollateralBalances,
-                      assetPrice,
                       currency,
                       rate || 0,
                     )}
