@@ -16,13 +16,13 @@ export interface TotalPoolData {
   totalCollateralBalances: TotalCollateralData;
 }
 
-export interface BaseCollateralAssetAndTotalPoolData {
+export interface AllTotalPoolData {
   totalBaseSupplyBalance: number | undefined;
   totalBaseBorrowBalance: number | undefined;
   totalCollateralBalances: number | undefined;
 }
 
-const useTotalPoolData = (poolData: PoolConfig | undefined) => {
+const useTotalPoolData = (poolData?: PoolConfig | undefined, isAllData?: boolean) => {
   const [totalPoolData, setTotalPoolData] = useState<
     TotalPoolData | undefined
   >();
@@ -31,6 +31,7 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
   const { reloadKey } = useReload();
 
   const fetchPoolMetricsData = useCallback(async () => {
+    if(!isAllData){
     if (!poolData) {
       setTotalPoolData(undefined);
       return;
@@ -73,6 +74,10 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
         setError(new Error(String(err)));
       }
     }
+  }
+  else{
+    console.log("OK!");
+  }
   }, [poolData, reloadKey]);
 
   useEffect(() => {

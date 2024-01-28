@@ -16,6 +16,7 @@ import type { AppProps } from "next/app";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { CacheProvider } from "@chakra-ui/next-js";
 import { CustomAvatar } from "components/shared/AvatarComponent";
+import { PoolAllTotalDataProvider } from "components/Provider/PoolAllTotalDataProvider";
 
 const customTheme = {
   ...theme,
@@ -64,7 +65,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             modalSize="compact"
             avatar={CustomAvatar}
           >
+            <PoolAllTotalDataProvider>
             <Component {...pageProps} />
+            </PoolAllTotalDataProvider>
           </RainbowKitProvider>
         </WagmiConfig>
       </ChakraProvider>
