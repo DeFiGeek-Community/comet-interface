@@ -27,6 +27,9 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined, isAllData?: boolean
     TotalPoolData | undefined
   >();
   const [error, setError] = useState<Error | null>(null);
+  const [allTotalPoolData, setAllTotalPoolData] = useState<
+  AllTotalPoolData[] | undefined
+  >([]);
 
   const { reloadKey } = useReload();
 
@@ -74,10 +77,9 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined, isAllData?: boolean
         setError(new Error(String(err)));
       }
     }
-  }
-  else{
-    console.log("OK!");
-  }
+    }else{
+      console.log("OK!");
+    }
   }, [poolData, reloadKey]);
 
   useEffect(() => {
