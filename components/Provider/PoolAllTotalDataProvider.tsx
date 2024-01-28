@@ -1,7 +1,6 @@
 import PoolAllTotalDataContext from "context/PoolAllTotalDataContext";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
-import useAllTotalPoolData from "hooks/pool/shared/useAllTotalPoolData";
 import { BaseCollateralAssetAndTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { POOL_CONFIG_MAP, PoolNames } from "constants/pools";
 
@@ -17,7 +16,8 @@ export const PoolAllTotalDataProvider: React.FC<
   let baseCollateralAssetAndTotalPoolData:
     | BaseCollateralAssetAndTotalPoolData[]
     | undefined = [];
-  const { allTotalPoolData, error } = useAllTotalPoolData(chainId, allPoolName);
+  //const { allTotalPoolData, error } = useAllTotalPoolData(chainId, allPoolName);
+  
   baseCollateralAssetAndTotalPoolData = allTotalPoolData;
   // for (let key in allPoolName) {
   //   const temporaryConfig: PoolConfig =

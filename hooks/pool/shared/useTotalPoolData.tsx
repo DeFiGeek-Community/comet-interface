@@ -17,8 +17,6 @@ export interface TotalPoolData {
 }
 
 export interface BaseCollateralAssetAndTotalPoolData {
-  baseToken: BaseAsset;
-  assetConfigs: CollateralAsset[];
   totalBaseSupplyBalance: number | undefined;
   totalBaseBorrowBalance: number | undefined;
   totalCollateralBalances: number | undefined;
