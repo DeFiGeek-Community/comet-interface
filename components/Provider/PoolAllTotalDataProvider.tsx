@@ -5,14 +5,14 @@ import { AllTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { POOL_CONFIG_MAP, PoolNames } from "constants/pools";
 
 interface PoolAllTotalDataProviderProps {
-  chainId: number | undefined;
+  // chainId: number | undefined;
   // allPoolName: PoolNames | undefined;
   children: any;
 }
 
 export const PoolAllTotalDataProvider: React.FC<
   PoolAllTotalDataProviderProps
-> = ({ chainId, children }) => {
+> = ({ children }) => {
   let baseCollateralAssetAndTotalPoolData: AllTotalPoolData[] | undefined = [];
 
   const test = useTotalPoolData(undefined, true);
