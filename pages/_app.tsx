@@ -17,6 +17,7 @@ import { ChakraProvider, theme } from "@chakra-ui/react";
 import { CacheProvider } from "@chakra-ui/next-js";
 import { CustomAvatar } from "components/shared/AvatarComponent";
 import { PoolAllTotalDataProvider } from "components/Provider/PoolAllTotalDataProvider";
+import { useNetwork } from "wagmi";
 
 const customTheme = {
   ...theme,
@@ -55,6 +56,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     setIsRendered(true);
   }, []);
 
+  const { chain } = useNetwork();
+
   return (
     <CacheProvider>
       <ChakraProvider theme={customTheme}>
@@ -65,8 +68,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             modalSize="compact"
             avatar={CustomAvatar}
           >
-            <PoolAllTotalDataProvider>
-            <Component {...pageProps} />
+            <PoolAllTotalDataProvider chainId={chain?.id}>
+              <Component {...pageProps} />
             </PoolAllTotalDataProvider>
           </RainbowKitProvider>
         </WagmiConfig>
