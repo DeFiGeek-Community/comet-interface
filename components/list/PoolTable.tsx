@@ -45,12 +45,12 @@ const PoolTable = () => {
             {!isReady &&
               Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
                 if (data.baseToken)
-                  return <PoolTableRow poolData={data} key={index} />;
+                  return <PoolTableRow poolData={data} index={index} key={index} />;
               })}
             {chain &&
               Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
                 if (data.baseToken)
-                  return <PoolTableRow poolData={data} key={index} />;
+                  return <PoolTableRow poolData={data} index={index} key={index} />;
               })}
           </Column>
         </DashboardBox>
@@ -139,12 +139,12 @@ const PoolTable = () => {
             {!isReady &&
               Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
                 if (data.baseToken)
-                  return <PoolTableRow poolData={data} key={index} />;
+                  return <PoolTableRow poolData={data} index={index} key={index} />;
               })}
             {chain &&
               Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
                 if (data.baseToken)
-                  return <PoolTableRow poolData={data} key={index} />;
+                  return <PoolTableRow poolData={data} index={index} key={index} />;
               })}
             <ModalDivider />
           </Column>

@@ -1,10 +1,8 @@
 import { createContext } from "react";
-import { BaseCollateralAssetAndTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
+import { AllTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 
 export interface PoolAllTotalDataContextType {
-  baseCollateralAssetAndTotalPoolData:
-    | BaseCollateralAssetAndTotalPoolData[]
-    | undefined;
+  allPoolData: AllTotalPoolData[] | undefined;
 }
 
 const PoolAllTotalDataContext = createContext<

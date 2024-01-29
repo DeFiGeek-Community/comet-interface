@@ -13,12 +13,12 @@ interface PoolAllTotalDataProviderProps {
 export const PoolAllTotalDataProvider: React.FC<
   PoolAllTotalDataProviderProps
 > = ({ children }) => {
-  let baseCollateralAssetAndTotalPoolData: AllTotalPoolData[] | undefined = [];
+  let allPoolData: AllTotalPoolData[] | undefined = [];
 
-  const test = useTotalPoolData(undefined, true);
+  const { allTotalPoolData, error } = useTotalPoolData(undefined, true);
   //const { allTotalPoolData, error } = useAllTotalPoolData(chainId, allPoolName);
 
-  //baseCollateralAssetAndTotalPoolData = allTotalPoolData;
+  allPoolData = allTotalPoolData;
   // for (let key in allPoolName) {
   //   const temporaryConfig: PoolConfig =
   //     POOL_CONFIG_MAP[chainId ? chainId : 1][key];
@@ -39,7 +39,7 @@ export const PoolAllTotalDataProvider: React.FC<
   return (
     <PoolAllTotalDataContext.Provider
       value={{
-        baseCollateralAssetAndTotalPoolData,
+        allPoolData,
       }}
     >
       {children}
