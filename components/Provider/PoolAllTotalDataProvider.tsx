@@ -16,25 +16,8 @@ export const PoolAllTotalDataProvider: React.FC<
   let allPoolData: AllTotalPoolData[] | undefined = [];
 
   const { allTotalPoolData, error } = useTotalPoolData(undefined, true);
-  //const { allTotalPoolData, error } = useAllTotalPoolData(chainId, allPoolName);
 
   allPoolData = allTotalPoolData;
-  // for (let key in allPoolName) {
-  //   const temporaryConfig: PoolConfig =
-  //     POOL_CONFIG_MAP[chainId ? chainId : 1][key];
-  //   const { totalPoolData, error } = useTotalPoolData(temporaryConfig);
-  //   let sumCollateralBalances = 0;
-  //   for (let key in totalPoolData?.totalCollateralBalances) {
-  //     sumCollateralBalances += totalPoolData.totalCollateralBalances[key];
-  //   }
-  //   baseCollateralAssetAndTotalPoolData.push({
-  //     baseToken: temporaryConfig?.baseToken,
-  //     assetConfigs: temporaryConfig?.assetConfigs,
-  //     totalBaseSupplyBalance: totalPoolData?.totalBaseSupplyBalance,
-  //     totalBaseBorrowBalance: totalPoolData?.totalBaseBorrowBalance,
-  //     totalCollateralBalances: sumCollateralBalances,
-  //   });
-  // }
 
   return (
     <PoolAllTotalDataContext.Provider
