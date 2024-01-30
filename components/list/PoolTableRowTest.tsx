@@ -27,12 +27,25 @@ const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; i
       allCollateralSymbols += assetConfig.symbol + ", ";
     }
   }
-  // const { allPoolData } = usePoolAllTotalDataContext();
+  const strTest = "CJPY";
+  const { allPoolData } = usePoolAllTotalDataContext();
   // if(allPoolData){ 
   //   if(allPoolData.length !== 0)
-  //   console.log(allPoolData[index]);
+  //   console.log(allPoolData["CJPY"]);
   // }
-  const { totalPoolData, error } = useTotalPoolData(poolData);
+  
+  // allPoolData が未定義でないことを確認し、配列内をループして CJPY キーを持つオブジェクトを探します。
+const totalPoolData = allPoolData?.find(poolData => symbol in poolData);
+if (totalPoolData) console.log(totalPoolData[symbol]);
+// オブジェクトが見つかった場合、そのプロパティにアクセスします。
+// if (cJPYPoolData) {
+//   const totalBaseSupplyBalance = cJPYPoolData["CJPY"].totalBaseSupplyBalance;
+//   const totalBaseBorrowBalance = cJPYPoolData["CJPY"].totalBaseBorrowBalance;
+//   const totalCollateralBalances = cJPYPoolData["CJPY"].totalCollateralBalances;
+//   console.log(totalBaseSupplyBalance+", "+totalBaseBorrowBalance+", "+totalCollateralBalances);
+// }
+
+  //const { totalPoolData, error } = useTotalPoolData(poolData);
   const { currency, toggleCurrency } = useCurrency();
   const { priceFeedData } = usePriceFeedData(poolData);
   let rate: number | undefined;
@@ -44,14 +57,23 @@ const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; i
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
   let sumCollateralBalances = 0;
   
-  for (let key in totalPoolData?.totalCollateralBalances) {
+  if (totalPoolData)
+  for (let key in totalPoolData[symbol]?.totalCollateralBalances) {
     const tempValue =
-      totalPoolData?.totalCollateralBalances[key] *
+    totalPoolData[symbol]?.totalCollateralBalances[key] *
       (priceFeedData?.collateralAssets[key] || 0);
     if (tempValue) {
       sumCollateralBalances += tempValue;
     }
   }
+  // for (let key in totalPoolData?.totalCollateralBalances) {
+  //   const tempValue =
+  //     totalPoolData?.totalCollateralBalances[key] *
+  //     (priceFeedData?.collateralAssets[key] || 0);
+  //   if (tempValue) {
+  //     sumCollateralBalances += tempValue;
+  //   }
+  // }
 
   const isMobile = useIsMobile();
 
@@ -172,7 +194,7 @@ const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; i
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdPriceFormatter(
-                        totalPoolData?.totalBaseSupplyBalance,
+                        totalPoolData[symbol]?.totalBaseSupplyBalance,
                         assetPrice,
                         currency,
                         rate || 0,
@@ -201,7 +223,7 @@ const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; i
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdPriceFormatter(
-                        totalPoolData?.totalBaseBorrowBalance,
+                        totalPoolData[symbol]?.totalBaseBorrowBalance,
                         assetPrice,
                         currency,
                         rate || 0,
@@ -321,7 +343,7 @@ const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; i
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolData?.totalBaseSupplyBalance !== undefined &&
+              {totalPoolData && totalPoolData[symbol]?.totalBaseSupplyBalance !== undefined &&
               assetPrice ? (
                 <>
                   <Text
@@ -331,7 +353,7 @@ const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; i
                     textAlign="center"
                   >
                     {smallUsdPriceFormatter(
-                      totalPoolData?.totalBaseSupplyBalance,
+                      totalPoolData[symbol]?.totalBaseSupplyBalance,
                       assetPrice,
                       currency,
                       rate || 0,
@@ -350,7 +372,7 @@ const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; i
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolData?.totalBaseBorrowBalance !== undefined &&
+              {totalPoolData && totalPoolData[symbol]?.totalBaseBorrowBalance !== undefined &&
               assetPrice ? (
                 <>
                   <Text
@@ -360,7 +382,7 @@ const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; i
                     textAlign="center"
                   >
                     {smallUsdPriceFormatter(
-                      totalPoolData?.totalBaseBorrowBalance,
+                      totalPoolData[symbol]?.totalBaseBorrowBalance,
                       assetPrice,
                       currency,
                       rate || 0,
