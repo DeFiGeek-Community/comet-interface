@@ -4,8 +4,8 @@ import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
-// import PoolTableRow from "components/list/PoolTableRow";
-import PoolTableRow from "components/list/PoolTableRowTest";
+import PoolTableRow from "components/list/PoolTableRow";
+// import PoolTableRow from "components/list/PoolTableRowTest";
 import { POOL_CONFIG_MAP } from "constants/pools";
 import { useNetwork } from "wagmi";
 import { useAccount } from "wagmi";
@@ -46,12 +46,12 @@ const PoolTable = () => {
             {!isReady &&
               Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
                 if (data.baseToken)
-                  return <PoolTableRow poolData={data} index={index} key={index} />;
+                  return <PoolTableRow poolData={data} key={index} />;
               })}
             {chain &&
               Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
                 if (data.baseToken)
-                  return <PoolTableRow poolData={data} index={index} key={index} />;
+                  return <PoolTableRow poolData={data} key={index} />;
               })}
           </Column>
         </DashboardBox>
@@ -140,12 +140,12 @@ const PoolTable = () => {
             {!isReady &&
               Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
                 if (data.baseToken)
-                  return <PoolTableRow poolData={data} index={index} key={index} />;
+                  return <PoolTableRow poolData={data} key={index} />;
               })}
             {chain &&
               Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
                 if (data.baseToken)
-                  return <PoolTableRow poolData={data} index={index} key={index} />;
+                  return <PoolTableRow poolData={data} key={index} />;
               })}
             <ModalDivider />
           </Column>

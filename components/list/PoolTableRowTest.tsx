@@ -15,7 +15,7 @@ import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import {usePoolAllTotalDataContext} from "hooks/pool/list/usePoolAllTotalDataContext";
 
-const PoolTableRow = ({ poolData, index }: { poolData: PoolConfig | undefined; index: number; }) => {
+const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const { t } = useTranslation();
 
   const tokenData = poolData?.baseToken;
