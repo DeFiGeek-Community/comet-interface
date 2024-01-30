@@ -15,9 +15,9 @@ export const PoolAllTotalDataProvider: React.FC<
 > = ({ children }) => {
   let allPoolData: AllTotalPoolData[] | undefined = [];
 
-  const { allTotalPoolData, error } = useTotalPoolData(undefined, true);
+  // const { allTotalPoolData, error } = useTotalPoolData(undefined, true);
 
-  allPoolData = allTotalPoolData;
+  // allPoolData = allTotalPoolData;
 
   return (
     <PoolAllTotalDataContext.Provider
