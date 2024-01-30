@@ -94,6 +94,12 @@ const useTotalPoolData = (
       console.log("OK!");
       let tempAllTotalPoolData: AllTotalPoolData[] | undefined = [];
       if (chain) {
+        console.log("start!");
+        let now = new Date();
+        let Hour = now.getHours();
+        let Min = now.getMinutes();
+        let Sec = now.getSeconds();
+        console.log(Hour + ":" + Min + ":" + Sec);
         for (let str in POOL_CONFIG_MAP[chain.id]) {
           const temporaryConfig = POOL_CONFIG_MAP[chain.id][str];
           try {
@@ -154,6 +160,12 @@ const useTotalPoolData = (
           }
         }
         setAllTotalPoolData(tempAllTotalPoolData);
+        console.log("Goal!");
+        now = new Date();
+        Hour = now.getHours();
+        Min = now.getMinutes();
+        Sec = now.getSeconds();
+        console.log(Hour + ":" + Min + ":" + Sec);
       }
     }
   }, [poolData, chain, reloadKey]);
