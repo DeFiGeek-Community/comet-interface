@@ -13,7 +13,6 @@ import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
-import {usePoolAllTotalDataContext} from "hooks/pool/list/usePoolAllTotalDataContext";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const { t } = useTranslation();
@@ -27,11 +26,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
       allCollateralSymbols += assetConfig.symbol + ", ";
     }
   }
-  // const { allPoolData } = usePoolAllTotalDataContext();
-  // if(allPoolData){ 
-  //   if(allPoolData.length !== 0)
-  //   console.log(allPoolData[index]);
-  // }
   const { totalPoolData, error } = useTotalPoolData(poolData);
   const { currency, toggleCurrency } = useCurrency();
   const { priceFeedData } = usePriceFeedData(poolData);
@@ -43,7 +37,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   }
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
   let sumCollateralBalances = 0;
-  
+
   for (let key in totalPoolData?.totalCollateralBalances) {
     const tempValue =
       totalPoolData?.totalCollateralBalances[key] *

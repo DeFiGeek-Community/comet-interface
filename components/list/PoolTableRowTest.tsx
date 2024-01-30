@@ -13,7 +13,7 @@ import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
-import {usePoolAllTotalDataContext} from "hooks/pool/list/usePoolAllTotalDataContext";
+import { usePoolAllTotalDataContext } from "hooks/pool/list/usePoolAllTotalDataContext";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const { t } = useTranslation();
@@ -29,21 +29,21 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   }
   const strTest = "CJPY";
   const { allPoolData } = usePoolAllTotalDataContext();
-  // if(allPoolData){ 
+  // if(allPoolData){
   //   if(allPoolData.length !== 0)
   //   console.log(allPoolData["CJPY"]);
   // }
-  
+
   // allPoolData が未定義でないことを確認し、配列内をループして CJPY キーを持つオブジェクトを探します。
-const totalPoolData = allPoolData?.find(poolData => symbol in poolData);
-if (totalPoolData) console.log(totalPoolData[symbol]);
-// オブジェクトが見つかった場合、そのプロパティにアクセスします。
-// if (cJPYPoolData) {
-//   const totalBaseSupplyBalance = cJPYPoolData["CJPY"].totalBaseSupplyBalance;
-//   const totalBaseBorrowBalance = cJPYPoolData["CJPY"].totalBaseBorrowBalance;
-//   const totalCollateralBalances = cJPYPoolData["CJPY"].totalCollateralBalances;
-//   console.log(totalBaseSupplyBalance+", "+totalBaseBorrowBalance+", "+totalCollateralBalances);
-// }
+  const totalPoolData = allPoolData?.find((poolData) => symbol in poolData);
+  if (totalPoolData) console.log(totalPoolData[symbol]);
+  // オブジェクトが見つかった場合、そのプロパティにアクセスします。
+  // if (cJPYPoolData) {
+  //   const totalBaseSupplyBalance = cJPYPoolData["CJPY"].totalBaseSupplyBalance;
+  //   const totalBaseBorrowBalance = cJPYPoolData["CJPY"].totalBaseBorrowBalance;
+  //   const totalCollateralBalances = cJPYPoolData["CJPY"].totalCollateralBalances;
+  //   console.log(totalBaseSupplyBalance+", "+totalBaseBorrowBalance+", "+totalCollateralBalances);
+  // }
 
   //const { totalPoolData, error } = useTotalPoolData(poolData);
   const { currency, toggleCurrency } = useCurrency();
@@ -56,16 +56,16 @@ if (totalPoolData) console.log(totalPoolData[symbol]);
   }
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
   let sumCollateralBalances = 0;
-  
+
   if (totalPoolData)
-  for (let key in totalPoolData[symbol]?.totalCollateralBalances) {
-    const tempValue =
-    totalPoolData[symbol]?.totalCollateralBalances[key] *
-      (priceFeedData?.collateralAssets[key] || 0);
-    if (tempValue) {
-      sumCollateralBalances += tempValue;
+    for (let key in totalPoolData[symbol]?.totalCollateralBalances) {
+      const tempValue =
+        totalPoolData[symbol]?.totalCollateralBalances[key] *
+        (priceFeedData?.collateralAssets[key] || 0);
+      if (tempValue) {
+        sumCollateralBalances += tempValue;
+      }
     }
-  }
   // for (let key in totalPoolData?.totalCollateralBalances) {
   //   const tempValue =
   //     totalPoolData?.totalCollateralBalances[key] *
@@ -343,7 +343,8 @@ if (totalPoolData) console.log(totalPoolData[symbol]);
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolData && totalPoolData[symbol]?.totalBaseSupplyBalance !== undefined &&
+              {totalPoolData &&
+              totalPoolData[symbol]?.totalBaseSupplyBalance !== undefined &&
               assetPrice ? (
                 <>
                   <Text
@@ -372,7 +373,8 @@ if (totalPoolData) console.log(totalPoolData[symbol]);
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolData && totalPoolData[symbol]?.totalBaseBorrowBalance !== undefined &&
+              {totalPoolData &&
+              totalPoolData[symbol]?.totalBaseBorrowBalance !== undefined &&
               assetPrice ? (
                 <>
                   <Text
