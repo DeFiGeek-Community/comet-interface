@@ -3,6 +3,7 @@ import { HashLoader } from "react-spinners";
 import { Center } from "utils/chakraUtils";
 import PoolList from "components/PoolList";
 import { useRouter } from "next/router";
+import { PoolAllTotalDataProvider } from "components/Provider/PoolAllTotalDataProvider";
 
 const Pool = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const Pool = () => {
   }, []);
 
   return (
-    <>
+    <PoolAllTotalDataProvider>
       {isRendered && router.isReady ? (
         <PoolList />
       ) : (
@@ -21,7 +22,7 @@ const Pool = () => {
           <HashLoader color="#FFF" />
         </Center>
       )}
-    </>
+    </PoolAllTotalDataProvider>
   );
 };
 

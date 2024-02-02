@@ -28,14 +28,16 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
     }
   }
   const strTest = "CJPY";
-  const { allPoolData } = usePoolAllTotalDataContext();
+  const { allTotalPoolData } = usePoolAllTotalDataContext();
   // if(allPoolData){
   //   if(allPoolData.length !== 0)
   //   console.log(allPoolData["CJPY"]);
   // }
 
   // allPoolData が未定義でないことを確認し、配列内をループして CJPY キーを持つオブジェクトを探します。
-  const totalPoolData = allPoolData?.find((poolData) => symbol in poolData);
+  const totalPoolData = allTotalPoolData?.find(
+    (poolData) => symbol in poolData,
+  );
   if (totalPoolData) console.log(totalPoolData[symbol]);
   // オブジェクトが見つかった場合、そのプロパティにアクセスします。
   // if (cJPYPoolData) {

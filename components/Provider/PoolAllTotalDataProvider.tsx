@@ -1,6 +1,6 @@
 import PoolAllTotalDataContext from "context/PoolAllTotalDataContext";
 import { PoolConfig } from "interfaces/pool";
-import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
+import useTotalPoolDataTest from "hooks/pool/list/useTotalPoolDataTest";
 import { AllTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { POOL_CONFIG_MAP, PoolNames } from "constants/pools";
 
@@ -13,16 +13,14 @@ interface PoolAllTotalDataProviderProps {
 export const PoolAllTotalDataProvider: React.FC<
   PoolAllTotalDataProviderProps
 > = ({ children }) => {
-  let allPoolData: AllTotalPoolData[] | undefined = [];
-
-  // const { allTotalPoolData, error } = useTotalPoolData(undefined, true);
+  const { allTotalPoolData, error } = useTotalPoolDataTest();
 
   // allPoolData = allTotalPoolData;
 
   return (
     <PoolAllTotalDataContext.Provider
       value={{
-        allPoolData,
+        allTotalPoolData,
       }}
     >
       {children}

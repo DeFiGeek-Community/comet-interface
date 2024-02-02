@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { AllTotalPoolData } from "hooks/pool/shared/useTotalPoolData";
+import { AllTotalPoolData } from "hooks/pool/list/useTotalPoolDataTest";
 
 export interface PoolAllTotalDataContextType {
-  allPoolData: AllTotalPoolData[] | undefined;
+  allTotalPoolData: AllTotalPoolData[] | undefined;
 }
 
 const PoolAllTotalDataContext = createContext<
