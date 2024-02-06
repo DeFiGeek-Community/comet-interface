@@ -14,7 +14,7 @@ import CaptionedStat from "components/shared/CaptionedStat";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
-import { useCurrency } from "context/currencyContext";
+import { useAppData } from "context/AppDataContext";
 
 const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const isMobile = useIsSmallScreen();
@@ -42,7 +42,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
   }
 
   const { t } = useTranslation();
-  const { currency, rate } = useCurrency();
+  const { currency, rate } = useAppData();
 
   return (
     <RowOrColumn

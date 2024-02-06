@@ -9,11 +9,11 @@ import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataCont
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
-import { useCurrency } from "context/currencyContext";
+import { useAppData } from "context/AppDataContext";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
-  const { currency, rate } = useCurrency();
+  const { currency, rate } = useAppData();
   const { baseAssetData, priceFeedData } = usePoolPrimaryDataContext();
   const { positionSummary } = usePoolSecondaryDataContext();
   const basePrice = priceFeedData?.baseAsset ?? 0;

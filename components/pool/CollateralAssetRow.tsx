@@ -8,7 +8,7 @@ import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import PoolModal, { Mode } from "components/PoolModal";
 import { PoolConfig } from "interfaces/pool";
-import { useCurrency } from "context/currencyContext";
+import { useAppData } from "context/AppDataContext";
 
 const CollateralAssetRow = ({
   poolData,
@@ -52,7 +52,7 @@ const CollateralAssetRow = ({
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
-  const { currency, rate } = useCurrency();
+  const { currency, rate } = useAppData();
 
   return (
     <>
