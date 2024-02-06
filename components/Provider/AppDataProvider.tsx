@@ -16,9 +16,7 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
 
   const updatePriceFeedData = (poolName: string, data: PriceFeedData) => {
     setPriceFeedData((prevData) => ({ ...prevData, [poolName]: data }));
-    if (poolName === 'usdjpy') {
-      setUsdjpyPrice(data?.usdjpy);
-    }
+    setUsdjpyPrice(data?.usdjpy);
   };
 
   const updateTotalPoolData = (poolName: string, data: TotalPoolData) => {
