@@ -7,12 +7,12 @@ import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
-import { useCurrency } from "context/currencyContext";
 import { Link } from "@chakra-ui/react";
 import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
+import { useAppData } from "context/AppDataContext";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const { t } = useTranslation();
@@ -27,14 +27,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
     }
   }
   const { totalPoolData, error } = useTotalPoolData(poolData);
-  const { currency, toggleCurrency } = useCurrency();
+  const { currency, rate } = useAppData();
   const { priceFeedData } = usePriceFeedData(poolData);
-  let rate: number | undefined;
-  if (currency === "USD") {
-    rate = 1;
-  } else if (currency === "JPY") {
-    rate = priceFeedData?.usdjpy;
-  }
+  
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
   let sumCollateralBalances = 0;
 
