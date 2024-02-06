@@ -18,7 +18,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row, useIsMobile } from "utils/chakraUtils";
 import { useChainPool } from "hooks/useChainPool";
 import { useTranslation } from "react-i18next";
-import { useCurrency } from "context/currencyContext";
+import { useAppData } from "context/AppDataContext";
 
 const selectStyle = { backgroundColor: "black", color: "white" };
 
@@ -79,7 +79,7 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 export const Header = () => {
   const isMobile = useIsMobile();
   const { chainId, poolName } = useChainPool();
-  const { currency, toggleCurrency } = useCurrency();
+  const { currency, toggleCurrency } = useAppData();
   const chainConfig = POOL_CONFIG_MAP[chainId];
   const poolNames = chainConfig ? Object.keys(chainConfig) : [];
   return (

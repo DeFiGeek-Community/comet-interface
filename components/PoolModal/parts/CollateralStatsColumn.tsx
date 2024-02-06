@@ -15,7 +15,7 @@ import DashboardBox from "components/shared/DashboardBox";
 import StatsRow from "components/shared/StatsRow";
 import { Mode } from "components/PoolModal";
 import { CollateralAsset } from "interfaces/pool";
-import { useCurrency } from "context/currencyContext";
+import { useAppData } from "context/AppDataContext";
 
 export const CollateralStatsColumn = ({
   mode,
@@ -27,7 +27,7 @@ export const CollateralStatsColumn = ({
   amount: number;
 }) => {
   const { t } = useTranslation();
-  const { currency, rate } = useCurrency();
+  const { currency, rate } = useAppData();
   const poolData = usePoolData();
   const { priceFeedData, baseAssetData, collateralAssetsData } =
     usePoolPrimaryDataContext();

@@ -14,7 +14,7 @@ import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataCont
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
-import { useCurrency } from "context/currencyContext";
+import { useAppData } from "context/AppDataContext";
 
 const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const {
@@ -36,6 +36,7 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const symbol = tokenData?.symbol ?? "";
   const decimals = tokenData?.decimals ?? 0;
 
+  const { currency, rate } = useAppData();
   const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
   const { tokenRewardData, positionSummary } = usePoolSecondaryDataContext();
 
@@ -49,7 +50,6 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const isMobile = useIsMobile();
 
   const { t } = useTranslation();
-  const { currency, rate } = useCurrency();
 
   return (
     <>
