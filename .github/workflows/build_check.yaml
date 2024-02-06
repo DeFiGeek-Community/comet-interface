@@ -15,6 +15,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "v18.12.1"
+      - name: Create .env file
+        run: echo NEXT_PUBLIC_PROJECT_ID="dummydummydummydummydummydummydu" > .env
       - name: Install Dependencies
         run: npm ci
       - name: check-build
