@@ -14,7 +14,9 @@ export interface AppDataContextType {
   toggleCurrency: () => void;
 }
 
-export const AppDataContext = createContext<AppDataContextType | undefined>(undefined);
+export const AppDataContext = createContext<AppDataContextType | undefined>(
+  undefined,
+);
 
 export const useAppData = () => {
   const context = useContext(AppDataContext);

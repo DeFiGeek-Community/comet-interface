@@ -53,7 +53,6 @@ const wagmiConfig = createConfig({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-
   const [isRendered, setIsRendered] = useState(false);
   const [chainId, setChainId] = useState<number>(1);
   const [poolName, setPoolName] = useState<string>("");
@@ -76,7 +75,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             {isRendered && router.isReady ? (
               <AppDataProvider>
-                <PoolContext.Provider value={{ chainId, poolName, setChainId, setPoolName }}>
+                <PoolContext.Provider
+                  value={{ chainId, poolName, setChainId, setPoolName }}
+                >
                   <Component {...pageProps} />
                 </PoolContext.Provider>
               </AppDataProvider>

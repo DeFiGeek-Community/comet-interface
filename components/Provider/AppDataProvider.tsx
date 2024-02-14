@@ -1,5 +1,9 @@
 import React, { useState, ReactNode } from "react";
-import { AppDataContext, Currency, AppDataContextType } from "context/AppDataContext";
+import {
+  AppDataContext,
+  Currency,
+  AppDataContextType,
+} from "context/AppDataContext";
 import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 
@@ -36,7 +40,7 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const value : AppDataContextType = {
+  const value: AppDataContextType = {
     priceFeedData,
     updatePriceFeedData,
     totalPoolData,

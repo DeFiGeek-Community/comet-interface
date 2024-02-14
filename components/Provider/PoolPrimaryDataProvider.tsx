@@ -1,5 +1,5 @@
 // components/Provider/PoolPrimaryDataProvider.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import PoolPrimaryDataContext from "context/PoolPrimaryDataContext";
 import { PoolConfig } from "interfaces/pool";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
@@ -7,16 +7,23 @@ import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import useClaimReward from "hooks/pool/indivisual/useClaimReward";
-import { useAppData } from 'context/AppDataContext';
+import { useAppData } from "context/AppDataContext";
 
 interface PoolPrimaryDataProviderProps {
   poolData: PoolConfig | undefined;
   children: React.ReactNode;
 }
 
-export const PoolPrimaryDataProvider: React.FC<PoolPrimaryDataProviderProps> = ({ poolData, children }) => {
-  const { priceFeedData: priceObject, updatePriceFeedData, totalPoolData: totalPoolObject, updateTotalPoolData } = useAppData();
-  const poolName = poolData?.baseToken.symbol ?? '';
+export const PoolPrimaryDataProvider: React.FC<
+  PoolPrimaryDataProviderProps
+> = ({ poolData, children }) => {
+  const {
+    priceFeedData: priceObject,
+    updatePriceFeedData,
+    totalPoolData: totalPoolObject,
+    updateTotalPoolData,
+  } = useAppData();
+  const poolName = poolData?.baseToken.symbol ?? "";
   const { priceFeedData } = usePriceFeedData(poolData);
 
   useEffect(() => {

@@ -6,13 +6,13 @@ export const SupportedPoolName = {
     CJPY: "CJPY",
     USDC: "USDC",
     crvUSD: "crvUSD",
-    WETH: "WETH"
+    WETH: "WETH",
   },
   [SupportedChainId.GOERLI]: {
     CJPY: "CJPY",
     USDC: "USDC",
     crvUSD: "crvUSD",
-    WETH: "WETH"
+    WETH: "WETH",
   },
 };
 
