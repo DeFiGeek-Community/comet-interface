@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from 'next/router';
 import Image from "next/image";
 import {
   Box,
@@ -78,7 +79,7 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 
 export const Header = () => {
   const isMobile = useIsMobile();
-  const { chainId, poolName } = useChainPool();
+  const { chainId, poolName, setPoolName } = useChainPool();
   const { currency, toggleCurrency } = useAppData();
   const chainConfig = POOL_CONFIG_MAP[chainId];
   const poolNames = chainConfig ? Object.keys(chainConfig) : [];
@@ -122,6 +123,7 @@ export const Header = () => {
                   name={`${name} Pool`}
                   route={`/?pool=${name}`}
                   isGreyedOut={poolName == name}
+                  onClick={() => setPoolName(name)}
                 />
               </MenuItem>
             ))}
@@ -166,14 +168,26 @@ export const HeaderLink = ({
   name,
   route,
   isGreyedOut = false,
+  onClick,
 }: {
   name: string;
   route: string;
   isGreyedOut?: boolean;
+  onClick: () => void;
 }) => {
+  const router = useRouter();
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!isGreyedOut) {
+      onClick();
+      router.push(route, undefined, { shallow: true });
+    }
+  };
+
   return (
     <Link
-      href={isGreyedOut ? undefined : route}
+      href={route}
+      onClick={handleClick}
       whiteSpace="nowrap"
       className="no-underline"
       pointerEvents={isGreyedOut ? "none" : "auto"}
