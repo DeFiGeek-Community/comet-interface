@@ -3,14 +3,13 @@ import { Column, useIsMobile } from "utils/chakraUtils";
 import StatsBarTest from "components/pool/StatsBarTest";
 import Footer from "components/shared/Footer";
 import { HeaderTest } from "components/shared/HeaderTest";
-import { CurrencyProviderTest } from "components/Provider/currencyProviderTest";
 import PoolTable from "components/list/PoolTable";
 
 const PoolList = memo(() => {
   const isMobile = useIsMobile();
 
   return (
-    <CurrencyProviderTest>
+    <>
       <Column
         mainAxisAlignment="flex-start"
         crossAxisAlignment="center"
@@ -24,7 +23,7 @@ const PoolList = memo(() => {
         <PoolTable />
         <Footer />
       </Column>
-    </CurrencyProviderTest>
+    </>
   );
 });
 
