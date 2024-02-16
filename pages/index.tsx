@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNetwork } from "wagmi";
-import PoolPage from "components/PoolPage";
+import PoolList from "components/PoolList";
 import { useChainPool } from "hooks/useChainPool";
 import { ReloadContextProvider } from "components/Provider/ReloadContextProvider";
 import { useRouter } from "next/router";
@@ -25,7 +25,7 @@ const Pool = () => {
 
   return (
     <ReloadContextProvider>
-      <PoolPage />
+      <PoolList />
     </ReloadContextProvider>
   );
 };
