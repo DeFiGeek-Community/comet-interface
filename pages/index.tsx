@@ -10,7 +10,7 @@ const Pool = () => {
   const router = useRouter();
   const { setChainId, setPoolName } = useChainPool();
   const { chain } = useNetwork();
-//
+
   useEffect(() => {
     if (chain) {
       setChainId(chain.id);
