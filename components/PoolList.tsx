@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { Column, useIsMobile } from "utils/chakraUtils";
 import StatsBarTest from "components/pool/StatsBarTest";
 import Footer from "components/shared/Footer";
-import { HeaderTest } from "components/shared/HeaderTest";
+import { Header } from "components/shared/Header";
 import PoolTable from "components/list/PoolTable";
 
 const PoolList = memo(() => {
@@ -18,7 +18,7 @@ const PoolList = memo(() => {
         width={isMobile ? "100%" : "1150px"}
         px={isMobile ? 4 : 0}
       >
-        <HeaderTest />
+        <Header />
         <StatsBarTest isPoolList={true} />
         <PoolTable />
         <Footer />
