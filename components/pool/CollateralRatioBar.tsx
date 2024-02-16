@@ -26,8 +26,8 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     liquidationPercentage > 90
       ? "red"
       : liquidationPercentage > 80
-      ? "orange"
-      : "whatsapp";
+        ? "orange"
+        : "whatsapp";
   const tooltipMessage = t("tooltipMessage", {
     liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
     liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),

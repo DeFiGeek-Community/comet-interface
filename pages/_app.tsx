@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -15,6 +16,9 @@ import { publicProvider } from "wagmi/providers/public";
 import type { AppProps } from "next/app";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { CacheProvider } from "@chakra-ui/next-js";
+import { Center } from "utils/chakraUtils";
+import { HashLoader } from "react-spinners";
+import { PoolContext } from "context/PoolContext";
 import { CustomAvatar } from "components/shared/AvatarComponent";
 import { AppDataProvider } from "components/Provider/AppDataProvider";
 
@@ -50,6 +54,10 @@ const wagmiConfig = createConfig({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isRendered, setIsRendered] = useState(false);
+  const [chainId, setChainId] = useState<number>(1);
+  const [poolName, setPoolName] = useState<string>("");
+
+  const router = useRouter();
 
   useEffect(() => {
     setIsRendered(true);
@@ -65,9 +73,19 @@ function MyApp({ Component, pageProps }: AppProps) {
             modalSize="compact"
             avatar={CustomAvatar}
           >
-            <AppDataProvider>
-              <Component {...pageProps} />
-            </AppDataProvider>
+            {isRendered && router.isReady ? (
+              <AppDataProvider>
+                <PoolContext.Provider
+                  value={{ chainId, poolName, setChainId, setPoolName }}
+                >
+                  <Component {...pageProps} />
+                </PoolContext.Provider>
+              </AppDataProvider>
+            ) : (
+              <Center height="100vh">
+                <HashLoader color="#FFF" />
+              </Center>
+            )}
           </RainbowKitProvider>
         </WagmiConfig>
       </ChakraProvider>

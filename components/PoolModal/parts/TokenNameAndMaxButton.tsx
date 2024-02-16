@@ -66,8 +66,8 @@ export const TokenNameAndMaxButton = ({
           ? t("All cancel")
           : t("Repay All")
         : isAllButtonOn
-        ? t("All cancel")
-        : t("Withdraw All"),
+          ? t("All cancel")
+          : t("Withdraw All"),
     };
   };
 

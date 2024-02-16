@@ -64,12 +64,12 @@ export const CollateralStatsColumn = ({
           rate || 0,
         )
       : isAmountAndWithdraw
-      ? smallUsdFormatter(
-          baseValue - amount * price * borrowCollateral,
-          currency,
-          rate || 0,
-        )
-      : undefined;
+        ? smallUsdFormatter(
+            baseValue - amount * price * borrowCollateral,
+            currency,
+            rate || 0,
+          )
+        : undefined;
   };
 
   return (
@@ -91,8 +91,8 @@ export const CollateralStatsColumn = ({
                 isAmountAndSupply
                   ? `${truncateTo2DecimalPlaces(yourSupply + amount)} ${symbol}`
                   : isAmountAndWithdraw
-                  ? `${truncateTo2DecimalPlaces(yourSupply - amount)} ${symbol}`
-                  : undefined
+                    ? `${truncateTo2DecimalPlaces(yourSupply - amount)} ${symbol}`
+                    : undefined
               }
               color={color}
             />
