@@ -7,18 +7,18 @@ import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 // import PoolTableRow from "components/list/PoolTableRowTest";
 import { POOL_CONFIG_MAP } from "constants/pools";
-import { useNetwork } from "wagmi";
 import { useAccount } from "wagmi";
+import { useChainPool } from "hooks/useChainPool";
 
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const { chain } = useNetwork();
+  const { chainId } = useChainPool();
   const [isReady, setIsReady] = useState(false);
   const { address } = useAccount();
   useEffect(() => {
-    if (chain) setIsReady(true);
-  }, [chain]);
+    if (chainId) setIsReady(true);
+  }, [chainId]);
   useEffect(() => {
     if (!address) setIsReady(false);
   }, [address]);
@@ -48,8 +48,8 @@ const PoolTable = () => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })}
-            {chain &&
-              Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
+            {chainId &&
+              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })}
@@ -142,8 +142,8 @@ const PoolTable = () => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })}
-            {chain &&
-              Object.values(POOL_CONFIG_MAP[chain?.id])?.map((data, index) => {
+            {chainId &&
+              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })}
