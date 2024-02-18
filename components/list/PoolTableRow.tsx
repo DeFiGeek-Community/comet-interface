@@ -29,9 +29,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const { totalPoolData, error } = useTotalPoolData(poolData);
   const { currency, rate } = useAppData();
   const { priceFeedData } = usePriceFeedData(poolData);
-  
+
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
   let sumCollateralBalances = 0;
+  console.log(assetPrice);
 
   for (let key in totalPoolData?.totalCollateralBalances) {
     const tempValue =
@@ -41,6 +42,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
       sumCollateralBalances += tempValue;
     }
   }
+  console.log(sumCollateralBalances);
 
   const isMobile = useIsMobile();
 

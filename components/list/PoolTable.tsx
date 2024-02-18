@@ -14,14 +14,14 @@ const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { chainId } = useChainPool();
+  console.log(chainId);
   const [isReady, setIsReady] = useState(false);
   const { address } = useAccount();
+
   useEffect(() => {
-    if (chainId) setIsReady(true);
-  }, [chainId]);
-  useEffect(() => {
-    if (!address) setIsReady(false);
+    if (address) setIsReady(true);
   }, [address]);
+
   return (
     <>
       {isMobile ? (
@@ -43,12 +43,12 @@ const PoolTable = () => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
-            {!isReady &&
-              Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
+            {isReady &&
+              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })}
-            {chainId &&
+            {!isReady &&
               Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
@@ -137,12 +137,12 @@ const PoolTable = () => {
               </Row>
             </Row>
             <ModalDivider />
-            {!isReady &&
-              Object.values(POOL_CONFIG_MAP[1])?.map((data, index) => {
+            {isReady &&
+              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
               })}
-            {chainId &&
+            {!isReady &&
               Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
                 if (data.baseToken)
                   return <PoolTableRow poolData={data} key={index} />;
