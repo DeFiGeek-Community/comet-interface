@@ -14,7 +14,6 @@ const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { chainId } = useChainPool();
-  console.log(chainId);
   const [isReady, setIsReady] = useState(false);
   const { address } = useAccount();
 
