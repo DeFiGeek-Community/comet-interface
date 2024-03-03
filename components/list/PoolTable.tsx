@@ -10,10 +10,16 @@ import { POOL_CONFIG_MAP } from "constants/pools";
 import { useAccount } from "wagmi";
 import { useChainPool } from "hooks/useChainPool";
 
+function RenderPoolTableRow (){
+  const { chainId } = useChainPool();
+  return Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
+    if (data.baseToken) return <PoolTableRow poolData={data} key={index} />;
+  });
+};
+
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const { chainId } = useChainPool();
   const [isReady, setIsReady] = useState(false);
   const { address } = useAccount();
 
@@ -42,16 +48,8 @@ const PoolTable = () => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
-            {isReady &&
-              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
-                if (data.baseToken)
-                  return <PoolTableRow poolData={data} key={index} />;
-              })}
-            {!isReady &&
-              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
-                if (data.baseToken)
-                  return <PoolTableRow poolData={data} key={index} />;
-              })}
+            {isReady && <RenderPoolTableRow/>}
+            {!isReady && <RenderPoolTableRow/>}
           </Column>
         </DashboardBox>
       ) : (
@@ -136,16 +134,8 @@ const PoolTable = () => {
               </Row>
             </Row>
             <ModalDivider />
-            {isReady &&
-              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
-                if (data.baseToken)
-                  return <PoolTableRow poolData={data} key={index} />;
-              })}
-            {!isReady &&
-              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
-                if (data.baseToken)
-                  return <PoolTableRow poolData={data} key={index} />;
-              })}
+            {isReady && <RenderPoolTableRow/>}
+            {!isReady && <RenderPoolTableRow/>}
             <ModalDivider />
           </Column>
         </DashboardBox>
