@@ -9,21 +9,19 @@ const PoolList = memo(() => {
   const isMobile = useIsMobile();
 
   return (
-    <>
-      <Column
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="center"
-        color="#FFFFFF"
-        mx="auto"
-        width={isMobile ? "100%" : "1150px"}
-        px={isMobile ? 4 : 0}
-      >
-        <Header />
-        <StatsBarTest isPoolList={true} />
-        <PoolTable />
-        <Footer />
-      </Column>
-    </>
+    <Column
+      mainAxisAlignment="flex-start"
+      crossAxisAlignment="center"
+      color="#FFFFFF"
+      mx="auto"
+      width={isMobile ? "100%" : "1150px"}
+      px={isMobile ? 4 : 0}
+    >
+      <Header />
+      <StatsBarTest isPoolList={true} />
+      <PoolTable />
+      <Footer />
+    </Column>
   );
 });
 

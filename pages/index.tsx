@@ -21,9 +21,7 @@ const Pool = () => {
     }
   }, [router.isReady, router.query.pool, setPoolName]);
 
-  return (
-      <PoolList />
-  );
+  return <PoolList />;
 };
 
 export default Pool;
