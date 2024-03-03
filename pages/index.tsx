@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useNetwork } from "wagmi";
 import PoolList from "components/PoolList";
 import { useChainPool } from "hooks/useChainPool";
-import { ReloadContextProvider } from "components/Provider/ReloadContextProvider";
 import { useRouter } from "next/router";
 // import { PoolAllTotalDataProvider } from "components/Provider/PoolAllTotalDataProvider";
 // import { useAppData } from "context/AppDataContext";
@@ -35,9 +34,7 @@ const Pool = () => {
   }, [router.isReady, router.query.pool, setPoolName]);
 
   return (
-    <ReloadContextProvider>
       <PoolList />
-    </ReloadContextProvider>
   );
 };
 
