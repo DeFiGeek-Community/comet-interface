@@ -14,6 +14,12 @@ const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { chainId } = useChainPool();
+  const [isReady, setIsReady] = useState(false);
+  const { address } = useAccount();
+
+  useEffect(() => {
+    if (address) setIsReady(true);
+  }, [address]);
 
   return (
     <>
@@ -36,10 +42,16 @@ const PoolTable = () => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
-            {Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
-              if (data.baseToken)
-                return <PoolTableRow poolData={data} key={index} />;
-            })}
+            {isReady &&
+              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
+                if (data.baseToken)
+                  return <PoolTableRow poolData={data} key={index} />;
+              })}
+            {!isReady &&
+              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
+                if (data.baseToken)
+                  return <PoolTableRow poolData={data} key={index} />;
+              })}
           </Column>
         </DashboardBox>
       ) : (
@@ -124,10 +136,16 @@ const PoolTable = () => {
               </Row>
             </Row>
             <ModalDivider />
-            {Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
-              if (data.baseToken)
-                return <PoolTableRow poolData={data} key={index} />;
-            })}
+            {isReady &&
+              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
+                if (data.baseToken)
+                  return <PoolTableRow poolData={data} key={index} />;
+              })}
+            {!isReady &&
+              Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
+                if (data.baseToken)
+                  return <PoolTableRow poolData={data} key={index} />;
+              })}
             <ModalDivider />
           </Column>
         </DashboardBox>
