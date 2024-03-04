@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState }  from "react";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Text } from "@chakra-ui/react";
@@ -10,8 +10,6 @@ import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { Link } from "@chakra-ui/react";
 import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
-import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
-import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import { useAppData } from "context/AppDataContext";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
@@ -26,17 +24,20 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
       allCollateralSymbols += assetConfig.symbol + ", ";
     }
   }
-  const { totalPoolData, error } = useTotalPoolData(poolData);
-  const { currency, rate } = useAppData();
-  const { priceFeedData } = usePriceFeedData(poolData);
-
-  const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
+  const {
+    priceFeedData: priceFeedDataCJPY,
+    totalPoolData: totalPoolObjectCJPY,
+    currency, rate 
+  } = useAppData();
+  const assetPriceCJPY = priceFeedDataCJPY?.[symbol]?.baseAsset ?? null;
+  
+  
   let sumCollateralBalances = 0;
 
-  for (let key in totalPoolData?.totalCollateralBalances) {
-    const tempValue =
-      totalPoolData?.totalCollateralBalances[key] *
-      (priceFeedData?.collateralAssets[key] || 0);
+  for (let key in totalPoolObjectCJPY?.[symbol]?.totalCollateralBalances) {
+    const collateralBalance = totalPoolObjectCJPY?.[symbol]?.totalCollateralBalances?.[key] ?? 0;
+    const collateralAssetPrice = priceFeedDataCJPY?.[symbol]?.collateralAssets?.[key] ?? 0;
+    const tempValue = collateralBalance * collateralAssetPrice;
     if (tempValue) {
       sumCollateralBalances += tempValue;
     }
@@ -156,13 +157,13 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                   {t("Total Supply Balance")}
                 </Text>
 
-                {totalPoolData?.totalBaseSupplyBalance !== undefined &&
-                assetPrice ? (
+                {totalPoolObjectCJPY?.[symbol]?.totalBaseSupplyBalance !== undefined &&
+                assetPriceCJPY ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdPriceFormatter(
-                        totalPoolData?.totalBaseSupplyBalance,
-                        assetPrice,
+                        totalPoolObjectCJPY?.[symbol]?.totalBaseSupplyBalance,
+                        assetPriceCJPY,
                         currency,
                         rate || 0,
                       )}
@@ -185,13 +186,13 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                   {t("Total Borrow Balance")}
                 </Text>
 
-                {totalPoolData?.totalBaseBorrowBalance !== undefined &&
-                assetPrice ? (
+                {totalPoolObjectCJPY?.[symbol]?.totalBaseBorrowBalance !== undefined &&
+                assetPriceCJPY ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdPriceFormatter(
-                        totalPoolData?.totalBaseBorrowBalance,
-                        assetPrice,
+                        totalPoolObjectCJPY?.[symbol]?.totalBaseBorrowBalance,
+                        assetPriceCJPY,
                         currency,
                         rate || 0,
                       )}
@@ -214,7 +215,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                   {t("Total Collateral Balance")}
                 </Text>
 
-                {sumCollateralBalances !== undefined && assetPrice ? (
+                {sumCollateralBalances !== undefined && assetPriceCJPY ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdFormatter(
@@ -310,8 +311,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolData?.totalBaseSupplyBalance !== undefined &&
-              assetPrice ? (
+              {totalPoolObjectCJPY?.[symbol]?.totalBaseSupplyBalance !== undefined &&
+              assetPriceCJPY ? (
                 <>
                   <Text
                     color={"#FFF"}
@@ -320,8 +321,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                     textAlign="center"
                   >
                     {smallUsdPriceFormatter(
-                      totalPoolData?.totalBaseSupplyBalance,
-                      assetPrice,
+                      totalPoolObjectCJPY?.[symbol]?.totalBaseSupplyBalance,
+                      assetPriceCJPY,
                       currency,
                       rate || 0,
                     )}
@@ -339,8 +340,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolData?.totalBaseBorrowBalance !== undefined &&
-              assetPrice ? (
+              {totalPoolObjectCJPY?.[symbol]?.totalBaseBorrowBalance !== undefined &&
+              assetPriceCJPY ? (
                 <>
                   <Text
                     color={"#FFF"}
@@ -349,8 +350,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                     textAlign="center"
                   >
                     {smallUsdPriceFormatter(
-                      totalPoolData?.totalBaseBorrowBalance,
-                      assetPrice,
+                      totalPoolObjectCJPY?.[symbol]?.totalBaseBorrowBalance,
+                      assetPriceCJPY,
                       currency,
                       rate || 0,
                     )}
@@ -368,7 +369,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {sumCollateralBalances !== undefined && assetPrice ? (
+              {sumCollateralBalances !== undefined && assetPriceCJPY ? (
                 <>
                   <Text
                     color={"#FFF"}

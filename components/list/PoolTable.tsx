@@ -9,6 +9,9 @@ import PoolTableRow from "components/list/PoolTableRow";
 import { POOL_CONFIG_MAP } from "constants/pools";
 import { useAccount } from "wagmi";
 import { useChainPool } from "hooks/useChainPool";
+import { useAppData } from "context/AppDataContext";
+import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
+import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
 function RenderPoolTableRow (){
   const { chainId } = useChainPool();
@@ -20,8 +23,81 @@ function RenderPoolTableRow (){
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const { chainId } = useChainPool();
   const [isReady, setIsReady] = useState(false);
   const { address } = useAccount();
+
+  const {
+    priceFeedData: priceObject,
+    updatePriceFeedData,
+    totalPoolData: totalPoolObject,
+    updateTotalPoolData,
+  } = useAppData();
+  
+  const objCJPY = POOL_CONFIG_MAP[chainId]["CJPY"];
+  const { priceFeedData: priceFeedDataCJPY } = usePriceFeedData(objCJPY);
+  const { totalPoolData: totalPoolDataCJPY } = useTotalPoolData(objCJPY);
+  const objUSDC = POOL_CONFIG_MAP[chainId]["USDC"];
+  const { priceFeedData: priceFeedDataUSDC } = usePriceFeedData(objUSDC);
+  const { totalPoolData: totalPoolDataUSDC } = useTotalPoolData(objUSDC);
+  const objcrvUSD = POOL_CONFIG_MAP[chainId]["crvUSD"];
+  const { priceFeedData: priceFeedDatacrvUSD } = usePriceFeedData(objcrvUSD);
+  const { totalPoolData: totalPoolDatacrvUSD } = useTotalPoolData(objcrvUSD);
+  const objWETH = POOL_CONFIG_MAP[chainId]["WETH"];
+  const { priceFeedData: priceFeedDataWETH } = usePriceFeedData(objWETH);
+  const { totalPoolData: totalPoolDataWETH } = useTotalPoolData(objWETH);
+
+  useEffect(() => {
+    // priceFeedData が priceObject にない場合のみ更新する
+    if (!priceObject["CJPY"] && priceFeedDataCJPY) {
+      updatePriceFeedData("CJPY", priceFeedDataCJPY);
+    }
+  }, [priceFeedDataCJPY, priceObject, updatePriceFeedData]);
+  useEffect(() => {
+    // totalPoolData が totalPoolObject にない場合のみ更新する
+    if (!totalPoolObject["CJPY"] && totalPoolDataCJPY) {
+      updateTotalPoolData("CJPY", totalPoolDataCJPY);
+    }
+  }, [totalPoolDataCJPY, totalPoolObject, updateTotalPoolData]);
+
+  useEffect(() => {
+    // priceFeedData が priceObject にない場合のみ更新する
+    if (!priceObject["USDC"] && priceFeedDataUSDC) {
+      updatePriceFeedData("USDC", priceFeedDataUSDC);
+    }
+  }, [priceFeedDataUSDC, priceObject, updatePriceFeedData]);
+  useEffect(() => {
+    // totalPoolData が totalPoolObject にない場合のみ更新する
+    if (!totalPoolObject["USDC"] && totalPoolDataUSDC) {
+      updateTotalPoolData("USDC", totalPoolDataUSDC);
+    }
+  }, [totalPoolDataUSDC, totalPoolObject, updateTotalPoolData]);
+
+  useEffect(() => {
+    // priceFeedData が priceObject にない場合のみ更新する
+    if (!priceObject["crvUSD"] && priceFeedDatacrvUSD) {
+      updatePriceFeedData("crvUSD", priceFeedDatacrvUSD);
+    }
+  }, [priceFeedDatacrvUSD, priceObject, updatePriceFeedData]);
+  useEffect(() => {
+    // totalPoolData が totalPoolObject にない場合のみ更新する
+    if (!totalPoolObject["crvUSD"] && totalPoolDatacrvUSD) {
+      updateTotalPoolData("crvUSD", totalPoolDatacrvUSD);
+    }
+  }, [totalPoolDatacrvUSD, totalPoolObject, updateTotalPoolData]);
+
+  useEffect(() => {
+    // priceFeedData が priceObject にない場合のみ更新する
+    if (!priceObject["WETH"] && priceFeedDataWETH) {
+      updatePriceFeedData("WETH", priceFeedDataWETH);
+    }
+  }, [priceFeedDataWETH, priceObject, updatePriceFeedData]);
+  useEffect(() => {
+    // totalPoolData が totalPoolObject にない場合のみ更新する
+    if (!totalPoolObject["WETH"] && totalPoolDataWETH) {
+      updateTotalPoolData("WETH", totalPoolDataWETH);
+    }
+  }, [totalPoolDataWETH, totalPoolObject, updateTotalPoolData]);
 
   useEffect(() => {
     if (address) setIsReady(true);
