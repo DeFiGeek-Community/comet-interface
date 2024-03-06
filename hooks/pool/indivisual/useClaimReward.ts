@@ -26,7 +26,7 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
       );
       const yourTokenReward =
         tokenReward !== undefined
-          ? Number(formatUnits(tokenReward, poolData.cometDecimals))
+          ? Number(formatUnits(tokenReward, 6))
           : undefined;
       setClaimReward({ yourTokenReward });
     } catch (err) {
