@@ -6,22 +6,37 @@ import {
   waitForTransaction,
   writeContract,
 } from "@wagmi/core";
+import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
+import { usePrepareContractWrite } from 'wagmi'
 import rewardAbi from "static/rewards.json";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { truncateTo3DecimalPlaces } from "utils/bigUtils";
 import { formatErrorMessage } from "utils/formatErrorMessage";
-import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { useReload } from "context/ReloadContext";
 import { ModalDivider } from "components/shared/Modal";
+import rewardsAbi from "static/rewards.json";
 import { PoolConfig } from "interfaces/pool";
 
 const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
-  const { claimReward } = usePoolPrimaryDataContext();
   const { address } = useAccount();
   const { reload } = useReload();
 
+  const { config } = usePrepareContractWrite({
+    address: poolData.reward,
+    abi: rewardsAbi,
+    functionName: "getRewardOwed",
+    args: [poolData.proxy, address],
+    account: address,
+    enabled: !!address,
+  })
+  const owed = config.result ? (config.result as { owed: bigint }).owed : undefined;
+  const claimReward =
+  owed !== undefined
+    ? Number(formatUnits(owed, 18))
+    : undefined;
+  
   const asset = poolData.rewardToken;
 
   const isMobile = useIsMobile();
@@ -126,7 +141,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
             {claimReward !== undefined ? (
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {truncateTo3DecimalPlaces(claimReward.yourTokenReward ?? 0)}{" "}
+                  {truncateTo3DecimalPlaces(claimReward ?? 0)}{" "}
                   {asset?.symbol}
                 </Text>
               </Row>
@@ -145,8 +160,8 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
               <Button
                 isDisabled={
                   !Boolean(
-                    claimReward?.yourTokenReward &&
-                      claimReward?.yourTokenReward > 0,
+                    claimReward &&
+                      claimReward > 0,
                   )
                 }
                 onClick={onClaim}
