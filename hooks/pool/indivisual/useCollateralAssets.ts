@@ -52,6 +52,7 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
   }, [poolData, reloadKey]);
 
   useEffect(() => {
+    setCollateralAssetsData(undefined);
     fetchCollateralAssetsData();
   }, [fetchCollateralAssetsData]);
 

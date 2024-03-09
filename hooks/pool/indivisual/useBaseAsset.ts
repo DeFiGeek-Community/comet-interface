@@ -56,6 +56,7 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
   }, [poolData, reloadKey]);
 
   useEffect(() => {
+    setBaseAssetData(undefined);
     fetchBaseAsset();
   }, [fetchBaseAsset]);
 

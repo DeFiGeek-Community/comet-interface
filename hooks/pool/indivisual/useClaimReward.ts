@@ -41,6 +41,7 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
   }, [poolData, reloadKey]);
 
   useEffect(() => {
+    setClaimReward(undefined);
     fetchClaimReward();
   }, [fetchClaimReward]);
 

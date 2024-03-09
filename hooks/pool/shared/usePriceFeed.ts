@@ -62,6 +62,7 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
   }, [poolData, reloadKey]);
 
   useEffect(() => {
+    setPriceFeedData(undefined);
     fetchPriceFeedData();
   }, [fetchPriceFeedData]);
 
