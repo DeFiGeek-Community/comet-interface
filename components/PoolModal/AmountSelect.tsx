@@ -169,7 +169,7 @@ const AmountSelect = ({
       ? amount.multipliedBy(new BigNumber(1.01))
       : amount;
   };
-  console.log("")
+
   const approve = async () => {
     setUserAction(UserAction.APPROVE_EXECUTING);
     const approveConfig = await prepareWriteContract({
