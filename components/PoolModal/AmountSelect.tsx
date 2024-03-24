@@ -164,13 +164,22 @@ const AmountSelect = ({
     if (!state) updateAmount("");
   };
 
+  const getAdjustedAmount = () => {
+    return stateAllButton && amount
+      ? amount.multipliedBy(new BigNumber(1.01))
+      : amount;
+  };
+
   const approve = async () => {
     setUserAction(UserAction.APPROVE_EXECUTING);
     const approveConfig = await prepareWriteContract({
       address: asset.address,
       abi: erc20ABI,
       functionName: "approve",
-      args: [poolData.proxy, parseUnits(String(amount), asset.decimals)],
+      args: [
+        poolData.proxy,
+        parseUnits(String(getAdjustedAmount()), asset.decimals),
+      ],
     });
     const { hash: approveHash } = await writeContract(approveConfig);
     setUserAction(UserAction.APPROVE_IN_PROGRESS);
@@ -230,7 +239,8 @@ const AmountSelect = ({
       });
       console.log("allowanceData", allowanceData);
       if (
-        Number(formatUnits(allowanceData, asset.decimals)) < Number(amount) &&
+        Number(formatUnits(allowanceData, asset.decimals)) <
+          Number(getAdjustedAmount()) &&
         functionName === "supply"
       ) {
         console.log("approve");

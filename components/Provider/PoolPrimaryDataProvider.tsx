@@ -43,7 +43,6 @@ export const PoolPrimaryDataProvider: React.FC<
     }
   }, [poolName, totalPoolData, totalPoolObject, updateTotalPoolData]);
 
-
   return (
     <PoolPrimaryDataContext.Provider
       value={{

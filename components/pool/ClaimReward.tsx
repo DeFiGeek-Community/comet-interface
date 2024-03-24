@@ -8,7 +8,7 @@ import {
 } from "@wagmi/core";
 import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
-import { usePrepareContractWrite } from 'wagmi'
+import { usePrepareContractWrite } from "wagmi";
 import rewardAbi from "static/rewards.json";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
 import { truncateTo3DecimalPlaces } from "utils/bigUtils";
@@ -30,13 +30,13 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
     args: [poolData.proxy, address],
     account: address,
     enabled: !!address,
-  })
-  const owed = config.result ? (config.result as { owed: bigint }).owed : undefined;
-  const claimReward =
-  owed !== undefined
-    ? Number(formatUnits(owed, 18))
+  });
+  const owed = config.result
+    ? (config.result as { owed: bigint }).owed
     : undefined;
-  
+  const claimReward =
+    owed !== undefined ? Number(formatUnits(owed, 18)) : undefined;
+
   const asset = poolData.rewardToken;
 
   const isMobile = useIsMobile();
@@ -141,8 +141,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
             {claimReward !== undefined ? (
               <Row crossAxisAlignment="center" mainAxisAlignment="center">
                 <Text textAlign="center" mx={5}>
-                  {truncateTo3DecimalPlaces(claimReward ?? 0)}{" "}
-                  {asset?.symbol}
+                  {truncateTo3DecimalPlaces(claimReward ?? 0)} {asset?.symbol}
                 </Text>
               </Row>
             ) : (
@@ -158,12 +157,7 @@ const ClaimReward = ({ poolData }: { poolData: PoolConfig }) => {
           >
             <Row crossAxisAlignment="center" mainAxisAlignment="center">
               <Button
-                isDisabled={
-                  !Boolean(
-                    claimReward &&
-                      claimReward > 0,
-                  )
-                }
+                isDisabled={!Boolean(claimReward && claimReward > 0)}
                 onClick={onClaim}
               >
                 {t("Claim")}
