@@ -7,7 +7,6 @@ import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 // import PoolTableRow from "components/list/PoolTableRowTest";
 import { POOL_CONFIG_MAP } from "constants/pools";
-import { useAccount } from "wagmi";
 import { useChainPool } from "hooks/useChainPool";
 import { useAppData } from "context/AppDataContext";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
@@ -24,8 +23,6 @@ const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { chainId } = useChainPool();
-  const [isReady, setIsReady] = useState(false);
-  const { address } = useAccount();
 
   const {
     priceFeedData: priceObject,
@@ -99,10 +96,6 @@ const PoolTable = () => {
     }
   }, [totalPoolDataWETH, totalPoolObject, updateTotalPoolData]);
 
-  useEffect(() => {
-    if (address) setIsReady(true);
-  }, [address]);
-
   return (
     <>
       {isMobile ? (
@@ -125,8 +118,6 @@ const PoolTable = () => {
             </Heading>
             <ModalDivider />
             <RenderPoolTableRow/>
-            {/* {isReady && <RenderPoolTableRow/>}
-            {!isReady && <RenderPoolTableRow/>} */}
           </Column>
         </DashboardBox>
       ) : (
@@ -212,8 +203,6 @@ const PoolTable = () => {
             </Row>
             <ModalDivider />
             <RenderPoolTableRow/>
-            {/* {isReady && <RenderPoolTableRow/>}
-            {!isReady && <RenderPoolTableRow/>} */}
             <ModalDivider />
           </Column>
         </DashboardBox>
