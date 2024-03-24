@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { formatUnits } from "viem";
+import { getAccount, prepareWriteContract } from "@wagmi/core";
 import { PoolConfig } from "interfaces/pool";
-import { fetchDataFromComet } from "hooks/util/cometContractUtils";
+import rewardsAbi from "static/rewards.json";
 import { useReload } from "context/ReloadContext";
 
 export interface ClaimReward {
@@ -15,18 +16,22 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
   const { reloadKey } = useReload();
 
   const fetchClaimReward = useCallback(async () => {
-    if (!poolData) {
+    const { address } = getAccount();
+    if (!poolData || !address) {
       setClaimReward(undefined);
       return;
     }
     try {
-      const tokenReward = await fetchDataFromComet(
-        "baseTrackingAccrued",
-        poolData,
-      );
+      const request = await prepareWriteContract({
+        address: poolData.reward,
+        abi: rewardsAbi,
+        functionName: "getRewardOwed",
+        args: [poolData.proxy, address],
+      });
+      const owed = (request.result as { owed: bigint }).owed;
       const yourTokenReward =
-        tokenReward !== undefined
-          ? Number(formatUnits(tokenReward, poolData.cometDecimals))
+        request?.result !== undefined
+          ? Number(formatUnits(owed, 18))
           : undefined;
       setClaimReward({ yourTokenReward });
     } catch (err) {
@@ -36,6 +41,7 @@ const useClaimReward = (poolData: PoolConfig | undefined) => {
   }, [poolData, reloadKey]);
 
   useEffect(() => {
+    setClaimReward(undefined);
     fetchClaimReward();
   }, [fetchClaimReward]);
 

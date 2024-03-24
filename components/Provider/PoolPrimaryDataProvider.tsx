@@ -6,7 +6,6 @@ import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
-import useClaimReward from "hooks/pool/indivisual/useClaimReward";
 import { useAppData } from "context/AppDataContext";
 
 interface PoolPrimaryDataProviderProps {
@@ -44,7 +43,6 @@ export const PoolPrimaryDataProvider: React.FC<
     }
   }, [poolName, totalPoolData, totalPoolObject, updateTotalPoolData]);
 
-  const { claimReward } = useClaimReward(poolData);
 
   return (
     <PoolPrimaryDataContext.Provider
@@ -53,7 +51,6 @@ export const PoolPrimaryDataProvider: React.FC<
         baseAssetData,
         collateralAssetsData,
         totalPoolData,
-        claimReward,
       }}
     >
       {children}

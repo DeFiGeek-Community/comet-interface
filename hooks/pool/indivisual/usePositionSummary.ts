@@ -115,6 +115,7 @@ const usePositionSummary = (
   }, [poolData, primaryData, reloadKey]);
 
   useEffect(() => {
+    setPositionSummary(undefined);
     fetchPositionSummary();
   }, [fetchPositionSummary]);
 

@@ -103,6 +103,7 @@ const useTokenRewardData = (
   }, [poolData, primaryData, reloadKey]);
 
   useEffect(() => {
+    setTokenRewardData(undefined);
     fetchTokenRewardData();
   }, [fetchTokenRewardData]);
 

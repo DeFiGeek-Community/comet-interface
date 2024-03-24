@@ -78,6 +78,7 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
   }, [poolData, reloadKey]);
 
   useEffect(() => {
+    setTotalPoolData(undefined);
     fetchPoolMetricsData();
   }, [fetchPoolMetricsData]);
 
