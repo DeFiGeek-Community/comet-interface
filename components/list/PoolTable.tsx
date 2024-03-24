@@ -210,8 +210,9 @@ const PoolTable = () => {
               </Row>
             </Row>
             <ModalDivider />
-            {isReady && <RenderPoolTableRow/>}
-            {!isReady && <RenderPoolTableRow/>}
+            <RenderPoolTableRow/>
+            {/* {isReady && <RenderPoolTableRow/>}
+            {!isReady && <RenderPoolTableRow/>} */}
             <ModalDivider />
           </Column>
         </DashboardBox>

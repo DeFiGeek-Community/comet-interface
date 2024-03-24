@@ -25,18 +25,20 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
     }
   }
   const {
-    priceFeedData: priceFeedDataCJPY,
-    totalPoolData: totalPoolObjectCJPY,
+    priceFeedData: priceFeedData,
+    totalPoolData: totalPoolObject,
     currency, rate 
   } = useAppData();
-  const assetPriceCJPY = priceFeedDataCJPY?.[symbol]?.baseAsset ?? null;
+
+  const assetPrice = priceFeedData?.[symbol]?.baseAsset ?? null;
+  console.log(assetPrice);
   
   
   let sumCollateralBalances = 0;
 
-  for (let key in totalPoolObjectCJPY?.[symbol]?.totalCollateralBalances) {
-    const collateralBalance = totalPoolObjectCJPY?.[symbol]?.totalCollateralBalances?.[key] ?? 0;
-    const collateralAssetPrice = priceFeedDataCJPY?.[symbol]?.collateralAssets?.[key] ?? 0;
+  for (let key in totalPoolObject?.[symbol]?.totalCollateralBalances) {
+    const collateralBalance = totalPoolObject?.[symbol]?.totalCollateralBalances?.[key] ?? 0;
+    const collateralAssetPrice = priceFeedData?.[symbol]?.collateralAssets?.[key] ?? 0;
     const tempValue = collateralBalance * collateralAssetPrice;
     if (tempValue) {
       sumCollateralBalances += tempValue;
@@ -46,6 +48,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const isMobile = useIsMobile();
 
   const { address } = useAccount();
+  //if(sumCollateralBalances!==0)
+  //console.log(sumCollateralBalances);
 
   return (
     <Link
@@ -157,13 +161,13 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                   {t("Total Supply Balance")}
                 </Text>
 
-                {totalPoolObjectCJPY?.[symbol]?.totalBaseSupplyBalance !== undefined &&
-                assetPriceCJPY ? (
+                {totalPoolObject?.[symbol]?.totalBaseSupplyBalance !== undefined &&
+                assetPrice ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdPriceFormatter(
-                        totalPoolObjectCJPY?.[symbol]?.totalBaseSupplyBalance,
-                        assetPriceCJPY,
+                        totalPoolObject?.[symbol]?.totalBaseSupplyBalance,
+                        assetPrice,
                         currency,
                         rate || 0,
                       )}
@@ -186,13 +190,13 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                   {t("Total Borrow Balance")}
                 </Text>
 
-                {totalPoolObjectCJPY?.[symbol]?.totalBaseBorrowBalance !== undefined &&
-                assetPriceCJPY ? (
+                {totalPoolObject?.[symbol]?.totalBaseBorrowBalance !== undefined &&
+                assetPrice ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdPriceFormatter(
-                        totalPoolObjectCJPY?.[symbol]?.totalBaseBorrowBalance,
-                        assetPriceCJPY,
+                        totalPoolObject?.[symbol]?.totalBaseBorrowBalance,
+                        assetPrice,
                         currency,
                         rate || 0,
                       )}
@@ -215,7 +219,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                   {t("Total Collateral Balance")}
                 </Text>
 
-                {sumCollateralBalances !== undefined && assetPriceCJPY ? (
+                {sumCollateralBalances !== undefined && assetPrice ? (
                   <>
                     <Text textAlign="left" fontWeight="bold" color={"#FFF"}>
                       {smallUsdFormatter(
@@ -311,8 +315,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolObjectCJPY?.[symbol]?.totalBaseSupplyBalance !== undefined &&
-              assetPriceCJPY ? (
+              {totalPoolObject?.[symbol]?.totalBaseSupplyBalance !== undefined &&
+              assetPrice && address !== undefined ? (
                 <>
                   <Text
                     color={"#FFF"}
@@ -321,8 +325,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                     textAlign="center"
                   >
                     {smallUsdPriceFormatter(
-                      totalPoolObjectCJPY?.[symbol]?.totalBaseSupplyBalance,
-                      assetPriceCJPY,
+                      totalPoolObject?.[symbol]?.totalBaseSupplyBalance,
+                      assetPrice,
                       currency,
                       rate || 0,
                     )}
@@ -340,8 +344,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolObjectCJPY?.[symbol]?.totalBaseBorrowBalance !== undefined &&
-              assetPriceCJPY ? (
+              {totalPoolObject?.[symbol]?.totalBaseBorrowBalance !== undefined &&
+              assetPrice && address !== undefined? (
                 <>
                   <Text
                     color={"#FFF"}
@@ -350,8 +354,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
                     textAlign="center"
                   >
                     {smallUsdPriceFormatter(
-                      totalPoolObjectCJPY?.[symbol]?.totalBaseBorrowBalance,
-                      assetPriceCJPY,
+                      totalPoolObject?.[symbol]?.totalBaseBorrowBalance,
+                      assetPrice,
                       currency,
                       rate || 0,
                     )}
@@ -369,7 +373,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {sumCollateralBalances !== undefined && assetPriceCJPY ? (
+              {sumCollateralBalances !== undefined && assetPrice && address !== undefined? (
                 <>
                   <Text
                     color={"#FFF"}
