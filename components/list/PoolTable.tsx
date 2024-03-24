@@ -124,8 +124,9 @@ const PoolTable = () => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
-            {isReady && <RenderPoolTableRow/>}
-            {!isReady && <RenderPoolTableRow/>}
+            <RenderPoolTableRow/>
+            {/* {isReady && <RenderPoolTableRow/>}
+            {!isReady && <RenderPoolTableRow/>} */}
           </Column>
         </DashboardBox>
       ) : (

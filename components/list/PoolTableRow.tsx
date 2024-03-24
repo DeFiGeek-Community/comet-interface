@@ -31,8 +31,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   } = useAppData();
 
   const assetPrice = priceFeedData?.[symbol]?.baseAsset ?? null;
-  console.log(assetPrice);
-  
   
   let sumCollateralBalances = 0;
 
