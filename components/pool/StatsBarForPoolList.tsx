@@ -54,29 +54,6 @@ const StatsBarForPoolList = () => {
 
 export default StatsBarForPoolList;
 
-const StatBox = ({
-  children,
-  ...others
-}: {
-  children: ReactNode;
-  [key: string]: any;
-}) => {
-  const isMobile = useIsSmallScreen();
-
-  return (
-    <DashboardBox
-      height={isMobile ? "auto" : "100%"}
-      mt={isMobile ? 4 : 0}
-      ml={isMobile ? 0 : 2}
-      {...others}
-    >
-      <Center expand p={1}>
-        {children}
-      </Center>
-    </DashboardBox>
-  );
-};
-
 export const WhitelistedIcon = ({ ...boxProps }: { [x: string]: any }) => {
   return (
     <>
