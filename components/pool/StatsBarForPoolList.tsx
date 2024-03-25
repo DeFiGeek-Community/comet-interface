@@ -6,15 +6,8 @@ import { RowOrColumn, Column, Center, Row } from "utils/chakraUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
 import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
-import { PoolConfig } from "interfaces/pool";
 
-const StatsBarForPoolList = ({
-  poolData,
-  isPoolList,
-}: {
-  poolData?: PoolConfig;
-  isPoolList?: boolean;
-}) => {
+const StatsBarForPoolList = () => {
   const isMobile = useIsSmallScreen();
   const { t } = useTranslation();
 
@@ -27,7 +20,7 @@ const StatsBarForPoolList = ({
       height={isMobile ? "auto" : "170px"}
     >
       <DashboardBox
-        width={isMobile ? "100%" : isPoolList ? "100%" : "50%"}
+        width={isMobile ? "100%" : "100%"}
         height={isMobile ? "auto" : "100%"}
       >
         <Column
@@ -45,13 +38,10 @@ const StatsBarForPoolList = ({
           >
             {/* Title */}
             <WhitelistedIcon mb={1} />
-            {isPoolList ? (
-              <Heading size="lg" isTruncated>
-                punodwoɔ
-              </Heading>
-            ) : (
-              <Heading size="lg" isTruncated></Heading>
-            )}
+
+            <Heading size="lg" isTruncated>
+              punodwoɔ
+            </Heading>
           </Row>
 
           {/* Description */}

@@ -26,7 +26,7 @@ const PoolList = memo(() => {
       px={isMobile ? 4 : 0}
     >
       <Header />
-      <StatsBarForPoolList isPoolList={true} />
+      <StatsBarForPoolList />
       <PoolTable />
       <Footer />
     </Column>
