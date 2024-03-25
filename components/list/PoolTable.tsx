@@ -12,12 +12,12 @@ import { useAppData } from "context/AppDataContext";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
-function RenderPoolTableRow (){
+function RenderPoolTableRow() {
   const { chainId } = useChainPool();
   return Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
     if (data.baseToken) return <PoolTableRow poolData={data} key={index} />;
   });
-};
+}
 
 const PoolTable = () => {
   const { t } = useTranslation();
@@ -30,7 +30,7 @@ const PoolTable = () => {
     totalPoolData: totalPoolObject,
     updateTotalPoolData,
   } = useAppData();
-  
+
   const objCJPY = POOL_CONFIG_MAP[chainId]["CJPY"];
   const { priceFeedData: priceFeedDataCJPY } = usePriceFeedData(objCJPY);
   const { totalPoolData: totalPoolDataCJPY } = useTotalPoolData(objCJPY);
@@ -46,52 +46,76 @@ const PoolTable = () => {
 
   useEffect(() => {
     // priceFeedData が priceObject にない場合のみ更新する
-    if (!priceObject["CJPY"] && priceFeedDataCJPY) {
+    if (
+      priceObject["CJPY"] === undefined &&
+      priceFeedDataCJPY?.usdjpy !== undefined
+    ) {
       updatePriceFeedData("CJPY", priceFeedDataCJPY);
     }
   }, [priceFeedDataCJPY, priceObject, updatePriceFeedData]);
   useEffect(() => {
     // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (!totalPoolObject["CJPY"] && totalPoolDataCJPY) {
+    if (
+      totalPoolObject["CJPY"] === undefined &&
+      totalPoolDataCJPY?.totalBaseSupplyBalance !== undefined
+    ) {
       updateTotalPoolData("CJPY", totalPoolDataCJPY);
     }
   }, [totalPoolDataCJPY, totalPoolObject, updateTotalPoolData]);
 
   useEffect(() => {
     // priceFeedData が priceObject にない場合のみ更新する
-    if (!priceObject["USDC"] && priceFeedDataUSDC) {
+    if (
+      priceObject["USDC"] === undefined &&
+      priceFeedDataUSDC?.usdjpy !== undefined
+    ) {
       updatePriceFeedData("USDC", priceFeedDataUSDC);
     }
   }, [priceFeedDataUSDC, priceObject, updatePriceFeedData]);
   useEffect(() => {
     // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (!totalPoolObject["USDC"] && totalPoolDataUSDC) {
+    if (
+      totalPoolObject["USDC"] === undefined &&
+      totalPoolDataUSDC?.totalBaseSupplyBalance !== undefined
+    ) {
       updateTotalPoolData("USDC", totalPoolDataUSDC);
     }
   }, [totalPoolDataUSDC, totalPoolObject, updateTotalPoolData]);
 
   useEffect(() => {
     // priceFeedData が priceObject にない場合のみ更新する
-    if (!priceObject["crvUSD"] && priceFeedDatacrvUSD) {
+    if (
+      priceObject["crvUSD"] === undefined &&
+      priceFeedDatacrvUSD?.usdjpy !== undefined
+    ) {
       updatePriceFeedData("crvUSD", priceFeedDatacrvUSD);
     }
   }, [priceFeedDatacrvUSD, priceObject, updatePriceFeedData]);
   useEffect(() => {
     // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (!totalPoolObject["crvUSD"] && totalPoolDatacrvUSD) {
+    if (
+      totalPoolObject["crvUSD"] === undefined &&
+      totalPoolDatacrvUSD?.totalBaseSupplyBalance !== undefined
+    ) {
       updateTotalPoolData("crvUSD", totalPoolDatacrvUSD);
     }
   }, [totalPoolDatacrvUSD, totalPoolObject, updateTotalPoolData]);
 
   useEffect(() => {
     // priceFeedData が priceObject にない場合のみ更新する
-    if (!priceObject["WETH"] && priceFeedDataWETH) {
+    if (
+      priceObject["WETH"] === undefined &&
+      priceFeedDataWETH?.usdjpy !== undefined
+    ) {
       updatePriceFeedData("WETH", priceFeedDataWETH);
     }
   }, [priceFeedDataWETH, priceObject, updatePriceFeedData]);
   useEffect(() => {
     // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (!totalPoolObject["WETH"] && totalPoolDataWETH) {
+    if (
+      totalPoolObject["WETH"] === undefined &&
+      totalPoolDataWETH?.totalBaseSupplyBalance !== undefined
+    ) {
       updateTotalPoolData("WETH", totalPoolDataWETH);
     }
   }, [totalPoolDataWETH, totalPoolObject, updateTotalPoolData]);
@@ -117,7 +141,7 @@ const PoolTable = () => {
               {t("Pool Lists")}
             </Heading>
             <ModalDivider />
-            <RenderPoolTableRow/>
+            <RenderPoolTableRow />
           </Column>
         </DashboardBox>
       ) : (
@@ -202,7 +226,7 @@ const PoolTable = () => {
               </Row>
             </Row>
             <ModalDivider />
-            <RenderPoolTableRow/>
+            <RenderPoolTableRow />
             <ModalDivider />
           </Column>
         </DashboardBox>
