@@ -8,7 +8,7 @@ import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
 
-const StatsBarTest = ({
+const StatsBarForPoolList = ({
   poolData,
   isPoolList,
 }: {
@@ -62,7 +62,7 @@ const StatsBarTest = ({
   );
 };
 
-export default StatsBarTest;
+export default StatsBarForPoolList;
 
 const StatBox = ({
   children,
