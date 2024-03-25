@@ -93,7 +93,7 @@ const StatsBar = ({
         </Column>
       </DashboardBox>
 
-      {!isPoolList && (
+      {!isPoolList ? (
         <RowOrColumn
           isRow={!isMobile}
           mainAxisAlignment="flex-start"
@@ -195,6 +195,39 @@ const StatsBar = ({
             </StatBox>
           </RowOrColumn>
         </RowOrColumn>
+      ) : (
+        <DashboardBox
+          width={isMobile ? "100%" : isPoolList ? "100%" : "50%"}
+          height={isMobile ? "auto" : "100%"}
+        >
+          <Column
+            expand
+            mainAxisAlignment="center"
+            crossAxisAlignment={isMobile ? "center" : "flex-start"}
+            textAlign={isMobile ? "center" : "left"}
+            p={4}
+            fontSize="sm"
+          >
+            <Row
+              mainAxisAlignment="flex-start"
+              crossAxisAlignment="center"
+              mb="2px"
+            >
+              {/* Title */}
+              <WhitelistedIcon mb={1} />
+              {isPoolList ? (
+                <Heading size="lg" isTruncated>
+                  punodwoɔ
+                </Heading>
+              ) : (
+                <Heading size="lg" isTruncated></Heading>
+              )}
+            </Row>
+
+            {/* Description */}
+            <Text>{t("punodwoɔ is a truly open interest rate protocol.")}</Text>
+          </Column>
+        </DashboardBox>
       )}
     </RowOrColumn>
   );
