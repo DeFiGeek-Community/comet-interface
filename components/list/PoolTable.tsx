@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
-// import PoolTableRow from "components/list/PoolTableRowTest";
 import { POOL_CONFIG_MAP } from "constants/pools";
 import { useChainPool } from "hooks/useChainPool";
 import { useAppData } from "context/AppDataContext";
