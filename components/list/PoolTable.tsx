@@ -50,6 +50,7 @@ const PoolTable = () => {
       priceFeedDataCJPY?.usdjpy !== undefined
     ) {
       updatePriceFeedData("CJPY", priceFeedDataCJPY);
+      // console.log("Yes!");
     }
   }, [priceFeedDataCJPY, priceObject, updatePriceFeedData]);
   useEffect(() => {
