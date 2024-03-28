@@ -14,7 +14,7 @@ const PoolList = memo(() => {
   const { address } = useAccount();
   const { reload } = useReload();
   const poolDatas = usePoolConfigForPoolList();
-  // console.log(poolData);
+  // console.log(poolDatas);
 
   useEffect(() => {
     reload();
@@ -22,19 +22,19 @@ const PoolList = memo(() => {
 
   return (
     <PoolListDataProvider poolDatas={poolDatas}>
-    <Column
-      mainAxisAlignment="flex-start"
-      crossAxisAlignment="center"
-      color="#FFFFFF"
-      mx="auto"
-      width={isMobile ? "100%" : "1150px"}
-      px={isMobile ? 4 : 0}
-    >
-      <Header />
-      <StatsBarForPoolList />
-      <PoolTable />
-      <Footer />
-    </Column>
+      <Column
+        mainAxisAlignment="flex-start"
+        crossAxisAlignment="center"
+        color="#FFFFFF"
+        mx="auto"
+        width={isMobile ? "100%" : "1150px"}
+        px={isMobile ? 4 : 0}
+      >
+        <Header />
+        <StatsBarForPoolList />
+        <PoolTable />
+        <Footer />
+      </Column>
     </PoolListDataProvider>
   );
 });

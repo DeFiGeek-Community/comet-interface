@@ -5,7 +5,9 @@ import { PoolConfigMapForList } from "interfaces/pool";
 
 const usePoolConfigForPoolList = () => {
   const { chainId, poolName } = useChainPool();
-  const [poolConfigs, setPoolConfigs] = useState<PoolConfigMapForList | undefined>();
+  const [poolConfigs, setPoolConfigs] = useState<
+    PoolConfigMapForList | undefined
+  >();
 
   useEffect(() => {
     if (chainId && poolName) {
@@ -18,4 +20,3 @@ const usePoolConfigForPoolList = () => {
 };
 
 export default usePoolConfigForPoolList;
-  

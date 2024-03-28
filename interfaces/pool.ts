@@ -44,5 +44,5 @@ export interface PoolConfigMap {
 }
 
 export interface PoolConfigMapForList {
-  [poolName: string]: PoolConfig ;
+  [poolName: string]: PoolConfig;
 }

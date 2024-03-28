@@ -11,6 +11,7 @@ import { Link } from "@chakra-ui/react";
 import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
+import { usePoolListDataContext } from "hooks/pool/usePoolListDataContext";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   const { t } = useTranslation();
@@ -24,12 +25,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
       allCollateralSymbols += assetConfig.symbol + ", ";
     }
   }
-  const {
-    priceFeedData: priceFeedData,
-    totalPoolData: totalPoolObject,
-    currency,
-    rate,
-  } = useAppData();
+  const { priceFeedData: priceFeedData, totalPoolData: totalPoolObject } =
+    usePoolListDataContext();
+  console.log(totalPoolObject);
+  const { currency, rate } = useAppData();
 
   const assetPrice = priceFeedData?.[symbol]?.baseAsset ?? null;
 

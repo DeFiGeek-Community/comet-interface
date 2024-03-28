@@ -14,9 +14,10 @@ interface PoolListDataProviderProps {
   children: React.ReactNode;
 }
 
-export const PoolListDataProvider: React.FC<
-PoolListDataProviderProps
-> = ({ poolDatas, children }) => {
+export const PoolListDataProvider: React.FC<PoolListDataProviderProps> = ({
+  poolDatas,
+  children,
+}) => {
   const {
     priceFeedData: priceObject,
     updatePriceFeedData,
@@ -44,6 +45,7 @@ PoolListDataProviderProps
       priceFeedDataCJPY?.usdjpy !== undefined
     ) {
       updatePriceFeedData("CJPY", priceFeedDataCJPY);
+      console.log("Yes!");
     }
   }, [priceFeedDataCJPY, priceObject, updatePriceFeedData]);
   useEffect(() => {
@@ -112,7 +114,6 @@ PoolListDataProviderProps
       updateTotalPoolData("WETH", totalPoolDataWETH);
     }
   }, [totalPoolDataWETH, totalPoolObject, updateTotalPoolData]);
-  
 
   return (
     <PoolListDataContext.Provider

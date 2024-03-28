@@ -9,8 +9,8 @@ export interface PoolListDataContextType {
   totalPoolData: { [poolName: string]: TotalPoolData | undefined };
 }
 
-const PoolListDataContext = createContext<
-  PoolListDataContextType | undefined
->(undefined);
+const PoolListDataContext = createContext<PoolListDataContextType | undefined>(
+  undefined,
+);
 
 export default PoolListDataContext;
