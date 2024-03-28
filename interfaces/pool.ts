@@ -42,3 +42,7 @@ export interface PoolConfig {
 export interface PoolConfigMap {
   [chainId: number]: { [poolName: string]: PoolConfig };
 }
+
+export interface PoolConfigMapForList {
+  [poolName: string]: PoolConfig ;
+}

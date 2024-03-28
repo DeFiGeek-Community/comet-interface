@@ -16,11 +16,9 @@ import DashboardBox from "components/shared/DashboardBox";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 
-const PoolPage = memo(() => {
-  const isMobile = useIsMobile();
-  const { chainId, poolName } = useChainPool();
-
+const PoolContents = memo(() => {
   const poolData = usePoolData();
+  const isMobile = useIsMobile();
 
   const { address } = useAccount();
   const { reload } = useReload();
@@ -80,6 +78,6 @@ const PoolPage = memo(() => {
   );
 });
 
-PoolPage.displayName = "PoolPage";
+PoolContents.displayName = "PoolContents";
 
-export default PoolPage;
+export default PoolContents;

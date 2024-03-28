@@ -21,6 +21,7 @@ import { HashLoader } from "react-spinners";
 import { PoolContext } from "context/PoolContext";
 import { CustomAvatar } from "components/shared/AvatarComponent";
 import { AppDataProvider } from "components/Provider/AppDataProvider";
+import { ReloadContextProvider } from "components/Provider/ReloadContextProvider";
 
 const customTheme = {
   ...theme,
@@ -78,7 +79,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <PoolContext.Provider
                   value={{ chainId, poolName, setChainId, setPoolName }}
                 >
-                  <Component {...pageProps} />
+                  <ReloadContextProvider>
+                    <Component {...pageProps} />
+                  </ReloadContextProvider>
                 </PoolContext.Provider>
               </AppDataProvider>
             ) : (

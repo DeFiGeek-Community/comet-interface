@@ -71,6 +71,7 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
           >
             {/* Title */}
             <WhitelistedIcon mb={1} />
+
             <Heading size="lg" isTruncated>
               {symbol} {"Pool"}
             </Heading>
@@ -80,7 +81,6 @@ const StatsBar = ({ poolData }: { poolData?: PoolConfig }) => {
           <Text>{t("punodwoɔ is a truly open interest rate protocol.")}</Text>
         </Column>
       </DashboardBox>
-
       <RowOrColumn
         isRow={!isMobile}
         mainAxisAlignment="flex-start"

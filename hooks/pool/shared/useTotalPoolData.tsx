@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { formatUnits } from "viem";
-import { PoolConfig } from "interfaces/pool";
+import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
 import { useReload } from "context/ReloadContext";
 import {
   fetchTotalDataComet,
@@ -8,7 +8,7 @@ import {
 } from "hooks/util/cometContractUtils";
 
 export interface TotalCollateralData {
-  [key: string]: number | undefined;
+  [key: string]: number | 0;
 }
 export interface TotalPoolData {
   totalBaseSupplyBalance: number | undefined;
@@ -16,7 +16,15 @@ export interface TotalPoolData {
   totalCollateralBalances: TotalCollateralData;
 }
 
-const useTotalPoolData = (poolData: PoolConfig | undefined) => {
+export interface AllTotalPoolData {
+  [key: string]: {
+    totalBaseSupplyBalance: number | undefined;
+    totalBaseBorrowBalance: number | undefined;
+    totalCollateralBalances: TotalCollateralData;
+  };
+}
+
+const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
   const [totalPoolData, setTotalPoolData] = useState<
     TotalPoolData | undefined
   >();
@@ -33,7 +41,7 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
     try {
       const getTotalSupply = await fetchTotalDataComet("totalSupply", poolData);
       const getTotalBorrow = await fetchTotalDataComet("totalBorrow", poolData);
-      const totalCollateralBalances: { [key: string]: number | undefined } = {};
+      const totalCollateralBalances: { [key: string]: number | 0 } = {};
       for (const assetConfig of poolData.assetConfigs) {
         const getTotalsCollateral = await fetchTotalCollateralDataComet(
           "totalsCollateral",
@@ -43,7 +51,7 @@ const useTotalPoolData = (poolData: PoolConfig | undefined) => {
         totalCollateralBalances[assetConfig.symbol] =
           getTotalsCollateral !== undefined
             ? Number(formatUnits(getTotalsCollateral, assetConfig.decimals))
-            : undefined;
+            : 0;
       }
 
       const fetchedData: TotalPoolData = {
