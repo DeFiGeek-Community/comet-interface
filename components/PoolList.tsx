@@ -7,6 +7,7 @@ import PoolTable from "components/list/PoolTable";
 import { useAccount } from "wagmi";
 import { useReload } from "context/ReloadContext";
 import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
+import { PoolListDataProvider } from "components/Provider/PoolListDataProvider";
 
 const PoolList = memo(() => {
   const isMobile = useIsMobile();
@@ -20,6 +21,7 @@ const PoolList = memo(() => {
   }, [address, reload]);
 
   return (
+    <PoolListDataProvider poolDatas={poolDatas}>
     <Column
       mainAxisAlignment="flex-start"
       crossAxisAlignment="center"
@@ -33,6 +35,7 @@ const PoolList = memo(() => {
       <PoolTable />
       <Footer />
     </Column>
+    </PoolListDataProvider>
   );
 });
 
