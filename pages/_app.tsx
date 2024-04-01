@@ -9,7 +9,7 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import "../i18n/configs";
-import { mainnet, goerli } from "wagmi/chains";
+import { mainnet, sepolia } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
@@ -33,7 +33,7 @@ const customTheme = {
 };
 
 const { chains, publicClient } = configureChains(
-  [mainnet, goerli],
+  [mainnet, sepolia],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID ?? "" }),
     infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID ?? "" }),
