@@ -2,7 +2,6 @@ import { ChainInfo } from "interfaces/chain";
 
 export const SupportedChainId = {
   MAINNET: 1,
-  GOERLI: 5,
   SEPOLIA: 11155111,
 };
 
@@ -13,10 +12,10 @@ export const CHAIN_INFO: ChainInfo = {
     logoUrl: "/token/ethereum_logo.png",
     nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
   },
-  [SupportedChainId.GOERLI]: {
-    explorer: "https://goerli.etherscan.io/",
-    label: "Goerli",
+  [SupportedChainId.SEPOLIA]: {
+    explorer: "https://sepolia.etherscan.io/",
+    label: "Sepolia",
     logoUrl: "/token/ethereum_logo.png",
-    nativeCurrency: { name: "Goerli ETH", symbol: "goerliETH", decimals: 18 },
+    nativeCurrency: { name: "Sepolia ETH", symbol: "sepoliaETH", decimals: 18 },
   },
 };
