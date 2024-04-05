@@ -18,7 +18,7 @@ function RenderPoolTableRow() {
   // });
   const poolConfigForChain = POOL_CONFIG_MAP[chainId];
 
-  if (!poolConfigForChain || typeof poolConfigForChain !== 'object') {
+  if (!poolConfigForChain || typeof poolConfigForChain !== "object") {
     // poolConfigForChainがundefined、null、またはオブジェクトでない場合の処理
     return null; // または代替コンポーネントを返す
   }
