@@ -13,7 +13,17 @@ import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
 function RenderPoolTableRow() {
   const { chainId } = useChainPool();
-  return Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
+  // return Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
+  //   if (data.baseToken) return <PoolTableRow poolData={data} key={index} />;
+  // });
+  const poolConfigForChain = POOL_CONFIG_MAP[chainId];
+
+  if (!poolConfigForChain || typeof poolConfigForChain !== 'object') {
+    // poolConfigForChainがundefined、null、またはオブジェクトでない場合の処理
+    return null; // または代替コンポーネントを返す
+  }
+
+  return Object.values(poolConfigForChain).map((data, index) => {
     if (data.baseToken) return <PoolTableRow poolData={data} key={index} />;
   });
 }
