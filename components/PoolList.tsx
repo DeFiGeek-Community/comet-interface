@@ -13,7 +13,7 @@ const PoolList = memo(() => {
   const isMobile = useIsMobile();
   const { address } = useAccount();
   const { reload } = useReload();
-  const poolDatas = usePoolConfigForPoolList();
+  const { poolConfigs } = usePoolConfigForPoolList();
   // console.log(poolDatas);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const PoolList = memo(() => {
   }, [address, reload]);
 
   return (
-    <PoolListDataProvider poolDatas={poolDatas}>
+    <PoolListDataProvider poolDatas={poolConfigs}>
       <Column
         mainAxisAlignment="flex-start"
         crossAxisAlignment="center"

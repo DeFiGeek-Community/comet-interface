@@ -8,6 +8,7 @@ import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import { useAppData } from "context/AppDataContext";
 import { PoolConfigMapForList } from "interfaces/pool";
+import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
 
 interface PoolListDataProviderProps {
   poolDatas: PoolConfigMapForList | undefined;
@@ -24,6 +25,12 @@ export const PoolListDataProvider: React.FC<PoolListDataProviderProps> = ({
     totalPoolData: totalPoolObject,
     updateTotalPoolData,
   } = useAppData();
+  const {
+    chainConfigForCJPY,
+    chainConfigForUSDC,
+    chainConfigForcrvUSD,
+    chainConfigForWETH,
+  } = usePoolConfigForPoolList();
 
   const objCJPY = poolDatas?.["CJPY"];
   const { priceFeedData: priceFeedDataCJPY } = usePriceFeedData(objCJPY);
