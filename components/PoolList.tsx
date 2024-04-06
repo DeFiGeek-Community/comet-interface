@@ -13,7 +13,7 @@ const PoolList = memo(() => {
   const isMobile = useIsMobile();
   const { address } = useAccount();
   const { reload } = useReload();
-  const { poolConfigs } = usePoolConfigForPoolList();
+  const { poolConfigs, chainId } = usePoolConfigForPoolList();
   // console.log(poolDatas);
 
   useEffect(() => {

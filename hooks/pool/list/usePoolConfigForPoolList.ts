@@ -34,10 +34,7 @@ const usePoolConfigForPoolList = () => {
 
   return {
     poolConfigs,
-    chainConfigForCJPY,
-    chainConfigForUSDC,
-    chainConfigForcrvUSD,
-    chainConfigForWETH,
+    chainId
   };
 };
 
