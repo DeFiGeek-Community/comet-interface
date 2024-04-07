@@ -40,11 +40,18 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const resetData = () => {
+    setPriceFeedData({});
+    setTotalPoolData({});
+    console.log("resetData")
+  };
+
   const value: AppDataContextType = {
     priceFeedData,
     updatePriceFeedData,
     totalPoolData,
     updateTotalPoolData,
+    resetData,
     currency,
     rate,
     toggleCurrency,

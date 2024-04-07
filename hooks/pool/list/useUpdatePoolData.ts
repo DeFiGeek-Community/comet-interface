@@ -15,7 +15,6 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     totalPoolData: totalPoolObject,
     updateTotalPoolData,
   } = useAppData();
-
   const poolName = poolConfig?.baseToken.symbol ?? "";
   const { priceFeedData } = usePriceFeedData(poolConfig);
 

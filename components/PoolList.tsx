@@ -6,20 +6,31 @@ import { Header } from "components/shared/Header";
 import PoolTable from "components/list/PoolTable";
 import { useAccount } from "wagmi";
 import { useReload } from "context/ReloadContext";
+import { useAppData } from "context/AppDataContext";
 import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
 import { PoolListDataProvider } from "components/Provider/PoolListDataProvider";
 import { ChainForPoolListProvider } from "components/Provider/ChainForPoolListProvider";
+import { useChainPool } from "hooks/useChainPool";
 
 const PoolList = memo(() => {
   const isMobile = useIsMobile();
   const { address } = useAccount();
   const { reload } = useReload();
+  const { chainId } = useChainPool();
+
+  const {
+    resetData
+  } = useAppData();
   // const { poolConfigs } = usePoolConfigForPoolList();
   // console.log(poolDatas);
 
   useEffect(() => {
     reload();
   }, [address, reload]);
+
+  useEffect(() => {
+    resetData();
+  }, [chainId]);
 
   return (
     // <ChainForPoolListProvider chainId={chainId}>
