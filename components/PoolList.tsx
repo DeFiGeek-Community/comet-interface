@@ -14,7 +14,7 @@ const PoolList = memo(() => {
   const isMobile = useIsMobile();
   const { address } = useAccount();
   const { reload } = useReload();
-  const { poolConfigs, chainId } = usePoolConfigForPoolList();
+  // const { poolConfigs } = usePoolConfigForPoolList();
   // console.log(poolDatas);
 
   useEffect(() => {
@@ -22,23 +22,23 @@ const PoolList = memo(() => {
   }, [address, reload]);
 
   return (
-    <ChainForPoolListProvider chainId={chainId}>
-      <PoolListDataProvider poolDatas={poolConfigs}>
-        <Column
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          color="#FFFFFF"
-          mx="auto"
-          width={isMobile ? "100%" : "1150px"}
-          px={isMobile ? 4 : 0}
-        >
-          <Header />
-          <StatsBarForPoolList />
-          <PoolTable />
-          <Footer />
-        </Column>
-      </PoolListDataProvider>
-    </ChainForPoolListProvider>
+    // <ChainForPoolListProvider chainId={chainId}>
+    //   <PoolListDataProvider poolDatas={poolConfigs}>
+    <Column
+      mainAxisAlignment="flex-start"
+      crossAxisAlignment="center"
+      color="#FFFFFF"
+      mx="auto"
+      width={isMobile ? "100%" : "1150px"}
+      px={isMobile ? 4 : 0}
+    >
+      <Header />
+      <StatsBarForPoolList />
+      <PoolTable />
+      <Footer />
+    </Column>
+    //   </PoolListDataProvider>
+    // </ChainForPoolListProvider>
   );
 });
 

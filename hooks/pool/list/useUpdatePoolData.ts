@@ -8,7 +8,7 @@ interface PoolDataComponentProps {
   poolConfig: PoolConfig;
 }
 
-export const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
+const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   const {
     priceFeedData: priceObject,
     updatePriceFeedData,
@@ -38,3 +38,5 @@ export const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     totalPoolData: totalPoolObject[poolName],
   };
 };
+
+export default useUpdatePoolData;

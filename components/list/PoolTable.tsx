@@ -6,22 +6,14 @@ import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 import { POOL_CONFIG_MAP } from "constants/pools";
-import { useChainPool } from "hooks/useChainPool";
+import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
 import { useAppData } from "context/AppDataContext";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
 function RenderPoolTableRow() {
-  const { chainId } = useChainPool();
-  // return Object.values(POOL_CONFIG_MAP[chainId])?.map((data, index) => {
-  //   if (data.baseToken) return <PoolTableRow poolData={data} key={index} />;
-  // });
-  const poolConfigForChain = POOL_CONFIG_MAP[chainId];
-
-  if (!poolConfigForChain || typeof poolConfigForChain !== "object") {
-    // poolConfigForChainがundefined、null、またはオブジェクトでない場合の処理
-    return null; // または代替コンポーネントを返す
-  }
+  const poolConfigForChain = usePoolConfigForPoolList();
+  if (!poolConfigForChain) return;
 
   return Object.values(poolConfigForChain).map((data, index) => {
     if (data.baseToken) return <PoolTableRow poolData={data} key={index} />;
@@ -31,7 +23,6 @@ function RenderPoolTableRow() {
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const { chainId } = useChainPool();
 
   // const {
   //   priceFeedData: priceObject,
