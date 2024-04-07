@@ -27,10 +27,10 @@ export const PoolPrimaryDataProvider: React.FC<
 
   useEffect(() => {
     // priceFeedData が priceObject にない場合のみ更新する
-    if (!priceObject[poolName] && priceFeedData) {
+    if (priceFeedData && priceObject[poolName] !== priceFeedData) {
       updatePriceFeedData(poolName, priceFeedData);
     }
-  }, [poolName, priceFeedData, priceObject, updatePriceFeedData]);
+  }, [poolName, priceFeedData, updatePriceFeedData]);
 
   const { baseAssetData } = useBaseAsset(poolData);
   const { collateralAssetsData } = useCollateralAssets(poolData);
@@ -38,18 +38,18 @@ export const PoolPrimaryDataProvider: React.FC<
 
   useEffect(() => {
     // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (!totalPoolObject[poolName] && totalPoolData) {
+    if (totalPoolData && totalPoolObject[poolName] !== totalPoolData) {
       updateTotalPoolData(poolName, totalPoolData);
     }
-  }, [poolName, totalPoolData, totalPoolObject, updateTotalPoolData]);
+  }, [poolName, totalPoolData, updateTotalPoolData]);
 
   return (
     <PoolPrimaryDataContext.Provider
       value={{
-        priceFeedData: priceFeedData,
+        priceFeedData: priceObject[poolName],
         baseAssetData,
         collateralAssetsData,
-        totalPoolData,
+        totalPoolData: totalPoolObject[poolName],
       }}
     >
       {children}
