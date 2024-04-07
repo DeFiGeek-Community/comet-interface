@@ -33,8 +33,8 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   }, [poolConfig, totalPoolData, updateTotalPoolData]);
 
   return {
-    priceFeedData: priceObject[poolName],
-    totalPoolData: totalPoolObject[poolName],
+    priceFeedData: priceFeedData ? priceObject[poolName] : undefined,
+    totalPoolData: totalPoolData ? totalPoolObject[poolName] : undefined,
   };
 };
 
