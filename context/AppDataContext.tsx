@@ -9,7 +9,6 @@ export interface AppDataContextType {
   updatePriceFeedData: (poolName: string, data: PriceFeedData) => void;
   totalPoolData: { [poolName: string]: TotalPoolData | undefined };
   updateTotalPoolData: (poolName: string, data: TotalPoolData) => void;
-  resetData: () => void;
   currency: Currency;
   rate?: number;
   toggleCurrency: () => void;
