@@ -7,6 +7,7 @@ import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import { useAppData } from "context/AppDataContext";
+import { useChainForPoolList } from "context/ChainForPoolListContext";
 import { PoolConfigMapForList } from "interfaces/pool";
 import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
 
@@ -20,17 +21,29 @@ export const PoolListDataProvider: React.FC<PoolListDataProviderProps> = ({
   children,
 }) => {
   const {
+    isSameChainForPriceFeedDataOnCJPY,
+    isSameChainForTotalPoolDataOnCJPY,
+    isSameChainForPriceFeedDataOnUSDC,
+    isSameChainForTotalPoolDataOnUSDC,
+    isSameChainForPriceFeedDataOncrvUSD,
+    isSameChainForTotalPoolDataOncrvUSD,
+    isSameChainForPriceFeedDataOnWETH,
+    isSameChainForTotalPoolDataOnWETH,
+    setIsSameChainForPriceFeedDataOnCJPY,
+    setIsSameChainForTotalPoolDataOnCJPY,
+    setIsSameChainForPriceFeedDataOnUSDC,
+    setIsSameChainForTotalPoolDataOnUSDC,
+    setIsSameChainForPriceFeedDataOncrvUSD,
+    setIsSameChainForTotalPoolDataOncrvUSD,
+    setIsSameChainForPriceFeedDataOnWETH,
+    setIsSameChainForTotalPoolDataOnWETH,
+  } = useChainForPoolList();
+  const {
     priceFeedData: priceObject,
     updatePriceFeedData,
     totalPoolData: totalPoolObject,
     updateTotalPoolData,
   } = useAppData();
-  // const {
-  //   chainConfigForCJPY,
-  //   chainConfigForUSDC,
-  //   chainConfigForcrvUSD,
-  //   chainConfigForWETH,
-  // } = usePoolConfigForPoolList();
 
   const objCJPY = poolDatas?.["CJPY"];
   const { priceFeedData: priceFeedDataCJPY } = usePriceFeedData(objCJPY);
@@ -46,81 +59,186 @@ export const PoolListDataProvider: React.FC<PoolListDataProviderProps> = ({
   const { totalPoolData: totalPoolDataWETH } = useTotalPoolData(objWETH);
 
   useEffect(() => {
-    // priceFeedData が priceObject にない場合のみ更新する
-    if (
-      priceObject["CJPY"] === undefined &&
-      priceFeedDataCJPY?.usdjpy !== undefined
-    ) {
-      updatePriceFeedData("CJPY", priceFeedDataCJPY);
-      console.log("Yes!");
+    if (isSameChainForPriceFeedDataOnCJPY) {
+      // priceFeedData が priceObject にない場合のみ更新する
+      if (
+        priceObject["CJPY"] === undefined &&
+        priceFeedDataCJPY?.usdjpy !== undefined
+      ) {
+        updatePriceFeedData("CJPY", priceFeedDataCJPY);
+        console.log("Yes!");
+      }
+    } else {
+      if (priceFeedDataCJPY?.usdjpy !== undefined) {
+        updatePriceFeedData("CJPY", priceFeedDataCJPY);
+        setIsSameChainForPriceFeedDataOnCJPY(true);
+        console.log("Hey!");
+      }
     }
-  }, [priceFeedDataCJPY, priceObject, updatePriceFeedData]);
+  }, [
+    priceFeedDataCJPY,
+    priceObject,
+    updatePriceFeedData,
+    isSameChainForPriceFeedDataOnCJPY,
+    setIsSameChainForPriceFeedDataOnCJPY,
+  ]);
   useEffect(() => {
-    // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (
-      totalPoolObject["CJPY"] === undefined &&
-      totalPoolDataCJPY?.totalBaseSupplyBalance !== undefined
-    ) {
-      updateTotalPoolData("CJPY", totalPoolDataCJPY);
+    if (isSameChainForTotalPoolDataOnCJPY) {
+      // totalPoolData が totalPoolObject にない場合のみ更新する
+      if (
+        totalPoolObject["CJPY"] === undefined &&
+        totalPoolDataCJPY?.totalBaseSupplyBalance !== undefined
+      ) {
+        updateTotalPoolData("CJPY", totalPoolDataCJPY);
+      }
+    } else {
+      if (totalPoolDataCJPY?.totalBaseSupplyBalance !== undefined) {
+        updateTotalPoolData("CJPY", totalPoolDataCJPY);
+        setIsSameChainForTotalPoolDataOnCJPY(true);
+      }
     }
-  }, [totalPoolDataCJPY, totalPoolObject, updateTotalPoolData]);
+  }, [
+    totalPoolDataCJPY,
+    totalPoolObject,
+    updateTotalPoolData,
+    isSameChainForTotalPoolDataOnCJPY,
+    setIsSameChainForTotalPoolDataOnCJPY,
+  ]);
 
   useEffect(() => {
-    // priceFeedData が priceObject にない場合のみ更新する
-    if (
-      priceObject["USDC"] === undefined &&
-      priceFeedDataUSDC?.usdjpy !== undefined
-    ) {
-      updatePriceFeedData("USDC", priceFeedDataUSDC);
+    if (isSameChainForPriceFeedDataOnUSDC) {
+      // priceFeedData が priceObject にない場合のみ更新する
+      if (
+        priceObject["USDC"] === undefined &&
+        priceFeedDataUSDC?.usdjpy !== undefined
+      ) {
+        updatePriceFeedData("USDC", priceFeedDataUSDC);
+      }
+    } else {
+      if (priceFeedDataUSDC?.usdjpy !== undefined) {
+        updatePriceFeedData("USDC", priceFeedDataUSDC);
+        setIsSameChainForPriceFeedDataOnUSDC(true);
+      }
     }
-  }, [priceFeedDataUSDC, priceObject, updatePriceFeedData]);
+  }, [
+    priceFeedDataUSDC,
+    priceObject,
+    updatePriceFeedData,
+    isSameChainForPriceFeedDataOnUSDC,
+    setIsSameChainForPriceFeedDataOnUSDC,
+  ]);
   useEffect(() => {
-    // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (
-      totalPoolObject["USDC"] === undefined &&
-      totalPoolDataUSDC?.totalBaseSupplyBalance !== undefined
-    ) {
-      updateTotalPoolData("USDC", totalPoolDataUSDC);
+    if (isSameChainForTotalPoolDataOnUSDC) {
+      // totalPoolData が totalPoolObject にない場合のみ更新する
+      if (
+        totalPoolObject["USDC"] === undefined &&
+        totalPoolDataUSDC?.totalBaseSupplyBalance !== undefined
+      ) {
+        updateTotalPoolData("USDC", totalPoolDataUSDC);
+      }
+    } else {
+      if (totalPoolDataUSDC?.totalBaseSupplyBalance !== undefined) {
+        updateTotalPoolData("USDC", totalPoolDataUSDC);
+        setIsSameChainForTotalPoolDataOnUSDC(true);
+      }
     }
-  }, [totalPoolDataUSDC, totalPoolObject, updateTotalPoolData]);
+  }, [
+    totalPoolDataUSDC,
+    totalPoolObject,
+    updateTotalPoolData,
+    isSameChainForTotalPoolDataOnUSDC,
+    setIsSameChainForTotalPoolDataOnUSDC,
+  ]);
 
   useEffect(() => {
-    // priceFeedData が priceObject にない場合のみ更新する
-    if (
-      priceObject["crvUSD"] === undefined &&
-      priceFeedDatacrvUSD?.usdjpy !== undefined
-    ) {
-      updatePriceFeedData("crvUSD", priceFeedDatacrvUSD);
+    if (isSameChainForPriceFeedDataOncrvUSD) {
+      // priceFeedData が priceObject にない場合のみ更新する
+      if (
+        priceObject["crvUSD"] === undefined &&
+        priceFeedDatacrvUSD?.usdjpy !== undefined
+      ) {
+        updatePriceFeedData("crvUSD", priceFeedDatacrvUSD);
+      }
+    } else {
+      if (priceFeedDatacrvUSD?.usdjpy !== undefined) {
+        updatePriceFeedData("crvUSD", priceFeedDatacrvUSD);
+        setIsSameChainForPriceFeedDataOncrvUSD(true);
+      }
     }
-  }, [priceFeedDatacrvUSD, priceObject, updatePriceFeedData]);
+  }, [
+    priceFeedDatacrvUSD,
+    priceObject,
+    updatePriceFeedData,
+    isSameChainForPriceFeedDataOncrvUSD,
+    setIsSameChainForPriceFeedDataOncrvUSD,
+  ]);
   useEffect(() => {
-    // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (
-      totalPoolObject["crvUSD"] === undefined &&
-      totalPoolDatacrvUSD?.totalBaseSupplyBalance !== undefined
-    ) {
-      updateTotalPoolData("crvUSD", totalPoolDatacrvUSD);
+    if (isSameChainForTotalPoolDataOncrvUSD) {
+      // totalPoolData が totalPoolObject にない場合のみ更新する
+      if (
+        totalPoolObject["crvUSD"] === undefined &&
+        totalPoolDatacrvUSD?.totalBaseSupplyBalance !== undefined
+      ) {
+        updateTotalPoolData("crvUSD", totalPoolDatacrvUSD);
+      }
+    } else {
+      if (totalPoolDatacrvUSD?.totalBaseSupplyBalance !== undefined) {
+        updateTotalPoolData("crvUSD", totalPoolDatacrvUSD);
+        setIsSameChainForTotalPoolDataOncrvUSD(true);
+      }
     }
-  }, [totalPoolDatacrvUSD, totalPoolObject, updateTotalPoolData]);
+  }, [
+    totalPoolDatacrvUSD,
+    totalPoolObject,
+    updateTotalPoolData,
+    isSameChainForTotalPoolDataOncrvUSD,
+    setIsSameChainForTotalPoolDataOncrvUSD,
+  ]);
 
   useEffect(() => {
-    // priceFeedData が priceObject にない場合のみ更新する
-    if (
-      priceObject["WETH"] === undefined &&
-      priceFeedDataWETH?.usdjpy !== undefined
-    ) {
-      updatePriceFeedData("WETH", priceFeedDataWETH);
+    if (isSameChainForPriceFeedDataOnWETH) {
+      // priceFeedData が priceObject にない場合のみ更新する
+      if (
+        priceObject["WETH"] === undefined &&
+        priceFeedDataWETH?.usdjpy !== undefined
+      ) {
+        updatePriceFeedData("WETH", priceFeedDataWETH);
+      }
+    } else {
+      if (priceFeedDataWETH?.usdjpy !== undefined) {
+        updatePriceFeedData("WETH", priceFeedDataWETH);
+        setIsSameChainForPriceFeedDataOnWETH(true);
+      }
     }
-  }, [priceFeedDataWETH, priceObject, updatePriceFeedData]);
+  }, [
+    priceFeedDataWETH,
+    priceObject,
+    updatePriceFeedData,
+    isSameChainForPriceFeedDataOnWETH,
+    setIsSameChainForPriceFeedDataOnWETH,
+  ]);
   useEffect(() => {
-    // totalPoolData が totalPoolObject にない場合のみ更新する
-    if (
-      totalPoolObject["WETH"] === undefined &&
-      totalPoolDataWETH?.totalBaseSupplyBalance !== undefined
-    ) {
-      updateTotalPoolData("WETH", totalPoolDataWETH);
+    if (isSameChainForTotalPoolDataOnWETH) {
+      // totalPoolData が totalPoolObject にない場合のみ更新する
+      if (
+        totalPoolObject["WETH"] === undefined &&
+        totalPoolDataWETH?.totalBaseSupplyBalance !== undefined
+      ) {
+        updateTotalPoolData("WETH", totalPoolDataWETH);
+      }
+    } else {
+      if (totalPoolDataWETH?.totalBaseSupplyBalance !== undefined) {
+        updateTotalPoolData("WETH", totalPoolDataWETH);
+        setIsSameChainForTotalPoolDataOnWETH(true);
+      }
     }
-  }, [totalPoolDataWETH, totalPoolObject, updateTotalPoolData]);
+  }, [
+    totalPoolDataWETH,
+    totalPoolObject,
+    updateTotalPoolData,
+    isSameChainForTotalPoolDataOnWETH,
+    setIsSameChainForTotalPoolDataOnWETH,
+  ]);
 
   return (
     <PoolListDataContext.Provider
