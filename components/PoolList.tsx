@@ -23,21 +23,21 @@ const PoolList = memo(() => {
 
   return (
     <ChainForPoolListProvider chainId={chainId}>
-    <PoolListDataProvider poolDatas={poolConfigs}>
-      <Column
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="center"
-        color="#FFFFFF"
-        mx="auto"
-        width={isMobile ? "100%" : "1150px"}
-        px={isMobile ? 4 : 0}
-      >
-        <Header />
-        <StatsBarForPoolList />
-        <PoolTable />
-        <Footer />
-      </Column>
-    </PoolListDataProvider>
+      <PoolListDataProvider poolDatas={poolConfigs}>
+        <Column
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="center"
+          color="#FFFFFF"
+          mx="auto"
+          width={isMobile ? "100%" : "1150px"}
+          px={isMobile ? 4 : 0}
+        >
+          <Header />
+          <StatsBarForPoolList />
+          <PoolTable />
+          <Footer />
+        </Column>
+      </PoolListDataProvider>
     </ChainForPoolListProvider>
   );
 });

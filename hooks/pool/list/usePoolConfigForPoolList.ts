@@ -34,7 +34,7 @@ const usePoolConfigForPoolList = () => {
 
   return {
     poolConfigs,
-    chainId
+    chainId,
   };
 };
 
