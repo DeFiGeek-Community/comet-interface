@@ -7,9 +7,6 @@ import PoolTable from "components/list/PoolTable";
 import { useAccount } from "wagmi";
 import { useReload } from "context/ReloadContext";
 import { useAppData } from "context/AppDataContext";
-import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
-import { PoolListDataProvider } from "components/Provider/PoolListDataProvider";
-import { ChainForPoolListProvider } from "components/Provider/ChainForPoolListProvider";
 import { useChainPool } from "hooks/useChainPool";
 
 const PoolList = memo(() => {
@@ -21,8 +18,6 @@ const PoolList = memo(() => {
   const {
     resetData
   } = useAppData();
-  // const { poolConfigs } = usePoolConfigForPoolList();
-  // console.log(poolDatas);
 
   useEffect(() => {
     reload();
@@ -33,8 +28,6 @@ const PoolList = memo(() => {
   }, [chainId]);
 
   return (
-    // <ChainForPoolListProvider chainId={chainId}>
-    //   <PoolListDataProvider poolDatas={poolConfigs}>
     <Column
       mainAxisAlignment="flex-start"
       crossAxisAlignment="center"
@@ -48,8 +41,6 @@ const PoolList = memo(() => {
       <PoolTable />
       <Footer />
     </Column>
-    //   </PoolListDataProvider>
-    // </ChainForPoolListProvider>
   );
 });
 

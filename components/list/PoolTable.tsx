@@ -1,15 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
-import { POOL_CONFIG_MAP } from "constants/pools";
 import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
-import { useAppData } from "context/AppDataContext";
-import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
-import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
 function RenderPoolTableRow() {
   const poolConfigForChain = usePoolConfigForPoolList();
@@ -23,103 +19,6 @@ function RenderPoolTableRow() {
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-
-  // const {
-  //   priceFeedData: priceObject,
-  //   updatePriceFeedData,
-  //   totalPoolData: totalPoolObject,
-  //   updateTotalPoolData,
-  // } = useAppData();
-
-  // const objCJPY = POOL_CONFIG_MAP[chainId]["CJPY"];
-  // const { priceFeedData: priceFeedDataCJPY } = usePriceFeedData(objCJPY);
-  // const { totalPoolData: totalPoolDataCJPY } = useTotalPoolData(objCJPY);
-  // const objUSDC = POOL_CONFIG_MAP[chainId]["USDC"];
-  // const { priceFeedData: priceFeedDataUSDC } = usePriceFeedData(objUSDC);
-  // const { totalPoolData: totalPoolDataUSDC } = useTotalPoolData(objUSDC);
-  // const objcrvUSD = POOL_CONFIG_MAP[chainId]["crvUSD"];
-  // const { priceFeedData: priceFeedDatacrvUSD } = usePriceFeedData(objcrvUSD);
-  // const { totalPoolData: totalPoolDatacrvUSD } = useTotalPoolData(objcrvUSD);
-  // const objWETH = POOL_CONFIG_MAP[chainId]["WETH"];
-  // const { priceFeedData: priceFeedDataWETH } = usePriceFeedData(objWETH);
-  // const { totalPoolData: totalPoolDataWETH } = useTotalPoolData(objWETH);
-
-  // useEffect(() => {
-  //   // priceFeedData が priceObject にない場合のみ更新する
-  //   if (
-  //     priceObject["CJPY"] === undefined &&
-  //     priceFeedDataCJPY?.usdjpy !== undefined
-  //   ) {
-  //     updatePriceFeedData("CJPY", priceFeedDataCJPY);
-  //     // console.log("Yes!");
-  //   }
-  // }, [priceFeedDataCJPY, priceObject, updatePriceFeedData]);
-  // useEffect(() => {
-  //   // totalPoolData が totalPoolObject にない場合のみ更新する
-  //   if (
-  //     totalPoolObject["CJPY"] === undefined &&
-  //     totalPoolDataCJPY?.totalBaseSupplyBalance !== undefined
-  //   ) {
-  //     updateTotalPoolData("CJPY", totalPoolDataCJPY);
-  //   }
-  // }, [totalPoolDataCJPY, totalPoolObject, updateTotalPoolData]);
-
-  // useEffect(() => {
-  //   // priceFeedData が priceObject にない場合のみ更新する
-  //   if (
-  //     priceObject["USDC"] === undefined &&
-  //     priceFeedDataUSDC?.usdjpy !== undefined
-  //   ) {
-  //     updatePriceFeedData("USDC", priceFeedDataUSDC);
-  //   }
-  // }, [priceFeedDataUSDC, priceObject, updatePriceFeedData]);
-  // useEffect(() => {
-  //   // totalPoolData が totalPoolObject にない場合のみ更新する
-  //   if (
-  //     totalPoolObject["USDC"] === undefined &&
-  //     totalPoolDataUSDC?.totalBaseSupplyBalance !== undefined
-  //   ) {
-  //     updateTotalPoolData("USDC", totalPoolDataUSDC);
-  //   }
-  // }, [totalPoolDataUSDC, totalPoolObject, updateTotalPoolData]);
-
-  // useEffect(() => {
-  //   // priceFeedData が priceObject にない場合のみ更新する
-  //   if (
-  //     priceObject["crvUSD"] === undefined &&
-  //     priceFeedDatacrvUSD?.usdjpy !== undefined
-  //   ) {
-  //     updatePriceFeedData("crvUSD", priceFeedDatacrvUSD);
-  //   }
-  // }, [priceFeedDatacrvUSD, priceObject, updatePriceFeedData]);
-  // useEffect(() => {
-  //   // totalPoolData が totalPoolObject にない場合のみ更新する
-  //   if (
-  //     totalPoolObject["crvUSD"] === undefined &&
-  //     totalPoolDatacrvUSD?.totalBaseSupplyBalance !== undefined
-  //   ) {
-  //     updateTotalPoolData("crvUSD", totalPoolDatacrvUSD);
-  //   }
-  // }, [totalPoolDatacrvUSD, totalPoolObject, updateTotalPoolData]);
-
-  // useEffect(() => {
-  //   // priceFeedData が priceObject にない場合のみ更新する
-  //   if (
-  //     priceObject["WETH"] === undefined &&
-  //     priceFeedDataWETH?.usdjpy !== undefined
-  //   ) {
-  //     updatePriceFeedData("WETH", priceFeedDataWETH);
-  //   }
-  // }, [priceFeedDataWETH, priceObject, updatePriceFeedData]);
-  // useEffect(() => {
-  //   // totalPoolData が totalPoolObject にない場合のみ更新する
-  //   if (
-  //     totalPoolObject["WETH"] === undefined &&
-  //     totalPoolDataWETH?.totalBaseSupplyBalance !== undefined
-  //   ) {
-  //     updateTotalPoolData("WETH", totalPoolDataWETH);
-  //   }
-  // }, [totalPoolDataWETH, totalPoolObject, updateTotalPoolData]);
 
   return (
     <>
