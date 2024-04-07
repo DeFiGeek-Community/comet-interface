@@ -1,10 +1,14 @@
 import { useEffect } from "react";
 import { useAppData } from "context/AppDataContext";
-import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
+import { PoolConfig } from "interfaces/pool";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
-export const useUpdatePoolData = () => {
+interface PoolDataComponentProps {
+  poolConfig: PoolConfig;
+}
+
+export const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   const {
     priceFeedData: priceObject,
     updatePriceFeedData,
@@ -12,32 +16,25 @@ export const useUpdatePoolData = () => {
     updateTotalPoolData,
   } = useAppData();
 
-  const config = usePoolConfigForPoolList();
+  const poolName = poolConfig?.baseToken.symbol ?? "";
+  const { priceFeedData } = usePriceFeedData(poolConfig);
 
-  if (!config) return;
+  useEffect(() => {
+    if (priceFeedData && priceObject[poolName] !== priceFeedData) {
+      updatePriceFeedData(poolName, priceFeedData);
+    }
+  }, [poolConfig, priceFeedData, updatePriceFeedData]);
 
-  const poolNames = Object.keys(config);
+  const { totalPoolData } = useTotalPoolData(poolConfig);
 
-  for (const poolName of poolNames) {
-    const poolConfig = config[poolName];
-    const { priceFeedData } = usePriceFeedData(poolConfig);
+  useEffect(() => {
+    if (totalPoolData && totalPoolObject[poolName] !== totalPoolData) {
+      updateTotalPoolData(poolName, totalPoolData);
+    }
+  }, [poolConfig, totalPoolData, updateTotalPoolData]);
 
-    useEffect(() => {
-      // priceFeedData が priceObject にない場合のみ更新する
-      if (priceFeedData && priceObject[poolName] !== priceFeedData) {
-        updatePriceFeedData(poolName, priceFeedData);
-      }
-    }, [config, priceFeedData, updatePriceFeedData]);
-
-    const { totalPoolData } = useTotalPoolData(poolConfig);
-
-    useEffect(() => {
-      // totalPoolData が totalPoolObject にない場合のみ更新する
-      if (totalPoolData && totalPoolObject[poolName] !== totalPoolData) {
-        updateTotalPoolData(poolName, totalPoolData);
-      }
-    }, [config, totalPoolData, updateTotalPoolData]);
-  }
-
-  
+  return {
+    priceFeedData: priceObject[poolName],
+    totalPoolData: totalPoolObject[poolName],
+  };
 };
