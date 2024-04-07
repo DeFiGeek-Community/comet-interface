@@ -27,7 +27,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig | undefined }) => {
   }
   const { priceFeedData: priceFeedData, totalPoolData: totalPoolObject } =
     usePoolListDataContext();
-  console.log(totalPoolObject);
+  // console.log(totalPoolObject);
   const { currency, rate } = useAppData();
 
   const assetPrice = priceFeedData?.[symbol]?.baseAsset ?? null;

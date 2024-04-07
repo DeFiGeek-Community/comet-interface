@@ -51,6 +51,8 @@ export const PoolListDataProvider: React.FC<PoolListDataProviderProps> = ({
   const objUSDC = poolDatas?.["USDC"];
   const { priceFeedData: priceFeedDataUSDC } = usePriceFeedData(objUSDC);
   const { totalPoolData: totalPoolDataUSDC } = useTotalPoolData(objUSDC);
+  console.log("Go!");
+  console.log(totalPoolDataUSDC);
   const objcrvUSD = poolDatas?.["crvUSD"];
   const { priceFeedData: priceFeedDatacrvUSD } = usePriceFeedData(objcrvUSD);
   const { totalPoolData: totalPoolDatacrvUSD } = useTotalPoolData(objcrvUSD);
@@ -66,13 +68,11 @@ export const PoolListDataProvider: React.FC<PoolListDataProviderProps> = ({
         priceFeedDataCJPY?.usdjpy !== undefined
       ) {
         updatePriceFeedData("CJPY", priceFeedDataCJPY);
-        console.log("Yes!");
       }
     } else {
       if (priceFeedDataCJPY?.usdjpy !== undefined) {
         updatePriceFeedData("CJPY", priceFeedDataCJPY);
         setIsSameChainForPriceFeedDataOnCJPY(true);
-        console.log("Hey!");
       }
     }
   }, [
@@ -113,11 +113,13 @@ export const PoolListDataProvider: React.FC<PoolListDataProviderProps> = ({
         priceFeedDataUSDC?.usdjpy !== undefined
       ) {
         updatePriceFeedData("USDC", priceFeedDataUSDC);
+        console.log("Yes!");
       }
     } else {
       if (priceFeedDataUSDC?.usdjpy !== undefined) {
         updatePriceFeedData("USDC", priceFeedDataUSDC);
         setIsSameChainForPriceFeedDataOnUSDC(true);
+        console.log("Hey!");
       }
     }
   }, [
@@ -135,11 +137,14 @@ export const PoolListDataProvider: React.FC<PoolListDataProviderProps> = ({
         totalPoolDataUSDC?.totalBaseSupplyBalance !== undefined
       ) {
         updateTotalPoolData("USDC", totalPoolDataUSDC);
+        console.log("Yes2!");
       }
     } else {
       if (totalPoolDataUSDC?.totalBaseSupplyBalance !== undefined) {
         updateTotalPoolData("USDC", totalPoolDataUSDC);
         setIsSameChainForTotalPoolDataOnUSDC(true);
+        console.log("Hey2!");
+        console.log(totalPoolObject);
       }
     }
   }, [
