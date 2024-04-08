@@ -75,9 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             {isRendered && router.isReady ? (
               <AppDataProvider>
-                <PoolNameContext.Provider
-                  value={{ poolName, setPoolName }}
-                >
+                <PoolNameContext.Provider value={{ poolName, setPoolName }}>
                   <ReloadContextProvider>
                     <Component {...pageProps} />
                   </ReloadContextProvider>
