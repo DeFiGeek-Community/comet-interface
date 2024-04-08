@@ -7,6 +7,7 @@ export type Currency = "USD" | "JPY";
 export interface AppDataContextType {
   pageName: string;
   setPageName: (name: string) => void;
+  chainId: number;
   priceFeedData: { [poolName: string]: PriceFeedData | undefined };
   updatePriceFeedData: (poolName: string, data: PriceFeedData) => void;
   totalPoolData: { [poolName: string]: TotalPoolData | undefined };

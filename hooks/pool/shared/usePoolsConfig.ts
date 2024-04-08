@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { POOL_CONFIG_MAP } from "constants/pools";
-import { useChainPool } from "hooks/useChainPool";
+import { useAppData } from "context/AppDataContext";
 import { PoolConfigMapForList } from "interfaces/pool";
 
 const usePoolsConfig = () => {
-  const { chainId } = useChainPool();
+  const { chainId } = useAppData();
   const [config, setConfig] = useState<PoolConfigMapForList | undefined>();
 
   useEffect(() => {

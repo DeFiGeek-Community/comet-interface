@@ -1,10 +1,11 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
 import { Column, Center, useIsMobile } from "utils/chakraUtils";
 import usePoolData from "hooks/pool/shared/usePoolConfig";
-import { useChainPool } from "hooks/useChainPool";
 import { useReload } from "context/ReloadContext";
+import { usePoolName } from "hooks/usePoolName";
 import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProvider";
 import { PoolSecondaryDataProvider } from "components/Provider/PoolSecondaryDataProvider";
 import StatsBar from "components/pool/StatsBar";
@@ -27,54 +28,63 @@ const PoolContents = memo(() => {
     reload();
   }, [address, reload]);
 
+  const router = useRouter();
+  const { poolName, setPoolName } = usePoolName();
+
+  useEffect(() => {
+    if (router.isReady) {
+      setPoolName(router.query.pool ? (router.query.pool as string) : "CJPY");
+    }
+  }, [router.isReady, router.query.pool, setPoolName]);
+
   return (
-    <PoolPrimaryDataProvider poolData={poolData}>
-      <PoolSecondaryDataProvider poolData={poolData}>
-        <Column
-          mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          color="#FFFFFF"
-          mx="auto"
-          width={isMobile ? "100%" : "1150px"}
-          px={isMobile ? 4 : 0}
-        >
-          <Header />
-          {/* <TabBar /> */}
-          <StatsBar poolData={poolData} />
-          <CollateralRatioBar poolData={poolData} />
+      <PoolPrimaryDataProvider poolData={poolData}>
+        <PoolSecondaryDataProvider poolData={poolData}>
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            color="#FFFFFF"
+            mx="auto"
+            width={isMobile ? "100%" : "1150px"}
+            px={isMobile ? 4 : 0}
+          >
+            <Header />
+            {/* <TabBar /> */}
+            <StatsBar poolData={poolData} />
+            <CollateralRatioBar poolData={poolData} />
 
-          <DashboardBox mt={4} width={"100%"}>
-            {poolData ? (
-              <BaseList poolData={poolData} />
-            ) : (
-              <Center height="200px">
-                <Spinner />
-              </Center>
-            )}
-          </DashboardBox>
+            <DashboardBox mt={4} width={"100%"}>
+              {poolData ? (
+                <BaseList poolData={poolData} />
+              ) : (
+                <Center height="200px">
+                  <Spinner />
+                </Center>
+              )}
+            </DashboardBox>
 
-          <DashboardBox ml={0} mt={4} width={"100%"}>
-            {poolData ? (
-              <CollateralList poolData={poolData} />
-            ) : (
-              <Center height="200px">
-                <Spinner />
-              </Center>
-            )}
-          </DashboardBox>
-          <DashboardBox ml={0} mt={4} width={"100%"}>
-            {poolData ? (
-              <ClaimReward poolData={poolData} />
-            ) : (
-              <Center height="100px">
-                <Spinner />
-              </Center>
-            )}
-          </DashboardBox>
-          <Footer />
-        </Column>
-      </PoolSecondaryDataProvider>
-    </PoolPrimaryDataProvider>
+            <DashboardBox ml={0} mt={4} width={"100%"}>
+              {poolData ? (
+                <CollateralList poolData={poolData} />
+              ) : (
+                <Center height="200px">
+                  <Spinner />
+                </Center>
+              )}
+            </DashboardBox>
+            <DashboardBox ml={0} mt={4} width={"100%"}>
+              {poolData ? (
+                <ClaimReward poolData={poolData} />
+              ) : (
+                <Center height="100px">
+                  <Spinner />
+                </Center>
+              )}
+            </DashboardBox>
+            <Footer />
+          </Column>
+        </PoolSecondaryDataProvider>
+      </PoolPrimaryDataProvider>
   );
 });
 

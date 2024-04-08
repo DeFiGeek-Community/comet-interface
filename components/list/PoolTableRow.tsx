@@ -27,7 +27,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   }
   const { priceFeedData: priceFeedData, totalPoolData: totalPoolObject } =
     useUpdatePoolData({ poolConfig: poolData });
-    
+
   const { currency, rate } = useAppData();
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
@@ -37,8 +37,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   for (let key in totalPoolObject?.totalCollateralBalances) {
     const collateralBalance =
       totalPoolObject?.totalCollateralBalances?.[key] ?? 0;
-    const collateralAssetPrice =
-      priceFeedData?.collateralAssets?.[key] ?? 0;
+    const collateralAssetPrice = priceFeedData?.collateralAssets?.[key] ?? 0;
     const tempValue = collateralBalance * collateralAssetPrice;
     if (tempValue) {
       sumCollateralBalances += tempValue;
@@ -159,8 +158,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   {t("Total Supply Balance")}
                 </Text>
 
-                {totalPoolObject?.totalBaseSupplyBalance !==
-                  undefined &&
+                {totalPoolObject?.totalBaseSupplyBalance !== undefined &&
                 assetPrice &&
                 address ? (
                   <>
@@ -190,8 +188,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   {t("Total Borrow Balance")}
                 </Text>
 
-                {totalPoolObject?.totalBaseBorrowBalance !==
-                  undefined &&
+                {totalPoolObject?.totalBaseBorrowBalance !== undefined &&
                 assetPrice &&
                 address ? (
                   <>
@@ -319,8 +316,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolObject?.totalBaseSupplyBalance !==
-                undefined &&
+              {totalPoolObject?.totalBaseSupplyBalance !== undefined &&
               assetPrice &&
               address ? (
                 <>
@@ -350,8 +346,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               height="100%"
               width={isMobile ? "33%" : "20%"}
             >
-              {totalPoolObject?.totalBaseBorrowBalance !==
-                undefined &&
+              {totalPoolObject?.totalBaseBorrowBalance !== undefined &&
               assetPrice &&
               address ? (
                 <>

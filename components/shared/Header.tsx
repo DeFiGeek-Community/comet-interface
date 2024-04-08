@@ -17,7 +17,7 @@ import { POOL_CONFIG_MAP } from "constants/pools";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row, useIsMobile } from "utils/chakraUtils";
-import { useChainPool } from "hooks/useChainPool";
+import { usePoolName } from "hooks/usePoolName";
 import { useTranslation } from "react-i18next";
 import { useAppData } from "context/AppDataContext";
 
@@ -79,8 +79,8 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 
 export const Header = () => {
   const isMobile = useIsMobile();
-  const { chainId, poolName, setPoolName } = useChainPool();
-  const { currency, toggleCurrency } = useAppData();
+  const { poolName, setPoolName } = usePoolName();
+  const { chainId, currency, toggleCurrency } = useAppData();
   const chainConfig = POOL_CONFIG_MAP[chainId];
   const poolNames = chainConfig ? Object.keys(chainConfig) : [];
   return (

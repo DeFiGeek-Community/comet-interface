@@ -1,4 +1,5 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
+import { useNetwork } from "wagmi";
 import {
   AppDataContext,
   Currency,
@@ -11,6 +12,15 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [pageName, setPageName] = useState<string>("");
+  const [chainId, setChainId] = useState<number>(0);
+  const { chain } = useNetwork();
+
+  useEffect(() => {
+    if (chain) {
+      setChainId(chain.id);
+    }
+  }, [chain, setChainId]);
+
   const [priceFeedData, setPriceFeedData] = useState<{
     [poolName: string]: PriceFeedData | undefined;
   }>({});
@@ -44,6 +54,7 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   const value: AppDataContextType = {
     pageName,
     setPageName,
+    chainId,
     priceFeedData,
     updatePriceFeedData,
     totalPoolData,

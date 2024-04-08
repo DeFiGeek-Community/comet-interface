@@ -18,7 +18,7 @@ import { ChakraProvider, theme } from "@chakra-ui/react";
 import { CacheProvider } from "@chakra-ui/next-js";
 import { Center } from "utils/chakraUtils";
 import { HashLoader } from "react-spinners";
-import { PoolContext } from "context/PoolContext";
+import { PoolNameContext } from "context/PoolNameContext";
 import { CustomAvatar } from "components/shared/AvatarComponent";
 import { AppDataProvider } from "components/Provider/AppDataProvider";
 import { ReloadContextProvider } from "components/Provider/ReloadContextProvider";
@@ -55,7 +55,6 @@ const wagmiConfig = createConfig({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isRendered, setIsRendered] = useState(false);
-  const [chainId, setChainId] = useState<number>(1);
   const [poolName, setPoolName] = useState<string>("");
 
   const router = useRouter();
@@ -76,13 +75,13 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             {isRendered && router.isReady ? (
               <AppDataProvider>
-                <PoolContext.Provider
-                  value={{ chainId, poolName, setChainId, setPoolName }}
+                <PoolNameContext.Provider
+                  value={{ poolName, setPoolName }}
                 >
                   <ReloadContextProvider>
                     <Component {...pageProps} />
                   </ReloadContextProvider>
-                </PoolContext.Provider>
+                </PoolNameContext.Provider>
               </AppDataProvider>
             ) : (
               <Center height="100vh">

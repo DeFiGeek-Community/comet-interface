@@ -6,7 +6,6 @@ import { Header } from "components/shared/Header";
 import PoolTable from "components/list/PoolTable";
 import { useAccount } from "wagmi";
 import { useReload } from "context/ReloadContext";
-import { useChainPool } from "hooks/useChainPool";
 
 const PoolList = memo(() => {
   const isMobile = useIsMobile();
