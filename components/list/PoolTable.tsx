@@ -5,10 +5,10 @@ import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
-import usePoolConfigForPoolList from "hooks/pool/list/usePoolConfigForPoolList";
+import usePoolsConfig from "hooks/pool/shared/usePoolsConfig";
 
 function RenderPoolTableRow() {
-  const poolConfigForChain = usePoolConfigForPoolList();
+  const poolConfigForChain = usePoolsConfig();
   if (!poolConfigForChain) return;
 
   return Object.values(poolConfigForChain).map((data, index) => {
