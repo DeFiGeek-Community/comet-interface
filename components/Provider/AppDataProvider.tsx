@@ -10,6 +10,7 @@ import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [pageName, setPageName] = useState<string>("");
   const [priceFeedData, setPriceFeedData] = useState<{
     [poolName: string]: PriceFeedData | undefined;
   }>({});
@@ -41,6 +42,8 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const value: AppDataContextType = {
+    pageName,
+    setPageName,
     priceFeedData,
     updatePriceFeedData,
     totalPoolData,

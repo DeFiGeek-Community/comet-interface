@@ -5,6 +5,8 @@ import { TotalPoolData } from "../hooks/pool/shared/useTotalPoolData";
 export type Currency = "USD" | "JPY";
 
 export interface AppDataContextType {
+  pageName: string;
+  setPageName: (name: string) => void;
   priceFeedData: { [poolName: string]: PriceFeedData | undefined };
   updatePriceFeedData: (poolName: string, data: PriceFeedData) => void;
   totalPoolData: { [poolName: string]: TotalPoolData | undefined };
