@@ -17,14 +17,6 @@ export interface TotalPoolData {
   totalCollateralBalances: TotalCollateralData;
 }
 
-export interface AllTotalPoolData {
-  [key: string]: {
-    totalBaseSupplyBalance: number | undefined;
-    totalBaseBorrowBalance: number | undefined;
-    totalCollateralBalances: TotalCollateralData;
-  };
-}
-
 const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
   const [totalPoolData, setTotalPoolData] = useState<
     TotalPoolData | undefined
