@@ -282,7 +282,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               mainAxisAlignment="flex-start"
               crossAxisAlignment="center"
               height="100%"
-              width={isMobile ? "33%" : "10%"}
+              width="10%"
             >
               <Text textAlign="center" fontWeight="bold" pl={1}>
                 {symbol} {"Pool"}

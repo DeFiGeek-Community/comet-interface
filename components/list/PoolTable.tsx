@@ -75,7 +75,7 @@ const PoolTable = () => {
                 mainAxisAlignment="flex-start"
                 crossAxisAlignment="center"
                 height="100%"
-                width={isMobile ? "33%" : "10%"}
+                width="10%"
               >
                 <Text textAlign="center" fontWeight="bold">
                   {t("Pool Name")}
@@ -98,7 +98,7 @@ const PoolTable = () => {
                 mainAxisAlignment="center"
                 crossAxisAlignment="center"
                 height="100%"
-                width={isMobile ? "33%" : "20%"}
+                width="20%"
               >
                 <Text textAlign="center" fontWeight="bold">
                   {t("Total Supply Balance")}
@@ -108,7 +108,7 @@ const PoolTable = () => {
                 mainAxisAlignment="center"
                 crossAxisAlignment="center"
                 height="100%"
-                width={isMobile ? "33%" : "20%"}
+                width="20%"
               >
                 <Text textAlign="center" fontWeight="bold">
                   {t("Total Borrow Balance")}
@@ -118,7 +118,7 @@ const PoolTable = () => {
                 mainAxisAlignment="center"
                 crossAxisAlignment="center"
                 height="100%"
-                width={isMobile ? "33%" : "20%"}
+                width="20%"
               >
                 <Text textAlign="center" fontWeight="bold">
                   {t("Total Collateral Balance")}
