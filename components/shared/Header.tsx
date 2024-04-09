@@ -17,7 +17,7 @@ import { POOL_CONFIG_MAP } from "constants/pools";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row, useIsMobile } from "utils/chakraUtils";
-import { usePoolName } from "hooks/usePoolName";
+import { usePool } from "context/PoolContext";
 import { useTranslation } from "react-i18next";
 import { useAppData } from "context/AppDataContext";
 
@@ -79,10 +79,17 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 
 export const Header = () => {
   const isMobile = useIsMobile();
-  const { poolName, setPoolName } = usePoolName();
-  const { chainId, currency, toggleCurrency } = useAppData();
+  const { poolName, setPoolName } = usePool();
+  const { chainId, setPageName, currency, toggleCurrency } = useAppData();
+  const router = useRouter();
   const chainConfig = POOL_CONFIG_MAP[chainId];
   const poolNames = chainConfig ? Object.keys(chainConfig) : [];
+
+  const handleClick = () => {
+    setPoolName("");
+    setPageName("list");
+    router.push(`/`, undefined, { shallow: true });
+  };
   return (
     <Row
       color="#FFFFFF"
@@ -97,7 +104,8 @@ export const Header = () => {
     >
       <Box boxSize={"37px"} flexShrink={0}>
         <Link
-          href={`/`}
+          // href={`/`}
+          onClick={() => handleClick()}
           whiteSpace="nowrap"
           className="no-underline"
           pointerEvents="auto"

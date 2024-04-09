@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from "react";
+import React, { useEffect } from "react";
 import { Column, useIsMobile } from "utils/chakraUtils";
 import StatsBarForPoolList from "components/pool/StatsBarForPoolList";
 import Footer from "components/shared/Footer";
@@ -7,7 +7,7 @@ import PoolTable from "components/list/PoolTable";
 import { useAccount } from "wagmi";
 import { useReload } from "context/ReloadContext";
 
-const PoolList = memo(() => {
+const PoolList = () => {
   const isMobile = useIsMobile();
   const { address } = useAccount();
   const { reload } = useReload();
@@ -31,7 +31,7 @@ const PoolList = memo(() => {
       <Footer />
     </Column>
   );
-});
+};
 
 PoolList.displayName = "PoolList";
 

@@ -6,6 +6,7 @@ import {
   fetchTotalDataComet,
   fetchTotalCollateralDataComet,
 } from "hooks/util/cometContractUtils";
+import { useAppData } from "context/AppDataContext";
 
 export interface TotalCollateralData {
   [key: string]: number | 0;
@@ -30,11 +31,19 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
   >();
   const [error, setError] = useState<Error | null>(null);
 
+  const { totalPoolData: sharedTotalPoolData } = useAppData();
+
   const { reloadKey } = useReload();
 
   const fetchPoolMetricsData = useCallback(async () => {
     if (!poolData) {
       setTotalPoolData(undefined);
+      return;
+    }
+
+    // 共通データが存在する場合は、そのデータを使用
+    if (sharedTotalPoolData[poolData.baseToken.symbol]) {
+      setTotalPoolData(sharedTotalPoolData[poolData.baseToken.symbol]);
       return;
     }
 

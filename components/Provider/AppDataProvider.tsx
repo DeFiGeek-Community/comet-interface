@@ -7,16 +7,21 @@ import {
 } from "context/AppDataContext";
 import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
+import { PoolConfigMapForList } from "interfaces/pool";
+import { POOL_CONFIG_MAP } from "constants/pools";
 
 export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [pageName, setPageName] = useState<string>("");
   const [chainId, setChainId] = useState<number>(0);
+  const [config, setConfig] = useState<PoolConfigMapForList | undefined>();
   const { chain } = useNetwork();
 
   useEffect(() => {
     if (chain) {
+      const poolsConfig = POOL_CONFIG_MAP[chain.id];
+      setConfig(poolsConfig);
       setChainId(chain.id);
     }
   }, [chain, setChainId]);
@@ -29,12 +34,25 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   }>({});
   const [usdjpyPrice, setUsdjpyPrice] = useState<number | undefined>(undefined);
 
-  const updatePriceFeedData = (poolName: string, data: PriceFeedData) => {
+  useEffect(() => {
+    if (chain) {
+      setPriceFeedData({});
+      setTotalPoolData({});
+    }
+  }, [chain]);
+
+  const updatePriceFeedData = (
+    poolName: string,
+    data: PriceFeedData | undefined,
+  ) => {
     setPriceFeedData((prevData) => ({ ...prevData, [poolName]: data }));
     setUsdjpyPrice(data?.usdjpy);
   };
 
-  const updateTotalPoolData = (poolName: string, data: TotalPoolData) => {
+  const updateTotalPoolData = (
+    poolName: string,
+    data: TotalPoolData | undefined,
+  ) => {
     setTotalPoolData((prevData) => ({ ...prevData, [poolName]: data }));
   };
 
@@ -55,6 +73,7 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     pageName,
     setPageName,
     chainId,
+    config,
     priceFeedData,
     updatePriceFeedData,
     totalPoolData,

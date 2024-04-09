@@ -1,8 +1,19 @@
-import React from "react";
-import PoolList from "components/PoolList";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useAppData } from "context/AppDataContext";
+import Main from "components/Main";
 
-const Pool = () => {
-  return <PoolList />;
+const List = () => {
+  const { pageName, setPageName } = useAppData();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.isReady && pageName === "") {
+      setPageName("list");
+    }
+  }, [router.isReady, pageName]);
+
+  return <Main />;
 };
 
-export default Pool;
+export default List;

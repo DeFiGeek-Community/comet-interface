@@ -8,7 +8,7 @@ import {
 } from "utils/bigUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { Column, Center } from "utils/chakraUtils";
-import usePoolData from "hooks/pool/shared/usePoolConfig";
+import { usePool } from "context/PoolContext";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
 import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
 import DashboardBox from "components/shared/DashboardBox";
@@ -28,7 +28,7 @@ export const CollateralStatsColumn = ({
 }) => {
   const { t } = useTranslation();
   const { currency, rate } = useAppData();
-  const poolData = usePoolData();
+  const { poolConfig: poolData } = usePool();
   const { priceFeedData, baseAssetData, collateralAssetsData } =
     usePoolPrimaryDataContext();
   const { positionSummary } = usePoolSecondaryDataContext();
