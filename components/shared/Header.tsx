@@ -113,7 +113,6 @@ export const Header = () => {
           <Image width={37} height={37} src={"/dfgc-logo.png"} alt="Logo" />
         </Link>
       </Box>
-
       <Row
         mx={4}
         expand
@@ -123,6 +122,17 @@ export const Header = () => {
         overflowY="hidden"
         width="80%"
       >
+        <Box boxSize={"37px"} flexShrink={0} m={1} pt={1}>
+          <Link
+            // href={`/`}
+            onClick={() => handleClick()}
+            whiteSpace="nowrap"
+            className="no-underline"
+            pointerEvents="auto"
+          >
+            List
+          </Link>
+        </Box>
         <Menu>
           <MenuButton
             as={Button}
