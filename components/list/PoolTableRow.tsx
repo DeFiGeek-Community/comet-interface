@@ -15,7 +15,6 @@ import { useAppData } from "context/AppDataContext";
 import { usePool } from "context/PoolContext";
 import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
 import { BaseAsset, CollateralAsset } from "interfaces/pool";
-import { TotalPoolData } from "../../hooks/pool/shared/useTotalPoolData";
 import { Currency } from "context/AppDataContext";
 import { helpSvgUrl } from "constants/urls";
 
