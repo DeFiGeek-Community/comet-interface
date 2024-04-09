@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { formatUnits } from "viem";
-import { PoolConfig, BaseAsset, CollateralAsset } from "interfaces/pool";
+import { PoolConfig } from "interfaces/pool";
 import { useReload } from "context/ReloadContext";
 import {
   fetchTotalDataComet,
