@@ -230,9 +230,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   width="60%"
                 >
                   {collateralList?.map((asset, index) => {
-                    return (
-                      <RenderCollateralAvatar asset={asset} key={index} />
-                    );
+                    return <RenderCollateralAvatar asset={asset} key={index} />;
                   })}
                 </Row>
               </Row>
@@ -309,9 +307,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   overflow="scroll"
                 >
                   {collateralList?.map((asset, index) => {
-                    return (
-                      <RenderCollateralAvatar asset={asset} key={index} />
-                    );
+                    return <RenderCollateralAvatar asset={asset} key={index} />;
                   })}
                 </Row>
               </HoverIcon>
