@@ -38,14 +38,14 @@ function RenderBaseAvatar({
 
 function RenderCollateralAvatar({
   asset,
-  index,
+  key,
 }: {
   asset: CollateralAsset | undefined;
-  index: number;
+  key: number;
 }) {
   return (
     <Avatar
-      key={index}
+      key={key}
       bg="#FFF"
       boxSize="30px"
       mr={1}
@@ -232,7 +232,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 >
                   {collateralList?.map((asset, index) => {
                     return (
-                      <RenderCollateralAvatar asset={asset} index={index} />
+                      <RenderCollateralAvatar asset={asset} key={index} />
                     );
                   })}
                 </Row>
@@ -311,7 +311,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 >
                   {collateralList?.map((asset, index) => {
                     return (
-                      <RenderCollateralAvatar asset={asset} index={index} />
+                      <RenderCollateralAvatar asset={asset} key={index} />
                     );
                   })}
                 </Row>
