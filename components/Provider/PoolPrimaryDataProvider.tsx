@@ -1,5 +1,5 @@
 // components/Provider/PoolPrimaryDataProvider.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PoolPrimaryDataContext from "context/PoolPrimaryDataContext";
 import { PoolConfig } from "interfaces/pool";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
@@ -17,6 +17,7 @@ export const PoolPrimaryDataProvider: React.FC<
   PoolPrimaryDataProviderProps
 > = ({ poolData, children }) => {
   const {
+    chainId,
     priceFeedData: priceObject,
     updatePriceFeedData,
     totalPoolData: totalPoolObject,
@@ -24,13 +25,15 @@ export const PoolPrimaryDataProvider: React.FC<
   } = useAppData();
   const poolName = poolData?.baseToken.symbol ?? "";
   const { priceFeedData } = usePriceFeedData(poolData);
+  const [isLoading, setIsLoading] = useState(false);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     // priceFeedData が priceObject にない場合のみ更新する
     if (priceFeedData && priceObject[poolName] !== priceFeedData) {
       updatePriceFeedData(poolName, priceFeedData);
     }
-  }, [poolName, priceFeedData, updatePriceFeedData]);
+  }, [poolName, priceFeedData]);
 
   const { baseAssetData } = useBaseAsset(poolData);
   const { collateralAssetsData } = useCollateralAssets(poolData);
@@ -41,15 +44,33 @@ export const PoolPrimaryDataProvider: React.FC<
     if (totalPoolData && totalPoolObject[poolName] !== totalPoolData) {
       updateTotalPoolData(poolName, totalPoolData);
     }
-  }, [poolName, totalPoolData, updateTotalPoolData]);
+  }, [poolName, totalPoolData]);
 
+  useEffect(() => {
+    if (isFirstRender.current) {
+      // 初回レンダリング時は何もしない
+      isFirstRender.current = false;
+    } else {
+      // 2回目以降のレンダリングでchainIdが変更された場合にローディング状態をtrueにする
+      if (chainId) {
+        setIsLoading(true);
+      }
+    }
+  }, [chainId]);
+
+  useEffect(() => {
+    // データが取得し終わったらfalseにする
+    if (priceFeedData && totalPoolData) {
+      setIsLoading(false);
+    }
+  }, [priceFeedData, totalPoolData]);
   return (
     <PoolPrimaryDataContext.Provider
       value={{
-        priceFeedData: priceObject[poolName],
+        priceFeedData: !isLoading ? priceObject[poolName] : undefined,
         baseAssetData,
         collateralAssetsData,
-        totalPoolData: totalPoolObject[poolName],
+        totalPoolData: !isLoading ? totalPoolObject[poolName] : undefined,
       }}
     >
       {children}

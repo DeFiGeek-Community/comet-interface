@@ -3,6 +3,7 @@ import { PoolConfig } from "interfaces/pool";
 import { fetchPriceFeed } from "hooks/util/priceFeedUtils";
 import { formatUnits } from "viem";
 import { useReload } from "context/ReloadContext";
+import { useAppData } from "context/AppDataContext";
 
 export interface PriceFeedData {
   usdjpy: number | undefined;
@@ -17,11 +18,19 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
   const [priceFeedData, setPriceFeedData] = useState<PriceFeedData>();
   const [error, setError] = useState<Error | null>(null);
 
+  const { priceFeedData: sharedPriceFeedData } = useAppData();
+
   const { reloadKey } = useReload();
 
   const fetchPriceFeedData = useCallback(async () => {
     if (!poolData) {
       setPriceFeedData(undefined);
+      return;
+    }
+
+    // 共通データが存在する場合は、そのデータを使用
+    if (sharedPriceFeedData[poolData.baseToken.symbol]) {
+      setPriceFeedData(sharedPriceFeedData[poolData.baseToken.symbol]);
       return;
     }
 

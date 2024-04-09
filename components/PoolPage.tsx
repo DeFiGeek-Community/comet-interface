@@ -1,11 +1,9 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
-import { useRouter } from "next/router";
 import { Column, Center, useIsMobile } from "utils/chakraUtils";
-import usePoolData from "hooks/pool/shared/usePoolConfig";
+import { usePool } from "context/PoolContext";
 import { useReload } from "context/ReloadContext";
-import { usePoolName } from "hooks/usePoolName";
 import { PoolPrimaryDataProvider } from "components/Provider/PoolPrimaryDataProvider";
 import { PoolSecondaryDataProvider } from "components/Provider/PoolSecondaryDataProvider";
 import StatsBar from "components/pool/StatsBar";
@@ -17,8 +15,8 @@ import DashboardBox from "components/shared/DashboardBox";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 
-const PoolContents = memo(() => {
-  const poolData = usePoolData();
+const PoolContents = () => {
+  const { poolConfig: poolData } = usePool();
   const isMobile = useIsMobile();
 
   const { address } = useAccount();
@@ -27,15 +25,6 @@ const PoolContents = memo(() => {
   useEffect(() => {
     reload();
   }, [address, reload]);
-
-  const router = useRouter();
-  const { poolName, setPoolName } = usePoolName();
-
-  useEffect(() => {
-    if (router.isReady) {
-      setPoolName(router.query.pool ? (router.query.pool as string) : "CJPY");
-    }
-  }, [router.isReady, router.query.pool, setPoolName]);
 
   return (
     <PoolPrimaryDataProvider poolData={poolData}>
@@ -86,7 +75,7 @@ const PoolContents = memo(() => {
       </PoolSecondaryDataProvider>
     </PoolPrimaryDataProvider>
   );
-});
+};
 
 PoolContents.displayName = "PoolContents";
 

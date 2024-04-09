@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { useRouter } from "next/router";
 import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import { Text } from "@chakra-ui/react";
@@ -11,10 +12,18 @@ import { Link } from "@chakra-ui/react";
 import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
+import { usePool } from "context/PoolContext";
 import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
+  const router = useRouter();
+  const isMobile = useIsMobile();
+
+  const { address } = useAccount();
+
+  const { setPageName, currency, rate } = useAppData();
+  const { setPoolName } = usePool();
 
   const tokenData = poolData?.baseToken;
   const symbol = tokenData?.symbol ?? "";
@@ -27,8 +36,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   }
   const { priceFeedData: priceFeedData, totalPoolData: totalPoolObject } =
     useUpdatePoolData({ poolConfig: poolData });
-
-  const { currency, rate } = useAppData();
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
 
@@ -44,13 +51,16 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
     }
   }
 
-  const isMobile = useIsMobile();
-
-  const { address } = useAccount();
+  const handleClick = () => {
+    setPoolName(symbol);
+    setPageName("pool");
+    router.push(`/pool?pool=${symbol}`, undefined, { shallow: true });
+  };
 
   return (
     <Link
-      href={`/pool?pool=${symbol}`}
+      // href={`/pool?pool=${symbol}`}
+      onClick={() => handleClick()}
       width="100%"
       whiteSpace="nowrap"
       className="no-underline"
