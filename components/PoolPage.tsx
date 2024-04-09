@@ -39,7 +39,7 @@ const PoolContents = () => {
         >
           <Header />
           {/* <TabBar /> */}
-          <StatsBar poolData={poolData} />
+          <StatsBar poolData={poolData} isPoolList={false} />
           <CollateralRatioBar poolData={poolData} />
 
           <DashboardBox mt={4} width={"100%"}>

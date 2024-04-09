@@ -122,7 +122,7 @@ export const Header = () => {
         overflowY="hidden"
         width="80%"
       >
-        <Box boxSize={"37px"} flexShrink={0} m={1} pt={1}>
+        <Box boxSize={"37px"} flexShrink={0} m={1} pt={1.5}>
           <Link
             // href={`/`}
             onClick={() => handleClick()}

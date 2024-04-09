@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Column, useIsMobile } from "utils/chakraUtils";
-import StatsBarForPoolList from "components/pool/StatsBarForPoolList";
+import StatsBar from "components/pool/StatsBar";
 import Footer from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 import PoolTable from "components/list/PoolTable";
@@ -26,7 +26,7 @@ const PoolList = () => {
       px={isMobile ? 4 : 0}
     >
       <Header />
-      <StatsBarForPoolList />
+      <StatsBar isPoolList={true} />
       <PoolTable />
       <Footer />
     </Column>
