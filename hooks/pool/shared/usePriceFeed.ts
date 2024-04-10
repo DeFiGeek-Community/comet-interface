@@ -29,8 +29,9 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
     }
 
     // 共通データが存在する場合は、そのデータを使用
-    if (sharedPriceFeedData[poolData.baseToken.symbol]) {
-      setPriceFeedData(sharedPriceFeedData[poolData.baseToken.symbol]);
+    const sharedData = sharedPriceFeedData[poolData.baseToken.symbol];
+    if (sharedData) {
+      setPriceFeedData(sharedData);
       return;
     }
 
