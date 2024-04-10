@@ -12,7 +12,6 @@ export const ReloadContextProvider: React.FC<ReloadContextProviderProps> = ({
 
   const reload = useCallback(() => {
     setReloadKey((reloadKey) => reloadKey + 1);
-    console.log("setReloadKey");
   }, []);
   return (
     <ReloadContext.Provider value={{ reload, reloadKey }}>
