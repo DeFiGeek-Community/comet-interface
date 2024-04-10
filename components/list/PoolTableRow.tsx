@@ -53,6 +53,9 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   const isMobile = useIsMobile();
   const { address } = useAccount();
 
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
   // バランスの表示値を計算
   const formattedValue = React.useMemo(() => {
     if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
@@ -85,7 +88,12 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       pb={text ? (isCollateralBalances ? 1 : 6) : undefined}
     >
       {text && (
-        <Text width="135px" textAlign="left" fontWeight="bold" mr={2}>
+        <Text
+          width={currentLanguage === "ja" ? "135px" : "auto"}
+          textAlign="left"
+          fontWeight="bold"
+          mr={currentLanguage === "ja" ? 2 : 4}
+        >
           {t(text)}
         </Text>
       )}
