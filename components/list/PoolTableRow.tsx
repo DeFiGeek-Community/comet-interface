@@ -84,7 +84,7 @@ const RenderBalanceText = ({
           width={currentLanguage === "ja" ? "135px" : "auto"}
           textAlign="left"
           fontWeight="bold"
-          mr={2}
+          mr={currentLanguage === "ja" ? 2 : 4}
         >
           {t(text)}
         </Text>
