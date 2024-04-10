@@ -80,7 +80,12 @@ const RenderBalanceText = ({
       pb={text ? (isCollateralBalances ? 1 : 6) : undefined}
     >
       {text && (
-        <Text width={currentLanguage==="ja"?"135px":"auto"} textAlign="left" fontWeight="bold" mr={2}>
+        <Text
+          width={currentLanguage === "ja" ? "135px" : "auto"}
+          textAlign="left"
+          fontWeight="bold"
+          mr={2}
+        >
           {t(text)}
         </Text>
       )}
