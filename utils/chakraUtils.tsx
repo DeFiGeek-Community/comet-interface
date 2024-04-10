@@ -206,7 +206,7 @@ type WindowSize = {
 
 export const useWindowSize = (): WindowSize => {
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       return {
         width: window.innerWidth,
         height: window.innerHeight,

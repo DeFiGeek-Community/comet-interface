@@ -79,10 +79,11 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 export const Header = () => {
   const isMobile = useIsMobile();
   const { poolName, setPoolName } = usePool();
-  const { setPageName, config, currency, toggleCurrency } = useAppData();
+  const { pageName, setPageName, config, currency, toggleCurrency } =
+    useAppData();
   const router = useRouter();
   const poolNames = config ? Object.keys(config) : [];
-
+  const isListPage = pageName === "list";
   const handleClick = () => {
     setPageName("list");
     setPoolName("");
@@ -126,7 +127,11 @@ export const Header = () => {
             onClick={() => handleClick()}
             whiteSpace="nowrap"
             className="no-underline"
-            pointerEvents="auto"
+            fontWeight="bold"
+            sx={{
+              pointerEvents: isListPage ? "none" : "auto",
+              color: isListPage ? "gray.400" : "inherit",
+            }}
           >
             List
           </Link>

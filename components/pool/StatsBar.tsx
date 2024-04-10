@@ -49,7 +49,7 @@ const StatsBar = ({
             <WhitelistedIcon mb={1} />
 
             <Heading size="lg" isTruncated>
-              {symbol} {"Pool"}
+              {isPoolList ? "punodwoɔ" : `${symbol} Pool`}
             </Heading>
           </Row>
 
