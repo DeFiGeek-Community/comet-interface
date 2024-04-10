@@ -244,7 +244,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 currency={currency}
                 rate={rate}
                 isCollateralBalances={false}
-                text={"Total Supply Balance"}
+                text={"Total Supplied"}
               />
               <RenderBalanceText
                 totalPoolObjectValue={totalPoolObject?.totalBaseBorrowBalance}
@@ -252,7 +252,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 currency={currency}
                 rate={rate}
                 isCollateralBalances={false}
-                text={"Total Borrow Balance"}
+                text={"Total Borrowed"}
               />
               <RenderBalanceText
                 totalPoolObjectValue={sumCollateralBalances}
@@ -260,7 +260,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 currency={currency}
                 rate={rate}
                 isCollateralBalances={true}
-                text={"Total Collateral Balance"}
+                text={"Total Collateral"}
               />
             </Column>
           </Row>
