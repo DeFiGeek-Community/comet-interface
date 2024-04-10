@@ -165,7 +165,6 @@ export const Header = () => {
             rightIcon={<HamburgerIcon />}
             colorScheme="dark"
           >
-            Menu
           </MenuButton>
           <MenuList bg={"dark"} borderColor={"gray"}>
             <MenuItem bg={"black"} _focus={{ bg: "#282727" }}>
