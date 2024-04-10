@@ -34,8 +34,9 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
     }
 
     // 共通データが存在する場合は、そのデータを使用
-    if (sharedTotalPoolData[poolData.baseToken.symbol]) {
-      setTotalPoolData(sharedTotalPoolData[poolData.baseToken.symbol]);
+    const sharedData = sharedTotalPoolData[poolData.baseToken.symbol];
+    if (sharedData) {
+      setTotalPoolData(sharedData);
       return;
     }
 
