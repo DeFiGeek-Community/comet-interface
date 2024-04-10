@@ -13,7 +13,7 @@ import {
   MenuItem,
   Button,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row, useIsMobile } from "utils/chakraUtils";
 import { usePool } from "context/PoolContext";
@@ -159,23 +159,31 @@ export const Header = () => {
         </Menu>
       </Row>
       {isMobile ? (
-        <Box>
-          <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
-            <ConnectButton
-              chainStatus="name"
-              showBalance={false}
-              accountStatus="address"
-            />
-          </Row>
-          <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
-            <LanguageChange />
-            <Spacer flex="0.05" />{" "}
-            <CurrencySelect
-              currency={currency}
-              toggleCurrency={toggleCurrency}
-            />
-          </Row>
-        </Box>
+        <Menu>
+          <MenuButton
+            as={Button}
+            rightIcon={<HamburgerIcon />}
+            colorScheme="dark"
+          >
+            Menu
+          </MenuButton>
+          <MenuList bg={"dark"} borderColor={"gray"}>
+            <MenuItem bg={"black"} _focus={{ bg: "#282727" }}>
+              <ConnectButton
+                chainStatus="name"
+                showBalance={false}
+                accountStatus="address"
+              />
+            </MenuItem>
+            <MenuItem bg={"black"} _focus={{ bg: "#282727" }}>
+              <LanguageChange />
+              <CurrencySelect
+                currency={currency}
+                toggleCurrency={toggleCurrency}
+              />
+            </MenuItem>
+          </MenuList>
+        </Menu>
       ) : (
         <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
           <LanguageChange />
