@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, useEffect } from "react";
+import React, { useState, ReactNode, useEffect, useRef } from "react";
 import { useNetwork } from "wagmi";
 import {
   AppDataContext,
@@ -17,6 +17,7 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   const [chainId, setChainId] = useState<number>(0);
   const [config, setConfig] = useState<PoolConfigMapForList | undefined>();
   const { chain } = useNetwork();
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     if (chain) {
@@ -35,6 +36,13 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   const [usdjpyPrice, setUsdjpyPrice] = useState<number | undefined>(undefined);
 
   useEffect(() => {
+    // 初回のレンダリングをスキップ
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    // addressが存在し、初回のレンダリングではない場合にreloadを実行
     if (chain) {
       setPriceFeedData({});
       setTotalPoolData({});

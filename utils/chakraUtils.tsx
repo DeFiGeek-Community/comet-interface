@@ -205,32 +205,28 @@ type WindowSize = {
 };
 
 export const useWindowSize = (): WindowSize => {
-  // 初期状態を undefined に設定
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: undefined,
-    height: undefined,
+  const [windowSize, setWindowSize] = useState<WindowSize>(() => {
+    if (typeof window !== 'undefined') {
+      return {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+    }
+    return { width: undefined, height: undefined };
   });
 
   useEffect(() => {
-    // Handler to call on window resize
     function handleResize() {
-      // Set window width/height to state
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
     }
 
-    // Add event listener
     window.addEventListener("resize", handleResize);
 
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
-
-    // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty array ensures that effect is only run on mount
-
+  }, []);
   return windowSize;
 };
 
@@ -242,5 +238,6 @@ export const useWindowSize = (): WindowSize => {
 export function useIsMobile() {
   const { width } = useWindowSize();
 
-  return width ? width < 768 : 0;
+  // widthがundefinedの場合はfalseを返し、そうでない場合はwidth < 768の評価結果を返す
+  return width !== undefined ? width < 768 : false;
 }

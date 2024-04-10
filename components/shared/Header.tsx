@@ -13,7 +13,6 @@ import {
   MenuItem,
   Button,
 } from "@chakra-ui/react";
-import { POOL_CONFIG_MAP } from "constants/pools";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row, useIsMobile } from "utils/chakraUtils";
@@ -80,14 +79,13 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 export const Header = () => {
   const isMobile = useIsMobile();
   const { poolName, setPoolName } = usePool();
-  const { chainId, setPageName, currency, toggleCurrency } = useAppData();
+  const { setPageName, config, currency, toggleCurrency } = useAppData();
   const router = useRouter();
-  const chainConfig = POOL_CONFIG_MAP[chainId];
-  const poolNames = chainConfig ? Object.keys(chainConfig) : [];
+  const poolNames = config ? Object.keys(config) : [];
 
   const handleClick = () => {
-    setPoolName("");
     setPageName("list");
+    setPoolName("");
     router.push(`/`, undefined, { shallow: true });
   };
   return (
@@ -201,10 +199,12 @@ export const HeaderLink = ({
   onClick: () => void;
 }) => {
   const router = useRouter();
+  const { setPageName } = useAppData();
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!isGreyedOut) {
       onClick();
+      setPageName("pool");
       router.push(route, undefined, { shallow: true });
     }
   };

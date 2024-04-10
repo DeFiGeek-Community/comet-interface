@@ -37,14 +37,11 @@ function RenderBaseAvatar({
 
 function RenderCollateralAvatar({
   asset,
-  key,
 }: {
   asset: CollateralAsset | undefined;
-  key: number;
 }) {
   return (
     <Avatar
-      key={key}
       bg="#FFF"
       boxSize="30px"
       mr={1}
