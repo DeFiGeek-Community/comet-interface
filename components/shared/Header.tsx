@@ -12,6 +12,15 @@ import {
   MenuList,
   MenuItem,
   Button,
+  DrawerHeader,
+} from "@chakra-ui/react";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -76,7 +85,7 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
   );
 }
 
-export const Header = () => {
+const HeaderList = () => {
   const isMobile = useIsMobile();
   const { poolName, setPoolName } = usePool();
   const { pageName, setPageName, config, currency, toggleCurrency } =
@@ -84,6 +93,60 @@ export const Header = () => {
   const router = useRouter();
   const poolNames = config ? Object.keys(config) : [];
   const isListPage = pageName === "list";
+  const handleClick = () => {
+    setPageName("list");
+    setPoolName("");
+    router.push(`/`, undefined, { shallow: true });
+  };
+  return (
+    <>
+      <Box boxSize={"37px"} flexShrink={0} m={isMobile ? 4 : 1} pt={1}>
+        <Link
+          // href={`/`}
+          onClick={() => handleClick()}
+          whiteSpace="nowrap"
+          className="no-underline"
+          fontWeight="bold"
+          fontSize={18}
+          sx={{
+            pointerEvents: isListPage ? "none" : "auto",
+            color: isListPage ? "gray.400" : "white",
+          }}
+        >
+          List
+        </Link>
+      </Box>
+      <Menu>
+        <MenuButton
+          as={Button}
+          rightIcon={<ChevronDownIcon />}
+          colorScheme="dark"
+        >
+          Pool
+        </MenuButton>
+        <MenuList bg={"dark"} borderColor={"gray"}>
+          {poolNames.map((name) => (
+            <MenuItem bg={"black"} _focus={{ bg: "#282727" }} key={name}>
+              <HeaderLink
+                name={`${name} Pool`}
+                route={`/pool?pool=${name}`}
+                isGreyedOut={poolName == name}
+                onClick={() => setPoolName(name)}
+              />
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+    </>
+  );
+};
+
+export const Header = () => {
+  const isMobile = useIsMobile();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setPoolName } = usePool();
+  const { setPageName, currency, toggleCurrency } = useAppData();
+  const router = useRouter();
   const handleClick = () => {
     setPageName("list");
     setPoolName("");
@@ -121,68 +184,45 @@ export const Header = () => {
         overflowY="hidden"
         width="80%"
       >
-        <Box boxSize={"37px"} flexShrink={0} m={1} pt={1.5}>
-          <Link
-            // href={`/`}
-            onClick={() => handleClick()}
-            whiteSpace="nowrap"
-            className="no-underline"
-            fontWeight="bold"
-            sx={{
-              pointerEvents: isListPage ? "none" : "auto",
-              color: isListPage ? "gray.400" : "inherit",
-            }}
-          >
-            List
-          </Link>
-        </Box>
-        <Menu>
-          <MenuButton
-            as={Button}
-            rightIcon={<ChevronDownIcon />}
-            colorScheme="dark"
-          >
-            Pool
-          </MenuButton>
-          <MenuList bg={"dark"} borderColor={"gray"}>
-            {poolNames.map((name) => (
-              <MenuItem bg={"black"} _focus={{ bg: "#282727" }} key={name}>
-                <HeaderLink
-                  name={`${name} Pool`}
-                  route={`/pool?pool=${name}`}
-                  isGreyedOut={poolName == name}
-                  onClick={() => setPoolName(name)}
-                />
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
+        {isMobile ? (
+          <>
+            <Button onClick={onOpen} bg={"gray.400"}>
+              <HamburgerIcon />
+            </Button>
+            <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+              <DrawerOverlay>
+                <DrawerContent>
+                  <DrawerHeader>Menu</DrawerHeader>
+                  <DrawerCloseButton />
+                  <DrawerBody bg={"gray.500"}>
+                    <HeaderList />
+                  </DrawerBody>
+                </DrawerContent>
+              </DrawerOverlay>
+            </Drawer>
+          </>
+        ) : (
+          <HeaderList />
+        )}
       </Row>
       {isMobile ? (
-        <Menu>
-          <MenuButton
-            as={Button}
-            rightIcon={<HamburgerIcon />}
-            colorScheme="dark"
-          >
-          </MenuButton>
-          <MenuList bg={"dark"} borderColor={"gray"}>
-            <MenuItem bg={"black"} _focus={{ bg: "#282727" }}>
-              <ConnectButton
-                chainStatus="name"
-                showBalance={false}
-                accountStatus="address"
-              />
-            </MenuItem>
-            <MenuItem bg={"black"} _focus={{ bg: "#282727" }}>
-              <LanguageChange />
-              <CurrencySelect
-                currency={currency}
-                toggleCurrency={toggleCurrency}
-              />
-            </MenuItem>
-          </MenuList>
-        </Menu>
+        <Box>
+          <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
+            <ConnectButton
+              chainStatus="name"
+              showBalance={false}
+              accountStatus="address"
+            />
+          </Row>
+          <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
+            <LanguageChange />
+            <Spacer flex="0.05" />{" "}
+            <CurrencySelect
+              currency={currency}
+              toggleCurrency={toggleCurrency}
+            />
+          </Row>
+        </Box>
       ) : (
         <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
           <LanguageChange />
