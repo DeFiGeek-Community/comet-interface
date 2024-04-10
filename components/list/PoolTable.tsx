@@ -16,121 +16,93 @@ function RenderPoolTableRow() {
   });
 }
 
+interface TableHeaderColumnProps {
+  text: string;
+  width: string;
+}
+
+const TableHeaderColumn: React.FC<TableHeaderColumnProps> = ({
+  text,
+  width,
+}) => (
+  <Row
+    mainAxisAlignment="center"
+    crossAxisAlignment="center"
+    height="100%"
+    width={width}
+  >
+    <Text textAlign="center" fontWeight="bold" width="100%">
+      {text}
+    </Text>
+  </Row>
+);
+
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
   return (
     <>
-      {isMobile ? (
-        <DashboardBox
-          width="100%"
+      <DashboardBox
+        width="100%"
+        height="100%"
+        mt={4}
+        p={4}
+        fontSize="lm"
+        fontWeight="bold"
+      >
+        <Column
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="flex-start"
           height="100%"
-          mt={4}
-          p={4}
-          fontSize="lm"
-          fontWeight="bold"
+          pb={1}
         >
-          <Column
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-start"
-            height="100%"
-            pb={1}
-          >
-            <Heading size="md" px={4} py={3}>
-              {t("Pool Lists")}
-            </Heading>
-            <ModalDivider />
+          <Heading size="md" px={4} py={3}>
+            {t("Pool Lists")}
+          </Heading>
+          <ModalDivider />
+          {isMobile ? (
             <RenderPoolTableRow />
-          </Column>
-        </DashboardBox>
-      ) : (
-        <DashboardBox
-          width="100%"
-          height="100%"
-          mt={4}
-          p={4}
-          fontSize="lm"
-          fontWeight="bold"
-        >
-          <Column
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="flex-start"
-            height="100%"
-            pb={1}
-          >
-            <Heading size="md" px={4} py={3}>
-              {t("Pool Lists")}
-            </Heading>
-            <ModalDivider />
-            <Row
-              mainAxisAlignment="flex-start"
-              crossAxisAlignment="flex-start"
-              width="100%"
-              height="50px"
-              px={4}
-              my={4}
-            >
+          ) : (
+            <>
               <Row
                 mainAxisAlignment="flex-start"
-                crossAxisAlignment="center"
-                height="100%"
-                width="10%"
+                crossAxisAlignment="flex-start"
+                width="100%"
+                height="50px"
+                px={4}
+                my={4}
               >
-                <Text textAlign="center" fontWeight="bold">
-                  {t("Pool Name")}
-                </Text>
+                <TableHeaderColumn text={t("Pool Name")} width="10%" />
+                <Row
+                  mainAxisAlignment="center"
+                  crossAxisAlignment="center"
+                  height="100%"
+                  width="30%"
+                >
+                  <TableHeaderColumn text={t("Base Asset")} width="40%" />
+                  <TableHeaderColumn text={t("Collateral Asset")} width="60%" />
+                </Row>
+                <TableHeaderColumn
+                  text={t("Total Supply Balance")}
+                  width="20%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Borrow Balance")}
+                  width="20%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Collateral Balance")}
+                  width="20%"
+                />
               </Row>
-              <Row
-                mainAxisAlignment="center"
-                crossAxisAlignment="center"
-                height="100%"
-                width="30%"
-              >
-                <Text width="40%" fontWeight="bold" pl={1}>
-                  {t("Base Asset")}
-                </Text>
-                <Text width="60%" fontWeight="bold" pl={1}>
-                  {t("Collateral Asset")}
-                </Text>
-              </Row>
-              <Row
-                mainAxisAlignment="center"
-                crossAxisAlignment="center"
-                height="100%"
-                width="20%"
-              >
-                <Text textAlign="center" fontWeight="bold">
-                  {t("Total Supply Balance")}
-                </Text>
-              </Row>
-              <Row
-                mainAxisAlignment="center"
-                crossAxisAlignment="center"
-                height="100%"
-                width="20%"
-              >
-                <Text textAlign="center" fontWeight="bold">
-                  {t("Total Borrow Balance")}
-                </Text>
-              </Row>
-              <Row
-                mainAxisAlignment="center"
-                crossAxisAlignment="center"
-                height="100%"
-                width="20%"
-              >
-                <Text textAlign="center" fontWeight="bold">
-                  {t("Total Collateral Balance")}
-                </Text>
-              </Row>
-            </Row>
-            <ModalDivider />
-            <RenderPoolTableRow />
-            <ModalDivider />
-          </Column>
-        </DashboardBox>
-      )}
+              <ModalDivider />
+              <RenderPoolTableRow />
+              <ModalDivider />
+            </>
+          )}
+        </Column>
+      </DashboardBox>
     </>
   );
 };

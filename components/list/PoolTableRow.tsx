@@ -1,74 +1,81 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { Avatar, Spinner } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
-import { Text } from "@chakra-ui/react";
-import { Column, Row, Center, useIsMobile } from "utils/chakraUtils";
+import { Avatar, AvatarProps, Spinner, Link, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { ModalDivider } from "components/shared/Modal";
+import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
-import { Link } from "@chakra-ui/react";
-import HoverIcon from "components/shared/HoverIcon";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
-import { usePool } from "context/PoolContext";
 import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
-import { BaseAsset, CollateralAsset } from "interfaces/pool";
+import { usePool } from "context/PoolContext";
 import { Currency } from "context/AppDataContext";
+import { ModalDivider } from "components/shared/Modal";
+import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
 
-function RenderBaseAvatar({
-  symbol,
-  asset,
-}: {
-  symbol: string;
-  asset: BaseAsset | undefined;
-}) {
+interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
+  name?: string;
+  src?: string;
+}
+
+function RenderAvatar({ name, src, ...props }: RenderAvatarProps) {
   return (
     <Avatar
       bg="#FFF"
       boxSize="30px"
-      name={symbol}
-      src={asset?.logoURL ?? helpSvgUrl}
+      name={name ?? ""}
+      src={src ?? helpSvgUrl}
+      {...props}
     />
   );
 }
 
-function RenderCollateralAvatar({
-  asset,
-}: {
-  asset: CollateralAsset | undefined;
-}) {
-  return (
-    <Avatar
-      bg="#FFF"
-      boxSize="30px"
-      mr={1}
-      name={asset?.symbol ?? ""}
-      src={asset?.logoURL ?? helpSvgUrl}
-    />
-  );
-}
-
-const RenderBalanceText = ({
-  totalPoolObjectValue,
-  assetPrice,
-  currency,
-  rate,
-  isCollateralBalances,
-  text,
-}: {
-  totalPoolObjectValue: number | undefined;
-  assetPrice: number | null;
+interface RenderBalanceTextProps {
+  totalPoolObjectValue?: number;
+  assetPrice?: number | null;
   currency: Currency;
   rate?: number;
   isCollateralBalances: boolean;
   text?: string;
+}
+
+const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
+  totalPoolObjectValue,
+  assetPrice,
+  currency,
+  rate = 0,
+  isCollateralBalances,
+  text,
 }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { address } = useAccount();
+
+  // バランスの表示値を計算
+  const formattedValue = React.useMemo(() => {
+    if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
+      return <Spinner />;
+    }
+
+    return isCollateralBalances
+      ? smallUsdFormatter(totalPoolObjectValue ?? 0, currency, rate)
+      : smallUsdPriceFormatter(
+          totalPoolObjectValue ?? 0,
+          assetPrice ?? 0,
+          currency,
+          rate,
+        );
+  }, [
+    totalPoolObjectValue,
+    assetPrice,
+    currency,
+    rate,
+    isCollateralBalances,
+    address,
+  ]);
+
   return (
     <Row
       mainAxisAlignment={text ? "flex-start" : "center"}
@@ -82,29 +89,9 @@ const RenderBalanceText = ({
           {t(text)}
         </Text>
       )}
-      {totalPoolObjectValue !== undefined && assetPrice && address ? (
-        <>
-          <Text
-            color={"#FFF"}
-            fontWeight="bold"
-            fontSize="17px"
-            textAlign="center"
-          >
-            {!isCollateralBalances
-              ? smallUsdPriceFormatter(
-                  totalPoolObjectValue,
-                  assetPrice,
-                  currency,
-                  rate || 0,
-                )
-              : smallUsdFormatter(totalPoolObjectValue, currency, rate || 0)}
-          </Text>
-        </>
-      ) : (
-        <Center height="50px">
-          <Spinner />
-        </Center>
-      )}
+      <Text color="#FFF" fontWeight="bold" fontSize="17px" textAlign="center">
+        {formattedValue}
+      </Text>
     </Row>
   );
 };
@@ -160,19 +147,19 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       className="no-underline"
       pointerEvents="auto"
     >
-      {isMobile ? (
-        <>
-          <Row
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="center"
-            width="100%"
-            px={4}
-            py={4}
-            backgroundColor={"gray.900"}
-            className="hover-row"
-            as="button"
-            style={{ pointerEvents: address ? "auto" : "none" }}
-          >
+      <Row
+        mainAxisAlignment="flex-start"
+        crossAxisAlignment="center"
+        width="100%"
+        px={4}
+        py={4}
+        backgroundColor={"gray.900"}
+        className="hover-row"
+        as="button"
+        style={{ pointerEvents: address ? "auto" : "none" }}
+      >
+        {isMobile ? (
+          <>
             <Column
               mainAxisAlignment="flex-start"
               crossAxisAlignment="flex-start"
@@ -218,7 +205,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   width="40%"
                   pl={7}
                 >
-                  <RenderBaseAvatar symbol={symbol} asset={tokenData} />
+                  <RenderAvatar name={symbol} src={tokenData?.logoURL} />
                 </Row>
                 <Row
                   mainAxisAlignment="flex-start"
@@ -227,7 +214,14 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   width="60%"
                 >
                   {collateralList?.map((asset, index) => {
-                    return <RenderCollateralAvatar asset={asset} key={index} />;
+                    return (
+                      <RenderAvatar
+                        name={asset?.symbol}
+                        src={asset?.logoURL}
+                        key={index}
+                        mr={1}
+                      />
+                    );
                   })}
                 </Row>
               </Row>
@@ -256,22 +250,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 text={"Total Collateral Balance"}
               />
             </Column>
-          </Row>
-          <ModalDivider />
-        </>
-      ) : (
-        <>
-          <Row
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="center"
-            width="100%"
-            px={4}
-            py={8}
-            backgroundColor={"gray.900"}
-            className="hover-row"
-            as="button"
-            style={{ pointerEvents: address ? "auto" : "none" }}
-          >
+          </>
+        ) : (
+          <>
             <Row
               mainAxisAlignment="flex-start"
               crossAxisAlignment="center"
@@ -294,7 +275,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   width="40%"
                   pl={7}
                 >
-                  <RenderBaseAvatar symbol={symbol} asset={tokenData} />
+                  <RenderAvatar name={symbol} src={tokenData?.logoURL} />
                 </Row>
               </HoverIcon>
               <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
@@ -304,7 +285,14 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   overflow="scroll"
                 >
                   {collateralList?.map((asset, index) => {
-                    return <RenderCollateralAvatar asset={asset} key={index} />;
+                    return (
+                      <RenderAvatar
+                        name={asset?.symbol}
+                        src={asset?.logoURL}
+                        key={index}
+                        mr={1}
+                      />
+                    );
                   })}
                 </Row>
               </HoverIcon>
@@ -330,10 +318,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               rate={rate}
               isCollateralBalances={true}
             />
-          </Row>
-          <ModalDivider />
-        </>
-      )}
+          </>
+        )}
+      </Row>
+      <ModalDivider />
     </Link>
   );
 };
