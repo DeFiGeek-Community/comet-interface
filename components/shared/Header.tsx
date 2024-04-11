@@ -13,6 +13,7 @@ import {
   MenuItem,
   Button,
   DrawerHeader,
+  DrawerFooter,
 } from "@chakra-ui/react";
 import {
   Drawer,
@@ -66,8 +67,9 @@ interface CurrencySelectProps {
 }
 
 function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
+  const isMobile = useIsMobile();
   return (
-    <Box minW="fit-content">
+    <Box minW="fit-content" mt={isMobile ? 4 : 0}>
       <Select
         variant="filled"
         value={currency}
@@ -156,7 +158,7 @@ export const Header = () => {
     <Row
       color="#FFFFFF"
       px={4}
-      height={isMobile ? "100px" : "38px"}
+      height={isMobile ? "70px" : "38px"}
       my={4}
       mainAxisAlignment="space-between"
       crossAxisAlignment="center"
@@ -178,7 +180,7 @@ export const Header = () => {
         </Box>
       )}
       <Row
-        mx={4}
+        mx={isMobile ? 0 : 4}
         expand
         crossAxisAlignment="center"
         mainAxisAlignment="flex-start"
@@ -188,14 +190,14 @@ export const Header = () => {
       >
         {isMobile ? (
           <>
-            <Button onClick={onOpen} bg={"gray.400"}>
-              <HamburgerIcon />
+            <Button onClick={onOpen} bg={"#1A1B1F"}>
+              <HamburgerIcon color={"#FFF"} />
             </Button>
             <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
               <DrawerOverlay>
-                <DrawerContent>
+                <DrawerContent bg={"#1A1B1F"} color={"#FFF"}>
                   <DrawerHeader>
-                    <Box boxSize={"74px"} flexShrink={0}>
+                    <Box flexShrink={0}>
                       <Link
                         // href={`/`}
                         onClick={() => handleClick()}
@@ -210,13 +212,23 @@ export const Header = () => {
                           alt="Logo"
                         />
                       </Link>
-                      Menu
                     </Box>
                   </DrawerHeader>
                   <DrawerCloseButton />
-                  <DrawerBody bg={"gray.500"}>
+                  <DrawerBody>
                     <HeaderList />
                   </DrawerBody>
+                  <DrawerFooter
+                    flexDirection="column"
+                    alignItems="flex-start"
+                    p={8}
+                  >
+                    <LanguageChange />
+                    <CurrencySelect
+                      currency={currency}
+                      toggleCurrency={toggleCurrency}
+                    />
+                  </DrawerFooter>
                 </DrawerContent>
               </DrawerOverlay>
             </Drawer>
@@ -232,14 +244,6 @@ export const Header = () => {
               chainStatus="name"
               showBalance={false}
               accountStatus="address"
-            />
-          </Row>
-          <Row expand crossAxisAlignment="center" mainAxisAlignment="flex-end">
-            <LanguageChange />
-            <Spacer flex="0.05" />{" "}
-            <CurrencySelect
-              currency={currency}
-              toggleCurrency={toggleCurrency}
             />
           </Row>
         </Box>
