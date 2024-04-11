@@ -164,17 +164,19 @@ export const Header = () => {
       overflowY="visible"
       width="100%"
     >
-      <Box boxSize={"37px"} flexShrink={0}>
-        <Link
-          // href={`/`}
-          onClick={() => handleClick()}
-          whiteSpace="nowrap"
-          className="no-underline"
-          pointerEvents="auto"
-        >
-          <Image width={37} height={37} src={"/dfgc-logo.png"} alt="Logo" />
-        </Link>
-      </Box>
+      {!isMobile && (
+        <Box boxSize={"37px"} flexShrink={0}>
+          <Link
+            // href={`/`}
+            onClick={() => handleClick()}
+            whiteSpace="nowrap"
+            className="no-underline"
+            pointerEvents="auto"
+          >
+            <Image width={37} height={37} src={"/dfgc-logo.png"} alt="Logo" />
+          </Link>
+        </Box>
+      )}
       <Row
         mx={4}
         expand
@@ -192,7 +194,25 @@ export const Header = () => {
             <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
               <DrawerOverlay>
                 <DrawerContent>
-                  <DrawerHeader>Menu</DrawerHeader>
+                  <DrawerHeader>
+                    <Box boxSize={"74px"} flexShrink={0}>
+                      <Link
+                        // href={`/`}
+                        onClick={() => handleClick()}
+                        whiteSpace="nowrap"
+                        className="no-underline"
+                        pointerEvents="auto"
+                      >
+                        <Image
+                          width={37}
+                          height={37}
+                          src={"/dfgc-logo.png"}
+                          alt="Logo"
+                        />
+                      </Link>
+                      Menu
+                    </Box>
+                  </DrawerHeader>
                   <DrawerCloseButton />
                   <DrawerBody bg={"gray.500"}>
                     <HeaderList />
