@@ -157,6 +157,7 @@ export const Header = () => {
   return (
     <Row
       color="#FFFFFF"
+      bg="black"
       px={4}
       height={isMobile ? "70px" : "38px"}
       my={4}
@@ -165,6 +166,10 @@ export const Header = () => {
       overflowX="visible"
       overflowY="visible"
       width="100%"
+      position="sticky"
+      z-index="999"
+      left="0"
+      top="0"
     >
       {!isMobile && (
         <Box boxSize={"37px"} flexShrink={0}>
