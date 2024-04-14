@@ -172,7 +172,7 @@ export const Header = () => {
       top="0"
     >
       {!isMobile && (
-        <Box boxSize={"37px"} flexShrink={0}>
+        <Box width={"215px"} height={"60px"} flexShrink={0} display="flex" alignItems="center">
           <Link
             // href={`/`}
             onClick={() => handleClick()}
@@ -180,7 +180,7 @@ export const Header = () => {
             className="no-underline"
             pointerEvents="auto"
           >
-            <Image width={37} height={37} src={"/dfgc-logo.png"} alt="Logo" />
+            <Image width={199} height={42} src={"/punodwoɔ-logo-285×60.png"} alt="Logo" />
           </Link>
         </Box>
       )}
@@ -211,9 +211,9 @@ export const Header = () => {
                         pointerEvents="auto"
                       >
                         <Image
-                          width={37}
-                          height={37}
-                          src={"/dfgc-logo.png"}
+                          width={199} 
+                          height={42}
+                          src={"/punodwoɔ-logo-285×60.png"}
                           alt="Logo"
                         />
                       </Link>
