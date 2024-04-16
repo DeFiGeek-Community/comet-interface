@@ -27,7 +27,7 @@ function RenderAvatar({ name, src, ...props }: RenderAvatarProps) {
       boxSize="30px"
       name={name ?? ""}
       position="relative" 
-      zIndex="5000"
+      zIndex="1"
       src={src ?? helpSvgUrl}
       {...props}
     />

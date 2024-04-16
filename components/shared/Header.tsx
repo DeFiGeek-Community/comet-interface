@@ -167,7 +167,7 @@ export const Header = () => {
       overflowY="visible"
       width="100%"
       position="sticky"
-      z-index="999"
+      zIndex="2"
       left="0"
       top="0"
     >
