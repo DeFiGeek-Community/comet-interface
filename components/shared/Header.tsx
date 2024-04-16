@@ -95,10 +95,11 @@ const HeaderList = () => {
   const router = useRouter();
   const poolNames = config ? Object.keys(config) : [];
   const isListPage = pageName === "list";
-  const handleClick = () => {
+  const handleClick = async () => {
     setPageName("list");
     setPoolName("");
-    router.push(`/`, undefined, { shallow: true });
+    await router.push(`/`, undefined, { shallow: true });
+    window.scrollTo(0, 0);
   };
   return (
     <>
@@ -149,10 +150,11 @@ export const Header = () => {
   const { setPoolName } = usePool();
   const { setPageName, currency, toggleCurrency } = useAppData();
   const router = useRouter();
-  const handleClick = () => {
+  const handleClick = async () => {
     setPageName("list");
     setPoolName("");
-    router.push(`/`, undefined, { shallow: true });
+    await router.push(`/`, undefined, { shallow: true });
+    window.scrollTo(0, 0);
   };
   return (
     <Row
@@ -281,12 +283,13 @@ export const HeaderLink = ({
 }) => {
   const router = useRouter();
   const { setPageName } = useAppData();
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (!isGreyedOut) {
       onClick();
       setPageName("pool");
-      router.push(route, undefined, { shallow: true });
+      await router.push(route, undefined, { shallow: true });
+      window.scrollTo(0, 0);
     }
   };
 
