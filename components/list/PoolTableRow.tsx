@@ -142,10 +142,11 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
     }
   }
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setPoolName(symbol);
     setPageName("pool");
-    router.push(`/pool?pool=${symbol}`, undefined, { shallow: true });
+    await router.push(`/pool?pool=${symbol}`, undefined, { shallow: true });
+    window.location.href = `/pool?pool=${symbol}`;
   };
 
   return (
