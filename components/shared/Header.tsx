@@ -89,8 +89,7 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 const HeaderList = () => {
   const isMobile = useIsMobile();
   const { poolName, navigateToPageClick } = usePool();
-  const { pageName, config } =
-    useAppData();
+  const { pageName, config } = useAppData();
   const poolNames = config ? Object.keys(config) : [];
   const isListPage = pageName === "list";
 
@@ -123,10 +122,7 @@ const HeaderList = () => {
         <MenuList bg={"dark"} borderColor={"gray"}>
           {poolNames.map((name) => (
             <MenuItem bg={"black"} _focus={{ bg: "#282727" }} key={name}>
-              <HeaderLink
-                symbol={name}
-                isGreyedOut={poolName == name}
-              />
+              <HeaderLink symbol={name} isGreyedOut={poolName == name} />
             </MenuItem>
           ))}
         </MenuList>
@@ -159,7 +155,13 @@ export const Header = () => {
       top="0"
     >
       {!isMobile && (
-        <Box width={"215px"} height={"60px"} flexShrink={0} display="flex" alignItems="center">
+        <Box
+          width={"215px"}
+          height={"60px"}
+          flexShrink={0}
+          display="flex"
+          alignItems="center"
+        >
           <Link
             // href={`/`}
             onClick={() => navigateToPageClick()}
@@ -167,7 +169,12 @@ export const Header = () => {
             className="no-underline"
             pointerEvents="auto"
           >
-            <Image width={199} height={42} src={"/punodwoɔ-logo-285×60.png"} alt="Logo" />
+            <Image
+              width={199}
+              height={42}
+              src={"/punodwoɔ-logo-285×60.png"}
+              alt="Logo"
+            />
           </Link>
         </Box>
       )}
@@ -198,7 +205,7 @@ export const Header = () => {
                         pointerEvents="auto"
                       >
                         <Image
-                          width={199} 
+                          width={199}
                           height={42}
                           src={"/punodwoɔ-logo-285×60.png"}
                           alt="Logo"
@@ -262,7 +269,7 @@ export const HeaderLink = ({
   symbol: string;
   isGreyedOut?: boolean;
 }) => {
-  const {  navigateToPageClick } = usePool();
+  const { navigateToPageClick } = usePool();
 
   return (
     <Link

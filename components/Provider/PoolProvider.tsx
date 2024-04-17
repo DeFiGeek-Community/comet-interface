@@ -23,10 +23,14 @@ export const PoolProvider: React.FC<PoolProviderProps> = ({ children }) => {
 
   const router = useRouter();
 
-  const navigateToPageClick = (targetPoolName: string = '') => {
+  const navigateToPageClick = (targetPoolName: string = "") => {
     setPoolName(targetPoolName);
     setPageName(targetPoolName ? "pool" : "list");
-    router.push(targetPoolName ? `/pool?pool=${targetPoolName}` : "/", undefined, { shallow: true });
+    router.push(
+      targetPoolName ? `/pool?pool=${targetPoolName}` : "/",
+      undefined,
+      { shallow: true },
+    );
     window.scrollTo(0, 0);
   };
 
@@ -35,7 +39,7 @@ export const PoolProvider: React.FC<PoolProviderProps> = ({ children }) => {
     setPoolName,
     poolConfig,
     setPoolConfig: (config: PoolConfig | undefined) => setPoolConfig(config),
-    navigateToPageClick
+    navigateToPageClick,
   };
 
   return <PoolContext.Provider value={value}>{children}</PoolContext.Provider>;
