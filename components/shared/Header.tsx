@@ -97,7 +97,6 @@ const HeaderList = () => {
     <>
       <Box boxSize={"37px"} flexShrink={0} m={isMobile ? 4 : 1} pt={1}>
         <Link
-          // href={`/`}
           onClick={() => navigateToPageClick()}
           whiteSpace="nowrap"
           className="no-underline"
@@ -163,7 +162,6 @@ export const Header = () => {
           alignItems="center"
         >
           <Link
-            // href={`/`}
             onClick={() => navigateToPageClick()}
             whiteSpace="nowrap"
             className="no-underline"
@@ -198,7 +196,6 @@ export const Header = () => {
                   <DrawerHeader>
                     <Box flexShrink={0}>
                       <Link
-                        // href={`/`}
                         onClick={() => navigateToPageClick()}
                         whiteSpace="nowrap"
                         className="no-underline"
@@ -273,7 +270,6 @@ export const HeaderLink = ({
 
   return (
     <Link
-      // href={route}
       onClick={() => navigateToPageClick(symbol)}
       whiteSpace="nowrap"
       className="no-underline"

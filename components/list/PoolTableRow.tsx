@@ -142,7 +142,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   return (
     <Link
-      // href={`/pool?pool=${symbol}`}
       onClick={() => navigateToPageClick(symbol)}
       width="100%"
       whiteSpace="nowrap"
