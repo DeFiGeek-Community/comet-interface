@@ -23,10 +23,10 @@ export const PoolProvider: React.FC<PoolProviderProps> = ({ children }) => {
 
   const router = useRouter();
 
-  const navigateToPageClick = (poolName: string = '') => {
-    setPoolName(poolName);
-    setPageName(poolName ? "pool" : "list");
-    router.push(poolName ? `/pool?pool=${poolName}` : "/", undefined, { shallow: true });
+  const navigateToPageClick = (targetPoolName: string = '') => {
+    setPoolName(targetPoolName);
+    setPageName(targetPoolName ? "pool" : "list");
+    router.push(targetPoolName ? `/pool?pool=${targetPoolName}` : "/", undefined, { shallow: true });
     window.scrollTo(0, 0);
   };
 
