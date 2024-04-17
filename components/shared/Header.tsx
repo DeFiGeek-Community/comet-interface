@@ -172,6 +172,7 @@ export const Header = () => {
               height={42}
               src={"/punodwoɔ-logo-285×60.png"}
               alt="Logo"
+              priority
             />
           </Link>
         </Box>
