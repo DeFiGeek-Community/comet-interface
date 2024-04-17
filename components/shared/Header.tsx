@@ -146,7 +146,7 @@ export const Header = () => {
       color="#FFFFFF"
       bg="black"
       px={4}
-      height={isMobile ? "70px" : "38px"}
+      height={isMobile ? "70px" : "60px"}
       my={4}
       mainAxisAlignment="space-between"
       crossAxisAlignment="center"
