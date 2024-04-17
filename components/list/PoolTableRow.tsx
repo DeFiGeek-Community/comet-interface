@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 import { Avatar, AvatarProps, Spinner, Link, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
@@ -108,13 +107,12 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
-  const router = useRouter();
   const isMobile = useIsMobile();
 
   const { address } = useAccount();
 
-  const { setPageName, currency, rate } = useAppData();
-  const { setPoolName } = usePool();
+  const { currency, rate } = useAppData();
+  const { navigateToPageClick } = usePool();
 
   const tokenData = poolData?.baseToken;
   const symbol = tokenData?.symbol ?? "";
@@ -142,17 +140,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
     }
   }
 
-  const handleClick = async () => {
-    setPoolName(symbol);
-    setPageName("pool");
-    await router.push(`/pool?pool=${symbol}#top`, undefined, { shallow: true });
-    window.scrollTo(0, 0);
-  };
-
   return (
     <Link
       // href={`/pool?pool=${symbol}`}
-      onClick={() => handleClick()}
+      onClick={() => navigateToPageClick(symbol)}
       width="100%"
       whiteSpace="nowrap"
       className="no-underline"

@@ -6,6 +6,7 @@ interface PoolContextType {
   setPoolName: (poolName: string) => void;
   poolConfig: PoolConfig | undefined;
   setPoolConfig: (config: PoolConfig | undefined) => void;
+  navigateToPageClick: (poolName?: string) => void;
 }
 
 export const PoolContext = createContext<PoolContextType | undefined>(

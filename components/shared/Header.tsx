@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import {
   Box,
@@ -89,24 +88,18 @@ function CurrencySelect({ currency, toggleCurrency }: CurrencySelectProps) {
 
 const HeaderList = () => {
   const isMobile = useIsMobile();
-  const { poolName, setPoolName } = usePool();
-  const { pageName, setPageName, config, currency, toggleCurrency } =
+  const { poolName, navigateToPageClick } = usePool();
+  const { pageName, config } =
     useAppData();
-  const router = useRouter();
   const poolNames = config ? Object.keys(config) : [];
   const isListPage = pageName === "list";
-  const handleClick = async () => {
-    setPageName("list");
-    setPoolName("");
-    await router.push(`/`, undefined, { shallow: true });
-    window.scrollTo(0, 0);
-  };
+
   return (
     <>
       <Box boxSize={"37px"} flexShrink={0} m={isMobile ? 4 : 1} pt={1}>
         <Link
           // href={`/`}
-          onClick={() => handleClick()}
+          onClick={() => navigateToPageClick()}
           whiteSpace="nowrap"
           className="no-underline"
           fontWeight="bold"
@@ -131,10 +124,8 @@ const HeaderList = () => {
           {poolNames.map((name) => (
             <MenuItem bg={"black"} _focus={{ bg: "#282727" }} key={name}>
               <HeaderLink
-                name={`${name} Pool`}
-                route={`/pool?pool=${name}`}
+                symbol={name}
                 isGreyedOut={poolName == name}
-                onClick={() => setPoolName(name)}
               />
             </MenuItem>
           ))}
@@ -147,15 +138,9 @@ const HeaderList = () => {
 export const Header = () => {
   const isMobile = useIsMobile();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { setPoolName } = usePool();
-  const { setPageName, currency, toggleCurrency } = useAppData();
-  const router = useRouter();
-  const handleClick = async () => {
-    setPageName("list");
-    setPoolName("");
-    await router.push(`/`, undefined, { shallow: true });
-    window.scrollTo(0, 0);
-  };
+  const { navigateToPageClick } = usePool();
+  const { currency, toggleCurrency } = useAppData();
+
   return (
     <Row
       color="#FFFFFF"
@@ -177,7 +162,7 @@ export const Header = () => {
         <Box width={"215px"} height={"60px"} flexShrink={0} display="flex" alignItems="center">
           <Link
             // href={`/`}
-            onClick={() => handleClick()}
+            onClick={() => navigateToPageClick()}
             whiteSpace="nowrap"
             className="no-underline"
             pointerEvents="auto"
@@ -207,7 +192,7 @@ export const Header = () => {
                     <Box flexShrink={0}>
                       <Link
                         // href={`/`}
-                        onClick={() => handleClick()}
+                        onClick={() => navigateToPageClick()}
                         whiteSpace="nowrap"
                         className="no-underline"
                         pointerEvents="auto"
@@ -271,38 +256,24 @@ export const Header = () => {
 };
 
 export const HeaderLink = ({
-  name,
-  route,
+  symbol,
   isGreyedOut = false,
-  onClick,
 }: {
-  name: string;
-  route: string;
+  symbol: string;
   isGreyedOut?: boolean;
-  onClick: () => void;
 }) => {
-  const router = useRouter();
-  const { setPageName } = useAppData();
-  const handleClick = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!isGreyedOut) {
-      onClick();
-      setPageName("pool");
-      await router.push(route, undefined, { shallow: true });
-      window.scrollTo(0, 0);
-    }
-  };
+  const {  navigateToPageClick } = usePool();
 
   return (
     <Link
-      href={route}
-      onClick={handleClick}
+      // href={route}
+      onClick={() => navigateToPageClick(symbol)}
       whiteSpace="nowrap"
       className="no-underline"
       pointerEvents={isGreyedOut ? "none" : "auto"}
     >
       <Text mx={4} color={isGreyedOut ? "gray.400" : "white"}>
-        {name}
+        {`${symbol} Pool`}
       </Text>
     </Link>
   );
