@@ -464,7 +464,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
     [SupportedPoolName[SupportedChainId.MAINNET].USDC]: {
       proxy: "0xF4d0bE4f24F7D978C424877A5B2051876B4c9253",
       reward: "0xBD658038900D585aD5D298f0dc8a498C5B20684A",
-      cometDecimals: 18,
+      cometDecimals: 6,
       baseToken: {
         name: "USD Coin",
         symbol: "USDC",
