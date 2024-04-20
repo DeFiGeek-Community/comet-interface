@@ -11,7 +11,7 @@ import Footer from "components/shared/Footer";
 const Main = () => {
   const { pageName } = useAppData();
   const { address } = useAccount();
-  const { reload } = useReload();
+  const { reloadKey, reload } = useReload();
   const isFirstRender = useRef(true);
   const isMobile = useIsMobile();
 
@@ -21,6 +21,9 @@ const Main = () => {
       return;
     }
 
+    if (reloadKey > 0) {
+      return;
+    }
     if (address) {
       reload();
     }

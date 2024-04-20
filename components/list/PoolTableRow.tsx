@@ -98,7 +98,13 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
           {t(text)}
         </Text>
       )}
-      <Text color="#FFF" fontWeight="bold" fontSize="17px" textAlign="center" as="div">
+      <Text
+        color="#FFF"
+        fontWeight="bold"
+        fontSize="17px"
+        textAlign="center"
+        as="div"
+      >
         {formattedValue}
       </Text>
     </Row>

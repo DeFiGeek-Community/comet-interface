@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { formatUnits } from "viem";
 import { PoolConfig } from "interfaces/pool";
 import { useReload } from "context/ReloadContext";
@@ -26,6 +26,7 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
   const { totalPoolData: sharedTotalPoolData } = useAppData();
 
   const { reloadKey } = useReload();
+  const prevReloadKey = useRef(reloadKey);
 
   const fetchPoolMetricsData = useCallback(async () => {
     if (!poolData) {
@@ -35,10 +36,11 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
 
     // 共通データが存在する場合は、そのデータを使用
     const sharedData = sharedTotalPoolData[poolData.baseToken.symbol];
-    if (sharedData) {
+    if (sharedData && prevReloadKey.current === reloadKey) {
       setTotalPoolData(sharedData);
       return;
     }
+    prevReloadKey.current = reloadKey;
 
     try {
       const getTotalSupply = await fetchTotalDataComet("totalSupply", poolData);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { PoolConfig } from "interfaces/pool";
 import { fetchPriceFeed } from "hooks/util/priceFeedUtils";
 import { formatUnits } from "viem";
@@ -21,6 +21,7 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
   const { priceFeedData: sharedPriceFeedData } = useAppData();
 
   const { reloadKey } = useReload();
+  const prevReloadKey = useRef(reloadKey);
 
   const fetchPriceFeedData = useCallback(async () => {
     if (!poolData) {
@@ -30,10 +31,11 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
 
     // 共通データが存在する場合は、そのデータを使用
     const sharedData = sharedPriceFeedData[poolData.baseToken.symbol];
-    if (sharedData) {
+    if (sharedData && prevReloadKey.current === reloadKey) {
       setPriceFeedData(sharedData);
       return;
     }
+    prevReloadKey.current = reloadKey;
 
     try {
       const jpyPrice = await fetchPriceFeed(poolData.jpyPriceFeed);
