@@ -31,6 +31,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       proxy: "0xAA59F501c92092E624D30Cff77eAFf5EA4E7BfA2",
       reward: "0xA1D458530da3C4a4F0ED26BEC5E6CdE6ad0B7aC4",
       cometDecimals: 18,
+      chainId: 1,
       baseToken: {
         name: "Convertible JPY Token",
         symbol: "CJPY",
@@ -135,6 +136,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       proxy: "0x7a997e2D7C84abb219832d944141de210e2840e1",
       reward: "0xA1D458530da3C4a4F0ED26BEC5E6CdE6ad0B7aC4",
       cometDecimals: 18,
+      chainId: 1,
       baseToken: {
         name: "USD Coin",
         symbol: "USDC",
@@ -239,6 +241,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       proxy: "0xE0e2d860797eF02F18c474847787A6C8f8389044",
       reward: "0xA1D458530da3C4a4F0ED26BEC5E6CdE6ad0B7aC4",
       cometDecimals: 18,
+      chainId: 1,
       baseToken: {
         name: "Curve.Fi USD Stablecoin",
         symbol: "crvUSD",
@@ -343,6 +346,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       proxy: "0x2bf8B07e41572FB09d9F002b2500E3eeDC5d7922",
       reward: "0xA1D458530da3C4a4F0ED26BEC5E6CdE6ad0B7aC4",
       cometDecimals: 18,
+      chainId: 1,
       baseToken: {
         name: "Wrapped Ether",
         symbol: "WETH",
@@ -465,6 +469,7 @@ export const POOL_CONFIG_MAP: PoolConfigMap = {
       proxy: "0xF4d0bE4f24F7D978C424877A5B2051876B4c9253",
       reward: "0xBD658038900D585aD5D298f0dc8a498C5B20684A",
       cometDecimals: 6,
+      chainId: 11155111,
       baseToken: {
         name: "USD Coin",
         symbol: "USDC",

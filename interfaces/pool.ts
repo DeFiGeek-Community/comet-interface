@@ -17,6 +17,7 @@ export interface PoolConfig {
   proxy: Address;
   reward: Address;
   cometDecimals: number;
+  chainId: number;
   baseToken: BaseAsset;
   rewardToken: RewardAsset;
   supplyKink: number;
