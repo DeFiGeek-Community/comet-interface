@@ -21,9 +21,10 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (chain) {
-      const poolsConfig = POOL_CONFIG_MAP[chain.id];
-      setConfig(poolsConfig);
+      setConfig(POOL_CONFIG_MAP[chain.id]);
       setChainId(chain.id);
+    } else {
+      setConfig(POOL_CONFIG_MAP[1]);
     }
   }, [chain, setChainId]);
 
