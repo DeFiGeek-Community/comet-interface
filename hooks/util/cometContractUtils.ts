@@ -47,6 +47,7 @@ export const fetchTotalCollateralDataComet = async (
   poolData: PoolConfig,
   asset: Address,
 ): Promise<bigint | undefined> => {
+  if(!asset) return undefined;
   const comet = await getCometContract(poolData.proxy);
   const { address } = getAccount();
   if (!address) return undefined;

@@ -20,6 +20,7 @@ export const getPriceFeedContract = async (address: Address) => {
 export const fetchPriceFeed = async (
   priceFeedAddress: Address,
 ): Promise<bigint | undefined> => {
+  if (!priceFeedAddress) return undefined;
   const priceFeed = await getPriceFeedContract(priceFeedAddress);
   const { address } = getAccount();
   if (!address) return undefined;
