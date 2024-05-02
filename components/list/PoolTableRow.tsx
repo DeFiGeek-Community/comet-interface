@@ -277,10 +277,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
             >
               <HoverIcon isBase={true} hoverText={symbol}>
                 <Row
-                  mainAxisAlignment="flex-start"
+                  mainAxisAlignment="center"
                   crossAxisAlignment="center"
                   width="40%"
-                  pl={7}
+                  pl={16}
                 >
                   <RenderAvatar name={symbol} src={tokenData?.logoURL} />
                 </Row>
