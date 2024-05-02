@@ -287,7 +287,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               </HoverIcon>
               <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
                 <Row
-                  mainAxisAlignment="flex-start"
+                  mainAxisAlignment="center"
                   crossAxisAlignment="center"
                   overflow="scroll"
                 >
