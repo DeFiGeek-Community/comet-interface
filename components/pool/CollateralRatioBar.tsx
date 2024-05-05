@@ -10,6 +10,7 @@ import DashboardBox from "components/shared/DashboardBox";
 import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
+import StatusBar from "components/pool/StatusBar";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
@@ -54,13 +55,14 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
 
           <SimpleTooltip label={tooltipMessage}>
             <Box width="100%">
-              <Progress
+              {/* <Progress
                 size="xs"
                 width="100%"
                 colorScheme={colorScheme}
                 borderRadius="10px"
                 value={liquidationPercentage}
-              />
+              /> */}
+              <StatusBar progress={50} />
             </Box>
           </SimpleTooltip>
 
