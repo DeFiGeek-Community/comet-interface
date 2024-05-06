@@ -11,6 +11,8 @@ import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import StatusBar from "components/pool/StatusBar";
+import MyProgressBar from "components/pool/StatusBar2";
+import OuterProgressBar from "components/pool/StatusBar2";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
@@ -62,7 +64,18 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 borderRadius="10px"
                 value={liquidationPercentage}
               /> */}
-              <StatusBar progress={50} />
+              {/* <StatusBar progress={50} /> */}
+              {/* <MyProgressBar success={70} warning={20} danger={10} striped animated={false}/> */}
+              {/* <OuterProgressBar success={70} warning={20} danger={10} striped={true} animated={false} /> */}
+              <MyProgressBar
+                success={65}
+                warning={20}
+                danger={15}
+                striped={true}
+                animated={true}
+                lightened={false}
+                overlay={{ value: 50, color: '#4caf50' }}
+              />
             </Box>
           </SimpleTooltip>
 
