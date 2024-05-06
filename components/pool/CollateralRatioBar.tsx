@@ -80,8 +80,8 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             )}
           >
             <>
-            <Text flexShrink={0} mt="2px" ml={3} fontSize="15px" color={"#FD2E2E"}>
-              清算
+            <Text flexShrink={0} mt="2px" ml={3} fontSize="15px" color={"#F44337"}>
+            {t("Liquidation")}
             </Text>
             <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
               {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
