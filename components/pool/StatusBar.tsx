@@ -16,7 +16,6 @@ const ProgressBarContainer = styled.div`
   height: 5px;
   background-color: #e0e0e0;
   border-radius: 10px;
-  overflow: hidden;
   display: flex;
   position: relative;
 `;
@@ -118,6 +117,17 @@ const OverlayProgressFill = styled.div<{ width: number; color: string }>`
   z-index: 1;
 `;
 
+const OverlayValue = styled.div<{ width: number; color: string }>`
+  position: absolute;
+  bottom: -6px;
+  left: ${({ width }) => width - 3}%;
+  background-color: #000;
+  color: rgba(255, 255, 255, 1);
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 3;
+`;
+
 const MyProgressBar: React.FC<ProgressBarProps> = ({
   success,
   warning,
@@ -134,6 +144,7 @@ const MyProgressBar: React.FC<ProgressBarProps> = ({
       <ProgressFill width={danger} color="#f44336" striped={striped} animated={animated} />
       {overlay && (
         <>
+          <OverlayValue width={overlay.value} color={overlay.color}>{overlay.value}%</OverlayValue>
           {lightened && <OverlayLight width={overlay.value} color={overlay.color} />}
           <OverlayProgressFill width={overlay.value} color={overlay.color} />
         </>
