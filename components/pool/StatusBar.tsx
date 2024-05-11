@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
-interface ProgressBarProps {
+interface StatusBarProps {
   success: number;
   warning: number;
   danger: number;
@@ -11,14 +11,31 @@ interface ProgressBarProps {
   overlay?: { value: number; color: string };
 }
 
-const ProgressBarContainer = styled.div`
-  width: 100%;
-  height: 5px;
-  background-color: #e0e0e0;
-  border-radius: 10px;
-  display: flex;
-  position: relative;
-`;
+const STATUS_BAR_CONTAINER_PROPS = {
+  width: '100%',
+  height: '5px',
+  backgroundColor: "#e0e0e0", 
+  borderRadius: '10px',
+  display: 'flex',
+  position: 'relative',
+};
+
+const StatusBarContainer: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+  return (
+    <div {...STATUS_BAR_CONTAINER_PROPS}>
+      {children}
+    </div>
+  );
+};
+
+// const StatusBarContainer = styled.div`
+//   width: 100%;
+//   height: 5px;
+//   background-color: #e0e0e0;
+//   border-radius: 10px;
+//   display: flex;
+//   position: relative;
+// `;
 
 const stripedAnimation = keyframes`
   0% { background-position: 0 0; }
@@ -39,7 +56,7 @@ const stripedStyle = css`
   background-size: 1rem 1rem;
 `;
 
-const stripedStyle2 = css`
+const stripedAnimatedStyle = css`
   background-image: linear-gradient(
     -45deg,
     #121212 25%,
@@ -58,7 +75,7 @@ const ProgressFill = styled.div<{ width: number; color: string; striped: boolean
   height: 100%;
   width: ${({ width }) => `${width}%`};
   background-color: ${({ color }) => color};
-  ${({ striped, animated }) => (striped && animated ? stripedStyle2 : stripedStyle)}
+  ${({ striped, animated }) => (striped && animated ? stripedAnimatedStyle : stripedStyle)}
 `;
 
 // const overlayAnimation = (width: number) => keyframes`
@@ -107,7 +124,7 @@ const OverlayLight = styled.div<{ width: number; color: string }>`
   animation: ${({ width }) => css`${overlayAnimation(width)}`} 5s linear infinite;
 `;
 
-const OverlayProgressFill = styled.div<{ width: number; color: string }>`
+const OverlayStatusBarFill = styled.div<{ width: number; color: string }>`
   height: 100%;
   width: ${({ width }) => `${width}%`};
   background-color: ${({ color }) => color};
@@ -128,7 +145,7 @@ const OverlayValue = styled.div<{ width: number; color: string }>`
   z-index: 3;
 `;
 
-const MyProgressBar: React.FC<ProgressBarProps> = ({
+const StatusBar: React.FC<StatusBarProps> = ({
   success,
   warning,
   danger,
@@ -138,7 +155,7 @@ const MyProgressBar: React.FC<ProgressBarProps> = ({
   overlay,
 }) => {
   return (
-    <ProgressBarContainer>
+    <StatusBarContainer>
       <ProgressFill width={success} color="#4caf50" striped={striped} animated={animated} />
       <ProgressFill width={warning} color="#ffc107" striped={striped} animated={animated} />
       <ProgressFill width={danger} color="#f44336" striped={striped} animated={animated} />
@@ -146,11 +163,11 @@ const MyProgressBar: React.FC<ProgressBarProps> = ({
         <>
           <OverlayValue width={overlay.value} color={overlay.color}>{overlay.value}%</OverlayValue>
           {lightened && <OverlayLight width={overlay.value} color={overlay.color} />}
-          <OverlayProgressFill width={overlay.value} color={overlay.color} />
+          <OverlayStatusBarFill width={overlay.value} color={overlay.color} />
         </>
       )}
-    </ProgressBarContainer>
+    </StatusBarContainer>
   );
 };
 
-export default MyProgressBar;
+export default StatusBar;

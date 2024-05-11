@@ -11,6 +11,8 @@ import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import StatusBar from "components/pool/StatusBar";
+// import { StyleSheetManager } from '@emotion/react'
+// import isPropValid from '@emotion/is-prop-valid'
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
@@ -21,8 +23,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const baseDecimals = poolData?.baseToken.decimals ?? 0;
   const yourBorrow = toNumber(baseAssetData?.yourBorrow, baseDecimals);
   const yourBorrowUSD = yourBorrow * basePrice;
-  const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0;
-  let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0;
+  const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0;// MAX
+  let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0; // yourBorrowUSD バーの実数
+  
   const colorScheme =
     liquidationPercentage > 90
       ? "red"
@@ -33,6 +36,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
     liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
   });
+  //console.log(positionSummary?.collateralBalanceUSD);
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
       {baseAssetData && positionSummary ? (
@@ -62,6 +66,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 borderRadius="10px"
                 value={liquidationPercentage}
               /> */}
+              {/* <StyleSheetManager shouldForwardProp={isPropValid}> */}
               <StatusBar
                 success={65}
                 warning={20}
@@ -71,6 +76,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 lightened={false}
                 overlay={{ value: 50, color: '#4caf50' }}
               />
+              {/* </StyleSheetManager> */}
             </Box>
           </SimpleTooltip>
 
