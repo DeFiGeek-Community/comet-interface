@@ -25,7 +25,7 @@ const stripedAnimation = keyframes`
   100% { background-position: 1rem 0; }
 `;
 
-const stripedStyle = css`
+const baseStripedStyle = css`
   background-image: linear-gradient(
     -45deg,
     #121212 25%,
@@ -39,18 +39,12 @@ const stripedStyle = css`
   background-size: 1rem 1rem;
 `;
 
+const stripedStyle = css`
+  ${baseStripedStyle}
+`;
+
 const stripedAnimatedStyle = css`
-  background-image: linear-gradient(
-    -45deg,
-    #121212 25%,
-    transparent 25%,
-    transparent 50%,
-    #121212 50%,
-    #121212 75%,
-    transparent 75%,
-    transparent
-  );
-  background-size: 1rem 1rem;
+  ${baseStripedStyle}
   animation: ${stripedAnimation} 3s linear infinite;
 `;
 
