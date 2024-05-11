@@ -5,9 +5,9 @@ interface StatusBarProps {
   success: number;
   warning: number;
   danger: number;
-  striped: boolean;
-  animated: boolean;
-  lightened: boolean;
+  $striped: string;
+  $animated: string;
+  $lightened: string;
   overlay?: { value: number; color: string };
 }
 
@@ -20,22 +20,22 @@ const STATUS_BAR_CONTAINER_PROPS = {
   position: 'relative',
 };
 
-const StatusBarContainer: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  return (
-    <div {...STATUS_BAR_CONTAINER_PROPS}>
-      {children}
-    </div>
-  );
-};
+// const StatusBarContainer: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+//   return (
+//     <div {...STATUS_BAR_CONTAINER_PROPS}>
+//       {children}
+//     </div>
+//   );
+// };
 
-// const StatusBarContainer = styled.div`
-//   width: 100%;
-//   height: 5px;
-//   background-color: #e0e0e0;
-//   border-radius: 10px;
-//   display: flex;
-//   position: relative;
-// `;
+const StatusBarContainer = styled.div`
+  width: 100%;
+  height: 5px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  display: flex;
+  position: relative;
+`;
 
 const stripedAnimation = keyframes`
   0% { background-position: 0 0; }
@@ -71,11 +71,11 @@ const stripedAnimatedStyle = css`
   animation: ${stripedAnimation} 3s linear infinite;
 `;
 
-const ProgressFill = styled.div<{ width: number; color: string; striped: boolean; animated: boolean }>`
+const ProgressFill = styled.div<{ width: number; color: string; $striped: string; $animated: string }>`
   height: 100%;
   width: ${({ width }) => `${width}%`};
   background-color: ${({ color }) => color};
-  ${({ striped, animated }) => (striped && animated ? stripedAnimatedStyle : stripedStyle)}
+  ${({ $striped, $animated }) => ($striped === "true" && $animated === "true" ? stripedAnimatedStyle : stripedStyle)}
 `;
 
 // const overlayAnimation = (width: number) => keyframes`
@@ -149,20 +149,20 @@ const StatusBar: React.FC<StatusBarProps> = ({
   success,
   warning,
   danger,
-  striped,
-  animated,
-  lightened,
+  $striped,
+  $animated,
+  $lightened,
   overlay,
 }) => {
   return (
     <StatusBarContainer>
-      <ProgressFill width={success} color="#4caf50" striped={striped} animated={animated} />
-      <ProgressFill width={warning} color="#ffc107" striped={striped} animated={animated} />
-      <ProgressFill width={danger} color="#f44336" striped={striped} animated={animated} />
+      <ProgressFill width={success} color="#4caf50" $striped={$striped} $animated={$animated} />
+      <ProgressFill width={warning} color="#ffc107" $striped={$striped} $animated={$animated} />
+      <ProgressFill width={danger} color="#f44336" $striped={$striped} $animated={$animated} />
       {overlay && (
         <>
           <OverlayValue width={overlay.value} color={overlay.color}>{overlay.value}%</OverlayValue>
-          {lightened && <OverlayLight width={overlay.value} color={overlay.color} />}
+          {$lightened === "true" && <OverlayLight width={overlay.value} color={overlay.color} />}
           <OverlayStatusBarFill width={overlay.value} color={overlay.color} />
         </>
       )}

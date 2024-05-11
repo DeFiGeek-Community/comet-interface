@@ -68,9 +68,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 success={65}
                 warning={20}
                 danger={15}
-                striped={true}
-                animated={true}
-                lightened={false}
+                $striped="true"
+                $animated="true"
+                $lightened="false"
                 overlay={{ value: 50, color: '#4caf50' }}
               />
             </Box>
