@@ -11,23 +11,6 @@ interface StatusBarProps {
   overlay?: { value: number; color: string };
 }
 
-const STATUS_BAR_CONTAINER_PROPS = {
-  width: '100%',
-  height: '5px',
-  backgroundColor: "#e0e0e0", 
-  borderRadius: '10px',
-  display: 'flex',
-  position: 'relative',
-};
-
-// const StatusBarContainer: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-//   return (
-//     <div {...STATUS_BAR_CONTAINER_PROPS}>
-//       {children}
-//     </div>
-//   );
-// };
-
 const StatusBarContainer = styled.div`
   width: 100%;
   height: 5px;
