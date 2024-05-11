@@ -11,8 +11,6 @@ import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import StatusBar from "components/pool/StatusBar";
-// import { StyleSheetManager } from '@emotion/react'
-// import isPropValid from '@emotion/is-prop-valid'
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
@@ -66,7 +64,6 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 borderRadius="10px"
                 value={liquidationPercentage}
               /> */}
-              {/* <StyleSheetManager shouldForwardProp={isPropValid}> */}
               <StatusBar
                 success={65}
                 warning={20}
@@ -76,7 +73,6 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 lightened={false}
                 overlay={{ value: 50, color: '#4caf50' }}
               />
-              {/* </StyleSheetManager> */}
             </Box>
           </SimpleTooltip>
 
