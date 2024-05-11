@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Box, Progress, Text, Spinner } from "@chakra-ui/react";
 import { Row, Center } from "utils/chakraUtils";
@@ -21,9 +21,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const baseDecimals = poolData?.baseToken.decimals ?? 0;
   const yourBorrow = toNumber(baseAssetData?.yourBorrow, baseDecimals);
   const yourBorrowUSD = yourBorrow * basePrice;
-  const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0;// MAX
+  const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0; // MAX
   let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0; // yourBorrowUSD バーの実数
-  
+
   const colorScheme =
     liquidationPercentage > 90
       ? "red"
@@ -34,7 +34,11 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
     liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
   });
-  //console.log(positionSummary?.collateralBalanceUSD);
+  const [hasCollateral, setHasCollateral] = useState("false");
+  useEffect(() => {
+    if (positionSummary?.collateralBalanceUSD)
+      setHasCollateral(`${positionSummary.collateralBalanceUSD !== 0}`);
+  }, [positionSummary?.collateralBalanceUSD]);
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
       {baseAssetData && positionSummary ? (
@@ -68,10 +72,11 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 success={65}
                 warning={20}
                 danger={15}
+                $hasCollateral={hasCollateral}
                 $striped="true"
                 $animated="true"
                 $lightened="false"
-                overlay={{ value: 50, color: '#4caf50' }}
+                overlay={{ value: 50, color: "#4caf50" }}
               />
             </Box>
           </SimpleTooltip>
@@ -82,12 +87,18 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             )}
           >
             <>
-            <Text flexShrink={0} mt="2px" ml={3} fontSize="15px" color={"#F44337"}>
-            {t("Liquidation")}
-            </Text>
-            <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
-              {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
-            </Text>
+              <Text
+                flexShrink={0}
+                mt="2px"
+                ml={3}
+                fontSize="15px"
+                color={hasCollateral === "true" ? "#F44337" : "#FFFFFF"}
+              >
+                {t("Liquidation")}
+              </Text>
+              <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
+                {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
+              </Text>
             </>
           </SimpleTooltip>
         </Row>

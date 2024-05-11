@@ -44,7 +44,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   const yourSupply = toNumber(baseAssetData?.yourSupply, decimals);
   const yourBorrow = toNumber(baseAssetData?.yourBorrow, decimals);
-  const availableToBorrow = nonNegativeNumber( //availableToBorrowは借り入れ可能額
+  const availableToBorrow = nonNegativeNumber(
+    //availableToBorrowは借り入れ可能額
     positionSummary?.availableToBorrow ?? 0,
   );
   const isMobile = useIsMobile();
