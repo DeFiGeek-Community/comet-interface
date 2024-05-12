@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css, keyframes } from "styled-components";
 
 interface StatusBarProps {
-  success: number;
+  leeway: number;
   warning: number;
   danger: number;
   $hasCollateral: string;
@@ -141,7 +141,7 @@ const OverlayValue = styled.div<{ width: number; color: string }>`
 `;
 
 const StatusBar: React.FC<StatusBarProps> = ({
-  success,
+  leeway,
   warning,
   danger,
   $hasCollateral,
@@ -155,7 +155,7 @@ const StatusBar: React.FC<StatusBarProps> = ({
       {$hasCollateral === "true" ? (
         <>
           <ProgressFill
-            width={success}
+            width={leeway}
             color="#4caf50"
             $striped={$striped}
             $animated={$animated}

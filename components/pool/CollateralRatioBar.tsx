@@ -69,7 +69,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 value={liquidationPercentage}
               /> */}
               <StatusBar
-                success={65}
+                leeway={65}
                 warning={20}
                 danger={15}
                 $hasCollateral={hasCollateral}
