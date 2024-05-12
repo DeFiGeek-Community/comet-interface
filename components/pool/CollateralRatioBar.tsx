@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Progress, Text, Spinner } from "@chakra-ui/react";
+import { Box, Text, Spinner } from "@chakra-ui/react";
 import { Row, Center } from "utils/chakraUtils";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
@@ -23,22 +23,35 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const yourBorrowUSD = yourBorrow * basePrice;
   const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0; // MAX
   let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0; // yourBorrowUSD バーの実数
-  console.log(yourBorrowUSD);
-  console.log(liquidationPoint);
-  console.log(liquidationPercentage);
-  const colorScheme =
-    liquidationPercentage > 90
-      ? "red"
-      : liquidationPercentage > 80
-        ? "orange"
-        : "whatsapp";
+  const [leeway, setLeeway] = useState(0);
+  const [warning, setWarning] = useState(0);
+  const [colorScheme, setColorScheme] = useState("");
+  useEffect(() => {
+    if (positionSummary?.borrowCapacityUSD) {
+      let tempLeeway = truncateTo2DecimalPlaces(
+        (positionSummary?.borrowCapacityUSD / liquidationPoint) * 100 - 10,
+      );
+      setLeeway(tempLeeway);
+      let tempWarning = truncateTo2DecimalPlaces(100 - tempLeeway - 10);
+      setWarning(tempWarning);
+    }
+  }, [positionSummary?.borrowCapacityUSD]);
+
+  useEffect(() => {
+    if (yourBorrow > 0) {
+      if (liquidationPercentage >= 90) setColorScheme("#f44336");
+      else if (leeway <= liquidationPercentage && liquidationPercentage < 90)
+        setColorScheme("#ffc107");
+      else setColorScheme("#4caf50");
+    }
+  }, [yourBorrow, liquidationPercentage, leeway]);
   const tooltipMessage = t("tooltipMessage", {
     liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
     liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
   });
   const [hasCollateral, setHasCollateral] = useState("false");
   useEffect(() => {
-    if (positionSummary?.collateralBalanceUSD){
+    if (positionSummary?.collateralBalanceUSD) {
       setHasCollateral(`${positionSummary.collateralBalanceUSD !== 0}`);
     }
   }, [positionSummary?.collateralBalanceUSD]);
@@ -64,22 +77,18 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
 
           <SimpleTooltip label={tooltipMessage}>
             <Box width="100%">
-              {/* <Progress
-                size="xs"
-                width="100%"
-                colorScheme={colorScheme}
-                borderRadius="10px"
-                value={liquidationPercentage}
-              /> */}
               <StatusBar
-                leeway={65}
-                warning={20}
-                danger={15}
+                leeway={leeway}
+                warning={warning}
+                danger={10}
                 $hasCollateral={hasCollateral}
                 $striped="true"
                 $animated="true"
                 $lightened="false"
-                overlay={{ value: truncateTo2DecimalPlaces(liquidationPercentage), color: "#4caf50" }}
+                overlay={{
+                  value: truncateTo2DecimalPlaces(liquidationPercentage),
+                  color: colorScheme,
+                }}
               />
             </Box>
           </SimpleTooltip>

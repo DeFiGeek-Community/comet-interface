@@ -70,21 +70,6 @@ const ProgressFillGrayOut = styled.div`
   background-color: #808080;
 `;
 
-// const overlayAnimation = (width: number) => keyframes`
-//   0% {
-//     transform: translateX(-100%);
-//     clip-path: inset(0 ${100 - width}% 0 0);
-//   }
-//   50% {
-//     transform: translateX(0%);
-//     clip-path: inset(0 0 0 0);
-//   }
-//   100% {
-//     transform: translateX(${width}%);
-//     clip-path: inset(0 0 0 ${100 - width}%);
-//   }
-// `;
-
 const overlayAnimation = (width: number) => keyframes`
   0% {
     transform: translateX(200%) skewX(-45deg);
@@ -132,7 +117,7 @@ const OverlayStatusBarFill = styled.div<{ width: number; color: string }>`
 const OverlayValue = styled.div<{ width: number; color: string }>`
   position: absolute;
   bottom: -6px;
-  left: ${({ width }) => width > 10 ? width - 6 : 0}%;
+  left: ${({ width }) => (width > 10 ? width - 6 : 0)}%;
   background-color: #000;
   color: rgba(255, 255, 255, 1);
   font-size: 12px;
