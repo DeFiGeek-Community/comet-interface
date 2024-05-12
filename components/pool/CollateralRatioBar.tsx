@@ -23,20 +23,21 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const yourBorrowUSD = yourBorrow * basePrice;
   const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0; // MAX
   let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0; // yourBorrowUSD バーの実数
-  console.log(liquidationPoint);
+
   const [leeway, setLeeway] = useState(0);
   const [warning, setWarning] = useState(0);
   const [colorScheme, setColorScheme] = useState("");
   useEffect(() => {
     if (positionSummary?.borrowCapacityUSD) {
       let tempLeeway = truncateTo2DecimalPlaces(
-        (positionSummary?.borrowCapacityUSD / liquidationPoint) * 100 - 10,
+        ((positionSummary?.borrowCapacityUSD * 0.9) / liquidationPoint) * 100,
       );
       setLeeway(tempLeeway);
       let tempWarning = truncateTo2DecimalPlaces(100 - tempLeeway - 10);
       setWarning(tempWarning);
     }
   }, [positionSummary?.borrowCapacityUSD]);
+  console.log(leeway);
 
   useEffect(() => {
     if (yourBorrow > 0) {
