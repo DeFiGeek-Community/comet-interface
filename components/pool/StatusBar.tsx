@@ -132,7 +132,7 @@ const OverlayStatusBarFill = styled.div<{ width: number; color: string }>`
 const OverlayValue = styled.div<{ width: number; color: string }>`
   position: absolute;
   bottom: -6px;
-  left: ${({ width }) => width - 3}%;
+  left: ${({ width }) => width > 10 ? width - 6 : 0}%;
   background-color: #000;
   color: rgba(255, 255, 255, 1);
   font-size: 12px;

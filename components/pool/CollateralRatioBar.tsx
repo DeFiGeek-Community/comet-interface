@@ -23,7 +23,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const yourBorrowUSD = yourBorrow * basePrice;
   const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0; // MAX
   let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0; // yourBorrowUSD バーの実数
-
+  console.log(yourBorrowUSD);
+  console.log(liquidationPoint);
+  console.log(liquidationPercentage);
   const colorScheme =
     liquidationPercentage > 90
       ? "red"
@@ -36,8 +38,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   });
   const [hasCollateral, setHasCollateral] = useState("false");
   useEffect(() => {
-    if (positionSummary?.collateralBalanceUSD)
+    if (positionSummary?.collateralBalanceUSD){
       setHasCollateral(`${positionSummary.collateralBalanceUSD !== 0}`);
+    }
   }, [positionSummary?.collateralBalanceUSD]);
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
@@ -76,7 +79,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 $striped="true"
                 $animated="true"
                 $lightened="false"
-                overlay={{ value: 50, color: "#4caf50" }}
+                overlay={{ value: truncateTo2DecimalPlaces(liquidationPercentage), color: "#4caf50" }}
               />
             </Box>
           </SimpleTooltip>
