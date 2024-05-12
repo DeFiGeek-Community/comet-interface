@@ -23,6 +23,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const yourBorrowUSD = yourBorrow * basePrice;
   const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0; // MAX
   let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0; // yourBorrowUSD バーの実数
+  console.log(liquidationPoint);
   const [leeway, setLeeway] = useState(0);
   const [warning, setWarning] = useState(0);
   const [colorScheme, setColorScheme] = useState("");
