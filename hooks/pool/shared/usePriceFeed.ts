@@ -38,11 +38,17 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
     prevReloadKey.current = reloadKey;
 
     try {
-      const jpyPrice = await fetchPriceFeed(poolData.jpyPriceFeed, poolData.chainId);
+      const jpyPrice = await fetchPriceFeed(
+        poolData.jpyPriceFeed,
+        poolData.chainId,
+      );
       const usdjpy = jpyPrice
         ? Number(formatUnits(jpyPrice, poolData.jpyPriceFeedDecimals))
         : undefined;
-      const basePrice = await fetchPriceFeed(poolData.baseToken.priceFeed, poolData.chainId);
+      const basePrice = await fetchPriceFeed(
+        poolData.baseToken.priceFeed,
+        poolData.chainId,
+      );
       const baseAsset = basePrice
         ? Number(formatUnits(basePrice, poolData.baseToken.priceFeedDecimals))
         : undefined;
@@ -55,7 +61,10 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
       const rewardAsset = 1;
       const collateralAssets: { [key: string]: number | undefined } = {};
       for (const assetConfig of poolData.assetConfigs) {
-        const assetPrice = await fetchPriceFeed(assetConfig.priceFeed, poolData.chainId);
+        const assetPrice = await fetchPriceFeed(
+          assetConfig.priceFeed,
+          poolData.chainId,
+        );
         collateralAssets[assetConfig.symbol] = assetPrice
           ? Number(formatUnits(assetPrice, assetConfig.priceFeedDecimals))
           : undefined;

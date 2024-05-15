@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useAccount } from "wagmi";
 import { Box, Text, Spinner } from "@chakra-ui/react";
 import { Row, Center } from "utils/chakraUtils";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
@@ -14,6 +15,7 @@ import StatusBar from "components/pool/StatusBar";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
+  const { address } = useAccount();
   const { currency, rate } = useAppData();
   const { baseAssetData, priceFeedData } = usePoolPrimaryDataContext();
   const { positionSummary } = usePoolSecondaryDataContext();
@@ -27,6 +29,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const [leeway, setLeeway] = useState(0);
   const [warning, setWarning] = useState(0);
   const [colorScheme, setColorScheme] = useState("");
+  const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     if (positionSummary?.borrowCapacityUSD) {
       let tempLeeway = truncateTo2DecimalPlaces(
@@ -37,7 +40,6 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
       setWarning(tempWarning);
     }
   }, [positionSummary?.borrowCapacityUSD]);
-  console.log(leeway);
 
   useEffect(() => {
     if (yourBorrow > 0) {
@@ -54,9 +56,35 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const [hasCollateral, setHasCollateral] = useState("false");
   useEffect(() => {
     if (positionSummary?.collateralBalanceUSD) {
-      setHasCollateral(`${positionSummary.collateralBalanceUSD !== 0}`);
+      setHasCollateral(
+        address ? `${positionSummary.collateralBalanceUSD !== 0}` : "false",
+      );
+      setIsReady(address ?true:false);
+      // console.log(1);
+      // console.log(
+      //   address ? `${positionSummary?.collateralBalanceUSD !== 0}` : "false",
+      // );
+    } else {
+      setIsReady(address && positionSummary?.collateralBalanceUSD !== undefined?true:false);
+      // console.log(2);
+      // console.log(
+      //   address ? `${positionSummary?.collateralBalanceUSD !== 0}` : "false",
+      // );
+    //   if (!address) {
+    //     setHasCollateral("false");
+    //     setIsReady(false);
+    //   } else {
+    //     if (positionSummary?.collateralBalanceUSD) {
+    //       setIsReady(true);
+    //     } else {
+    //       setIsReady(false);
+    //     }
+    //   }
     }
-  }, [positionSummary?.collateralBalanceUSD]);
+    console.log("positionSummary?.collateralBalanceUSD "+positionSummary?.collateralBalanceUSD
+      // address ? `${positionSummary?.collateralBalanceUSD !== 0}` : "false",
+    );
+  }, [positionSummary?.collateralBalanceUSD, address]);
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
       {baseAssetData && positionSummary ? (
@@ -79,19 +107,25 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
 
           <SimpleTooltip label={tooltipMessage}>
             <Box width="100%">
-              <StatusBar
-                leeway={leeway}
-                warning={warning}
-                danger={10}
-                $hasCollateral={hasCollateral}
-                $striped="true"
-                $animated="true"
-                $lightened="false"
-                overlay={{
-                  value: truncateTo2DecimalPlaces(liquidationPercentage),
-                  color: colorScheme,
-                }}
-              />
+              {isReady ? (
+                <StatusBar
+                  leeway={leeway}
+                  warning={warning}
+                  danger={10}
+                  $hasCollateral={hasCollateral}
+                  $striped="true"
+                  $animated="true"
+                  $lightened="false"
+                  overlay={{
+                    value: truncateTo2DecimalPlaces(liquidationPercentage),
+                    color: colorScheme,
+                  }}
+                />
+              ) : (
+                <Center height="30px">
+                  <Spinner />
+                </Center>
+              )}
             </Box>
           </SimpleTooltip>
 

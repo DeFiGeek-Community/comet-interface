@@ -7,7 +7,10 @@ import {
 import priceAbi from "static/price.json";
 import { Address } from "abitype";
 
-export const getPriceFeedContract = async (address: Address, chainId?: number) => {
+export const getPriceFeedContract = async (
+  address: Address,
+  chainId?: number,
+) => {
   const walletClient = await getWalletClient({ chainId: chainId });
   return getContract({
     address: address,
