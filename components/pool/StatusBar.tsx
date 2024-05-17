@@ -1,5 +1,11 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
+import {
+  DangerRatio,
+  GreenColorCode,
+  YellowColorCode,
+  RedColorCode,
+} from "constants/rario";
 
 export interface StatusBarProps {
   leeway: number;
@@ -139,19 +145,19 @@ const StatusBar: React.FC<StatusBarProps> = ({
         <>
           <ProgressFill
             width={leeway}
-            color="#4caf50"
+            color={GreenColorCode}
             $striped={$striped}
             $animated={$animated}
           />
           <ProgressFill
             width={warning}
-            color="#ffc107"
+            color={YellowColorCode}
             $striped={$striped}
             $animated={$animated}
           />
           <ProgressFill
-            width={10}
-            color="#f44336"
+            width={DangerRatio}
+            color={RedColorCode}
             $striped={$striped}
             $animated={$animated}
           />
