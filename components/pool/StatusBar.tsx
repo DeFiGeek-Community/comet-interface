@@ -19,7 +19,7 @@ export interface StatusBarProps {
 
 const StatusBarContainer = styled.div`
   width: 100%;
-  height: 5px;
+  height: 4px;
   background-color: #e0e0e0;
   border-radius: 10px;
   display: flex;
@@ -51,7 +51,7 @@ const stripedStyle = css`
 
 const stripedAnimatedStyle = css`
   ${baseStripedStyle}
-  animation: ${stripedAnimation} 3s linear infinite;
+  animation: ${stripedAnimation} 5s linear infinite;
 `;
 
 const ProgressFill = styled.div<{
@@ -121,9 +121,8 @@ const OverlayStatusBarFill = styled.div<{ width: number; color: string }>`
 
 const OverlayValue = styled.div<{ width: number; color: string }>`
   position: absolute;
-  bottom: -6px;
+  bottom: 3px;
   left: ${({ width }) => (width > 10 ? width - 6 : 0)}%;
-  background-color: #000;
   color: rgba(255, 255, 255, 1);
   font-size: 12px;
   font-weight: bold;
