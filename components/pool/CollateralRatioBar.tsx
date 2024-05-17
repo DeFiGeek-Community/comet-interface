@@ -13,6 +13,15 @@ import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import StatusBar from "components/pool/StatusBar";
 import StatusBarGray from "components/pool/StatusBarGray";
+import {
+  AllRatio,
+  DangerRatio,
+  BorrowCapacityUSDLeewayRatio,
+  LiquidationDangerRatio,
+  GreenColorCode,
+  YellowColorCode,
+  RedColorCode,
+} from "constants/rario";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
@@ -34,20 +43,28 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   useEffect(() => {
     if (positionSummary?.borrowCapacityUSD) {
       let tempLeeway = truncateTo2DecimalPlaces(
-        ((positionSummary?.borrowCapacityUSD * 0.9) / liquidationPoint) * 100,
+        ((positionSummary?.borrowCapacityUSD * BorrowCapacityUSDLeewayRatio) /
+          liquidationPoint) *
+          100,
       );
       setLeeway(tempLeeway);
-      let tempWarning = truncateTo2DecimalPlaces(100 - tempLeeway - 10);
+      let tempWarning = truncateTo2DecimalPlaces(
+        AllRatio - tempLeeway - DangerRatio,
+      );
       setWarning(tempWarning);
     }
   }, [positionSummary?.borrowCapacityUSD]);
 
   useEffect(() => {
     if (yourBorrow > 0) {
-      if (liquidationPercentage >= 90) setColorScheme("#f44336");
-      else if (leeway <= liquidationPercentage && liquidationPercentage < 90)
-        setColorScheme("#ffc107");
-      else setColorScheme("#4caf50");
+      if (liquidationPercentage >= LiquidationDangerRatio)
+        setColorScheme(RedColorCode);
+      else if (
+        leeway <= liquidationPercentage &&
+        liquidationPercentage < LiquidationDangerRatio
+      )
+        setColorScheme(YellowColorCode);
+      else setColorScheme(GreenColorCode);
     }
   }, [yourBorrow, liquidationPercentage, leeway]);
   const tooltipMessage = t("tooltipMessage", {
@@ -82,19 +99,19 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
           <Box width="100%">
             {baseAssetData && positionSummary ? (
               <StatusBar
-              leeway={leeway}
-              warning={warning}
-              $hasCollateral={hasCollateral}
-              $striped="true"
-              $animated="true"
-              $lightened="false"
-              overlay={{
-                value: truncateTo2DecimalPlaces(liquidationPercentage),
-                color: colorScheme,
-              }}
-            />
+                leeway={leeway}
+                warning={warning}
+                $hasCollateral={hasCollateral}
+                $striped="true"
+                $animated="true"
+                $lightened="false"
+                overlay={{
+                  value: truncateTo2DecimalPlaces(liquidationPercentage),
+                  color: colorScheme,
+                }}
+              />
             ) : (
-              <StatusBarGray/>
+              <StatusBarGray />
             )}
           </Box>
         </SimpleTooltip>
