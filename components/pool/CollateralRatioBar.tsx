@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useAccount } from "wagmi";
+import { useTranslation } from "react-i18next";
 import { Box, Text, Spinner } from "@chakra-ui/react";
 import { Row, Center } from "utils/chakraUtils";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
@@ -12,6 +12,7 @@ import { SimpleTooltip } from "components/shared/SimpleTooltip";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import StatusBar from "components/pool/StatusBar";
+import StatusBarGray from "components/pool/StatusBarGray";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
@@ -23,13 +24,13 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const baseDecimals = poolData?.baseToken.decimals ?? 0;
   const yourBorrow = toNumber(baseAssetData?.yourBorrow, baseDecimals);
   const yourBorrowUSD = yourBorrow * basePrice;
-  const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0; // MAX
-  let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0; // yourBorrowUSD バーの実数
+  const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0;
+  let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0;
 
   const [leeway, setLeeway] = useState(0);
   const [warning, setWarning] = useState(0);
   const [colorScheme, setColorScheme] = useState("");
-  const [isReady, setIsReady] = useState(false);
+  const [hasCollateral, setHasCollateral] = useState("false");
   useEffect(() => {
     if (positionSummary?.borrowCapacityUSD) {
       let tempLeeway = truncateTo2DecimalPlaces(
@@ -53,108 +54,72 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
     liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
   });
-  const [hasCollateral, setHasCollateral] = useState("false");
   useEffect(() => {
     if (positionSummary?.collateralBalanceUSD) {
-      setHasCollateral(
-        address ? `${positionSummary.collateralBalanceUSD !== 0}` : "false",
-      );
-      setIsReady(address ?true:false);
-      // console.log(1);
-      // console.log(
-      //   address ? `${positionSummary?.collateralBalanceUSD !== 0}` : "false",
-      // );
+      setHasCollateral(address ? `true` : "false");
     } else {
-      setIsReady(address && positionSummary?.collateralBalanceUSD !== undefined?true:false);
-      // console.log(2);
-      // console.log(
-      //   address ? `${positionSummary?.collateralBalanceUSD !== 0}` : "false",
-      // );
-    //   if (!address) {
-    //     setHasCollateral("false");
-    //     setIsReady(false);
-    //   } else {
-    //     if (positionSummary?.collateralBalanceUSD) {
-    //       setIsReady(true);
-    //     } else {
-    //       setIsReady(false);
-    //     }
-    //   }
+      setHasCollateral("false");
     }
-    console.log("positionSummary?.collateralBalanceUSD "+positionSummary?.collateralBalanceUSD
-      // address ? `${positionSummary?.collateralBalanceUSD !== 0}` : "false",
-    );
   }, [positionSummary?.collateralBalanceUSD, address]);
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
-      {baseAssetData && positionSummary ? (
-        <Row mainAxisAlignment="flex-start" crossAxisAlignment="center" expand>
-          <SimpleTooltip
-            label={t(
-              "Keep this bar from filling up to avoid being liquidated!",
+      <Row mainAxisAlignment="flex-start" crossAxisAlignment="center" expand>
+        <SimpleTooltip
+          label={t("Keep this bar from filling up to avoid being liquidated!")}
+        >
+          <Text flexShrink={0} mr={4}>
+            {t("Liquidation Limit")}
+          </Text>
+        </SimpleTooltip>
+
+        <SimpleTooltip label={t("This is how much you have borrowed.")}>
+          <Text flexShrink={0} mt="2px" mr={3} fontSize="10px">
+            {smallUsdFormatter(yourBorrowUSD, currency, rate || 0)}
+          </Text>
+        </SimpleTooltip>
+
+        <SimpleTooltip label={tooltipMessage}>
+          <Box width="100%">
+            {baseAssetData && positionSummary ? (
+              <StatusBar
+              leeway={leeway}
+              warning={warning}
+              $hasCollateral={hasCollateral}
+              $striped="true"
+              $animated="true"
+              $lightened="false"
+              overlay={{
+                value: truncateTo2DecimalPlaces(liquidationPercentage),
+                color: colorScheme,
+              }}
+            />
+            ) : (
+              <StatusBarGray/>
             )}
-          >
-            <Text flexShrink={0} mr={4}>
-              {t("Liquidation Limit")}
+          </Box>
+        </SimpleTooltip>
+
+        <SimpleTooltip
+          label={t(
+            "If your borrow amount reaches this value, you will be liquidated.",
+          )}
+        >
+          <>
+            <Text
+              flexShrink={0}
+              mt="2px"
+              ml={3}
+              fontSize="15px"
+              color={hasCollateral === "true" ? "#F44337" : "#FFFFFF"}
+            >
+              {t("Liquidation")}
             </Text>
-          </SimpleTooltip>
-
-          <SimpleTooltip label={t("This is how much you have borrowed.")}>
-            <Text flexShrink={0} mt="2px" mr={3} fontSize="10px">
-              {smallUsdFormatter(yourBorrowUSD, currency, rate || 0)}
+            <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
+              {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
             </Text>
-          </SimpleTooltip>
-
-          <SimpleTooltip label={tooltipMessage}>
-            <Box width="100%">
-              {isReady ? (
-                <StatusBar
-                  leeway={leeway}
-                  warning={warning}
-                  danger={10}
-                  $hasCollateral={hasCollateral}
-                  $striped="true"
-                  $animated="true"
-                  $lightened="false"
-                  overlay={{
-                    value: truncateTo2DecimalPlaces(liquidationPercentage),
-                    color: colorScheme,
-                  }}
-                />
-              ) : (
-                <Center height="30px">
-                  <Spinner />
-                </Center>
-              )}
-            </Box>
-          </SimpleTooltip>
-
-          <SimpleTooltip
-            label={t(
-              "If your borrow amount reaches this value, you will be liquidated.",
-            )}
-          >
-            <>
-              <Text
-                flexShrink={0}
-                mt="2px"
-                ml={3}
-                fontSize="15px"
-                color={hasCollateral === "true" ? "#F44337" : "#FFFFFF"}
-              >
-                {t("Liquidation")}
-              </Text>
-              <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
-                {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
-              </Text>
-            </>
-          </SimpleTooltip>
-        </Row>
-      ) : (
-        <Center height="30px">
-          <Spinner />
-        </Center>
-      )}
+          </>
+        </SimpleTooltip>
+      </Row>
     </DashboardBox>
   );
 };
