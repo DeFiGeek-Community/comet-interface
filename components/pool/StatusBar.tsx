@@ -12,8 +12,7 @@ import RenderStatusBarGray from "./StatusBarGray";
 export interface StatusBarProps {
   leeway: number;
   warning: number;
-  $hasCollateral?: string;
-  overlay?: { value: number; color: string };
+  overlay: { value: number; color: string };
 }
 
 const ProgressFill = styled.div<{
@@ -60,40 +59,16 @@ const OverlayValue = styled.div<{ width: number; color: string }>`
   z-index: 3;
 `;
 
-const StatusBar: React.FC<StatusBarProps> = ({
-  leeway,
-  warning,
-  $hasCollateral,
-  overlay,
-}) => {
+const StatusBar: React.FC<StatusBarProps> = ({ leeway, warning, overlay }) => {
   return (
     <StatusBarContainer>
-      {$hasCollateral === "true" ? (
-        <>
-          <ProgressFill width={leeway} color={GreenColorCode} />
-          <ProgressFill width={warning} color={YellowColorCode} />
-          <ProgressFill width={DangerRatio} color={RedColorCode} />
-        </>
-      ) : (
-        <>
-          <RenderStatusBarGray />
-        </>
-      )}
-      {overlay && (
-        <>
-          {$hasCollateral === "true" && (
-            <>
-              <OverlayValue width={overlay.value} color={overlay.color}>
-                {overlay.value}%
-              </OverlayValue>
-              <OverlayStatusBarFill
-                width={overlay.value}
-                color={overlay.color}
-              />
-            </>
-          )}
-        </>
-      )}
+      <ProgressFill width={leeway} color={GreenColorCode} />
+      <ProgressFill width={warning} color={YellowColorCode} />
+      <ProgressFill width={DangerRatio} color={RedColorCode} />
+      <OverlayValue width={overlay.value} color={overlay.color}>
+        {overlay.value}%
+      </OverlayValue>
+      <OverlayStatusBarFill width={overlay.value} color={overlay.color} />
     </StatusBarContainer>
   );
 };
