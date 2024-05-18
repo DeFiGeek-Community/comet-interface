@@ -72,11 +72,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
   });
   useEffect(() => {
-    if (positionSummary?.collateralBalanceUSD) {
-      setHasCollateral(address ? `true` : "false");
-    } else {
-      setHasCollateral("false");
-    }
+    setHasCollateral(positionSummary?.collateralBalanceUSD?address ? `true` : "false":"false");
   }, [positionSummary?.collateralBalanceUSD, address]);
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
