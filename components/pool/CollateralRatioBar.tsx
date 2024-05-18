@@ -41,9 +41,9 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const [colorScheme, setColorScheme] = useState("");
   const [hasCollateral, setHasCollateral] = useState(false);
   useEffect(() => {
-    if (!positionSummary?.borrowCapacityUSD) {
-      return;
-    } else {
+    if (!positionSummary?.borrowCapacityUSD) return;
+    
+    if (positionSummary?.borrowCapacityUSD) {
       let tempLeeway = truncateTo2DecimalPlaces(
         ((positionSummary?.borrowCapacityUSD * BorrowCapacityUSDLeewayRatio) /
           liquidationPoint) *
@@ -58,19 +58,17 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   }, [positionSummary?.borrowCapacityUSD]);
 
   useEffect(() => {
-    if (yourBorrow <= 0) {
-      return;
-    } else if (yourBorrow > 0) {
-      if (liquidationPercentage >= LiquidationDangerRatio) {
-        setColorScheme(RedColorCode);
-      } else if (
-        leeway <= liquidationPercentage &&
-        liquidationPercentage < LiquidationDangerRatio
-      ) {
-        setColorScheme(YellowColorCode);
-      } else {
-        setColorScheme(GreenColorCode);
-      }
+    if (yourBorrow < 0) return;
+
+    if (liquidationPercentage >= LiquidationDangerRatio) {
+      setColorScheme(RedColorCode);
+    } else if (
+      leeway <= liquidationPercentage &&
+      liquidationPercentage < LiquidationDangerRatio
+    ) {
+      setColorScheme(YellowColorCode);
+    } else {
+      setColorScheme(GreenColorCode);
     }
   }, [yourBorrow, liquidationPercentage, leeway]);
   const tooltipMessage = t("tooltipMessage", {
