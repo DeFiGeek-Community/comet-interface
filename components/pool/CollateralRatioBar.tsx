@@ -100,7 +100,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
         </SimpleTooltip>
 
         <SimpleTooltip label={tooltipMessage}>
-        <Box width="100%">
+          <Box width="100%">
             {baseAssetData && positionSummary && hasCollateral ? (
               <StatusBar
                 leeway={leeway}
