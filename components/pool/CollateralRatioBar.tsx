@@ -39,9 +39,11 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const [leeway, setLeeway] = useState(0);
   const [warning, setWarning] = useState(0);
   const [colorScheme, setColorScheme] = useState("");
-  const [hasCollateral, setHasCollateral] = useState("false");
+  const [hasCollateral, setHasCollateral] = useState(false);
   useEffect(() => {
-    if (positionSummary?.borrowCapacityUSD) {
+    if (!positionSummary?.borrowCapacityUSD) {
+      return;
+    } else {
       let tempLeeway = truncateTo2DecimalPlaces(
         ((positionSummary?.borrowCapacityUSD * BorrowCapacityUSDLeewayRatio) /
           liquidationPoint) *
@@ -56,15 +58,19 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   }, [positionSummary?.borrowCapacityUSD]);
 
   useEffect(() => {
-    if (yourBorrow > 0) {
-      if (liquidationPercentage >= LiquidationDangerRatio)
+    if (yourBorrow <= 0) {
+      return;
+    } else if (yourBorrow > 0) {
+      if (liquidationPercentage >= LiquidationDangerRatio) {
         setColorScheme(RedColorCode);
-      else if (
+      } else if (
         leeway <= liquidationPercentage &&
         liquidationPercentage < LiquidationDangerRatio
-      )
+      ) {
         setColorScheme(YellowColorCode);
-      else setColorScheme(GreenColorCode);
+      } else {
+        setColorScheme(GreenColorCode);
+      }
     }
   }, [yourBorrow, liquidationPercentage, leeway]);
   const tooltipMessage = t("tooltipMessage", {
@@ -73,11 +79,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   });
   useEffect(() => {
     setHasCollateral(
-      positionSummary?.collateralBalanceUSD
-        ? address
-          ? `true`
-          : "false"
-        : "false",
+      positionSummary?.collateralBalanceUSD ? (address ? true : false) : false,
     );
   }, [positionSummary?.collateralBalanceUSD, address]);
   return (
@@ -100,7 +102,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
         <SimpleTooltip label={tooltipMessage}>
           <Box width="100%">
             {baseAssetData && positionSummary ? (
-              hasCollateral === "true" ? (
+              hasCollateral ? (
                 <StatusBar
                   leeway={leeway}
                   warning={warning}
@@ -129,7 +131,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
               mt="2px"
               ml={3}
               fontSize="15px"
-              color={hasCollateral === "true" ? "#F44337" : "#FFFFFF"}
+              color={hasCollateral === true ? "#F44337" : "#FFFFFF"}
             >
               {t("Liquidation")}
             </Text>
