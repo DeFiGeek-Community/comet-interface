@@ -7,7 +7,6 @@ import {
   RedColorCode,
   StatusBarContainer,
 } from "constants/rario";
-import RenderStatusBarGray from "./StatusBarGray";
 
 export interface StatusBarProps {
   leeway: number;
