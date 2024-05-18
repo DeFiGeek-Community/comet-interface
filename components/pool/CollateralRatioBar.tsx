@@ -102,9 +102,6 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
                 leeway={leeway}
                 warning={warning}
                 $hasCollateral={hasCollateral}
-                $striped="true"
-                $animated="true"
-                $lightened="false"
                 overlay={{
                   value: truncateTo2DecimalPlaces(liquidationPercentage),
                   color: colorScheme,
