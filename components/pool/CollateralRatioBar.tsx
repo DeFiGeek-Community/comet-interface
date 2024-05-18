@@ -72,7 +72,13 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
   });
   useEffect(() => {
-    setHasCollateral(positionSummary?.collateralBalanceUSD?address ? `true` : "false":"false");
+    setHasCollateral(
+      positionSummary?.collateralBalanceUSD
+        ? address
+          ? `true`
+          : "false"
+        : "false",
+    );
   }, [positionSummary?.collateralBalanceUSD, address]);
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
@@ -94,15 +100,19 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
         <SimpleTooltip label={tooltipMessage}>
           <Box width="100%">
             {baseAssetData && positionSummary ? (
-              <StatusBar
-                leeway={leeway}
-                warning={warning}
-                $hasCollateral={hasCollateral}
-                overlay={{
-                  value: truncateTo2DecimalPlaces(liquidationPercentage),
-                  color: colorScheme,
-                }}
-              />
+              hasCollateral ? (
+                <StatusBar
+                  leeway={leeway}
+                  warning={warning}
+                  $hasCollateral={hasCollateral}
+                  overlay={{
+                    value: truncateTo2DecimalPlaces(liquidationPercentage),
+                    color: colorScheme,
+                  }}
+                />
+              ) : (
+                <StatusBarGray />
+              )
             ) : (
               <StatusBarGray />
             )}

@@ -6,8 +6,8 @@ import {
   YellowColorCode,
   RedColorCode,
   StatusBarContainer,
-  ProgressFillGrayOut,
 } from "constants/rario";
+import RenderStatusBarGray from "./StatusBarGray";
 
 export interface StatusBarProps {
   leeway: number;
@@ -76,7 +76,7 @@ const StatusBar: React.FC<StatusBarProps> = ({
         </>
       ) : (
         <>
-          <ProgressFillGrayOut />
+          <RenderStatusBarGray />
         </>
       )}
       {overlay && (
