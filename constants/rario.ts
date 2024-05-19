@@ -6,6 +6,8 @@ export const LiquidationDangerRatio = 90;
 export const GreenColorCode = "#4caf50";
 export const YellowColorCode = "#ffc107";
 export const RedColorCode = "#f44336";
+export const LightRedColorCode = "#F44337";
+export const WhiteColorCode = "#FFFFFF";
 export const StatusBarContainer = styled.div`
   width: 100%;
   height: 4px;

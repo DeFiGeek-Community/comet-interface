@@ -21,6 +21,8 @@ import {
   GreenColorCode,
   YellowColorCode,
   RedColorCode,
+  LightRedColorCode,
+  WhiteColorCode,
 } from "constants/rario";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
@@ -125,7 +127,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
               mt="2px"
               ml={3}
               fontSize="15px"
-              color={hasCollateral === true ? "#F44337" : "#FFFFFF"}
+              color={hasCollateral ? LightRedColorCode : WhiteColorCode}
             >
               {t("Liquidation")}
             </Text>
