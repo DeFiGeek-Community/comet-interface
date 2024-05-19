@@ -44,7 +44,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const [hasCollateral, setHasCollateral] = useState(false);
   useEffect(() => {
     if (!positionSummary?.borrowCapacityUSD) return;
-    
+
     if (positionSummary?.borrowCapacityUSD) {
       let tempLeeway = truncateTo2DecimalPlaces(
         ((positionSummary?.borrowCapacityUSD * BorrowCapacityUSDLeewayRatio) /
