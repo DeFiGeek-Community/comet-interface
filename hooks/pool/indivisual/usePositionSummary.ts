@@ -25,7 +25,7 @@ function calculateAssetData(
   priceFeedData: PriceFeedData | undefined,
 ) {
   const collateralFactor = assetConfig.borrowCollateralFactor / 100;
-  const liquidationFactor = assetConfig.liquidationFactor / 100;
+  const liquidateCollateralFactor = assetConfig.liquidateCollateralFactor / 100;
   const collateralAssetData = collateralAssetsData?.[assetConfig.symbol];
   const collateralPrice =
     priceFeedData?.collateralAssets[assetConfig.symbol] ?? 0;
@@ -37,7 +37,7 @@ function calculateAssetData(
   return {
     collateralBalanceUSD: collateralUsdSupply,
     borrowCapacityUSD: collateralUsdSupply * collateralFactor,
-    liquidationPointUSD: collateralUsdSupply * liquidationFactor,
+    liquidationPointUSD: collateralUsdSupply * liquidateCollateralFactor,
   };
 }
 
