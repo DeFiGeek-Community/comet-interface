@@ -43,18 +43,18 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const [colorScheme, setColorScheme] = useState("");
   const [hasCollateral, setHasCollateral] = useState(false);
   useEffect(() => {
-    if (positionSummary?.borrowCapacityUSD) {
-      let tempLeeway = truncateTo2DecimalPlaces(
-        ((positionSummary?.borrowCapacityUSD * BorrowCapacityUSDLeewayRatio) /
-          liquidationPoint) *
-          100,
-      );
-      setLeeway(tempLeeway);
-      let tempWarning = truncateTo2DecimalPlaces(
-        AllRatio - tempLeeway - DangerRatio,
-      );
-      setWarning(tempWarning);
-    }
+    if (!positionSummary?.borrowCapacityUSD) return;
+
+    let tempLeeway = truncateTo2DecimalPlaces(
+      ((positionSummary?.borrowCapacityUSD * BorrowCapacityUSDLeewayRatio) /
+        liquidationPoint) *
+        100,
+    );
+    setLeeway(tempLeeway);
+    let tempWarning = truncateTo2DecimalPlaces(
+      AllRatio - tempLeeway - DangerRatio,
+    );
+    setWarning(tempWarning);
   }, [positionSummary?.borrowCapacityUSD]);
 
   useEffect(() => {
