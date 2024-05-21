@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
-import { Box, Text, Spinner } from "@chakra-ui/react";
-import { Row, Center } from "utils/chakraUtils";
+import { Box, Text } from "@chakra-ui/react";
+import { Row } from "utils/chakraUtils";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
