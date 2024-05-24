@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
-import { Box, Text } from "@chakra-ui/react";
-import { Row } from "utils/chakraUtils";
+import { Box, Text, Flex, } from "@chakra-ui/react";
+import { Row, useIsMobile } from "utils/chakraUtils";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
@@ -28,6 +28,7 @@ import {
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
   const { address } = useAccount();
+  const isMobile = useIsMobile();
   const { currency, rate } = useAppData();
   const { baseAssetData, priceFeedData } = usePoolPrimaryDataContext();
   const { positionSummary } = usePoolSecondaryDataContext();
@@ -80,14 +81,15 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
       positionSummary?.collateralBalanceUSD ? (address ? true : false) : false,
     );
   }, [positionSummary?.collateralBalanceUSD, address]);
+
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
       <Row mainAxisAlignment="flex-start" crossAxisAlignment="center" expand>
         <SimpleTooltip
           label={t("Keep this bar from filling up to avoid being liquidated!")}
         >
-          <Text flexShrink={0} mr={4}>
-            {t("Liquidation Limit")}
+          <Text flexShrink={isMobile?1:0} fontSize={isMobile?"12px":"15px"} mr={isMobile?2:4}>
+            {t("Limit")}
           </Text>
         </SimpleTooltip>
 
@@ -120,11 +122,13 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
           )}
         >
           <>
+            {isMobile?
+            <Flex flexDirection="column">
             <Text
               flexShrink={0}
               mt="2px"
               ml={3}
-              fontSize="15px"
+              fontSize={isMobile?"12px":"15px"}
               color={hasCollateral ? LightRedColorCode : WhiteColorCode}
             >
               {t("Liquidation")}
@@ -132,6 +136,34 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
               {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
             </Text>
+            </Flex>:
+            <>
+            <Text
+              flexShrink={0}
+              mt="2px"
+              ml={3}
+              fontSize={isMobile?"12px":"15px"}
+              color={hasCollateral ? LightRedColorCode : WhiteColorCode}
+            >
+              {t("Liquidation")}
+            </Text>
+            <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
+              {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
+            </Text>
+            </>
+            }
+            {/* <Text
+              flexShrink={0}
+              mt="2px"
+              ml={3}
+              fontSize={isMobile?"12px":"15px"}
+              color={hasCollateral ? LightRedColorCode : WhiteColorCode}
+            >
+              {t("Liquidation")}
+            </Text>
+            <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
+              {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
+            </Text> */}
           </>
         </SimpleTooltip>
       </Row>

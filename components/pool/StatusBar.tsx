@@ -31,7 +31,7 @@ const ProgressFill = styled.div<{
     transparent 75%,
     transparent
   );
-  background-size: 1rem 1rem;
+  background-size: 0.5rem 0.5rem;
   animation: ${keyframes`
     0% { background-position: 0 0; }
     100% { background-position: 1rem 0; }

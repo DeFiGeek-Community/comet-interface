@@ -23,6 +23,7 @@
     "": "If your borrow amount reaches this value, you will be liquidated"
   },
   "Keep this bar from filling up to avoid being liquidated!": "Keep this bar from filling up to avoid being liquidated!",
+  "Limit": "Limit",
   "Liquidation": "Liquidation",
   "Liquidation Factor": "Liquidation Factor",
   "Liquidation Limit": "Liquidation Limit",
