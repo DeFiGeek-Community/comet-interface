@@ -57,7 +57,6 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     );
     setWarning(tempWarning);
   }, [positionSummary?.borrowCapacityUSD]);
-
   useEffect(() => {
     if (yourBorrow < 0) return;
 
@@ -72,15 +71,16 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
       setColorScheme(GreenColorCode);
     }
   }, [yourBorrow, liquidationPercentage, leeway]);
-  const tooltipMessage = t("tooltipMessage", {
-    liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
-    liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
-  });
   useEffect(() => {
     setHasCollateral(
       positionSummary?.collateralBalanceUSD ? (address ? true : false) : false,
     );
   }, [positionSummary?.collateralBalanceUSD, address]);
+
+  const tooltipMessage = t("tooltipMessage", {
+    liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
+    liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
+  });
 
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
@@ -93,7 +93,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             fontSize={isMobile ? "12px" : "15px"}
             mr={isMobile ? 2 : 4}
           >
-            {isMobile ?t("Limit"): t("Liquidation Limit")}
+            {isMobile ? t("Limit") : t("Liquidation Limit")}
           </Text>
         </SimpleTooltip>
 
