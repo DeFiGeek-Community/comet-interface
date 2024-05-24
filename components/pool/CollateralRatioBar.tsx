@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
-import { Box, Text, Flex, } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
 import { Row, useIsMobile } from "utils/chakraUtils";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
@@ -88,7 +88,11 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
         <SimpleTooltip
           label={t("Keep this bar from filling up to avoid being liquidated!")}
         >
-          <Text flexShrink={isMobile?1:0} fontSize={isMobile?"12px":"15px"} mr={isMobile?2:4}>
+          <Text
+            flexShrink={isMobile ? 1 : 0}
+            fontSize={isMobile ? "12px" : "15px"}
+            mr={isMobile ? 2 : 4}
+          >
             {t("Limit")}
           </Text>
         </SimpleTooltip>
@@ -122,36 +126,37 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
           )}
         >
           <>
-            {isMobile?
-            <Flex flexDirection="column">
-            <Text
-              flexShrink={0}
-              mt="2px"
-              ml={3}
-              fontSize={isMobile?"12px":"15px"}
-              color={hasCollateral ? LightRedColorCode : WhiteColorCode}
-            >
-              {t("Liquidation")}
-            </Text>
-            <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
-              {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
-            </Text>
-            </Flex>:
-            <>
-            <Text
-              flexShrink={0}
-              mt="2px"
-              ml={3}
-              fontSize={isMobile?"12px":"15px"}
-              color={hasCollateral ? LightRedColorCode : WhiteColorCode}
-            >
-              {t("Liquidation")}
-            </Text>
-            <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
-              {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
-            </Text>
-            </>
-            }
+            {isMobile ? (
+              <Flex flexDirection="column">
+                <Text
+                  flexShrink={0}
+                  mt="2px"
+                  ml={3}
+                  fontSize={isMobile ? "12px" : "15px"}
+                  color={hasCollateral ? LightRedColorCode : WhiteColorCode}
+                >
+                  {t("Liquidation")}
+                </Text>
+                <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
+                  {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
+                </Text>
+              </Flex>
+            ) : (
+              <>
+                <Text
+                  flexShrink={0}
+                  mt="2px"
+                  ml={3}
+                  fontSize={isMobile ? "12px" : "15px"}
+                  color={hasCollateral ? LightRedColorCode : WhiteColorCode}
+                >
+                  {t("Liquidation")}
+                </Text>
+                <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
+                  {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
+                </Text>
+              </>
+            )}
             {/* <Text
               flexShrink={0}
               mt="2px"
