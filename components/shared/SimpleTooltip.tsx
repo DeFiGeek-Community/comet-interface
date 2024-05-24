@@ -1,12 +1,15 @@
 import { Tooltip } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { useIsMobile } from "utils/chakraUtils";
 
 export const SimpleTooltip = ({
   label,
+  isOpen,
   children,
   placement,
 }: {
   label: string;
+  isOpen?: boolean;
   placement?:
     | "top"
     | "right"
@@ -25,6 +28,7 @@ export const SimpleTooltip = ({
     | "left-end";
   children: ReactNode;
 }) => {
+  const isMobile = useIsMobile();
   return (
     <Tooltip
       p={1}
@@ -35,6 +39,7 @@ export const SimpleTooltip = ({
       placement={placement ?? "top"}
       aria-label={label}
       label={label}
+      isOpen={isMobile ? isOpen : undefined}
     >
       {children}
     </Tooltip>

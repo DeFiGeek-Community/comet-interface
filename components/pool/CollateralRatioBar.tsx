@@ -39,6 +39,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0;
   let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0;
 
+  const [isLabelOpen, setIsLabelOpen] = useState(false);
   const [leeway, setLeeway] = useState(0);
   const [warning, setWarning] = useState(0);
   const [colorScheme, setColorScheme] = useState("");
@@ -103,8 +104,11 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
           </Text>
         </SimpleTooltip>
 
-        <SimpleTooltip label={tooltipMessage}>
-          <Box width="100%">
+        <SimpleTooltip
+          label={tooltipMessage}
+          isOpen={isMobile ? isLabelOpen : undefined}
+        >
+          <Box width="100%" onClick={() => setIsLabelOpen(!isLabelOpen)}>
             {baseAssetData && positionSummary && hasCollateral ? (
               <StatusBar
                 leeway={leeway}
