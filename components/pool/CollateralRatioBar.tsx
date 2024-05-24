@@ -93,7 +93,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
             fontSize={isMobile ? "12px" : "15px"}
             mr={isMobile ? 2 : 4}
           >
-            {t("Limit")}
+            {isMobile ?t("Limit"): t("Liquidation Limit")}
           </Text>
         </SimpleTooltip>
 
