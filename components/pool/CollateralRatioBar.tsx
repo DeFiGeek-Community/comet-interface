@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
-import { Box, Text } from "@chakra-ui/react";
-import { Row } from "utils/chakraUtils";
+import { Box, Text, Flex } from "@chakra-ui/react";
+import { Row, useIsMobile } from "utils/chakraUtils";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
 import { smallUsdFormatter } from "utils/bigUtils";
 import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
@@ -28,6 +28,7 @@ import {
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
   const { address } = useAccount();
+  const isMobile = useIsMobile();
   const { currency, rate } = useAppData();
   const { baseAssetData, priceFeedData } = usePoolPrimaryDataContext();
   const { positionSummary } = usePoolSecondaryDataContext();
@@ -38,6 +39,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const liquidationPoint = positionSummary?.liquidationPointUSD ?? 0;
   let liquidationPercentage = (yourBorrowUSD / liquidationPoint) * 100 || 0;
 
+  const [isLabelOpen, setIsLabelOpen] = useState(false);
   const [leeway, setLeeway] = useState(0);
   const [warning, setWarning] = useState(0);
   const [colorScheme, setColorScheme] = useState("");
@@ -56,7 +58,6 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     );
     setWarning(tempWarning);
   }, [positionSummary?.borrowCapacityUSD]);
-
   useEffect(() => {
     if (yourBorrow < 0) return;
 
@@ -71,23 +72,33 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
       setColorScheme(GreenColorCode);
     }
   }, [yourBorrow, liquidationPercentage, leeway]);
-  const tooltipMessage = t("tooltipMessage", {
-    liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
-    liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
-  });
   useEffect(() => {
     setHasCollateral(
       positionSummary?.collateralBalanceUSD ? (address ? true : false) : false,
     );
   }, [positionSummary?.collateralBalanceUSD, address]);
+
+  const tooltipMessage = t("tooltipMessage", {
+    liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
+    liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
+  });
+  const tooltipMessageMobile = t("tooltipMessageMobile", {
+    yourBorrowUSD: smallUsdFormatter(yourBorrowUSD, currency, rate || 0),
+    liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
+  });
+
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
       <Row mainAxisAlignment="flex-start" crossAxisAlignment="center" expand>
         <SimpleTooltip
           label={t("Keep this bar from filling up to avoid being liquidated!")}
         >
-          <Text flexShrink={0} mr={4}>
-            {t("Liquidation Limit")}
+          <Text
+            flexShrink={isMobile ? 1 : 0}
+            fontSize={isMobile ? "12px" : "15px"}
+            mr={isMobile ? 2 : 4}
+          >
+            {isMobile ? t("Limit") : t("Liquidation Limit")}
           </Text>
         </SimpleTooltip>
 
@@ -97,8 +108,11 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
           </Text>
         </SimpleTooltip>
 
-        <SimpleTooltip label={tooltipMessage}>
-          <Box width="100%">
+        <SimpleTooltip
+          label={isMobile ? tooltipMessageMobile : tooltipMessage}
+          isOpen={isMobile ? isLabelOpen : undefined}
+        >
+          <Box width="100%" onClick={() => setIsLabelOpen(!isLabelOpen)}>
             {baseAssetData && positionSummary && hasCollateral ? (
               <StatusBar
                 leeway={leeway}
@@ -120,18 +134,49 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
           )}
         >
           <>
-            <Text
+            {isMobile ? (
+              <Flex flexDirection="column">
+                <Text
+                  flexShrink={0}
+                  mt="2px"
+                  ml={3}
+                  fontSize={isMobile ? "12px" : "15px"}
+                  color={hasCollateral ? LightRedColorCode : WhiteColorCode}
+                >
+                  {t("Liquidation")}
+                </Text>
+                <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
+                  {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
+                </Text>
+              </Flex>
+            ) : (
+              <>
+                <Text
+                  flexShrink={0}
+                  mt="2px"
+                  ml={3}
+                  fontSize={isMobile ? "12px" : "15px"}
+                  color={hasCollateral ? LightRedColorCode : WhiteColorCode}
+                >
+                  {t("Liquidation")}
+                </Text>
+                <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
+                  {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
+                </Text>
+              </>
+            )}
+            {/* <Text
               flexShrink={0}
               mt="2px"
               ml={3}
-              fontSize="15px"
+              fontSize={isMobile?"12px":"15px"}
               color={hasCollateral ? LightRedColorCode : WhiteColorCode}
             >
               {t("Liquidation")}
             </Text>
             <Text flexShrink={0} mt="2px" ml={3} fontSize="10px">
               {smallUsdFormatter(liquidationPoint, currency, rate || 0)}
-            </Text>
+            </Text> */}
           </>
         </SimpleTooltip>
       </Row>

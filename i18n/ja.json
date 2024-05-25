@@ -23,6 +23,7 @@
     "": "借入額がこの数値に達すると清算されます"
   },
   "Keep this bar from filling up to avoid being liquidated!": "このバーが一杯になると清算されますので注意して下さい",
+  "Limit": "清算限度",
   "Liquidation": "清算",
   "Liquidation Factor": "清算閾値",
   "Liquidation Limit": "清算限度",
@@ -45,6 +46,7 @@
   "Token Claim": "請求",
   "Token Reward": "トークン報酬",
   "tooltipMessage": "{{liquidationPoint}}の清算猶予枠の内、{{liquidationPercentage}}%を利用中です",
+  "tooltipMessageMobile": "{{yourBorrowUSD}}（{{liquidationPercentage}}%）",
   "Total Supply Balance": "全預入残高",
   "Total {{symbol}} Supply Balance": "全{{symbol}}預入残高",
   "Total Borrow Balance": "全借入残高",
