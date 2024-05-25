@@ -46,6 +46,7 @@
   "Token Claim": "請求",
   "Token Reward": "トークン報酬",
   "tooltipMessage": "{{liquidationPoint}}の清算猶予枠の内、{{liquidationPercentage}}%を利用中です",
+  "tooltipMessageMobile": "{{yourBorrowUSD}}（{{liquidationPercentage}}%）",
   "Total Supply Balance": "全預入残高",
   "Total {{symbol}} Supply Balance": "全{{symbol}}預入残高",
   "Total Borrow Balance": "全借入残高",

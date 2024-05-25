@@ -82,6 +82,10 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
     liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
     liquidationPoint: smallUsdFormatter(liquidationPoint, currency, rate || 0),
   });
+  const tooltipMessageMobile = t("tooltipMessageMobile", {
+    yourBorrowUSD: smallUsdFormatter(yourBorrowUSD, currency, rate || 0),
+    liquidationPercentage: truncateTo2DecimalPlaces(liquidationPercentage),
+  });
 
   return (
     <DashboardBox width="100%" height="65px" mt={4} p={4}>
@@ -105,7 +109,7 @@ const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
         </SimpleTooltip>
 
         <SimpleTooltip
-          label={tooltipMessage}
+          label={isMobile ? tooltipMessageMobile : tooltipMessage}
           isOpen={isMobile ? isLabelOpen : undefined}
         >
           <Box width="100%" onClick={() => setIsLabelOpen(!isLabelOpen)}>
