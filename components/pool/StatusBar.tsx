@@ -1,4 +1,5 @@
 import React from "react";
+import { useIsMobile } from "utils/chakraUtils";
 import styled, { keyframes } from "styled-components";
 import {
   DangerRatio,
@@ -49,10 +50,15 @@ const OverlayStatusBarFill = styled.div<{ width: number; color: string }>`
   z-index: 1;
 `;
 
-const OverlayValue = styled.div<{ width: number; color: string }>`
+const OverlayValue = styled.div<{
+  width: number;
+  color: string;
+  isMobile: boolean;
+}>`
   position: absolute;
   bottom: 3px;
-  left: ${({ width }) => (width > 10 ? width - 6 : 0)}%;
+  left: ${({ width, isMobile }) =>
+    width > 10 ? (isMobile ? width - 23 : width - 6) : 0}%;
   color: rgba(255, 255, 255, 1);
   font-size: 12px;
   font-weight: bold;
@@ -60,12 +66,17 @@ const OverlayValue = styled.div<{ width: number; color: string }>`
 `;
 
 const StatusBar: React.FC<StatusBarProps> = ({ leeway, warning, overlay }) => {
+  const isMobile = useIsMobile();
   return (
     <StatusBarContainer>
       <ProgressFill width={leeway} color={GreenColorCode} />
       <ProgressFill width={warning} color={YellowColorCode} />
       <ProgressFill width={DangerRatio} color={RedColorCode} />
-      <OverlayValue width={overlay.value} color={overlay.color}>
+      <OverlayValue
+        width={overlay.value}
+        color={overlay.color}
+        isMobile={isMobile}
+      >
         {overlay.value}%
       </OverlayValue>
       <OverlayStatusBarFill width={overlay.value} color={overlay.color} />
