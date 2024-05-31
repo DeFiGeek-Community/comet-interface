@@ -23,6 +23,8 @@
     "": "If your borrow amount reaches this value, you will be liquidated"
   },
   "Keep this bar from filling up to avoid being liquidated!": "Keep this bar from filling up to avoid being liquidated!",
+  "Limit": "Limit",
+  "Liquidation": "Liquidation",
   "Liquidation Factor": "Liquidation Factor",
   "Liquidation Limit": "Liquidation Limit",
   "Liquidation Penalty": "Liquidation Penalty",
@@ -44,6 +46,7 @@
   "Token Claim": "Token Claim",
   "Token Reward": "Token Reward",
   "tooltipMessage": "You're using {{liquidationPercentage}}% of your {{liquidationPoint}} Liquidation limit.",
+  "tooltipMessageMobile": "{{yourBorrowUSD}}（{{liquidationPercentage}}%）",
   "Total Supply Balance": "Total Supply Balance",
   "Total {{symbol}} Supply Balance": "Total {{symbol}} Supply Balance",
   "Total Borrow Balance": "Total Borrow Balance",

@@ -7,9 +7,11 @@ import {
 import priceAbi from "static/price.json";
 import { Address } from "abitype";
 
-export const getPriceFeedContract = async (address: Address) => {
-  const network = getNetwork();
-  const walletClient = await getWalletClient({ chainId: network.chain?.id });
+export const getPriceFeedContract = async (
+  address: Address,
+  chainId?: number,
+) => {
+  const walletClient = await getWalletClient({ chainId: chainId });
   return getContract({
     address: address,
     abi: priceAbi,
@@ -19,11 +21,17 @@ export const getPriceFeedContract = async (address: Address) => {
 
 export const fetchPriceFeed = async (
   priceFeedAddress: Address,
+  configChainId?: number,
 ): Promise<bigint | undefined> => {
   if (!priceFeedAddress) return undefined;
-  const priceFeed = await getPriceFeedContract(priceFeedAddress);
+
   const { address } = getAccount();
-  if (!address) return undefined;
+  const network = getNetwork();
+
+  if (!address || !network.chain?.id || configChainId !== network.chain.id) {
+    return undefined;
+  }
+  const priceFeed = await getPriceFeedContract(priceFeedAddress);
   const data = (await priceFeed.read.latestRoundData()) as (bigint | number)[];
   return typeof data[1] === "bigint" ? data[1] : undefined;
 };
