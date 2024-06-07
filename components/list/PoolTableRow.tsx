@@ -15,15 +15,16 @@ import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
 
 interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
+  isBaseAsset: boolean;
   name?: string;
   src?: string;
 }
 
-function RenderAvatar({ name, src, ...props }: RenderAvatarProps) {
+function RenderAvatar({ isBaseAsset, name, src, ...props }: RenderAvatarProps) {
   return (
     <Avatar
       bg="#FFF"
-      boxSize="30px"
+      boxSize={isBaseAsset ? "30px" : "20px"}
       name={name ?? ""}
       position="relative"
       zIndex="1"
@@ -183,7 +184,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               >
                 <Image src="/crown.png" alt="crown" height={20} width={20} />
                 <Text textAlign="center" fontWeight="bold" size="md" pl={1}>
-                  {symbol} {"Pool"}
+                  {symbol}{/* {symbol} {"Pool"} */}
                 </Text>
               </Row>
               <Row
@@ -212,7 +213,11 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   width="40%"
                   pl={7}
                 >
-                  <RenderAvatar name={symbol} src={tokenData?.logoURL} />
+                  <RenderAvatar
+                    isBaseAsset={true}
+                    name={symbol}
+                    src={tokenData?.logoURL}
+                  />
                 </Row>
                 <Row
                   mainAxisAlignment="flex-start"
@@ -223,6 +228,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   {collateralList?.map((asset, index) => {
                     return (
                       <RenderAvatar
+                        isBaseAsset={false}
                         name={asset?.symbol}
                         src={asset?.logoURL}
                         key={index}
@@ -267,7 +273,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               width="10%"
             >
               <Text textAlign="center" fontWeight="bold" pl={1}>
-                {symbol} {"Pool"}
+                {symbol}{/* {symbol} {"Pool"} */}
               </Text>
             </Row>
             <Row
@@ -282,7 +288,11 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   width="40%"
                   pl={16}
                 >
-                  <RenderAvatar name={symbol} src={tokenData?.logoURL} />
+                  <RenderAvatar
+                    isBaseAsset={true}
+                    name={symbol}
+                    src={tokenData?.logoURL}
+                  />
                 </Row>
               </HoverIcon>
               <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
@@ -294,6 +304,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   {collateralList?.map((asset, index) => {
                     return (
                       <RenderAvatar
+                        isBaseAsset={false}
                         name={asset?.symbol}
                         src={asset?.logoURL}
                         key={index}
