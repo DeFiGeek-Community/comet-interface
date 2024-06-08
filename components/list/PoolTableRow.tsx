@@ -13,6 +13,7 @@ import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
+import { OneMillion } from "constants/aprs";
 
 interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
   isBaseAsset: boolean;
@@ -64,14 +65,18 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       return <Spinner />;
     }
 
-    return isCollateralBalances
-      ? smallUsdFormatter(totalPoolObjectValue ?? 0, currency, rate)
+    const valueDevidedByOneMillion = totalPoolObjectValue / OneMillion;
+
+    const valueFormatted = isCollateralBalances
+      ? smallUsdFormatter(valueDevidedByOneMillion ?? 0, currency, rate)
       : smallUsdPriceFormatter(
-          totalPoolObjectValue ?? 0,
+          valueDevidedByOneMillion ?? 0,
           assetPrice ?? 0,
           currency,
           rate,
         );
+
+    return valueFormatted + " M";
   }, [
     totalPoolObjectValue,
     assetPrice,
@@ -184,7 +189,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               >
                 <Image src="/crown.png" alt="crown" height={20} width={20} />
                 <Text textAlign="center" fontWeight="bold" size="md" pl={1}>
-                  {symbol}{/* {symbol} {"Pool"} */}
+                  {symbol} {"Pool"}
                 </Text>
               </Row>
               <Row
@@ -273,7 +278,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               width="10%"
             >
               <Text textAlign="center" fontWeight="bold" pl={1}>
-                {symbol}{/* {symbol} {"Pool"} */}
+                {symbol} {"Pool"}
               </Text>
             </Row>
             <Row
