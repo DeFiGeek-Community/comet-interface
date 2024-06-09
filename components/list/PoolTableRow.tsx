@@ -216,7 +216,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
     utilizationValue =
       (totalPoolObject?.totalBaseBorrowBalance /
         totalPoolObject?.totalBaseSupplyBalance) *
-        OneHundred;
+      OneHundred;
   } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
