@@ -220,6 +220,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
+  // const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
+  // const { tokenRewardData, positionSummary } = usePoolSecondaryDataContext();
   let netEarnAPRValue: number | undefined;
   // console.log(utilizationValue);
 

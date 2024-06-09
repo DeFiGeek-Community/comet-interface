@@ -50,7 +50,7 @@ const OverlayStatusBarFill = styled.div<{ width: number; color: string }>`
   z-index: 1;
 `;
 
-const getOverlayValuePosition = (value: number) => {
+const GetOverlayValuePosition = (value: number) => {
   const isMobile = useIsMobile();
   if (value >= 10) {
     return isMobile ? `${value - 23}%` : `${value - 6}%`;
@@ -64,7 +64,7 @@ const OverlayValue = styled.div<{
 }>`
   position: absolute;
   bottom: 3px;
-  left: ${({ width }) => getOverlayValuePosition(width)}%;
+  left: ${({ width }) => GetOverlayValuePosition(width)}%;
   color: rgba(255, 255, 255, 1);
   font-size: 12px;
   font-weight: bold;
