@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
 import { Avatar, AvatarProps, Spinner, Link, Text } from "@chakra-ui/react";
@@ -13,7 +13,7 @@ import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
-import { OneMillion } from "constants/aprs";
+import { OneMillion, OneHundred } from "constants/aprs";
 
 interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
   isBaseAsset: boolean;
@@ -117,6 +117,63 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   );
 };
 
+interface RenderStatsTextProps {
+  statsValue?: number;
+  text?: string;
+}
+
+const RenderStatsText: React.FC<RenderStatsTextProps> = ({
+  statsValue,
+  text,
+}) => {
+  const { t } = useTranslation();
+  const isMobile = useIsMobile();
+  const { address } = useAccount();
+
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  const formattedValue = React.useMemo(() => {
+    if (statsValue === undefined || !address) {
+      return <Spinner />;
+    }
+
+    const valueFormatted = statsValue.toFixed(2);
+
+    return valueFormatted + " %";
+  }, [statsValue, address]);
+
+  return (
+    <Row
+      mainAxisAlignment={text ? "flex-start" : "center"}
+      crossAxisAlignment="center"
+      height="100%"
+      width={isMobile ? "100%" : "12%"}
+      pb={text ? 6 : undefined}
+    >
+      {text && (
+        <Text
+          width={currentLanguage === "ja" ? "135px" : "auto"}
+          textAlign="left"
+          fontWeight="bold"
+          mr={currentLanguage === "ja" ? 2 : 4}
+        >
+          {t(text)}
+        </Text>
+      )}
+      <Text
+        color="#FFF"
+        fontWeight="bold"
+        fontSize="17px"
+        textAlign="center"
+        as="div"
+      >
+        {formattedValue}
+      </Text>
+    </Row>
+  );
+};
+
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -151,6 +208,20 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       sumCollateralBalances += tempValue;
     }
   }
+  let utilizationValue: number | undefined;
+  if (
+    totalPoolObject?.totalBaseBorrowBalance &&
+    totalPoolObject?.totalBaseSupplyBalance
+  ) {
+    utilizationValue =
+      (totalPoolObject?.totalBaseBorrowBalance /
+        totalPoolObject?.totalBaseSupplyBalance) *
+        OneHundred;
+  } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
+    utilizationValue = 0;
+  }
+  let netEarnAPRValue: number | undefined;
+  // console.log(utilizationValue);
 
   return (
     <Link
@@ -271,16 +342,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
           </>
         ) : (
           <>
-            {/* <Row
-              mainAxisAlignment="flex-start"
-              crossAxisAlignment="center"
-              height="100%"
-              width="10%"
-            >
-              <Text textAlign="center" fontWeight="bold" pl={1}>
-                {symbol} {"Pool"}
-              </Text>
-            </Row> */}
             <Row
               mainAxisAlignment="flex-start"
               crossAxisAlignment="flex-start"
@@ -303,13 +364,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 </Row>
               </HoverIcon>
             </Row>
-            <RenderBalanceText
-              totalPoolObjectValue={sumCollateralBalances}
-              assetPrice={assetPrice}
-              currency={currency}
-              rate={rate}
-              isCollateralBalances={true}
-            />
+            <RenderStatsText statsValue={utilizationValue} />
             <RenderBalanceText
               totalPoolObjectValue={sumCollateralBalances}
               assetPrice={assetPrice}
@@ -354,7 +409,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 <Row
                   mainAxisAlignment="center"
                   crossAxisAlignment="center"
-                  
                   overflow="scroll"
                 >
                   {collateralList?.map((asset, index) => {

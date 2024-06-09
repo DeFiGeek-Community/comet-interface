@@ -89,7 +89,6 @@ const PoolTable = () => {
                 px={4}
                 my={4}
               >
-                {/* <TableHeaderColumn text={t("Pool Name")} width="10%" /> */}
                 <Row
                   mainAxisAlignment="flex-start"
                   crossAxisAlignment="flex-start"
@@ -98,18 +97,9 @@ const PoolTable = () => {
                 >
                   <TableHeaderColumnBase text={t("Base Asset")} width="100%" />
                 </Row>
-                <TableHeaderColumn
-                  text={t("Utilization")}
-                  width="12%"
-                />
-                <TableHeaderColumn
-                  text={t("Net Earn APR")}
-                  width="12%"
-                />
-                <TableHeaderColumn
-                  text={t("Net Borrow APR")}
-                  width="12%"
-                />
+                <TableHeaderColumn text={t("Utilization")} width="12%" />
+                <TableHeaderColumn text={t("Net Earn APR")} width="12%" />
+                <TableHeaderColumn text={t("Net Borrow APR")} width="12%" />
                 <TableHeaderColumn
                   text={t("Total Supply Balance")}
                   width="12%"
@@ -128,7 +118,10 @@ const PoolTable = () => {
                   height="100%"
                   width="12%"
                 >
-                  <TableHeaderColumn text={t("Collateral Asset")} width="100%" />
+                  <TableHeaderColumn
+                    text={t("Collateral Asset")}
+                    width="100%"
+                  />
                 </Row>
               </Row>
               <ModalDivider />
