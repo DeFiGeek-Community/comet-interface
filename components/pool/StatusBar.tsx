@@ -54,7 +54,8 @@ const OverlayValue = styled.div<{
   width: number;
   color: string;
   isMobile: boolean;
-}>`
+}>
+`
   position: absolute;
   bottom: 3px;
   left: ${({ width, isMobile }) =>
@@ -72,13 +73,19 @@ const StatusBar: React.FC<StatusBarProps> = ({ leeway, warning, overlay }) => {
       <ProgressFill width={leeway} color={GreenColorCode} />
       <ProgressFill width={warning} color={YellowColorCode} />
       <ProgressFill width={DangerRatio} color={RedColorCode} />
-      <OverlayValue
-        width={overlay.value}
-        color={overlay.color}
-        isMobile={isMobile}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '3px',
+          left: `${overlay.value > 10 ? (isMobile ? overlay.value - 23 : overlay.value - 6) : 0}%`,
+          color: 'rgba(255, 255, 255, 1)',
+          fontSize: '12px',
+          fontWeight: 'bold',
+          zIndex: 3,
+        }}
       >
         {overlay.value}%
-      </OverlayValue>
+      </div>
       <OverlayStatusBarFill width={overlay.value} color={overlay.color} />
     </StatusBarContainer>
   );
