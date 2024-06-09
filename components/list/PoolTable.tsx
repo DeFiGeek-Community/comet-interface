@@ -99,15 +99,15 @@ const PoolTable = () => {
                   <TableHeaderColumnBase text={t("Base Asset")} width="100%" />
                 </Row>
                 <TableHeaderColumn
-                  text={t("Total Collateral Balance")}
+                  text={t("Utilization")}
                   width="12%"
                 />
                 <TableHeaderColumn
-                  text={t("Total Collateral Balance")}
+                  text={t("Net Earn APR")}
                   width="12%"
                 />
                 <TableHeaderColumn
-                  text={t("Total Collateral Balance")}
+                  text={t("Net Borrow APR")}
                   width="12%"
                 />
                 <TableHeaderColumn
