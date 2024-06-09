@@ -25,7 +25,7 @@ function RenderAvatar({ isBaseAsset, name, src, ...props }: RenderAvatarProps) {
   return (
     <Avatar
       bg="#FFF"
-      boxSize={isBaseAsset ? "30px" : "20px"}
+      boxSize={isBaseAsset ? "35px" : "20px"}
       name={name ?? ""}
       position="relative"
       zIndex="1"
@@ -91,7 +91,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       mainAxisAlignment={text ? "flex-start" : "center"}
       crossAxisAlignment="center"
       height="100%"
-      width={isMobile ? "100%" : "20%"}
+      width={isMobile ? "100%" : "12%"}
       pb={text ? (isCollateralBalances ? 1 : 6) : undefined}
     >
       {text && (
@@ -271,7 +271,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
           </>
         ) : (
           <>
-            <Row
+            {/* <Row
               mainAxisAlignment="flex-start"
               crossAxisAlignment="center"
               height="100%"
@@ -280,46 +280,50 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               <Text textAlign="center" fontWeight="bold" pl={1}>
                 {symbol} {"Pool"}
               </Text>
-            </Row>
+            </Row> */}
             <Row
               mainAxisAlignment="flex-start"
               crossAxisAlignment="flex-start"
-              width="30%"
+              width="16%"
             >
               <HoverIcon isBase={true} hoverText={symbol}>
                 <Row
                   mainAxisAlignment="center"
                   crossAxisAlignment="center"
-                  width="40%"
-                  pl={16}
+                  pl={6}
                 >
                   <RenderAvatar
                     isBaseAsset={true}
                     name={symbol}
                     src={tokenData?.logoURL}
                   />
-                </Row>
-              </HoverIcon>
-              <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
-                <Row
-                  mainAxisAlignment="center"
-                  crossAxisAlignment="center"
-                  overflow="scroll"
-                >
-                  {collateralList?.map((asset, index) => {
-                    return (
-                      <RenderAvatar
-                        isBaseAsset={false}
-                        name={asset?.symbol}
-                        src={asset?.logoURL}
-                        key={index}
-                        mr={1}
-                      />
-                    );
-                  })}
+                  <Text textAlign="center" fontWeight="bold" pl={2}>
+                    {symbol}
+                  </Text>
                 </Row>
               </HoverIcon>
             </Row>
+            <RenderBalanceText
+              totalPoolObjectValue={sumCollateralBalances}
+              assetPrice={assetPrice}
+              currency={currency}
+              rate={rate}
+              isCollateralBalances={true}
+            />
+            <RenderBalanceText
+              totalPoolObjectValue={sumCollateralBalances}
+              assetPrice={assetPrice}
+              currency={currency}
+              rate={rate}
+              isCollateralBalances={true}
+            />
+            <RenderBalanceText
+              totalPoolObjectValue={sumCollateralBalances}
+              assetPrice={assetPrice}
+              currency={currency}
+              rate={rate}
+              isCollateralBalances={true}
+            />
             <RenderBalanceText
               totalPoolObjectValue={totalPoolObject?.totalBaseSupplyBalance}
               assetPrice={assetPrice}
@@ -341,6 +345,33 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               rate={rate}
               isCollateralBalances={true}
             />
+            <Row
+              mainAxisAlignment="center"
+              crossAxisAlignment="center"
+              width="12%"
+            >
+              <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
+                <Row
+                  mainAxisAlignment="center"
+                  crossAxisAlignment="center"
+                  
+                  overflow="scroll"
+                >
+                  {collateralList?.map((asset, index) => {
+                    return (
+                      <RenderAvatar
+                        isBaseAsset={false}
+                        name={asset?.symbol}
+                        src={asset?.logoURL}
+                        key={index}
+                        mr={1}
+                        style={{ marginLeft: index * -4 }}
+                      />
+                    );
+                  })}
+                </Row>
+              </HoverIcon>
+            </Row>
           </>
         )}
       </Row>

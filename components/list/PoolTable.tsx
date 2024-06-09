@@ -21,6 +21,22 @@ interface TableHeaderColumnProps {
   width: string;
 }
 
+const TableHeaderColumnBase: React.FC<TableHeaderColumnProps> = ({
+  text,
+  width,
+}) => (
+  <Row
+    mainAxisAlignment="center"
+    crossAxisAlignment="center"
+    height="100%"
+    width={width}
+  >
+    <Text textAlign="left" fontWeight="bold" width="100%" pl={3}>
+      {text}
+    </Text>
+  </Row>
+);
+
 const TableHeaderColumn: React.FC<TableHeaderColumnProps> = ({
   text,
   width,
@@ -73,28 +89,47 @@ const PoolTable = () => {
                 px={4}
                 my={4}
               >
-                <TableHeaderColumn text={t("Pool Name")} width="10%" />
+                {/* <TableHeaderColumn text={t("Pool Name")} width="10%" /> */}
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="flex-start"
+                  height="100%"
+                  width="16%"
+                >
+                  <TableHeaderColumnBase text={t("Base Asset")} width="100%" />
+                </Row>
+                <TableHeaderColumn
+                  text={t("Total Collateral Balance")}
+                  width="12%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Collateral Balance")}
+                  width="12%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Collateral Balance")}
+                  width="12%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Supply Balance")}
+                  width="12%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Borrow Balance")}
+                  width="12%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Collateral Balance")}
+                  width="12%"
+                />
                 <Row
                   mainAxisAlignment="center"
                   crossAxisAlignment="center"
                   height="100%"
-                  width="30%"
+                  width="12%"
                 >
-                  <TableHeaderColumn text={t("Base Asset")} width="40%" />
-                  <TableHeaderColumn text={t("Collateral Asset")} width="60%" />
+                  <TableHeaderColumn text={t("Collateral Asset")} width="100%" />
                 </Row>
-                <TableHeaderColumn
-                  text={t("Total Supply Balance")}
-                  width="20%"
-                />
-                <TableHeaderColumn
-                  text={t("Total Borrow Balance")}
-                  width="20%"
-                />
-                <TableHeaderColumn
-                  text={t("Total Collateral Balance")}
-                  width="20%"
-                />
               </Row>
               <ModalDivider />
               <RenderPoolTableRow />
