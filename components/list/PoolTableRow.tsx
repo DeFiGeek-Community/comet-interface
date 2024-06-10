@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
 import { Avatar, AvatarProps, Spinner, Link, Text } from "@chakra-ui/react";
@@ -14,6 +14,10 @@ import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
 import { OneMillion, OneHundred } from "constants/aprs";
+import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
+import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
+import useTokenRewardData from "hooks/pool/shared/useTokenReward";
+import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 
 interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
   isBaseAsset: boolean;
@@ -220,10 +224,23 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
-  // const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
-  // const { tokenRewardData, positionSummary } = usePoolSecondaryDataContext();
+  const { baseAssetData } = useBaseAsset(poolData);
+  const { collateralAssetsData } = useCollateralAssets(poolData);
+  const { tokenRewardData } = useTokenRewardData(poolData, {
+    priceFeedData,
+    baseAssetData,
+    collateralAssetsData,
+    totalPoolData: totalPoolObject
+  });
+  console.log(tokenRewardData);
   let netEarnAPRValue: number | undefined;
-  // console.log(utilizationValue);
+  let netBorrowAPRValue: number | undefined;
+  if(baseAssetData?.supplyAPR !== undefined&&tokenRewardData?.supplyRewardAPR !== undefined ){
+    netEarnAPRValue = baseAssetData?.supplyAPR + tokenRewardData?.supplyRewardAPR;
+  }
+  if(baseAssetData?.borrowAPR !== undefined&&tokenRewardData?.borrowRewardAPR !== undefined ){
+    netBorrowAPRValue = baseAssetData?.borrowAPR - tokenRewardData?.borrowRewardAPR;
+  }
 
   return (
     <Link
@@ -367,20 +384,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               </HoverIcon>
             </Row>
             <RenderStatsText statsValue={utilizationValue} />
-            <RenderBalanceText
-              totalPoolObjectValue={sumCollateralBalances}
-              assetPrice={assetPrice}
-              currency={currency}
-              rate={rate}
-              isCollateralBalances={true}
-            />
-            <RenderBalanceText
-              totalPoolObjectValue={sumCollateralBalances}
-              assetPrice={assetPrice}
-              currency={currency}
-              rate={rate}
-              isCollateralBalances={true}
-            />
+            <RenderStatsText statsValue={utilizationValue} />
+            <RenderStatsText statsValue={utilizationValue} />
             <RenderBalanceText
               totalPoolObjectValue={totalPoolObject?.totalBaseSupplyBalance}
               assetPrice={assetPrice}
