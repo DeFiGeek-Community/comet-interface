@@ -4,6 +4,7 @@ import { TotalPoolData } from "../hooks/pool/shared/useTotalPoolData";
 import { PoolConfigMapForList } from "interfaces/pool";
 import { BaseAssetData } from "../hooks/pool/indivisual/useBaseAsset";
 import { CollateralAssetsData } from "../hooks/pool/indivisual/useCollateralAssets";
+import { TokenRewardData } from "../hooks/pool/shared/useTokenReward";
 
 export type Currency = "USD" | "JPY";
 
@@ -33,6 +34,11 @@ export interface AppDataContextType {
   updateCollateralAssetsData: (
     poolName: string,
     data: CollateralAssetsData | undefined,
+  ) => void;
+  tokenRewardData: { [poolName: string]: TokenRewardData | undefined };
+  updateTokenRewardData: (
+    poolName: string,
+    data: TokenRewardData | undefined,
   ) => void;
   currency: Currency;
   rate?: number;

@@ -11,6 +11,7 @@ import { PoolConfigMapForList } from "interfaces/pool";
 import { POOL_CONFIG_MAP } from "constants/pools";
 import { BaseAssetData } from "../../hooks/pool/indivisual/useBaseAsset";
 import { CollateralAssetsData } from "../../hooks/pool/indivisual/useCollateralAssets";
+import { TokenRewardData } from "../../hooks/pool/shared/useTokenReward";
 
 export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -41,6 +42,9 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   }>({});
   const [collateralAssetsData, setCollateralAssetsData] = useState<{
     [poolName: string]: CollateralAssetsData | undefined;
+  }>({});
+  const [tokenRewardData, setTokenRewardData] = useState<{
+    [poolName: string]: TokenRewardData | undefined;
   }>({});
 
   const [usdjpyPrice, setUsdjpyPrice] = useState<number | undefined>(undefined);
@@ -88,6 +92,13 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     setCollateralAssetsData((prevData) => ({ ...prevData, [poolName]: data }));
   };
 
+  const updateTokenRewardData = (
+    poolName: string,
+    data: TokenRewardData | undefined,
+  ) => {
+    setTokenRewardData((prevData) => ({ ...prevData, [poolName]: data }));
+  };
+
   const [currency, setCurrency] = useState<Currency>("USD");
   const [rate, setRate] = useState<number>(1);
 
@@ -114,6 +125,8 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     updateBaseAssetData,
     collateralAssetsData,
     updateCollateralAssetsData,
+    tokenRewardData,
+    updateTokenRewardData,
     currency,
     rate,
     toggleCurrency,
