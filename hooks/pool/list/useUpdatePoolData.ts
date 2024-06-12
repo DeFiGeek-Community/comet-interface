@@ -17,9 +17,9 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     updatePriceFeedData,
     totalPoolData: totalPoolObject,
     updateTotalPoolData,
-    baseAssetData: BaseAssetData,
+    baseAssetData: BaseAssetObject,
     updateBaseAssetData,
-    collateralAssetsData: CollateralAssetsData,
+    collateralAssetsData: CollateralAssetsObject,
     updateCollateralAssetsData,
   } = useAppData();
   const poolName = poolConfig?.baseToken.symbol ?? "";
@@ -44,7 +44,7 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   const { baseAssetData } = useBaseAsset(poolConfig);
 
   useEffect(() => {
-    if (baseAssetData && BaseAssetData[poolName] !== baseAssetData) {
+    if (baseAssetData && BaseAssetObject[poolName] !== baseAssetData) {
       updateBaseAssetData(poolName, baseAssetData);
     }
   }, [poolConfig, baseAssetData]);
@@ -54,7 +54,7 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   useEffect(() => {
     if (
       collateralAssetsData &&
-      CollateralAssetsData[poolName] !== collateralAssetsData
+      CollateralAssetsObject[poolName] !== collateralAssetsData
     ) {
       updateCollateralAssetsData(poolName, collateralAssetsData);
     }
@@ -87,9 +87,9 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   return {
     priceFeedData: !isLoading ? priceObject[poolName] : undefined,
     totalPoolData: !isLoading ? totalPoolObject[poolName] : undefined,
-    baseAssetData: !isLoading ? BaseAssetData[poolName] : undefined,
+    baseAssetData: !isLoading ? BaseAssetObject[poolName] : undefined,
     collateralAssetsData: !isLoading
-      ? CollateralAssetsData[poolName]
+      ? CollateralAssetsObject[poolName]
       : undefined,
   };
 };
