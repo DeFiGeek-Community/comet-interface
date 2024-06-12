@@ -226,21 +226,21 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   }
   const { baseAssetData } = useBaseAsset(poolData);
   const { collateralAssetsData } = useCollateralAssets(poolData);
-  const { tokenRewardData } = useTokenRewardData(poolData, {
-    priceFeedData,
-    baseAssetData,
-    collateralAssetsData,
-    totalPoolData: totalPoolObject
-  });
-  console.log(tokenRewardData);
-  let netEarnAPRValue: number | undefined;
-  let netBorrowAPRValue: number | undefined;
-  if(baseAssetData?.supplyAPR !== undefined&&tokenRewardData?.supplyRewardAPR !== undefined ){
-    netEarnAPRValue = baseAssetData?.supplyAPR + tokenRewardData?.supplyRewardAPR;
-  }
-  if(baseAssetData?.borrowAPR !== undefined&&tokenRewardData?.borrowRewardAPR !== undefined ){
-    netBorrowAPRValue = baseAssetData?.borrowAPR - tokenRewardData?.borrowRewardAPR;
-  }
+  // const { tokenRewardData } = useTokenRewardData(poolData, {
+  //   priceFeedData,
+  //   baseAssetData,
+  //   collateralAssetsData,
+  //   totalPoolData: totalPoolObject
+  // });
+  // console.log(tokenRewardData);
+  // let netEarnAPRValue: number | undefined;
+  // let netBorrowAPRValue: number | undefined;
+  // if(baseAssetData?.supplyAPR !== undefined&&tokenRewardData?.supplyRewardAPR !== undefined ){
+  //   netEarnAPRValue = baseAssetData?.supplyAPR + tokenRewardData?.supplyRewardAPR;
+  // }
+  // if(baseAssetData?.borrowAPR !== undefined&&tokenRewardData?.borrowRewardAPR !== undefined ){
+  //   netBorrowAPRValue = baseAssetData?.borrowAPR - tokenRewardData?.borrowRewardAPR;
+  // }
 
   return (
     <Link

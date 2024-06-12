@@ -9,6 +9,8 @@ import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { PoolConfigMapForList } from "interfaces/pool";
 import { POOL_CONFIG_MAP } from "constants/pools";
+import { BaseAssetData } from "../../hooks/pool/indivisual/useBaseAsset";
+import { CollateralAssetsData } from "../../hooks/pool/indivisual/useCollateralAssets";
 
 export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -34,6 +36,13 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   const [totalPoolData, setTotalPoolData] = useState<{
     [poolName: string]: TotalPoolData | undefined;
   }>({});
+  const [baseAssetData, setBaseAssetData] = useState<{
+    [poolName: string]: BaseAssetData | undefined;
+  }>({});
+  const [collateralAssetsData, setCollateralAssetsData] = useState<{
+    [poolName: string]: CollateralAssetsData | undefined;
+  }>({});
+  
   const [usdjpyPrice, setUsdjpyPrice] = useState<number | undefined>(undefined);
 
   useEffect(() => {
@@ -65,6 +74,20 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     setTotalPoolData((prevData) => ({ ...prevData, [poolName]: data }));
   };
 
+  const updateBaseAssetData = (
+    poolName: string,
+    data: BaseAssetData | undefined,
+  ) => {
+    setBaseAssetData((prevData) => ({ ...prevData, [poolName]: data }));
+  };
+
+  const updateCollateralAssetsData = (
+    poolName: string,
+    data: CollateralAssetsData | undefined,
+  ) => {
+    setCollateralAssetsData((prevData) => ({ ...prevData, [poolName]: data }));
+  };
+
   const [currency, setCurrency] = useState<Currency>("USD");
   const [rate, setRate] = useState<number>(1);
 
@@ -87,6 +110,10 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     updatePriceFeedData,
     totalPoolData,
     updateTotalPoolData,
+    baseAssetData,
+    updateBaseAssetData,
+    collateralAssetsData,
+    updateCollateralAssetsData,
     currency,
     rate,
     toggleCurrency,
