@@ -3,6 +3,8 @@ import { useAppData } from "context/AppDataContext";
 import { PoolConfig } from "interfaces/pool";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
+import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
+import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 
 interface PoolDataComponentProps {
   poolConfig: PoolConfig;
@@ -15,6 +17,10 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     updatePriceFeedData,
     totalPoolData: totalPoolObject,
     updateTotalPoolData,
+    baseAssetData: BaseAssetData,
+    updateBaseAssetData,
+    collateralAssetsData: CollateralAssetsData,
+    updateCollateralAssetsData,
   } = useAppData();
   const poolName = poolConfig?.baseToken.symbol ?? "";
   const { priceFeedData } = usePriceFeedData(poolConfig);
@@ -35,6 +41,22 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     }
   }, [poolConfig, totalPoolData]);
 
+  const { baseAssetData } = useBaseAsset(poolConfig);
+
+  useEffect(() => {
+    if (baseAssetData && BaseAssetData[poolName] !== baseAssetData) {
+      updateBaseAssetData(poolName, baseAssetData);
+    }
+  }, [poolConfig, baseAssetData]);
+
+  const { collateralAssetsData } = useCollateralAssets(poolConfig);
+
+  useEffect(() => {
+    if (collateralAssetsData && CollateralAssetsData[poolName] !== collateralAssetsData) {
+      updateCollateralAssetsData(poolName, collateralAssetsData);
+    }
+  }, [poolConfig, collateralAssetsData]);
+
   useEffect(() => {
     if (isFirstRender.current) {
       // 初回レンダリング時は何もしない
@@ -49,14 +71,16 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
 
   useEffect(() => {
     // データが取得し終わったらfalseにする
-    if (priceFeedData && totalPoolData) {
+    if (priceFeedData && totalPoolData && baseAssetData && collateralAssetsData) {
       setIsLoading(false);
     }
-  }, [priceFeedData, totalPoolData]);
+  }, [priceFeedData, totalPoolData, baseAssetData, collateralAssetsData]);
 
   return {
     priceFeedData: !isLoading ? priceObject[poolName] : undefined,
     totalPoolData: !isLoading ? totalPoolObject[poolName] : undefined,
+    baseAssetData: !isLoading ? BaseAssetData[poolName] : undefined,
+    collateralAssetsData: !isLoading ? CollateralAssetsData[poolName] : undefined,
   };
 };
 
