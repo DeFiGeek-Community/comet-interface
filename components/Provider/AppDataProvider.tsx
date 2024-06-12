@@ -42,7 +42,7 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   const [collateralAssetsData, setCollateralAssetsData] = useState<{
     [poolName: string]: CollateralAssetsData | undefined;
   }>({});
-  
+
   const [usdjpyPrice, setUsdjpyPrice] = useState<number | undefined>(undefined);
 
   useEffect(() => {

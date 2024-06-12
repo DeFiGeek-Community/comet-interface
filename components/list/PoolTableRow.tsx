@@ -196,8 +196,12 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       allCollateralSymbols += assetConfig.symbol + ", ";
     }
   }
-  const { priceFeedData: priceFeedData, totalPoolData: totalPoolObject } =
-    useUpdatePoolData({ poolConfig: poolData });
+  const {
+    priceFeedData: priceFeedData,
+    totalPoolData: totalPoolObject,
+    baseAssetData: BaseAssetData,
+    collateralAssetsData: CollateralAssetsData,
+  } = useUpdatePoolData({ poolConfig: poolData });
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
 
@@ -224,8 +228,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
-  const { baseAssetData } = useBaseAsset(poolData);
-  const { collateralAssetsData } = useCollateralAssets(poolData);
+  // console.log(BaseAssetData);
+  console.log(CollateralAssetsData);
   // const { tokenRewardData } = useTokenRewardData(poolData, {
   //   priceFeedData,
   //   baseAssetData,

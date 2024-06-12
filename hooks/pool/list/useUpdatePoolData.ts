@@ -52,7 +52,10 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   const { collateralAssetsData } = useCollateralAssets(poolConfig);
 
   useEffect(() => {
-    if (collateralAssetsData && CollateralAssetsData[poolName] !== collateralAssetsData) {
+    if (
+      collateralAssetsData &&
+      CollateralAssetsData[poolName] !== collateralAssetsData
+    ) {
       updateCollateralAssetsData(poolName, collateralAssetsData);
     }
   }, [poolConfig, collateralAssetsData]);
@@ -71,7 +74,12 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
 
   useEffect(() => {
     // データが取得し終わったらfalseにする
-    if (priceFeedData && totalPoolData && baseAssetData && collateralAssetsData) {
+    if (
+      priceFeedData &&
+      totalPoolData &&
+      baseAssetData &&
+      collateralAssetsData
+    ) {
       setIsLoading(false);
     }
   }, [priceFeedData, totalPoolData, baseAssetData, collateralAssetsData]);
@@ -80,7 +88,9 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     priceFeedData: !isLoading ? priceObject[poolName] : undefined,
     totalPoolData: !isLoading ? totalPoolObject[poolName] : undefined,
     baseAssetData: !isLoading ? BaseAssetData[poolName] : undefined,
-    collateralAssetsData: !isLoading ? CollateralAssetsData[poolName] : undefined,
+    collateralAssetsData: !isLoading
+      ? CollateralAssetsData[poolName]
+      : undefined,
   };
 };
 

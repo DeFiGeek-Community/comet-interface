@@ -27,7 +27,9 @@ export interface AppDataContextType {
     poolName: string,
     data: BaseAssetData | undefined,
   ) => void;
-  collateralAssetsData: { [poolName: string]: CollateralAssetsData | undefined };
+  collateralAssetsData: {
+    [poolName: string]: CollateralAssetsData | undefined;
+  };
   updateCollateralAssetsData: (
     poolName: string,
     data: CollateralAssetsData | undefined,
