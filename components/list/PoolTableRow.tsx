@@ -199,8 +199,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const {
     priceFeedData: priceFeedData,
     totalPoolData: totalPoolObject,
-    baseAssetData: BaseAssetObject,
-    collateralAssetsData: CollateralAssetsObject,
+    baseAssetData: baseAssetObject,
+    collateralAssetsData: collateralAssetsObject,
   } = useUpdatePoolData({ poolConfig: poolData });
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
