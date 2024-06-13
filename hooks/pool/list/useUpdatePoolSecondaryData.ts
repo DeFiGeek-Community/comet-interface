@@ -1,11 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import { useAppData } from "context/AppDataContext";
 import { useAppSecondaryData } from "context/AppSecondaryDataContext";
 import { PoolConfig } from "interfaces/pool";
-import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
-import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
-import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
-import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import { PoolPrimaryDataContextType } from "context/PoolPrimaryDataContext";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
@@ -13,16 +8,9 @@ import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
 import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 
-export interface AppDataContextType {
-    priceFeedData: PriceFeedData | undefined;
-    baseAssetData: BaseAssetData | undefined;
-    collateralAssetsData: CollateralAssetsData | undefined;
-    totalPoolData: TotalPoolData | undefined ;
-  }
-
 interface PoolSecondaryDataComponentProps {
   poolConfig: PoolConfig;
-  appData: AppDataContextType | undefined;
+  appData: PoolPrimaryDataContextType | undefined;
 }
 
 const useUpdatePoolSecondaryData = ({
