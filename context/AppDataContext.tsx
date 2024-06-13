@@ -35,11 +35,6 @@ export interface AppDataContextType {
     poolName: string,
     data: CollateralAssetsData | undefined,
   ) => void;
-  tokenRewardData: { [poolName: string]: TokenRewardData | undefined };
-  updateTokenRewardData: (
-    poolName: string,
-    data: TokenRewardData | undefined,
-  ) => void;
   currency: Currency;
   rate?: number;
   toggleCurrency: () => void;
