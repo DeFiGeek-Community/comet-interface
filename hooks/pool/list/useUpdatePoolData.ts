@@ -5,6 +5,7 @@ import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
+import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 
 interface PoolDataComponentProps {
   poolConfig: PoolConfig;
@@ -21,6 +22,8 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     updateBaseAssetData,
     collateralAssetsData: collateralAssetsObject,
     updateCollateralAssetsData,
+    tokenRewardData: tokenRewardObject,
+    updateTokenRewardData,
   } = useAppData();
   const poolName = poolConfig?.baseToken.symbol ?? "";
   const { priceFeedData } = usePriceFeedData(poolConfig);
@@ -59,6 +62,14 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
       updateCollateralAssetsData(poolName, collateralAssetsData);
     }
   }, [poolConfig, collateralAssetsData]);
+
+  // const { tokenRewardData } = useTokenRewardData(poolConfig, appData);
+
+  // useEffect(() => {
+  //   if (tokenRewardData && tokenRewardObject[poolName] !== tokenRewardData) {
+  //     updateTokenRewardData(poolName, tokenRewardData);
+  //   }
+  // }, [poolConfig, tokenRewardData]);
 
   useEffect(() => {
     if (isFirstRender.current) {
