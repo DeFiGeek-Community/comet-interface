@@ -62,6 +62,7 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
       setTotalPoolData({});
       setBaseAssetData({});
       setCollateralAssetsData({});
+      setTokenRewardData({});
     }
   }, [chain]);
 
