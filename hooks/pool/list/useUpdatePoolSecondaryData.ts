@@ -8,17 +8,16 @@ import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import { PoolPrimaryDataContextType } from "context/PoolPrimaryDataContext";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
-import useTokenRewardData2 from "hooks/pool/shared/useTokenReward2";
 import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
 import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 
 export interface AppDataContextType {
-    priceFeedData: { [poolName: string]: PriceFeedData | undefined };
-    baseAssetData: { [poolName: string]: BaseAssetData | undefined };
-    collateralAssetsData: { [poolName: string]: CollateralAssetsData | undefined };
-    totalPoolData: { [poolName: string]: TotalPoolData | undefined };
+    priceFeedData: PriceFeedData | undefined;
+    baseAssetData: BaseAssetData | undefined;
+    collateralAssetsData: CollateralAssetsData | undefined;
+    totalPoolData: TotalPoolData | undefined ;
   }
 
 interface PoolSecondaryDataComponentProps {
@@ -39,7 +38,7 @@ const useUpdatePoolSecondaryData = ({
   const [isLoading, setIsLoading] = useState(false);
   const isFirstRender = useRef(true);
 
-  const { tokenRewardData } = useTokenRewardData2(poolConfig, appData);
+  const { tokenRewardData } = useTokenRewardData(poolConfig, appData);
 
   useEffect(() => {
     if (tokenRewardData && tokenRewardObject[poolName] !== tokenRewardData) {
