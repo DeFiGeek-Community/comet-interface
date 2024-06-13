@@ -8,6 +8,7 @@ import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
+import useUpdatePoolRewardData from "hooks/pool/list/useUpdatePoolRewardData";
 import { usePool } from "context/PoolContext";
 import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
@@ -228,8 +229,29 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
-  // console.log(BaseAssetObject);
-  // console.log(CollateralAssetsObject);
+  // const {
+  //   chainId,
+  //   priceFeedData: priceFeedData2,
+  //   totalPoolData: totalPoolObject2,
+  //   baseAssetData: baseAssetObject2,
+  //   collateralAssetsData: collateralAssetsObject2,
+  // } = useAppData();
+  //console.log(priceObject2[symbol]);
+  // const primaryData = {
+  //   priceFeedData: priceFeedData,
+  //   baseAssetData: baseAssetObject,
+  //   collateralAssetsData: collateralAssetsObject,
+  //   totalPoolData: totalPoolObject
+  // }
+  // const {tokenRewardData: tokenRewardObject} = useUpdatePoolRewardData({ poolConfig: poolData, primaryData} );
+  // console.log(tokenRewardObject);
+  // const {tokenRewardData: tokenRewardObject} = useUpdatePoolRewardData({ poolConfig: poolData, {
+  //   priceFeedData, totalPoolObject, baseAssetObject, collateralAssetsObject,
+  // } });
+  // const {tokenRewardData: tokenRewardObject} = useUpdatePoolRewardData({ poolConfig: poolData, priceFeedData, baseAssetObject, collateralAssetsObject, totalPoolObject, });
+  
+  // console.log(baseAssetObject);
+  // console.log(collateralAssetsObject);
   // const { tokenRewardData } = useTokenRewardData(poolData, {
   //   priceFeedData,
   //   baseAssetData,
