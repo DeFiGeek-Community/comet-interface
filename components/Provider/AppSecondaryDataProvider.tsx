@@ -5,12 +5,8 @@ import {
   Currency,
   AppSecondaryDataContextType,
 } from "context/AppSecondaryDataContext";
-import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
-import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { PoolConfigMapForList } from "interfaces/pool";
 import { POOL_CONFIG_MAP } from "constants/pools";
-import { BaseAssetData } from "../../hooks/pool/indivisual/useBaseAsset";
-import { CollateralAssetsData } from "../../hooks/pool/indivisual/useCollateralAssets";
 import { TokenRewardData } from "../../hooks/pool/shared/useTokenReward";
 
 export const AppSecondaryDataProvider: React.FC<{ children: ReactNode }> = ({
