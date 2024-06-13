@@ -63,7 +63,6 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     }
   }, [poolConfig, collateralAssetsData]);
 
-  // const { tokenRewardData } = useTokenRewardData(poolConfig, { priceObject[poolName], baseAssetObject[poolName], collateralAssetsObject[poolName], totalPoolObject[poolName] } );
   const { tokenRewardData } = useTokenRewardData(poolConfig, {
     priceFeedData: priceObject[poolName],
     baseAssetData: baseAssetObject[poolName],
