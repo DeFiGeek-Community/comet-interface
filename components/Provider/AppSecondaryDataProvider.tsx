@@ -1,10 +1,10 @@
 import React, { useState, ReactNode, useEffect, useRef } from "react";
 import { useNetwork } from "wagmi";
 import {
-  AppDataContext,
+  AppSecondaryDataContext,
   Currency,
-  AppDataContextType,
-} from "context/AppDataContext";
+  AppSecondaryDataContextType,
+} from "context/AppSecondaryDataContext";
 import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 import { PoolConfigMapForList } from "interfaces/pool";
@@ -30,19 +30,6 @@ export const AppSecondaryDataProvider: React.FC<{ children: ReactNode }> = ({
       setConfig(POOL_CONFIG_MAP[1]);
     }
   }, [chain, setChainId]);
-
-  const [priceFeedData, setPriceFeedData] = useState<{
-    [poolName: string]: PriceFeedData | undefined;
-  }>({});
-  const [totalPoolData, setTotalPoolData] = useState<{
-    [poolName: string]: TotalPoolData | undefined;
-  }>({});
-  const [baseAssetData, setBaseAssetData] = useState<{
-    [poolName: string]: BaseAssetData | undefined;
-  }>({});
-  const [collateralAssetsData, setCollateralAssetsData] = useState<{
-    [poolName: string]: CollateralAssetsData | undefined;
-  }>({});
   const [tokenRewardData, setTokenRewardData] = useState<{
     [poolName: string]: TokenRewardData | undefined;
   }>({});
@@ -58,39 +45,9 @@ export const AppSecondaryDataProvider: React.FC<{ children: ReactNode }> = ({
 
     // addressが存在し、初回のレンダリングではない場合にreloadを実行
     if (chain) {
-      setPriceFeedData({});
-      setTotalPoolData({});
+      setTokenRewardData({});
     }
   }, [chain]);
-
-  const updatePriceFeedData = (
-    poolName: string,
-    data: PriceFeedData | undefined,
-  ) => {
-    setPriceFeedData((prevData) => ({ ...prevData, [poolName]: data }));
-    setUsdjpyPrice(data?.usdjpy);
-  };
-
-  const updateTotalPoolData = (
-    poolName: string,
-    data: TotalPoolData | undefined,
-  ) => {
-    setTotalPoolData((prevData) => ({ ...prevData, [poolName]: data }));
-  };
-
-  const updateBaseAssetData = (
-    poolName: string,
-    data: BaseAssetData | undefined,
-  ) => {
-    setBaseAssetData((prevData) => ({ ...prevData, [poolName]: data }));
-  };
-
-  const updateCollateralAssetsData = (
-    poolName: string,
-    data: CollateralAssetsData | undefined,
-  ) => {
-    setCollateralAssetsData((prevData) => ({ ...prevData, [poolName]: data }));
-  };
 
   const updateTokenRewardData = (
     poolName: string,
@@ -112,27 +69,18 @@ export const AppSecondaryDataProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const value: AppDataContextType = {
+  const value: AppSecondaryDataContextType = {
     pageName,
     setPageName,
     chainId,
     config,
-    priceFeedData,
-    updatePriceFeedData,
-    totalPoolData,
-    updateTotalPoolData,
-    baseAssetData,
-    updateBaseAssetData,
-    collateralAssetsData,
-    updateCollateralAssetsData,
     tokenRewardData,
     updateTokenRewardData,
-    currency,
-    rate,
-    toggleCurrency,
   };
 
   return (
-    <AppDataContext.Provider value={value}>{children}</AppDataContext.Provider>
+    <AppSecondaryDataContext.Provider value={value}>
+      {children}
+    </AppSecondaryDataContext.Provider>
   );
 };

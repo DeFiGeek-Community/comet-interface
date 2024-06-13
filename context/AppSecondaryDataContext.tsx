@@ -20,14 +20,16 @@ export interface AppSecondaryDataContextType {
   ) => void;
 }
 
-export const AppSecondaryDataContext = createContext<AppSecondaryDataContextType | undefined>(
-  undefined,
-);
+export const AppSecondaryDataContext = createContext<
+  AppSecondaryDataContextType | undefined
+>(undefined);
 
 export const useAppSecondaryData = () => {
   const context = useContext(AppSecondaryDataContext);
   if (context === undefined) {
-    throw new Error("useAppSecondaryData must be used within a AppSecondaryDataProvider");
+    throw new Error(
+      "useAppSecondaryData must be used within a AppSecondaryDataProvider",
+    );
   }
   return context;
 };

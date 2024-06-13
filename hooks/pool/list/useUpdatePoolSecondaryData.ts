@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useAppData } from "context/AppDataContext";
+import { useAppSecondaryData } from "context/AppSecondaryDataContext";
 import { PoolConfig } from "interfaces/pool";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
@@ -7,26 +8,38 @@ import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import { PoolPrimaryDataContextType } from "context/PoolPrimaryDataContext";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
+import useTokenRewardData2 from "hooks/pool/shared/useTokenReward2";
+import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
+import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
+import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
+import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 
-interface PoolRewardDataComponentProps {
+export interface AppDataContextType {
+    priceFeedData: { [poolName: string]: PriceFeedData | undefined };
+    baseAssetData: { [poolName: string]: BaseAssetData | undefined };
+    collateralAssetsData: { [poolName: string]: CollateralAssetsData | undefined };
+    totalPoolData: { [poolName: string]: TotalPoolData | undefined };
+  }
+
+interface PoolSecondaryDataComponentProps {
   poolConfig: PoolConfig;
-  primaryData: PoolPrimaryDataContextType | undefined;
+  appData: AppDataContextType | undefined;
 }
 
-const useUpdatePoolRewardData = ({
+const useUpdatePoolSecondaryData = ({
   poolConfig,
-  primaryData,
-}: PoolRewardDataComponentProps) => {
+  appData,
+}: PoolSecondaryDataComponentProps) => {
   const {
     chainId,
     tokenRewardData: tokenRewardObject,
     updateTokenRewardData,
-  } = useAppData();
+  } = useAppSecondaryData();
   const poolName = poolConfig?.baseToken.symbol ?? "";
   const [isLoading, setIsLoading] = useState(false);
   const isFirstRender = useRef(true);
 
-  const { tokenRewardData } = useTokenRewardData(poolConfig, primaryData);
+  const { tokenRewardData } = useTokenRewardData2(poolConfig, appData);
 
   useEffect(() => {
     if (tokenRewardData && tokenRewardObject[poolName] !== tokenRewardData) {
@@ -58,4 +71,4 @@ const useUpdatePoolRewardData = ({
   };
 };
 
-export default useUpdatePoolRewardData;
+export default useUpdatePoolSecondaryData;

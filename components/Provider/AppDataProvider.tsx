@@ -60,6 +60,8 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     if (chain) {
       setPriceFeedData({});
       setTotalPoolData({});
+      setBaseAssetData({});
+      setCollateralAssetsData({});
     }
   }, [chain]);
 
