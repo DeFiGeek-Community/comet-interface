@@ -20,7 +20,6 @@ import { Center } from "utils/chakraUtils";
 import { HashLoader } from "react-spinners";
 import { CustomAvatar } from "components/shared/AvatarComponent";
 import { AppDataProvider } from "components/Provider/AppDataProvider";
-import { AppSecondaryDataProvider } from "components/Provider/AppSecondaryDataProvider";
 import { PoolProvider } from "components/Provider/PoolProvider";
 import { ReloadContextProvider } from "components/Provider/ReloadContextProvider";
 
@@ -74,13 +73,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             {isRendered && router.isReady ? (
               <AppDataProvider>
-                <AppSecondaryDataProvider>
                   <PoolProvider>
                     <ReloadContextProvider>
                       <Component {...pageProps} />
                     </ReloadContextProvider>
                   </PoolProvider>
-                </AppSecondaryDataProvider>
               </AppDataProvider>
             ) : (
               <Center height="100vh">

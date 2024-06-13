@@ -8,7 +8,6 @@ import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
-import useUpdatePoolSecondaryData from "hooks/pool/list/useUpdatePoolSecondaryData";
 import { usePool } from "context/PoolContext";
 import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
@@ -202,6 +201,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
     totalPoolData: totalPoolObject,
     baseAssetData: baseAssetObject,
     collateralAssetsData: collateralAssetsObject,
+    tokenRewardData: tokenRewardObject,
   } = useUpdatePoolData({ poolConfig: poolData });
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
@@ -229,51 +229,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
-  // const { tokenRewardData: tokenRewardObject } = useUpdatePoolSecondaryData({
-  //   poolConfig: poolData,
-  //   priceFeedData: priceFeedData,
-  //   totalPoolData: totalPoolObject,
-  //   baseAssetData: baseAssetObject,
-  //   collateralAssetsData: collateralAssetsObject,
-  // });
-  // const {
-  //   chainId,
-  //   priceFeedData: priceFeedData2,
-  //   totalPoolData: totalPoolObject2,
-  //   baseAssetData: baseAssetObject2,
-  //   collateralAssetsData: collateralAssetsObject2,
-  // } = useAppData();
-  //console.log(priceObject2[symbol]);
-  // const primaryData = {
-  //   priceFeedData: priceFeedData,
-  //   baseAssetData: baseAssetObject,
-  //   collateralAssetsData: collateralAssetsObject,
-  //   totalPoolData: totalPoolObject
-  // }
-  // const {tokenRewardData: tokenRewardObject} = useUpdatePoolRewardData({ poolConfig: poolData, primaryData} );
-  // console.log(tokenRewardObject);
-  // const {tokenRewardData: tokenRewardObject} = useUpdatePoolRewardData({ poolConfig: poolData, {
-  //   priceFeedData, totalPoolObject, baseAssetObject, collateralAssetsObject,
-  // } });
-  // const {tokenRewardData: tokenRewardObject} = useUpdatePoolRewardData({ poolConfig: poolData, priceFeedData, baseAssetObject, collateralAssetsObject, totalPoolObject, });
-
-  // console.log(baseAssetObject);
-  // console.log(collateralAssetsObject);
-  // const { tokenRewardData } = useTokenRewardData(poolData, {
-  //   priceFeedData,
-  //   baseAssetData,
-  //   collateralAssetsData,
-  //   totalPoolData: totalPoolObject
-  // });
-  // console.log(tokenRewardData);
-  // let netEarnAPRValue: number | undefined;
-  // let netBorrowAPRValue: number | undefined;
-  // if(baseAssetData?.supplyAPR !== undefined&&tokenRewardData?.supplyRewardAPR !== undefined ){
-  //   netEarnAPRValue = baseAssetData?.supplyAPR + tokenRewardData?.supplyRewardAPR;
-  // }
-  // if(baseAssetData?.borrowAPR !== undefined&&tokenRewardData?.borrowRewardAPR !== undefined ){
-  //   netBorrowAPRValue = baseAssetData?.borrowAPR - tokenRewardData?.borrowRewardAPR;
-  // }
+  console.log(tokenRewardObject);
 
   return (
     <Link
