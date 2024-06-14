@@ -8,6 +8,7 @@ import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
+import useUpdatePoolRewardData from "hooks/pool/list/useUpdatePoolData";
 import { usePool } from "context/PoolContext";
 import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
@@ -201,7 +202,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
     totalPoolData: totalPoolObject,
     baseAssetData: baseAssetObject,
     collateralAssetsData: collateralAssetsObject,
-    tokenRewardData: tokenRewardObject,
   } = useUpdatePoolData({ poolConfig: poolData });
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
@@ -229,6 +229,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
+  const { tokenRewardData: tokenRewardObject } = useUpdatePoolRewardData({
+    poolConfig: poolData,
+  });
   console.log(tokenRewardObject);
 
   return (

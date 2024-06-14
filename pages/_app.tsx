@@ -73,11 +73,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             {isRendered && router.isReady ? (
               <AppDataProvider>
-                  <PoolProvider>
-                    <ReloadContextProvider>
-                      <Component {...pageProps} />
-                    </ReloadContextProvider>
-                  </PoolProvider>
+                <PoolProvider>
+                  <ReloadContextProvider>
+                    <Component {...pageProps} />
+                  </ReloadContextProvider>
+                </PoolProvider>
               </AppDataProvider>
             ) : (
               <Center height="100vh">

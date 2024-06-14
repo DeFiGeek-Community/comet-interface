@@ -5,7 +5,6 @@ import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
-import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 
 interface PoolDataComponentProps {
   poolConfig: PoolConfig;
@@ -22,8 +21,6 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     updateBaseAssetData,
     collateralAssetsData: collateralAssetsObject,
     updateCollateralAssetsData,
-    tokenRewardData: tokenRewardObject,
-    updateTokenRewardData,
   } = useAppData();
   const poolName = poolConfig?.baseToken.symbol ?? "";
   const { priceFeedData } = usePriceFeedData(poolConfig);
@@ -63,19 +60,6 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     }
   }, [poolConfig, collateralAssetsData]);
 
-  const { tokenRewardData } = useTokenRewardData(poolConfig, {
-    priceFeedData: priceObject[poolName],
-    baseAssetData: baseAssetObject[poolName],
-    collateralAssetsData: collateralAssetsObject[poolName],
-    totalPoolData: totalPoolObject[poolName]
-  });
-
-  useEffect(() => {
-    if (tokenRewardData && tokenRewardObject[poolName] !== tokenRewardData) {
-      updateTokenRewardData(poolName, tokenRewardData);
-    }
-  }, [poolConfig, tokenRewardData]);
-
   useEffect(() => {
     if (isFirstRender.current) {
       // 初回レンダリング時は何もしない
@@ -94,12 +78,11 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
       priceFeedData &&
       totalPoolData &&
       baseAssetData &&
-      collateralAssetsData &&
-      tokenRewardData
+      collateralAssetsData
     ) {
       setIsLoading(false);
     }
-  }, [priceFeedData, totalPoolData, baseAssetData, collateralAssetsData, tokenRewardData]);
+  }, [priceFeedData, totalPoolData, baseAssetData, collateralAssetsData]);
 
   return {
     priceFeedData: !isLoading ? priceObject[poolName] : undefined,
@@ -108,7 +91,6 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     collateralAssetsData: !isLoading
       ? collateralAssetsObject[poolName]
       : undefined,
-      tokenRewardData: !isLoading ? tokenRewardObject[poolName] : undefined,
   };
 };
 
