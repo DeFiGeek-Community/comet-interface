@@ -8,7 +8,7 @@ import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
-import useUpdatePoolRewardData from "hooks/pool/list/useUpdatePoolData";
+import useUpdatePoolRewardData from "hooks/pool/list/useUpdatePoolRewardData";
 import { usePool } from "context/PoolContext";
 import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
@@ -234,6 +234,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   });
   console.log(tokenRewardObject);
 
+  
   return (
     <Link
       onClick={() => navigateToPageClick(symbol)}
