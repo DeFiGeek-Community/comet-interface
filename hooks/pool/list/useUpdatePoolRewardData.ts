@@ -22,7 +22,9 @@ export interface PoolRewardData {
 
 const useUpdatePoolRewardData = ({
   poolConfig,
-}: PoolDataComponentProps): { tokenRewardData: TokenRewardData | undefined } => {
+}: PoolDataComponentProps): {
+  tokenRewardData: TokenRewardData | undefined;
+} => {
   const {
     chainId,
     priceFeedData: priceObject,

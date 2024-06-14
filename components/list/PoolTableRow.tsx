@@ -232,9 +232,25 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { tokenRewardData: tokenRewardObject } = useUpdatePoolRewardData({
     poolConfig: poolData,
   });
+  console.log(baseAssetObject);
   console.log(tokenRewardObject);
+  let netEarnAPRValue: number | undefined;
+  let netBorrowAPRValue: number | undefined;
+  if (
+    baseAssetObject?.supplyAPR !== undefined &&
+    tokenRewardObject?.supplyRewardAPR !== undefined
+  ) {
+    netEarnAPRValue =
+      baseAssetObject?.supplyAPR *100 + tokenRewardObject?.supplyRewardAPR;
+  }
+  if (
+    baseAssetObject?.borrowAPR !== undefined &&
+    tokenRewardObject?.borrowRewardAPR !== undefined
+  ) {
+    netBorrowAPRValue =
+      baseAssetObject?.borrowAPR *100 - tokenRewardObject?.borrowRewardAPR;
+  }
 
-  
   return (
     <Link
       onClick={() => navigateToPageClick(symbol)}
@@ -377,8 +393,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               </HoverIcon>
             </Row>
             <RenderStatsText statsValue={utilizationValue} />
-            <RenderStatsText statsValue={utilizationValue} />
-            <RenderStatsText statsValue={utilizationValue} />
+            <RenderStatsText statsValue={netEarnAPRValue} />
+            <RenderStatsText statsValue={netBorrowAPRValue} />
             <RenderBalanceText
               totalPoolObjectValue={totalPoolObject?.totalBaseSupplyBalance}
               assetPrice={assetPrice}
