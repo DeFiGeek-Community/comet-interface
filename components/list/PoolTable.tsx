@@ -7,7 +7,7 @@ import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 import { useAppData } from "context/AppDataContext";
 import { AppPrimaryDataProvider } from "components/Provider/AppPrimaryDataProvider";
-import { usePool } from "context/PoolContext";
+import { AppSecondaryDataProvider } from "components/Provider/AppSecondaryDataProvider";
 
 function RenderPoolTableRow() {
   const { config: poolsConfig } = useAppData();
@@ -17,7 +17,9 @@ function RenderPoolTableRow() {
     if (data.baseToken) {
       return (
         <AppPrimaryDataProvider poolData={data}>
-          <PoolTableRow poolData={data} key={index} />
+          <AppSecondaryDataProvider poolData={data}>
+            <PoolTableRow poolData={data} key={index} />
+          </AppSecondaryDataProvider>
         </AppPrimaryDataProvider>
       );
     }
@@ -64,7 +66,6 @@ const TableHeaderColumn: React.FC<TableHeaderColumnProps> = ({
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const { poolConfig: poolData } = usePool();
 
   return (
     <>
