@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 import { useAppData } from "context/AppDataContext";
+import { AppPrimaryDataProvider } from "components/Provider/AppPrimaryDataProvider";
+import { usePool } from "context/PoolContext";
 
 function RenderPoolTableRow() {
   const { config: poolsConfig } = useAppData();
@@ -56,6 +58,7 @@ const TableHeaderColumn: React.FC<TableHeaderColumnProps> = ({
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const { poolConfig: poolData } = usePool();
 
   return (
     <>
@@ -125,7 +128,9 @@ const PoolTable = () => {
                 </Row>
               </Row>
               <ModalDivider />
+              <AppPrimaryDataProvider poolData={poolData}>
               <RenderPoolTableRow />
+              </AppPrimaryDataProvider>
               <ModalDivider />
             </>
           )}

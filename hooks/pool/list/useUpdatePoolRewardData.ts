@@ -22,56 +22,57 @@ export interface PoolRewardData {
 
 const useUpdatePoolRewardData = ({
   poolConfig,
-}: PoolDataComponentProps): {
-  tokenRewardData: TokenRewardData | undefined;
-} => {
-  const {
-    chainId,
-    priceFeedData: priceObject,
-    totalPoolData: totalPoolObject,
-    baseAssetData: baseAssetObject,
-    collateralAssetsData: collateralAssetsObject,
-    tokenRewardData: tokenRewardObject,
-    updateTokenRewardData,
-  } = useAppData();
+}: PoolDataComponentProps) => {
+  // const {
+  //   chainId,
+  //   priceFeedData: priceObject,
+  //   totalPoolData: totalPoolObject,
+  //   baseAssetData: baseAssetObject,
+  //   collateralAssetsData: collateralAssetsObject,
+  //   tokenRewardData: tokenRewardObject,
+  //   updateTokenRewardData,
+  // } = useAppData();
   const poolName = poolConfig?.baseToken.symbol ?? "";
   const [isLoading, setIsLoading] = useState(false);
   const isFirstRender = useRef(true);
 
-  const { tokenRewardData } = useTokenRewardData(poolConfig, {
-    priceFeedData: priceObject[poolName],
-    baseAssetData: baseAssetObject[poolName],
-    collateralAssetsData: collateralAssetsObject[poolName],
-    totalPoolData: totalPoolObject[poolName],
-  });
+  const tokenRewardData :number|undefined = 0;
 
-  useEffect(() => {
-    if (tokenRewardData && tokenRewardObject[poolName] !== tokenRewardData) {
-      updateTokenRewardData(poolName, tokenRewardData);
-    }
-  }, [poolConfig, tokenRewardData]);
+  // const { tokenRewardData } = useTokenRewardData(poolConfig, {
+  //   priceFeedData: priceObject[poolName],
+  //   baseAssetData: baseAssetObject[poolName],
+  //   collateralAssetsData: collateralAssetsObject[poolName],
+  //   totalPoolData: totalPoolObject[poolName],
+  // });
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      // 初回レンダリング時は何もしない
-      isFirstRender.current = false;
-    } else {
-      // 2回目以降のレンダリングでchainIdが変更された場合にローディング状態をtrueにする
-      if (chainId) {
-        setIsLoading(true);
-      }
-    }
-  }, [chainId]);
+  // useEffect(() => {
+  //   if (tokenRewardData && tokenRewardObject[poolName] !== tokenRewardData) {
+  //     updateTokenRewardData(poolName, tokenRewardData);
+  //   }
+  // }, [poolConfig, tokenRewardData]);
 
-  useEffect(() => {
-    // データが取得し終わったらfalseにする
-    if (tokenRewardData) {
-      setIsLoading(false);
-    }
-  }, [tokenRewardData]);
+  // useEffect(() => {
+  //   if (isFirstRender.current) {
+  //     // 初回レンダリング時は何もしない
+  //     isFirstRender.current = false;
+  //   } else {
+  //     // 2回目以降のレンダリングでchainIdが変更された場合にローディング状態をtrueにする
+  //     if (chainId) {
+  //       setIsLoading(true);
+  //     }
+  //   }
+  // }, [chainId]);
+
+  // useEffect(() => {
+  //   // データが取得し終わったらfalseにする
+  //   if (tokenRewardData) {
+  //     setIsLoading(false);
+  //   }
+  // }, [tokenRewardData]);
 
   return {
-    tokenRewardData: !isLoading ? tokenRewardObject[poolName] : undefined,
+    // tokenRewardData: !isLoading ? tokenRewardObject[poolName] : undefined,
+    tokenRewardData
   };
 };
 
