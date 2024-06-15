@@ -22,6 +22,10 @@ export const AppPrimaryDataProvider: React.FC<
     updatePriceFeedData,
     totalPoolData: totalPoolObject,
     updateTotalPoolData,
+    baseAssetData: baseAssetObject,
+    updateBaseAssetData,
+    collateralAssetsData: collateralAssetsObject,
+    updateCollateralAssetsData,
   } = useAppData();
   const poolName = poolData?.baseToken.symbol ?? "";
   const { priceFeedData } = usePriceFeedData(poolData);
@@ -47,6 +51,21 @@ export const AppPrimaryDataProvider: React.FC<
   }, [poolName, totalPoolData]);
 
   useEffect(() => {
+    if (baseAssetData && baseAssetObject[poolName] !== baseAssetData) {
+      updateBaseAssetData(poolName, baseAssetData);
+    }
+  }, [poolName, baseAssetData]);
+
+  useEffect(() => {
+    if (
+      collateralAssetsData &&
+      collateralAssetsObject[poolName] !== collateralAssetsData
+    ) {
+      updateCollateralAssetsData(poolName, collateralAssetsData);
+    }
+  }, [poolName, collateralAssetsData]);
+
+  useEffect(() => {
     if (isFirstRender.current) {
       // 初回レンダリング時は何もしない
       isFirstRender.current = false;
@@ -60,10 +79,10 @@ export const AppPrimaryDataProvider: React.FC<
 
   useEffect(() => {
     // データが取得し終わったらfalseにする
-    if (priceFeedData && totalPoolData) {
+    if (priceFeedData && totalPoolData && baseAssetData && collateralAssetsData) {
       setIsLoading(false);
     }
-  }, [priceFeedData, totalPoolData]);
+  }, [priceFeedData, totalPoolData, baseAssetData, collateralAssetsData]);
   return (
     <PoolPrimaryDataContext.Provider
       value={{
