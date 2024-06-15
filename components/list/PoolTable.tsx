@@ -14,7 +14,13 @@ function RenderPoolTableRow() {
   if (!poolsConfig) return;
 
   return Object.values(poolsConfig).map((data, index) => {
-    if (data.baseToken) return <PoolTableRow poolData={data} key={index} />;
+    if (data.baseToken) {
+      return (
+        <AppPrimaryDataProvider poolData={data}>
+          <PoolTableRow poolData={data} key={index} />
+        </AppPrimaryDataProvider>
+      );
+    }
   });
 }
 
@@ -128,9 +134,7 @@ const PoolTable = () => {
                 </Row>
               </Row>
               <ModalDivider />
-              <AppPrimaryDataProvider poolData={poolData}>
-                <RenderPoolTableRow />
-              </AppPrimaryDataProvider>
+              <RenderPoolTableRow />
               <ModalDivider />
             </>
           )}

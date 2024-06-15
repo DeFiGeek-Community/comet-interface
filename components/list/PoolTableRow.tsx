@@ -19,6 +19,7 @@ import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
+import { useAppPrimaryDataContext } from "hooks/pool/useAppPrimaryDataContext";
 
 interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
   isBaseAsset: boolean;
@@ -197,20 +198,17 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       allCollateralSymbols += assetConfig.symbol + ", ";
     }
   }
-  const {
-    priceFeedData: priceFeedData,
-    totalPoolData: totalPoolObject,
-    baseAssetData: baseAssetObject,
-    collateralAssetsData: collateralAssetsObject,
-  } = useUpdatePoolData({ poolConfig: poolData });
+  const { priceFeedData, baseAssetData, collateralAssetsData, totalPoolData } =
+    useAppPrimaryDataContext();
+  console.log(totalPoolData);
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
 
   let sumCollateralBalances = 0;
 
-  for (let key in totalPoolObject?.totalCollateralBalances) {
+  for (let key in totalPoolData?.totalCollateralBalances) {
     const collateralBalance =
-      totalPoolObject?.totalCollateralBalances?.[key] ?? 0;
+      totalPoolData?.totalCollateralBalances?.[key] ?? 0;
     const collateralAssetPrice = priceFeedData?.collateralAssets?.[key] ?? 0;
     const tempValue = collateralBalance * collateralAssetPrice;
     if (tempValue) {
@@ -219,16 +217,48 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   }
   let utilizationValue: number | undefined;
   if (
-    totalPoolObject?.totalBaseBorrowBalance &&
-    totalPoolObject?.totalBaseSupplyBalance
+    totalPoolData?.totalBaseBorrowBalance &&
+    totalPoolData?.totalBaseSupplyBalance
   ) {
     utilizationValue =
-      (totalPoolObject?.totalBaseBorrowBalance /
-        totalPoolObject?.totalBaseSupplyBalance) *
+      (totalPoolData?.totalBaseBorrowBalance /
+        totalPoolData?.totalBaseSupplyBalance) *
       OneHundred;
-  } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
+  } else if (totalPoolData?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
+  // const {
+  //   priceFeedData: priceFeedData,
+  //   totalPoolData: totalPoolObject,
+  //   baseAssetData: baseAssetObject,
+  //   collateralAssetsData: collateralAssetsObject,
+  // } = useUpdatePoolData({ poolConfig: poolData });
+
+  // const assetPrice = priceFeedData?.baseAsset ?? null;
+
+  // let sumCollateralBalances = 0;
+
+  // for (let key in totalPoolObject?.totalCollateralBalances) {
+  //   const collateralBalance =
+  //     totalPoolObject?.totalCollateralBalances?.[key] ?? 0;
+  //   const collateralAssetPrice = priceFeedData?.collateralAssets?.[key] ?? 0;
+  //   const tempValue = collateralBalance * collateralAssetPrice;
+  //   if (tempValue) {
+  //     sumCollateralBalances += tempValue;
+  //   }
+  // }
+  // let utilizationValue: number | undefined;
+  // if (
+  //   totalPoolObject?.totalBaseBorrowBalance &&
+  //   totalPoolObject?.totalBaseSupplyBalance
+  // ) {
+  //   utilizationValue =
+  //     (totalPoolObject?.totalBaseBorrowBalance /
+  //       totalPoolObject?.totalBaseSupplyBalance) *
+  //     OneHundred;
+  // } else if (totalPoolObject?.totalBaseBorrowBalance === 0) {
+  //   utilizationValue = 0;
+  // }
   const { tokenRewardData: tokenRewardObject } = useUpdatePoolRewardData({
     poolConfig: poolData,
   });
@@ -343,7 +373,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 </Row>
               </Row>
               <RenderBalanceText
-                totalPoolObjectValue={totalPoolObject?.totalBaseSupplyBalance}
+                totalPoolObjectValue={totalPoolData?.totalBaseSupplyBalance}
                 assetPrice={assetPrice}
                 currency={currency}
                 rate={rate}
@@ -351,7 +381,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 text={"Total Supplied"}
               />
               <RenderBalanceText
-                totalPoolObjectValue={totalPoolObject?.totalBaseBorrowBalance}
+                totalPoolObjectValue={totalPoolData?.totalBaseBorrowBalance}
                 assetPrice={assetPrice}
                 currency={currency}
                 rate={rate}
@@ -396,14 +426,14 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
             <RenderStatsText statsValue={netEarnAPRValue} />
             <RenderStatsText statsValue={netBorrowAPRValue} />
             <RenderBalanceText
-              totalPoolObjectValue={totalPoolObject?.totalBaseSupplyBalance}
+              totalPoolObjectValue={totalPoolData?.totalBaseSupplyBalance}
               assetPrice={assetPrice}
               currency={currency}
               rate={rate}
               isCollateralBalances={false}
             />
             <RenderBalanceText
-              totalPoolObjectValue={totalPoolObject?.totalBaseBorrowBalance}
+              totalPoolObjectValue={totalPoolData?.totalBaseBorrowBalance}
               assetPrice={assetPrice}
               currency={currency}
               rate={rate}
