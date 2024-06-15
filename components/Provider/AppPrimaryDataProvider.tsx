@@ -1,6 +1,6 @@
 // components/Provider/PoolPrimaryDataProvider.tsx
 import React, { useEffect, useState, useRef } from "react";
-import PoolPrimaryDataContext from "context/PoolPrimaryDataContext";
+import AppPrimaryDataContext from "context/AppPrimaryDataContext";
 import { PoolConfig } from "interfaces/pool";
 import usePriceFeedData from "hooks/pool/shared/usePriceFeed";
 import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
@@ -8,14 +8,15 @@ import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import { useAppData } from "context/AppDataContext";
 
-interface PoolPrimaryDataProviderProps {
+interface AppPrimaryDataProviderProps {
   poolData: PoolConfig | undefined;
   children: React.ReactNode;
 }
 
-export const AppPrimaryDataProvider: React.FC<
-  PoolPrimaryDataProviderProps
-> = ({ poolData, children }) => {
+export const AppPrimaryDataProvider: React.FC<AppPrimaryDataProviderProps> = ({
+  poolData,
+  children,
+}) => {
   const {
     chainId,
     priceFeedData: priceObject,
@@ -79,20 +80,28 @@ export const AppPrimaryDataProvider: React.FC<
 
   useEffect(() => {
     // データが取得し終わったらfalseにする
-    if (priceFeedData && totalPoolData && baseAssetData && collateralAssetsData) {
+    if (
+      priceFeedData &&
+      totalPoolData &&
+      baseAssetData &&
+      collateralAssetsData
+    ) {
       setIsLoading(false);
     }
   }, [priceFeedData, totalPoolData, baseAssetData, collateralAssetsData]);
+
   return (
-    <PoolPrimaryDataContext.Provider
+    <AppPrimaryDataContext.Provider
       value={{
         priceFeedData: !isLoading ? priceObject[poolName] : undefined,
-        baseAssetData,
-        collateralAssetsData,
+        baseAssetData: !isLoading ? baseAssetObject[poolName] : undefined,
+        collateralAssetsData: !isLoading
+          ? collateralAssetsObject[poolName]
+          : undefined,
         totalPoolData: !isLoading ? totalPoolObject[poolName] : undefined,
       }}
     >
       {children}
-    </PoolPrimaryDataContext.Provider>
+    </AppPrimaryDataContext.Provider>
   );
 };

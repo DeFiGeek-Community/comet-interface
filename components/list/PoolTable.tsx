@@ -129,7 +129,7 @@ const PoolTable = () => {
               </Row>
               <ModalDivider />
               <AppPrimaryDataProvider poolData={poolData}>
-              <RenderPoolTableRow />
+                <RenderPoolTableRow />
               </AppPrimaryDataProvider>
               <ModalDivider />
             </>

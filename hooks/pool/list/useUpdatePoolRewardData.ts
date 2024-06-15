@@ -20,9 +20,7 @@ export interface PoolRewardData {
   tokenRewardData: TokenRewardData | undefined;
 }
 
-const useUpdatePoolRewardData = ({
-  poolConfig,
-}: PoolDataComponentProps) => {
+const useUpdatePoolRewardData = ({ poolConfig }: PoolDataComponentProps) => {
   // const {
   //   chainId,
   //   priceFeedData: priceObject,
@@ -36,7 +34,7 @@ const useUpdatePoolRewardData = ({
   const [isLoading, setIsLoading] = useState(false);
   const isFirstRender = useRef(true);
 
-  const tokenRewardData :number|undefined = 0;
+  const tokenRewardData: number | undefined = 0;
 
   // const { tokenRewardData } = useTokenRewardData(poolConfig, {
   //   priceFeedData: priceObject[poolName],
@@ -72,7 +70,7 @@ const useUpdatePoolRewardData = ({
 
   return {
     // tokenRewardData: !isLoading ? tokenRewardObject[poolName] : undefined,
-    tokenRewardData
+    tokenRewardData,
   };
 };
 

@@ -12,7 +12,7 @@ export interface AppPrimaryDataContextType {
 }
 
 const AppPrimaryDataContext = createContext<
-AppPrimaryDataContextType | undefined
+  AppPrimaryDataContextType | undefined
 >(undefined);
 
 export default AppPrimaryDataContext;
