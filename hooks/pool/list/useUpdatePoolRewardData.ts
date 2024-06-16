@@ -35,20 +35,9 @@ const useUpdatePoolRewardData = ({
   collateralAssetsData,
   totalPoolData,
 }: PoolDataComponentProps) => {
-  // const {
-  //   chainId,
-  //   priceFeedData: priceObject,
-  //   totalPoolData: totalPoolObject,
-  //   baseAssetData: baseAssetObject,
-  //   collateralAssetsData: collateralAssetsObject,
-  //   tokenRewardData: tokenRewardObject,
-  //   updateTokenRewardData,
-  // } = useAppData();
   const poolName = poolConfig?.baseToken.symbol ?? "";
   const [isLoading, setIsLoading] = useState(false);
   const isFirstRender = useRef(true);
-
-  // const tokenRewardData: number | undefined = 0;
 
   const { tokenRewardData } = useTokenRewardData(poolConfig, {
     priceFeedData,
@@ -57,40 +46,7 @@ const useUpdatePoolRewardData = ({
     totalPoolData,
   });
 
-  // const { tokenRewardData } = useTokenRewardData(poolConfig, {
-  //   priceFeedData: priceObject[poolName],
-  //   baseAssetData: baseAssetObject[poolName],
-  //   collateralAssetsData: collateralAssetsObject[poolName],
-  //   totalPoolData: totalPoolObject[poolName],
-  // });
-
-  // useEffect(() => {
-  //   if (tokenRewardData && tokenRewardObject[poolName] !== tokenRewardData) {
-  //     updateTokenRewardData(poolName, tokenRewardData);
-  //   }
-  // }, [poolConfig, tokenRewardData]);
-
-  // useEffect(() => {
-  //   if (isFirstRender.current) {
-  //     // 初回レンダリング時は何もしない
-  //     isFirstRender.current = false;
-  //   } else {
-  //     // 2回目以降のレンダリングでchainIdが変更された場合にローディング状態をtrueにする
-  //     if (chainId) {
-  //       setIsLoading(true);
-  //     }
-  //   }
-  // }, [chainId]);
-
-  // useEffect(() => {
-  //   // データが取得し終わったらfalseにする
-  //   if (tokenRewardData) {
-  //     setIsLoading(false);
-  //   }
-  // }, [tokenRewardData]);
-
   return {
-    // tokenRewardData: !isLoading ? tokenRewardObject[poolName] : undefined,
     tokenRewardData,
   };
 };

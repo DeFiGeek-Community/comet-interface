@@ -21,17 +21,9 @@ export const AppSecondaryDataProvider: React.FC<
   } = useAppData();
   const primaryData = useAppPrimaryDataContext();
   const { tokenRewardData } = useTokenRewardData(poolData, primaryData);
-  // const { positionSummary } = usePositionSummary(poolData, primaryData);
   const poolName = poolData?.baseToken.symbol ?? "";
   const [isLoading, setIsLoading] = useState(false);
   const isFirstRender = useRef(true);
-
-  // useEffect(() => {
-  //   // tokenRewardData が tokenRewardObject にない場合のみ更新する
-  //   if (tokenRewardData && tokenRewardObject[poolName] !== tokenRewardData) {
-  //     updateTokenRewardData(poolName, tokenRewardData);
-  //   }
-  // }, [poolName, tokenRewardData]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -55,7 +47,6 @@ export const AppSecondaryDataProvider: React.FC<
   return (
     <AppSecondaryDataContext.Provider
       value={{
-        // tokenRewardData: !isLoading ? tokenRewardObject[poolName] : undefined,
         tokenRewardData: !isLoading ? tokenRewardData : undefined,
       }}
     >
