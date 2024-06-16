@@ -94,9 +94,7 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     priceFeedData: !isLoading ? priceFeedData : undefined,
     totalPoolData: !isLoading ? totalPoolData : undefined,
     baseAssetData: !isLoading ? baseAssetData : undefined,
-    collateralAssetsData: !isLoading
-      ? collateralAssetsData
-      : undefined,
+    collateralAssetsData: !isLoading ? collateralAssetsData : undefined,
   };
 };
 

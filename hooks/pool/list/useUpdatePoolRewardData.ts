@@ -28,7 +28,13 @@ export interface PoolRewardData {
   tokenRewardData: TokenRewardData | undefined;
 }
 
-const useUpdatePoolRewardData = ({ poolConfig, priceFeedData, baseAssetData, collateralAssetsData, totalPoolData }: PoolDataComponentProps) => {
+const useUpdatePoolRewardData = ({
+  poolConfig,
+  priceFeedData,
+  baseAssetData,
+  collateralAssetsData,
+  totalPoolData,
+}: PoolDataComponentProps) => {
   // const {
   //   chainId,
   //   priceFeedData: priceObject,

@@ -47,7 +47,7 @@ export const AppSecondaryDataProvider: React.FC<
 
   useEffect(() => {
     // データが取得し終わったらfalseにする
-    if (tokenRewardData ) {
+    if (tokenRewardData) {
       setIsLoading(false);
     }
   }, [tokenRewardData]);
