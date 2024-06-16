@@ -4,7 +4,7 @@ import { PositionSummary } from "hooks/pool/indivisual/usePositionSummary";
 
 interface AppSecondaryDataContextType {
   tokenRewardData: TokenRewardData | undefined;
-  positionSummary: PositionSummary | undefined;
+  // positionSummary: PositionSummary | undefined;
 }
 
 const AppSecondaryDataContext = createContext<

@@ -85,11 +85,17 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   }, [priceFeedData, totalPoolData, baseAssetData, collateralAssetsData]);
 
   return {
-    priceFeedData: !isLoading ? priceObject[poolName] : undefined,
-    totalPoolData: !isLoading ? totalPoolObject[poolName] : undefined,
-    baseAssetData: !isLoading ? baseAssetObject[poolName] : undefined,
+    // priceFeedData: !isLoading ? priceObject[poolName] : undefined,
+    // totalPoolData: !isLoading ? totalPoolObject[poolName] : undefined,
+    // baseAssetData: !isLoading ? baseAssetObject[poolName] : undefined,
+    // collateralAssetsData: !isLoading
+    //   ? collateralAssetsObject[poolName]
+    //   : undefined,
+    priceFeedData: !isLoading ? priceFeedData : undefined,
+    totalPoolData: !isLoading ? totalPoolData : undefined,
+    baseAssetData: !isLoading ? baseAssetData : undefined,
     collateralAssetsData: !isLoading
-      ? collateralAssetsObject[poolName]
+      ? collateralAssetsData
       : undefined,
   };
 };

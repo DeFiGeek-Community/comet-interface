@@ -6,9 +6,17 @@ import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
 import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
+import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
+import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
+import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
+import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
 
 interface PoolDataComponentProps {
   poolConfig: PoolConfig;
+  priceFeedData: PriceFeedData | undefined;
+  baseAssetData: BaseAssetData | undefined;
+  collateralAssetsData: CollateralAssetsData | undefined;
+  totalPoolData: TotalPoolData | undefined;
 }
 
 export interface TokenRewardData {
@@ -20,7 +28,7 @@ export interface PoolRewardData {
   tokenRewardData: TokenRewardData | undefined;
 }
 
-const useUpdatePoolRewardData = ({ poolConfig }: PoolDataComponentProps) => {
+const useUpdatePoolRewardData = ({ poolConfig, priceFeedData, baseAssetData, collateralAssetsData, totalPoolData }: PoolDataComponentProps) => {
   // const {
   //   chainId,
   //   priceFeedData: priceObject,
@@ -34,7 +42,14 @@ const useUpdatePoolRewardData = ({ poolConfig }: PoolDataComponentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const isFirstRender = useRef(true);
 
-  const tokenRewardData: number | undefined = 0;
+  // const tokenRewardData: number | undefined = 0;
+
+  const { tokenRewardData } = useTokenRewardData(poolConfig, {
+    priceFeedData,
+    baseAssetData,
+    collateralAssetsData,
+    totalPoolData,
+  });
 
   // const { tokenRewardData } = useTokenRewardData(poolConfig, {
   //   priceFeedData: priceObject[poolName],
