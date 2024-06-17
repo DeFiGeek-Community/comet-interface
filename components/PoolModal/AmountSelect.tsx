@@ -14,7 +14,6 @@ import { parseUnits, formatUnits } from "viem";
 import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import { formatErrorMessage } from "utils/formatErrorMessage";
-import usePool from "hooks/pool/usePool";
 import usePoolData from "hooks/pool/usePoolData";
 import { useReload } from "context/ReloadContext";
 import DashboardBox from "components/shared/DashboardBox";

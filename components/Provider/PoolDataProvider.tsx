@@ -1,4 +1,3 @@
-// components/Provider/PoolDataProvider.tsx
 import React from "react";
 import PoolDataContext from "context/PoolDataContext";
 import { PoolConfig } from "interfaces/pool";
