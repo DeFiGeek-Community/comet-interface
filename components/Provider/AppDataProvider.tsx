@@ -7,6 +7,8 @@ import {
 } from "context/AppDataContext";
 import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
+import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
+import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
 import { PoolConfigMapForList } from "interfaces/pool";
 import { POOL_CONFIG_MAP } from "constants/pools";
 
@@ -34,6 +36,12 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
   const [totalPoolData, setTotalPoolData] = useState<{
     [poolName: string]: TotalPoolData | undefined;
   }>({});
+  const [baseAssetData, setBaseAssetData] = useState<{
+    [poolName: string]: BaseAssetData | undefined;
+  }>({});
+  const [collateralAssetData, setCollateralAssetData] = useState<{
+    [poolName: string]: CollateralAssetsData | undefined;
+  }>({});
   const [usdjpyPrice, setUsdjpyPrice] = useState<number | undefined>(undefined);
 
   useEffect(() => {
@@ -47,12 +55,14 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     if (chain) {
       setPriceFeedData({});
       setTotalPoolData({});
+      setBaseAssetData({});
+      setCollateralAssetData({});
     }
   }, [chain]);
 
   const updatePriceFeedData = (
     poolName: string,
-    data: PriceFeedData | undefined,
+    data: PriceFeedData | undefined
   ) => {
     setPriceFeedData((prevData) => ({ ...prevData, [poolName]: data }));
     setUsdjpyPrice(data?.usdjpy);
@@ -60,9 +70,23 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
 
   const updateTotalPoolData = (
     poolName: string,
-    data: TotalPoolData | undefined,
+    data: TotalPoolData | undefined
   ) => {
     setTotalPoolData((prevData) => ({ ...prevData, [poolName]: data }));
+  };
+
+  const updateBaseAssetData = (
+    poolName: string,
+    data: BaseAssetData | undefined
+  ) => {
+    setBaseAssetData((prevData) => ({ ...prevData, [poolName]: data }));
+  };
+
+  const updateCollateralAssetData = (
+    poolName: string,
+    data: CollateralAssetsData | undefined
+  ) => {
+    setCollateralAssetData((prevData) => ({ ...prevData, [poolName]: data }));
   };
 
   const [currency, setCurrency] = useState<Currency>("USD");
@@ -87,6 +111,10 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     updatePriceFeedData,
     totalPoolData,
     updateTotalPoolData,
+    baseAssetData,
+    updateBaseAssetData,
+    collateralAssetData,
+    updateCollateralAssetData,
     currency,
     rate,
     toggleCurrency,

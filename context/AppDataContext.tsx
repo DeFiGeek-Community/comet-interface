@@ -1,6 +1,8 @@
 import React, { createContext, useContext } from "react";
 import { PriceFeedData } from "../hooks/pool/shared/usePriceFeed";
 import { TotalPoolData } from "../hooks/pool/shared/useTotalPoolData";
+import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
+import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
 import { PoolConfigMapForList } from "interfaces/pool";
 
 export type Currency = "USD" | "JPY";
@@ -19,6 +21,16 @@ export interface AppDataContextType {
   updateTotalPoolData: (
     poolName: string,
     data: TotalPoolData | undefined,
+  ) => void;
+  baseAssetData: { [poolName: string]: BaseAssetData | undefined };
+  updateBaseAssetData: (
+    poolName: string,
+    data: BaseAssetData | undefined,
+  ) => void;
+  collateralAssetData: { [poolName: string]: CollateralAssetsData | undefined };
+  updateCollateralAssetData: (
+    poolName: string,
+    data: CollateralAssetsData | undefined,
   ) => void;
   currency: Currency;
   rate?: number;
