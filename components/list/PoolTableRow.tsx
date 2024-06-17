@@ -8,7 +8,7 @@ import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
-import { usePool } from "context/PoolContext";
+import usePool from "hooks/pool/usePool";
 import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";

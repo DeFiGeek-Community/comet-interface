@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import { PoolConfig } from "interfaces/pool";
 
 interface PoolContextType {
@@ -12,13 +12,5 @@ interface PoolContextType {
 export const PoolContext = createContext<PoolContextType | undefined>(
   undefined,
 );
-
-export const usePool = () => {
-  const context = useContext(PoolContext);
-  if (!context) {
-    throw new Error("usePool must be used within a ChainPoolProvider");
-  }
-  return context;
-};
 
 export default PoolContext;
