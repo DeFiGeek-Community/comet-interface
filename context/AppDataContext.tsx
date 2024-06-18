@@ -1,27 +1,38 @@
 import React, { createContext, useContext } from "react";
 import { PriceFeedData } from "../hooks/pool/shared/usePriceFeed";
 import { TotalPoolData } from "../hooks/pool/shared/useTotalPoolData";
+import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
+import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
+import { TokenRewardData } from "hooks/pool/shared/useTokenReward";
 import { PoolConfigMapForList } from "interfaces/pool";
-import { BaseAssetData } from "../hooks/pool/indivisual/useBaseAsset";
-import { CollateralAssetsData } from "../hooks/pool/indivisual/useCollateralAssets";
-import { TokenRewardData } from "../hooks/pool/shared/useTokenReward";
+import { PositionSummary } from "hooks/pool/indivisual/usePositionSummary";
 
 export type Currency = "USD" | "JPY";
+
+export interface PoolBaseDataType {
+  priceFeedData: PriceFeedData | undefined;
+  baseAssetData: BaseAssetData | undefined;
+  collateralAssetsData: CollateralAssetsData | undefined;
+  totalPoolData: TotalPoolData | undefined;
+}
 
 export interface AppDataContextType {
   pageName: string;
   setPageName: (name: string) => void;
   chainId: number;
   config: PoolConfigMapForList | undefined;
-  priceFeedData: { [poolName: string]: PriceFeedData | undefined };
-  updatePriceFeedData: (
+  priceFeedMapping: { [poolName: string]: PriceFeedData | undefined };
+  totalPoolMapping: { [poolName: string]: TotalPoolData | undefined };
+  baseAssetMapping: { [poolName: string]: BaseAssetData | undefined };
+  collateralAssetMapping: {
+    [poolName: string]: CollateralAssetsData | undefined;
+  };
+  tokenRewardMapping: { [poolName: string]: TokenRewardData | undefined };
+  positionSummaryMapping: { [poolName: string]: PositionSummary | undefined };
+  updateData: <T>(
+    dataType: keyof AppDataContextType,
     poolName: string,
-    data: PriceFeedData | undefined,
-  ) => void;
-  totalPoolData: { [poolName: string]: TotalPoolData | undefined };
-  updateTotalPoolData: (
-    poolName: string,
-    data: TotalPoolData | undefined,
+    data: T,
   ) => void;
   baseAssetData: { [poolName: string]: BaseAssetData | undefined };
   updateBaseAssetData: (

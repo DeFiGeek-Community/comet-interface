@@ -7,6 +7,10 @@ import {
 } from "context/AppDataContext";
 import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
+import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
+import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
+import { TokenRewardData } from "hooks/pool/shared/useTokenReward";
+import { PositionSummary } from "hooks/pool/indivisual/usePositionSummary";
 import { PoolConfigMapForList } from "interfaces/pool";
 import { POOL_CONFIG_MAP } from "constants/pools";
 import { BaseAssetData } from "../../hooks/pool/indivisual/useBaseAsset";
@@ -31,54 +35,87 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [chain, setChainId]);
 
-  const [priceFeedData, setPriceFeedData] = useState<{
+  const [priceFeedMapping, setPriceFeedMapping] = useState<{
     [poolName: string]: PriceFeedData | undefined;
   }>({});
-  const [totalPoolData, setTotalPoolData] = useState<{
+  const [totalPoolMapping, setTotalPoolMapping] = useState<{
     [poolName: string]: TotalPoolData | undefined;
   }>({});
-  const [baseAssetData, setBaseAssetData] = useState<{
+  const [baseAssetMapping, setBaseAssetMapping] = useState<{
     [poolName: string]: BaseAssetData | undefined;
   }>({});
-  const [collateralAssetsData, setCollateralAssetsData] = useState<{
+  const [collateralAssetMapping, setCollateralAssetMapping] = useState<{
     [poolName: string]: CollateralAssetsData | undefined;
   }>({});
-  const [tokenRewardData, setTokenRewardData] = useState<{
+  const [tokenRewardMapping, setTokenRewardMapping] = useState<{
     [poolName: string]: TokenRewardData | undefined;
   }>({});
-
+  const [positionSummaryMapping, setPositionSummaryMapping] = useState<{
+    [poolName: string]: PositionSummary | undefined;
+  }>({});
   const [usdjpyPrice, setUsdjpyPrice] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    // 初回のレンダリングをスキップ
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
 
-    // addressが存在し、初回のレンダリングではない場合にreloadを実行
     if (chain) {
-      setPriceFeedData({});
-      setTotalPoolData({});
-      setBaseAssetData({});
-      setCollateralAssetsData({});
-      setTokenRewardData({});
+      setPriceFeedMapping({});
+      setTotalPoolMapping({});
+      setBaseAssetMapping({});
+      setCollateralAssetMapping({});
+      setTokenRewardMapping({});
+      setPositionSummaryMapping({});
     }
   }, [chain]);
 
-  const updatePriceFeedData = (
+  const updateData = <T,>(
+    dataType: keyof AppDataContextType,
     poolName: string,
-    data: PriceFeedData | undefined,
+    data: T,
   ) => {
-    setPriceFeedData((prevData) => ({ ...prevData, [poolName]: data }));
-    setUsdjpyPrice(data?.usdjpy);
-  };
-
-  const updateTotalPoolData = (
-    poolName: string,
-    data: TotalPoolData | undefined,
-  ) => {
-    setTotalPoolData((prevData) => ({ ...prevData, [poolName]: data }));
+    switch (dataType) {
+      case "priceFeedMapping":
+        setPriceFeedMapping((prevData) => ({
+          ...prevData,
+          [poolName]: data as PriceFeedData,
+        }));
+        break;
+      case "totalPoolMapping":
+        setTotalPoolMapping((prevData) => ({
+          ...prevData,
+          [poolName]: data as TotalPoolData,
+        }));
+        break;
+      case "baseAssetMapping":
+        setBaseAssetMapping((prevData) => ({
+          ...prevData,
+          [poolName]: data as BaseAssetData,
+        }));
+        break;
+      case "collateralAssetMapping":
+        setCollateralAssetMapping((prevData) => ({
+          ...prevData,
+          [poolName]: data as CollateralAssetsData,
+        }));
+        break;
+      case "tokenRewardMapping":
+        setTokenRewardMapping((prevData) => ({
+          ...prevData,
+          [poolName]: data as TokenRewardData,
+        }));
+        break;
+      case "positionSummaryMapping":
+        setPositionSummaryMapping((prevData) => ({
+          ...prevData,
+          [poolName]: data as PositionSummary,
+        }));
+        break;
+      default:
+        console.warn(`Unknown data type: ${dataType}`);
+    }
   };
 
   const updateBaseAssetData = (
@@ -120,16 +157,13 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     setPageName,
     chainId,
     config,
-    priceFeedData,
-    updatePriceFeedData,
-    totalPoolData,
-    updateTotalPoolData,
-    baseAssetData,
-    updateBaseAssetData,
-    collateralAssetsData,
-    updateCollateralAssetsData,
-    tokenRewardData,
-    updateTokenRewardData,
+    priceFeedMapping,
+    totalPoolMapping,
+    baseAssetMapping,
+    collateralAssetMapping,
+    tokenRewardMapping,
+    positionSummaryMapping,
+    updateData,
     currency,
     rate,
     toggleCurrency,

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { formatEther } from "viem";
 import { PoolConfig } from "interfaces/pool";
 import {
@@ -7,6 +7,7 @@ import {
   fetchRateDataComet,
 } from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
+import { useAppData } from "context/AppDataContext";
 
 export interface BaseAssetData {
   supplyAPR: number | undefined;
@@ -19,14 +20,27 @@ const useBaseAsset = (poolData: PoolConfig | undefined) => {
   const [baseAssetData, setBaseAssetData] = useState<BaseAssetData>();
   const [error, setError] = useState<Error | null>(null);
 
+  const { baseAssetMapping } = useAppData();
+
   const { reloadKey } = useReload();
+  const prevReloadKey = useRef(reloadKey);
 
   const fetchBaseAsset = useCallback(async () => {
     if (!poolData) {
       setBaseAssetData(undefined);
       return;
     }
+
+    // 共通データが存在する場合は、そのデータを使用
+    const sharedData = baseAssetMapping[poolData.baseToken.symbol];
+    if (sharedData && prevReloadKey.current === reloadKey) {
+      setBaseAssetData(sharedData);
+      return;
+    }
+
+    prevReloadKey.current = reloadKey;
     const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
+    console.log("useBaseAsset");
     try {
       const utilization = await fetchTotalDataComet("getUtilization", poolData);
 

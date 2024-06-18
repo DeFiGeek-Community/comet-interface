@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { formatUnits } from "viem";
 import { PoolConfig } from "interfaces/pool";
 import { useReload } from "context/ReloadContext";
-import { PoolPrimaryDataContextType } from "context/PoolPrimaryDataContext";
+import { PoolBaseDataType } from "context/AppDataContext";
 import { CollateralAsset } from "interfaces/pool";
 import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
 import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
+import { useAppData } from "context/AppDataContext";
 
 export interface PositionSummary {
   collateralBalance: number;
@@ -43,16 +44,26 @@ function calculateAssetData(
 
 const usePositionSummary = (
   poolData: PoolConfig | undefined,
-  primaryData: PoolPrimaryDataContextType | undefined,
+  primaryData: PoolBaseDataType | undefined,
 ) => {
   const [positionSummary, setPositionSummary] = useState<PositionSummary>();
   const [error, setError] = useState<Error | null>(null);
 
+  const { positionSummaryMapping } = useAppData();
+
   const { reloadKey } = useReload();
+  const prevReloadKey = useRef(reloadKey);
 
   const fetchPositionSummary = useCallback(async () => {
     if (!poolData || !primaryData) {
       setPositionSummary(undefined);
+      return;
+    }
+
+    // 共通データが存在する場合は、そのデータを使用
+    const sharedData = positionSummaryMapping[poolData.baseToken.symbol];
+    if (sharedData && prevReloadKey.current === reloadKey) {
+      setPositionSummary(sharedData);
       return;
     }
 

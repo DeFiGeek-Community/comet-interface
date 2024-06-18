@@ -3,16 +3,20 @@ import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 import { BaseAssetData } from "hooks/pool/indivisual/useBaseAsset";
 import { CollateralAssetsData } from "hooks/pool/indivisual/useCollateralAssets";
 import { TotalPoolData } from "hooks/pool/shared/useTotalPoolData";
+import { TokenRewardData } from "hooks/pool/shared/useTokenReward";
+import { PositionSummary } from "hooks/pool/indivisual/usePositionSummary";
 
-export interface PoolPrimaryDataContextType {
+interface PoolDataContextType {
   priceFeedData: PriceFeedData | undefined;
   baseAssetData: BaseAssetData | undefined;
   collateralAssetsData: CollateralAssetsData | undefined;
   totalPoolData: TotalPoolData | undefined;
+  tokenRewardData: TokenRewardData | undefined;
+  positionSummary: PositionSummary | undefined;
 }
 
-const PoolPrimaryDataContext = createContext<
-  PoolPrimaryDataContextType | undefined
->(undefined);
+export const PoolDataContext = createContext<PoolDataContextType | undefined>(
+  undefined,
+);
 
-export default PoolPrimaryDataContext;
+export default PoolDataContext;
