@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { PoolContext } from "context/PoolContext";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
-import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
 
 interface PoolProviderProps {
   children: ReactNode;
@@ -35,27 +34,12 @@ export const PoolProvider: React.FC<PoolProviderProps> = ({ children }) => {
     window.scrollTo(0, 0);
   };
 
-  const {
-    priceFeedData,
-    totalPoolData,
-    baseAssetData,
-    collateralAssetData,
-    tokenRewardData,
-    positionSummary,
-  } = useUpdatePoolData({ poolConfig });
-
   const value = {
     poolName,
     setPoolName,
     poolConfig,
     setPoolConfig: (config: PoolConfig | undefined) => setPoolConfig(config),
     navigateToPageClick,
-    priceFeedData,
-    baseAssetData,
-    collateralAssetsData: collateralAssetData,
-    totalPoolData,
-    tokenRewardData,
-    positionSummary,
   };
 
   return <PoolContext.Provider value={value}>{children}</PoolContext.Provider>;
