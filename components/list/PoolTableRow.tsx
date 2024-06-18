@@ -18,8 +18,6 @@ import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
 import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
 import useTokenRewardData from "hooks/pool/shared/useTokenReward";
 import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
-import { useAppPrimaryDataContext } from "hooks/pool/useAppPrimaryDataContext";
-import { useAppSecondaryDataContext } from "hooks/pool/useAppSecondaryDataContext";
 
 interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
   isBaseAsset: boolean;
