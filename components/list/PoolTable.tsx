@@ -15,7 +15,7 @@ function RenderPoolTableRow() {
   return Object.values(poolsConfig).map((data, index) => {
     if (data.baseToken) {
       return (
-        <PoolDataProvider poolData={data} key={index} >
+        <PoolDataProvider poolData={data} key={index}>
           <PoolTableRow poolData={data} key={index} />
         </PoolDataProvider>
       );
