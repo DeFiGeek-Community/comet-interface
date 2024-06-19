@@ -14,7 +14,7 @@ import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
 import { OneMillion, OneHundred } from "constants/aprs";
 import usePoolData from "hooks/pool/usePoolData";
-import DonutChart from 'components/list/DonutChart';
+import DonutChart from "components/list/DonutChart";
 
 interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
   isBaseAsset: boolean;
@@ -145,8 +145,8 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   }, [statsValue, address]);
 
   const data = [70, 29, 1];
-  const labels = ['Category 1', 'Category 2', 'Category 3'];
-  const colors = ['#F32A66', '#282727', '#FFF'];
+  const labels = ["Category 1", "Category 2", "Category 3"];
+  const colors = ["#F32A66", "#282727", "#FFF"];
 
   return (
     <Row
@@ -167,7 +167,7 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
           {t(text)}
         </Text>
       )}
-      
+
       <Text
         color="#FFF"
         fontWeight="bold"

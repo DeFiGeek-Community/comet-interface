@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
 interface DonutChartProps {
   data: number[];
@@ -7,12 +7,17 @@ interface DonutChartProps {
   size?: number;
 }
 
-const DonutChart: React.FC<DonutChartProps> = ({ data, labels, colors, size = 40 }) => {
+const DonutChart: React.FC<DonutChartProps> = ({
+  data,
+  labels,
+  colors,
+  size = 40,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext('2d');
+      const ctx = canvasRef.current.getContext("2d");
       if (ctx) {
         drawDonutChart(ctx, data, colors, size);
       }
@@ -26,7 +31,7 @@ const drawDonutChart = (
   ctx: CanvasRenderingContext2D,
   data: number[],
   colors: string[],
-  size: number
+  size: number,
 ) => {
   const centerX = size / 2;
   const centerY = size / 2;
@@ -50,9 +55,16 @@ const drawDonutChart = (
 
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius * donutRadius, startAngle, startAngle + angle, true);
+    ctx.arc(
+      centerX,
+      centerY,
+      radius * donutRadius,
+      startAngle,
+      startAngle + angle,
+      true,
+    );
     ctx.closePath();
-    ctx.fillStyle = '#171923';
+    ctx.fillStyle = "#171923";
     ctx.fill();
   }
 };
