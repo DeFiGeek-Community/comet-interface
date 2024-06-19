@@ -126,7 +126,10 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     poolName: string,
     data: CollateralAssetsData | undefined,
   ) => {
-    setCollateralAssetMapping((prevData) => ({ ...prevData, [poolName]: data }));
+    setCollateralAssetMapping((prevData) => ({
+      ...prevData,
+      [poolName]: data,
+    }));
   };
 
   const updateTokenRewardData = (
@@ -168,8 +171,8 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
     updateBaseAssetData,
     collateralAssetsData: collateralAssetMapping,
     updateCollateralAssetsData,
-    tokenRewardData: tokenRewardMapping, 
-    updateTokenRewardData, 
+    tokenRewardData: tokenRewardMapping,
+    updateTokenRewardData,
   };
 
   return (

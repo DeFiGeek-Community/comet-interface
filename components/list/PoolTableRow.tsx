@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
 import { Avatar, AvatarProps, Spinner, Link, Text } from "@chakra-ui/react";
@@ -7,17 +7,13 @@ import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
-import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
 import usePool from "hooks/pool/usePool";
 import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
 import { OneMillion, OneHundred } from "constants/aprs";
-import useBaseAsset from "hooks/pool/indivisual/useBaseAsset";
-import useCollateralAssets from "hooks/pool/indivisual/useCollateralAssets";
-import useTokenRewardData from "hooks/pool/shared/useTokenReward";
-import useTotalPoolData from "hooks/pool/shared/useTotalPoolData";
+import usePoolData from "hooks/pool/usePoolData";
 
 interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
   isBaseAsset: boolean;
@@ -196,10 +192,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       allCollateralSymbols += assetConfig.symbol + ", ";
     }
   }
-  const { priceFeedData, baseAssetData, collateralAssetsData, totalPoolData } =
-    useAppPrimaryDataContext();
 
-  const { tokenRewardData } = useAppSecondaryDataContext();
+  const { priceFeedData, baseAssetData, tokenRewardData, totalPoolData } =
+    usePoolData();
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
 

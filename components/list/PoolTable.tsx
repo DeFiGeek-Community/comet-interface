@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 import { useAppData } from "context/AppDataContext";
+import { PoolDataProvider } from "components/Provider/PoolDataProvider";
 
 function RenderPoolTableRow() {
   const { config: poolsConfig } = useAppData();
@@ -14,7 +15,9 @@ function RenderPoolTableRow() {
   return Object.values(poolsConfig).map((data, index) => {
     if (data.baseToken) {
       return (
-        <PoolTableRow poolData={data} key={index} />
+        <PoolDataProvider poolData={data} key={index} >
+          <PoolTableRow poolData={data} key={index} />
+        </PoolDataProvider>
       );
     }
   });
