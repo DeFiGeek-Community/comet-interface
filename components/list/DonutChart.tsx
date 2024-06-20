@@ -1,8 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import {
-  LightBlackColorCode,
-  DonutSize,
-} from "constants/aprs";
+import { LightBlackColorCode, DonutSize } from "constants/aprs";
 
 interface DonutChartProps {
   data: number[];

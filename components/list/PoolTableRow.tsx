@@ -165,7 +165,14 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
     const labels = ["Utilization", "Rest", "Offset"];
     const colors = [LightPinkColorCode, DarkGrayColorCode, LightBlackColorCode];
 
-    return <DonutChart data={data} labels={labels} colors={colors} size={DonutSize} />;
+    return (
+      <DonutChart
+        data={data}
+        labels={labels}
+        colors={colors}
+        size={DonutSize}
+      />
+    );
   }, [statsValue, address]);
 
   return (
