@@ -12,7 +12,15 @@ import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
-import { OneMillion, OneHundred } from "constants/aprs";
+import {
+  OneMillion,
+  OneHundred,
+  OffsetRatio,
+  LightPinkColorCode,
+  DarkGrayColorCode,
+  LightBlackColorCode,
+  DonutSize,
+} from "constants/aprs";
 import usePoolData from "hooks/pool/usePoolData";
 import DonutChart from "components/list/DonutChart";
 
@@ -121,11 +129,13 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 interface RenderStatsTextProps {
   statsValue?: number;
   text?: string;
+  hasDonut?: boolean;
 }
 
 const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   statsValue,
   text,
+  hasDonut,
 }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -144,9 +154,19 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
     return valueFormatted + " %";
   }, [statsValue, address]);
 
-  const data = [70, 29, 1];
-  const labels = ["Category 1", "Category 2", "Category 3"];
-  const colors = ["#F32A66", "#282727", "#FFF"];
+  const renderDonutChart = React.useMemo(() => {
+    if (statsValue === undefined || !address) {
+      return;
+    }
+
+    const rest = OneHundred - statsValue - OffsetRatio;
+
+    const data = [statsValue, rest, OffsetRatio];
+    const labels = ["Utilization", "Rest", "Offset"];
+    const colors = [LightPinkColorCode, DarkGrayColorCode, LightBlackColorCode];
+
+    return <DonutChart data={data} labels={labels} colors={colors} size={DonutSize} />;
+  }, [statsValue, address]);
 
   return (
     <Row
@@ -156,7 +176,7 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
       width={isMobile ? "100%" : "12%"}
       pb={text ? 6 : undefined}
     >
-      <DonutChart data={data} labels={labels} colors={colors} size={40} />
+      {hasDonut && renderDonutChart}
       {text && (
         <Text
           width={currentLanguage === "ja" ? "135px" : "auto"}
@@ -387,7 +407,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 </Row>
               </HoverIcon>
             </Row>
-            <RenderStatsText statsValue={utilizationValue} />
+            <RenderStatsText statsValue={utilizationValue} hasDonut={true} />
             <RenderStatsText statsValue={netEarnAPRValue} />
             <RenderStatsText statsValue={netBorrowAPRValue} />
             <RenderBalanceText

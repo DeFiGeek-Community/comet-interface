@@ -1,4 +1,8 @@
 import React, { useRef, useEffect } from "react";
+import {
+  LightBlackColorCode,
+  DonutSize,
+} from "constants/aprs";
 
 interface DonutChartProps {
   data: number[];
@@ -11,7 +15,7 @@ const DonutChart: React.FC<DonutChartProps> = ({
   data,
   labels,
   colors,
-  size = 40,
+  size = DonutSize,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -64,7 +68,7 @@ const drawDonutChart = (
       true,
     );
     ctx.closePath();
-    ctx.fillStyle = "#171923";
+    ctx.fillStyle = LightBlackColorCode;
     ctx.fill();
   }
 };

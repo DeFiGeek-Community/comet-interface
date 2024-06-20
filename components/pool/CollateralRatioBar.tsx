@@ -22,7 +22,7 @@ import {
   RedColorCode,
   LightRedColorCode,
   WhiteColorCode,
-} from "constants/rario";
+} from "constants/ratio";
 
 const CollateralRatioBar = ({ poolData }: { poolData?: PoolConfig }) => {
   const { t } = useTranslation();
