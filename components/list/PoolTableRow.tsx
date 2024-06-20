@@ -445,9 +445,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
             >
               <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
                 <Row
-                  mainAxisAlignment="center"
+                  mainAxisAlignment="flex-start"
                   crossAxisAlignment="center"
                   overflow="scroll"
+                  ml={0.5}
                 >
                   {collateralList?.map((asset, index) => {
                     return (
@@ -456,7 +457,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                         name={asset?.symbol}
                         src={asset?.logoURL}
                         key={index}
-                        mr={1}
+                        mr={index}
                         style={{ marginLeft: index * -4 }}
                       />
                     );
