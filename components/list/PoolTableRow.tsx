@@ -415,7 +415,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               </HoverIcon>
             </Row>
             <RenderStatsText statsValue={utilizationValue} hasDonut={true} />
-            <RenderStatsText statsValue={netEarnAPRValue} />
+            <HoverIcon hoverText="Net Earn APR" isBase={true}>
+              <RenderStatsText statsValue={netEarnAPRValue} />
+            </HoverIcon>
             <RenderStatsText statsValue={netBorrowAPRValue} />
             <RenderBalanceText
               totalPoolObjectValue={totalPoolData?.totalBaseSupplyBalance}
