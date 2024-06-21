@@ -96,6 +96,7 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     } else {
       if (chainId) {
         setIsLoading(true);
+        setIsLoadingSecondary(true);
       }
     }
   }, [chainId]);
