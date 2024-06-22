@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import { Avatar, AvatarProps, Spinner, Link, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarProps,
+  Spinner,
+  Link,
+  Text,
+  Box,
+} from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
@@ -130,16 +137,20 @@ interface RenderStatsTextProps {
   statsValue?: number;
   text?: string;
   hasDonut?: boolean;
+  hovertext?: string;
 }
 
 const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   statsValue,
   text,
   hasDonut,
+  hovertext,
 }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { address } = useAccount();
+
+  const [isHovered, setIsHovered] = useState(false);
 
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
@@ -177,6 +188,8 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
 
   return (
     <Row
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       mainAxisAlignment={text ? "flex-start" : "center"}
       crossAxisAlignment="center"
       height="100%"
@@ -204,6 +217,19 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
       >
         {formattedValue}
       </Text>
+      {!hasDonut && isHovered && (
+        <Box
+          position="absolute"
+          bg="gray.700"
+          p={2}
+          mt={-20}
+          boxShadow="md"
+          borderRadius="md"
+          zIndex="tooltip"
+        >
+          {hovertext}
+        </Box>
+      )}
     </Row>
   );
 };
@@ -257,20 +283,40 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   }
 
   let netEarnAPRValue: number | undefined;
+  let hoverTextEarnAPR: string | undefined;
   let netBorrowAPRValue: number | undefined;
+  let hoverTextBorrowAPR: string | undefined;
   if (
     baseAssetData?.supplyAPR !== undefined &&
     tokenRewardData?.supplyRewardAPR !== undefined
   ) {
-    netEarnAPRValue =
-      baseAssetData?.supplyAPR * 100 + tokenRewardData?.supplyRewardAPR;
+    const supplyAPRPercent = baseAssetData?.supplyAPR * OneHundred;
+    netEarnAPRValue = supplyAPRPercent + tokenRewardData?.supplyRewardAPR;
+    hoverTextEarnAPR =
+      t("Earn APR") +
+      ": " +
+      supplyAPRPercent.toFixed(2) +
+      " % " +
+      t("Supply Reward") +
+      ": " +
+      tokenRewardData?.supplyRewardAPR.toFixed(3) +
+      " %";
   }
   if (
     baseAssetData?.borrowAPR !== undefined &&
     tokenRewardData?.borrowRewardAPR !== undefined
   ) {
-    netBorrowAPRValue =
-      baseAssetData?.borrowAPR * 100 - tokenRewardData?.borrowRewardAPR;
+    const borrowAPRPercent = baseAssetData?.borrowAPR * OneHundred;
+    netBorrowAPRValue = borrowAPRPercent - tokenRewardData?.borrowRewardAPR;
+    hoverTextBorrowAPR =
+      t("Borrow APR") +
+      ": " +
+      borrowAPRPercent.toFixed(2) +
+      " % " +
+      t("Borrow Reward") +
+      ": " +
+      tokenRewardData?.borrowRewardAPR.toFixed(3) +
+      " %";
   }
 
   return (
@@ -415,10 +461,14 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               </HoverIcon>
             </Row>
             <RenderStatsText statsValue={utilizationValue} hasDonut={true} />
-            <HoverIcon hoverText="Net Earn APR" isBase={true}>
-              <RenderStatsText statsValue={netEarnAPRValue} />
-            </HoverIcon>
-            <RenderStatsText statsValue={netBorrowAPRValue} />
+            <RenderStatsText
+              statsValue={netEarnAPRValue}
+              hovertext={hoverTextEarnAPR}
+            />
+            <RenderStatsText
+              statsValue={netBorrowAPRValue}
+              hovertext={hoverTextBorrowAPR}
+            />
             <RenderBalanceText
               totalPoolObjectValue={totalPoolData?.totalBaseSupplyBalance}
               assetPrice={assetPrice}

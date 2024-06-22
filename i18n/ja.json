@@ -8,6 +8,7 @@
   "Base Token Oracle Price": "ベース資産オラクル価格",
   "Borrow APR": "借入APR",
   "Borrow Balance": "借入残高",
+  "Borrow Reward": "借入報酬",
   "Check your wallet to submit the transaction": "ウォレットで取引を承認して下さい",
   "Claim": "請求",
   "Collateral Asset": "担保資産",
@@ -16,6 +17,7 @@
   "Discord": "Discord",
   "Do not close this tab until you have sent the transaction!": "取引完了までこのタブを閉じないで下さい",
   "Docs": "Docs",
+  "Earn APR": "預入APR",
   "ETH Pool": "ETHプール",
   "Execute Approve": "承認実行",
   "Github": "Github",
@@ -41,6 +43,7 @@
   "Supply (Repay)": "預入（もしくは返済）",
   "Supply APR": "預入APR",
   "Supply Balance": "預入残高",
+  "Supply Reward": "預入報酬",
   "This is how much you have borrowed": {
     "": "既存の借入額"
   },
