@@ -27,6 +27,7 @@ import {
   DarkGrayColorCode,
   LightBlackColorCode,
   DonutSize,
+  NumberOfAvatarPerRow,
 } from "constants/aprs";
 import usePoolData from "hooks/pool/usePoolData";
 import DonutChart from "components/list/DonutChart";
@@ -498,9 +499,11 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
                 <Row
                   mainAxisAlignment="flex-start"
-                  crossAxisAlignment="center"
-                  overflow="scroll"
+                  crossAxisAlignment="flex-start"
+                  flexWrap="wrap"
+                  overflow="visible"
                   ml={0.5}
+                  width="100%"
                 >
                   {collateralList?.map((asset, index) => {
                     return (
@@ -509,8 +512,14 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                         name={asset?.symbol}
                         src={asset?.logoURL}
                         key={index}
-                        mr={index}
-                        style={{ marginLeft: index * -4 }}
+                        mr={index % NumberOfAvatarPerRow}
+                        style={{
+                          marginLeft:
+                            (index % NumberOfAvatarPerRow) *
+                            -NumberOfAvatarPerRow,
+                          marginBottom: NumberOfAvatarPerRow,
+                          width: "25%",
+                        }}
                       />
                     );
                   })}
