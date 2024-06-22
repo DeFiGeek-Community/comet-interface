@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Heading, Text, Box, } from "@chakra-ui/react";
+import { Heading, Text, Box } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
@@ -128,9 +128,21 @@ const PoolTable = () => {
                 >
                   <TableHeaderColumnBase text={t("Base Asset")} width="100%" />
                 </Row>
-                <TableHeaderColumn text={t("Utilization")} width="12%" hovertext={utilizationFormula}/>
-                <TableHeaderColumn text={t("Net Earn APR")} width="12%" hovertext={netEarnAPRFormula}/>
-                <TableHeaderColumn text={t("Net Borrow APR")} width="12%" hovertext={netBorrowAPRFormula}/>
+                <TableHeaderColumn
+                  text={t("Utilization")}
+                  width="12%"
+                  hovertext={utilizationFormula}
+                />
+                <TableHeaderColumn
+                  text={t("Net Earn APR")}
+                  width="12%"
+                  hovertext={netEarnAPRFormula}
+                />
+                <TableHeaderColumn
+                  text={t("Net Borrow APR")}
+                  width="12%"
+                  hovertext={netBorrowAPRFormula}
+                />
                 <TableHeaderColumn
                   text={t("Total Supply Balance")}
                   width="12%"

@@ -177,11 +177,15 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
 
     const data = [statsValue, rest, OffsetRatio];
     const labels = ["Utilization", "Rest", "Offset"];
-    let donutColor:string = "";
-    if(kink){
-      if(statsValue <= kink-10){ donutColor = "#4caf50"}
-      else if( kink-10 < statsValue && statsValue <= kink ){ donutColor = "#ffc107"}
-      else if( kink < statsValue ){ donutColor = "#f44336"}
+    let donutColor: string = "";
+    if (kink) {
+      if (statsValue <= kink - 10) {
+        donutColor = "#4caf50";
+      } else if (kink - 10 < statsValue && statsValue <= kink) {
+        donutColor = "#ffc107";
+      } else if (kink < statsValue) {
+        donutColor = "#f44336";
+      }
     }
     const colors = [donutColor, DarkGrayColorCode, LightBlackColorCode];
 
@@ -471,7 +475,11 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 </Row>
               </HoverIcon>
             </Row>
-            <RenderStatsText statsValue={utilizationValue} hasDonut={true} kink={supplyKink}/>
+            <RenderStatsText
+              statsValue={utilizationValue}
+              hasDonut={true}
+              kink={supplyKink}
+            />
             <RenderStatsText
               statsValue={netEarnAPRValue}
               hovertext={hoverTextEarnAPR}
