@@ -139,6 +139,7 @@ interface RenderStatsTextProps {
   text?: string;
   hasDonut?: boolean;
   hovertext?: string;
+  kink?: number;
 }
 
 const RenderStatsText: React.FC<RenderStatsTextProps> = ({
@@ -146,6 +147,7 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   text,
   hasDonut,
   hovertext,
+  kink,
 }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -175,7 +177,13 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
 
     const data = [statsValue, rest, OffsetRatio];
     const labels = ["Utilization", "Rest", "Offset"];
-    const colors = [LightPinkColorCode, DarkGrayColorCode, LightBlackColorCode];
+    let donutColor:string = "";
+    if(kink){
+      if(statsValue <= kink-10){ donutColor = "#4caf50"}
+      else if( kink-10 < statsValue && statsValue <= kink ){ donutColor = "#ffc107"}
+      else if( kink < statsValue ){ donutColor = "#f44336"}
+    }
+    const colors = [donutColor, DarkGrayColorCode, LightBlackColorCode];
 
     return (
       <DonutChart
@@ -258,6 +266,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
     usePoolData();
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
+
+  const supplyKink = poolData.supplyKink;
 
   let sumCollateralBalances = 0;
 
@@ -461,7 +471,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 </Row>
               </HoverIcon>
             </Row>
-            <RenderStatsText statsValue={utilizationValue} hasDonut={true} />
+            <RenderStatsText statsValue={utilizationValue} hasDonut={true} kink={supplyKink}/>
             <RenderStatsText
               statsValue={netEarnAPRValue}
               hovertext={hoverTextEarnAPR}
