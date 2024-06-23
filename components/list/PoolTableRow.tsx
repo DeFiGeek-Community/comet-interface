@@ -188,7 +188,7 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   );
 
   const renderDonutChart = React.useMemo(() => {
-    if (statsValue === undefined || !address) {
+    if (statsValue === undefined || kink === undefined || !address) {
       return;
     }
 
@@ -209,7 +209,7 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
         size={DonutSize}
       />
     );
-  }, [statsValue, address]);
+  }, [statsValue, kink, address]);
 
   return (
     <Row
