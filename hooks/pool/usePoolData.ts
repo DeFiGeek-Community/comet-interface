@@ -4,7 +4,7 @@ import { PoolDataContext } from "context/PoolDataContext";
 const usePoolData = () => {
   const context = useContext(PoolDataContext);
   if (!context) {
-    throw new Error("usePool must be used within a ChainPoolProvider");
+    throw new Error("usePool must be used within a PoolDataProvider");
   }
   return context;
 };
