@@ -28,11 +28,7 @@ import {
   DonutSize,
   NumberOfAvatarPerRow,
 } from "constants/aprs";
-import {
-  GreenColorCode,
-  YellowColorCode,
-  RedColorCode,
-} from "constants/ratio";
+import { GreenColorCode, YellowColorCode, RedColorCode } from "constants/ratio";
 import usePoolData from "hooks/pool/usePoolData";
 import DonutChart from "components/list/DonutChart";
 
@@ -178,16 +174,17 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   }, [statsValue, address]);
 
   const getDonutColor = React.useMemo(
-    () => ({ statsValue, kink }: GetDonutColorProps): string => {
-      if (statsValue <= kink - 10) {
-        return GreenColorCode;
-      } else if (kink - 10 < statsValue && statsValue <= kink) {
-        return YellowColorCode;
-      } else {
-        return RedColorCode;
-      }
-    },
-    [statsValue, kink]
+    () =>
+      ({ statsValue, kink }: GetDonutColorProps): string => {
+        if (statsValue <= kink - 10) {
+          return GreenColorCode;
+        } else if (kink - 10 < statsValue && statsValue <= kink) {
+          return YellowColorCode;
+        } else {
+          return RedColorCode;
+        }
+      },
+    [statsValue, kink],
   );
 
   const renderDonutChart = React.useMemo(() => {
@@ -199,7 +196,9 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
 
     const data = [statsValue, rest, OffsetRatio];
     const labels = ["Utilization", "Rest", "Offset"];
-    const donutColor = kink ? getDonutColor({ statsValue, kink }) : DarkGrayColorCode;
+    const donutColor = kink
+      ? getDonutColor({ statsValue, kink })
+      : DarkGrayColorCode;
     const colors = [donutColor, DarkGrayColorCode, LightBlackColorCode];
 
     return (
