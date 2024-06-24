@@ -27,6 +27,9 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
   const poolName = poolConfig?.baseToken.symbol ?? "";
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingSecondary, setIsLoadingSecondary] = useState(false);
+  const [poolBaseData, setPoolBaseData] = useState<
+    PoolBaseDataType | undefined
+  >();
   const isFirstRender = useRef(true);
 
   const { priceFeedData } = usePriceFeedData(poolConfig);
@@ -64,13 +67,6 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     }
   }, [poolConfig, collateralAssetsData, collateralAssetMapping, updateData]);
 
-  const poolBaseData: PoolBaseDataType = {
-    priceFeedData: priceFeedMapping[poolName],
-    totalPoolData: totalPoolMapping[poolName],
-    baseAssetData: baseAssetMapping[poolName],
-    collateralAssetsData: collateralAssetMapping[poolName],
-  };
-
   const { tokenRewardData } = useTokenRewardData(poolConfig, poolBaseData);
 
   useEffect(() => {
@@ -86,7 +82,7 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
       positionSummary &&
       positionSummaryMapping[poolName] !== positionSummary
     ) {
-      updateData("positionSummaryMapping", poolName, tokenRewardData);
+      updateData("positionSummaryMapping", poolName, positionSummary);
     }
   }, [poolConfig, positionSummary, positionSummaryMapping, updateData]);
 
@@ -96,6 +92,7 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
     } else {
       if (chainId) {
         setIsLoading(true);
+        setIsLoadingSecondary(true);
       }
     }
   }, [chainId]);
@@ -108,6 +105,12 @@ const useUpdatePoolData = ({ poolConfig }: PoolDataComponentProps) => {
       collateralAssetsData
     ) {
       setIsLoading(false);
+      setPoolBaseData({
+        priceFeedData: priceFeedData,
+        totalPoolData: totalPoolData,
+        baseAssetData: baseAssetData,
+        collateralAssetsData: collateralAssetsData,
+      });
     }
   }, [priceFeedData, totalPoolData, baseAssetData, collateralAssetsData]);
 
