@@ -6,3 +6,4 @@ export const DarkGrayColorCode = "#282727";
 export const LightBlackColorCode = "#171923";
 export const DonutSize = 40;
 export const NumberOfAvatarPerRow = 4;
+export const NumberOfAvatarPerRowForMobile = 10;

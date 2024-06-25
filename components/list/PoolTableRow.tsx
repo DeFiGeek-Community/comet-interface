@@ -27,6 +27,7 @@ import {
   LightBlackColorCode,
   DonutSize,
   NumberOfAvatarPerRow,
+  NumberOfAvatarPerRowForMobile,
 } from "constants/aprs";
 import { GreenColorCode, YellowColorCode, RedColorCode } from "constants/ratio";
 import usePoolData from "hooks/pool/usePoolData";
@@ -221,7 +222,7 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
       width={isMobile ? "100%" : "12%"}
       pb={text ? 6 : undefined}
     >
-      {hasDonut && renderDonutChart}
+      {hasDonut && !text && renderDonutChart}
       {text && (
         <Text
           width={currentLanguage === "ja" ? "135px" : "auto"}
@@ -232,7 +233,7 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
           {t(text)}
         </Text>
       )}
-
+      {hasDonut && text && renderDonutChart}
       <Text
         color="#FFF"
         fontWeight="bold"
@@ -402,7 +403,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               </Row>
               <Row
                 mainAxisAlignment="flex-start"
-                crossAxisAlignment="flex-start"
+                crossAxisAlignment="center"
                 width="100%"
                 pb={6}
               >
@@ -421,7 +422,10 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 <Row
                   mainAxisAlignment="flex-start"
                   crossAxisAlignment="center"
-                  overflow="scroll"
+                  flexWrap="wrap"
+                  overflow="visible"
+                  ml={0.5}
+                  mt={2.5}
                   width="60%"
                 >
                   {collateralList?.map((asset, index) => {
@@ -431,12 +435,32 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                         name={asset?.symbol}
                         src={asset?.logoURL}
                         key={index}
-                        mr={1}
+                        style={{
+                          marginBottom: 10,
+                          marginRight: -2,
+                          width: "calc(10% + 2px)",
+                        }}
                       />
                     );
                   })}
                 </Row>
               </Row>
+              <RenderStatsText
+                statsValue={utilizationValue}
+                hasDonut={true}
+                kink={supplyKink}
+                text={"Utilization"}
+              />
+              <RenderStatsText
+                statsValue={netEarnAPRValue}
+                hovertext={hoverTextEarnAPR}
+                text={"Net Earn APR"}
+              />
+              <RenderStatsText
+                statsValue={netBorrowAPRValue}
+                hovertext={hoverTextBorrowAPR}
+                text={"Net Borrow APR"}
+              />
               <RenderBalanceText
                 totalPoolObjectValue={totalPoolData?.totalBaseSupplyBalance}
                 assetPrice={assetPrice}
