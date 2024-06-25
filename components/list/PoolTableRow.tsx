@@ -436,9 +436,9 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                         src={asset?.logoURL}
                         key={index}
                         style={{
-                          marginBottom: 10,
+                          marginBottom: NumberOfAvatarPerRowForMobile,
                           marginRight: -2,
-                          width: "calc(10% + 2px)",
+                          width: "calc(NumberOfAvatarPerRowForMobile% + 2px)",
                         }}
                       />
                     );
