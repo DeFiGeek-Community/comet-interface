@@ -28,6 +28,8 @@ import {
   DonutSize,
   NumberOfAvatarPerRow,
   NumberOfAvatarPerRowForMobile,
+  OverlappingDegree,
+  MarginRight,
 } from "constants/aprs";
 import { GreenColorCode, YellowColorCode, RedColorCode } from "constants/ratio";
 import usePoolData from "hooks/pool/usePoolData";
@@ -437,8 +439,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                         key={index}
                         style={{
                           marginBottom: NumberOfAvatarPerRowForMobile,
-                          marginRight: -2,
-                          width: "calc(NumberOfAvatarPerRowForMobile% + 2px)",
+                          marginRight: -MarginRight,
+                          width: `calc(${NumberOfAvatarPerRowForMobile}% + ${MarginRight}px)`,
                         }}
                       />
                     );
@@ -552,12 +554,15 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
             >
               <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
                 <Row
-                  mainAxisAlignment="flex-start"
-                  crossAxisAlignment="flex-start"
+                  mainAxisAlignment="center"
+                  crossAxisAlignment="center"
                   flexWrap="wrap"
                   overflow="visible"
                   ml={0.5}
                   width="100%"
+                  display="grid"
+                  gridTemplateColumns={`repeat(${NumberOfAvatarPerRow}, 1fr)`}
+                  gap={0}
                 >
                   {collateralList?.map((asset, index) => {
                     return (
@@ -566,13 +571,12 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                         name={asset?.symbol}
                         src={asset?.logoURL}
                         key={index}
-                        mr={index % NumberOfAvatarPerRow}
                         style={{
                           marginLeft:
-                            (index % NumberOfAvatarPerRow) *
-                            -NumberOfAvatarPerRow,
-                          marginBottom: NumberOfAvatarPerRow,
-                          width: "25%",
+                            index % NumberOfAvatarPerRow !== 0
+                              ? `-${OverlappingDegree}px`
+                              : "0",
+                          zIndex: index,
                         }}
                       />
                     );
