@@ -9,7 +9,7 @@ const HoverMotionBoxComp = ({
   isBase: boolean;
   text: string;
 }) => {
-  const isMultiLine = text.length > 30; //Judging as multiple lines when 50 or more characters are used
+  const isMultiLine = text.length > 35; //Judging as multiple lines when 50 or more characters are used
   return (
     <HoverMotionBox
       p="2"
