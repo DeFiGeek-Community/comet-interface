@@ -179,9 +179,10 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   const getDonutColor = React.useMemo(
     () =>
       ({ statsValue, kink }: GetDonutColorProps): string => {
-        if (statsValue <= kink - 10) {
+        const thresholdLowerThanKink = kink - 10;
+        if (statsValue <= thresholdLowerThanKink) {
           return GreenColorCode;
-        } else if (kink - 10 < statsValue && statsValue <= kink) {
+        } else if (thresholdLowerThanKink < statsValue && statsValue <= kink) {
           return YellowColorCode;
         } else {
           return RedColorCode;
@@ -262,6 +263,14 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   );
 };
 
+interface FormatNetAPRTextProps {
+  aprType: string;
+  rewardType: string;
+  aprPercent: number;
+  rewardAPR: number;
+  t: (key: string) => string;
+}
+
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -316,21 +325,37 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   let hoverTextEarnAPR: string | undefined;
   let netBorrowAPRValue: number | undefined;
   let hoverTextBorrowAPR: string | undefined;
+  const formatNetAPRText = ({
+    aprType,
+    rewardType,
+    aprPercent,
+    rewardAPR,
+    t,
+  }: FormatNetAPRTextProps): string => {
+    return (
+      t(aprType) +
+      ": " +
+      aprPercent.toFixed(2) +
+      " % " +
+      t(rewardType) +
+      ": " +
+      rewardAPR.toFixed(3) +
+      " %"
+    );
+  };
   if (
     baseAssetData?.supplyAPR !== undefined &&
     tokenRewardData?.supplyRewardAPR !== undefined
   ) {
     const supplyAPRPercent = baseAssetData?.supplyAPR * OneHundred;
     netEarnAPRValue = supplyAPRPercent + tokenRewardData?.supplyRewardAPR;
-    hoverTextEarnAPR =
-      t("Earn APR") +
-      ": " +
-      supplyAPRPercent.toFixed(2) +
-      " % " +
-      t("Supply Reward") +
-      ": " +
-      tokenRewardData?.supplyRewardAPR.toFixed(3) +
-      " %";
+    hoverTextEarnAPR = formatNetAPRText({
+      aprType: "Earn APR",
+      rewardType: "Supply Reward",
+      aprPercent: supplyAPRPercent,
+      rewardAPR: tokenRewardData?.supplyRewardAPR,
+      t
+    });
   }
   if (
     baseAssetData?.borrowAPR !== undefined &&
@@ -338,15 +363,13 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   ) {
     const borrowAPRPercent = baseAssetData?.borrowAPR * OneHundred;
     netBorrowAPRValue = borrowAPRPercent - tokenRewardData?.borrowRewardAPR;
-    hoverTextBorrowAPR =
-      t("Borrow APR") +
-      ": " +
-      borrowAPRPercent.toFixed(2) +
-      " % " +
-      t("Borrow Reward") +
-      ": " +
-      tokenRewardData?.borrowRewardAPR.toFixed(3) +
-      " %";
+    hoverTextBorrowAPR = formatNetAPRText({
+      aprType: "Borrow APR",
+      rewardType: "Borrow Reward",
+      aprPercent: borrowAPRPercent,
+      rewardAPR: tokenRewardData?.borrowRewardAPR,
+      t
+    });
   }
 
   return (
