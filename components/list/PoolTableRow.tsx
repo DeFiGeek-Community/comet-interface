@@ -354,7 +354,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       rewardType: "Supply Reward",
       aprPercent: supplyAPRPercent,
       rewardAPR: tokenRewardData?.supplyRewardAPR,
-      t
+      t,
     });
   }
   if (
@@ -368,7 +368,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       rewardType: "Borrow Reward",
       aprPercent: borrowAPRPercent,
       rewardAPR: tokenRewardData?.borrowRewardAPR,
-      t
+      t,
     });
   }
 
