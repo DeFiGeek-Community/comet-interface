@@ -79,6 +79,7 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({
           ...prevData,
           [poolName]: data as PriceFeedData,
         }));
+        setUsdjpyPrice((data as PriceFeedData)?.usdjpy);
         break;
       case "totalPoolMapping":
         setTotalPoolMapping((prevData) => ({
