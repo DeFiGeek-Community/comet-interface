@@ -8,8 +8,22 @@ import PoolTableRow from "components/list/PoolTableRow";
 import { useAppData } from "context/AppDataContext";
 import { PoolDataProvider } from "components/Provider/PoolDataProvider";
 import { Currency } from "context/AppDataContext";
-import { useAccount } from "wagmi";import {
+import { useAccount } from "wagmi";
+import {
+  OneSextillion,
+  OneQuitillion,
+  OneQuadrillion,
+  OneTrillion,
+  OneBillion,
   OneMillion,
+  OneThousand,
+  OneSextillionN,
+  OneQuitillionN,
+  OneQuadrillionN,
+  OneTrillionN,
+  OneBillionN,
+  OneMillionN,
+  OneThousandN,
   OneHundred,
   OffsetRatio,
   DarkGrayColorCode,
@@ -119,64 +133,122 @@ const useRenderBalanceText = ({
     currency: Currency,
     rate: number,
     isCollateralBalances: boolean,
-    address: string | undefined
+    address: string | undefined,
   ): string => {
     if (assetPrice === null || !address) {
-      return 'loading';
+      return "loading";
     }
 
-    const getRoundedNumber = (totalValue:number) => {
-      if( currency === "USD"){
-        if( totalValue < 5 ){
-          return totalValue;
-        }
-        else if( 5 <= totalValue && totalValue < 5000 ){
-          return totalValue / 1000;
-        }
-        else if( 5000 <= totalValue && totalValue < 5000000 ){
-          return totalValue / 1000000;
-        }
-      }
-      else if( currency === "JPY"){
+    // const getRoundedNumber = (totalValue: number) => {
+    //   if (currency === "USD") {
+    //     if (totalValue < OneThousand) {
+    //       return totalValue;
+    //     } else if (OneThousand <= totalValue && totalValue < OneMillion) {
+    //       return totalValue / OneThousand;
+    //     } else if (OneMillion <= totalValue && totalValue < OneBillion) {
+    //       return totalValue / OneMillion;
+    //     } else if (OneBillion <= totalValue && totalValue < OneTrillion) {
+    //       return totalValue / OneBillion;
+    //     } else if (OneTrillion <= totalValue && totalValue < OneQuadrillion) {
+    //       return totalValue / OneTrillion;
+    //     } else if (OneQuadrillion <= totalValue && totalValue < OneQuitillion) {
+    //       return totalValue / OneQuadrillion;
+    //     } else if (OneQuitillion <= totalValue && totalValue < OneSextillion) {
+    //       return totalValue / OneQuitillion;
+    //     } else {
+    //       return totalValue / OneSextillion;
+    //     }
+    //   } else if (currency === "JPY") {
+    //   }
+    // };
 
+    const getRoundedNumber = (totalValue: string) => {
+      if (currency === "USD") {
+        if (BigInt(totalValue) < BigInt(OneThousandN)) {
+          return BigInt(totalValue);
+        } else if (BigInt(OneThousandN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneMillionN)) {
+          return BigInt(totalValue) / BigInt(OneThousandN);
+        } else if (BigInt(OneMillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneBillionN)) {
+          return BigInt(totalValue) / BigInt(OneMillionN);
+        } else if (BigInt(OneBillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneTrillionN)) {
+          return BigInt(totalValue) / BigInt(OneBillionN);
+        } else if (BigInt(OneTrillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneQuadrillionN)) {
+          return BigInt(totalValue) / BigInt(OneTrillionN);
+        } else if (BigInt(OneQuadrillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneQuitillionN)) {
+          return BigInt(totalValue) / BigInt(OneQuadrillionN);
+        } else if (BigInt(OneQuitillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneSextillionN)) {
+          return BigInt(totalValue) / BigInt(OneQuitillionN);
+        } else {
+          return BigInt(totalValue) / BigInt(OneSextillionN);
+        }
+      } else if (currency === "JPY") {
       }
-    }
+    };
 
-    const testNumber = 5000;
-  
+    const num = 999;
+
+    const testNumber = String(num);
+
     const tempValue = getRoundedNumber(testNumber);
-  
-    const valueFormatted = isCollateralBalances
-      ? smallUsdFormatter(tempValue ?? 0, currency, rate)
-      : smallUsdPriceFormatter(
-        tempValue ?? 0,
-          assetPrice ?? 0,
-          currency,
-          rate,
-        );
 
-        console.log("valueFormatted " + valueFormatted);
-  
-        const getUnitText = (totalValue2:number) => {
-          if( currency === "USD"){
-            if( totalValue2 < 5 ){
-              return "";
-            }
-            else if( 5 <= totalValue2 && totalValue2 < 5000 ){
-              return "K";
-            }
-            else if( 5000 <= totalValue2 && totalValue2 < 5000000 ){
-              return "M";
-            }
-          }
-          else if( currency === "JPY"){
-    
-          }
+    console.log("tempValue " + tempValue);
+
+    let valueFormatted = "";
+    if (tempValue && assetPrice) {
+      const valuefloored = tempValue;
+      if (currency === "USD") {
+        valueFormatted = "$" + valuefloored;
+      } else {
+        valueFormatted = "¥" + valuefloored;
+      }
+    }
+
+    console.log("valueFormatted " + valueFormatted);
+
+    // const getUnitText = (totalValue: number) => {
+    //   if (currency === "USD") {
+    //     if (totalValue < OneThousand) {
+    //       return "";
+    //     } else if (OneThousand <= totalValue && totalValue < OneMillion) {
+    //       return "K";
+    //     } else if (OneMillion <= totalValue && totalValue < OneBillion) {
+    //       return "M";
+    //     } else if (OneBillion <= totalValue && totalValue < OneTrillion) {
+    //       return "B";
+    //     } else if (OneTrillion <= totalValue && totalValue < OneQuadrillion) {
+    //       return "T";
+    //     } else if (OneQuadrillion <= totalValue && totalValue < OneQuitillion) {
+    //       return "Qua";
+    //     } else if (OneQuitillion <= totalValue && totalValue < OneSextillion) {
+    //       return "Qui";
+    //     }
+    //   } else if (currency === "JPY") {
+    //   }
+    // };
+    const getUnitText = (totalValue: string) => {
+      if (currency === "USD") {
+        if (BigInt(totalValue) < BigInt(OneThousandN)) {
+          return "";
+        } else if (BigInt(OneThousandN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneMillionN)) {
+          return "K";
+        } else if (BigInt(OneMillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneBillionN)) {
+          return "M";
+        } else if (BigInt(OneBillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneTrillionN)) {
+          return "B";
+        } else if (BigInt(OneTrillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneQuadrillionN)) {
+          return "T";
+        }  else if (BigInt(OneQuadrillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneQuitillionN)) {
+          return "Qua";
+        } else if (BigInt(OneQuitillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneSextillionN)) {
+          return "Qui";
         }
+      } else if (currency === "JPY") {
+      }
+    };
 
-        const tempText = valueFormatted + getUnitText(testNumber);
+    const tempText = valueFormatted + getUnitText(testNumber);
 
-        return tempText;
+    return tempText;
   };
 
   const formattedValue = getFormattedValue(
@@ -184,7 +256,7 @@ const useRenderBalanceText = ({
     currency,
     rate,
     isCollateralBalances,
-    address
+    address,
   );
 
   return {

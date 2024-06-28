@@ -153,7 +153,7 @@ const useRenderBalanceText = ({
 
   const formattedValue = React.useMemo(() => {
     if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
-      return 'loading';
+      return "loading";
     }
 
     const valueDevidedByOneMillion = totalPoolObjectValue / OneMillion;
@@ -183,16 +183,16 @@ const useRenderBalanceText = ({
     currency: Currency,
     rate: number,
     isCollateralBalances: boolean,
-    address: string | undefined
+    address: string | undefined,
   ): string => {
     if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
-      return 'loading';
+      return "loading";
     }
 
     const testNumber = 4999;
-  
+
     const valueDevidedByOneMillion = testNumber / OneMillion;
-  
+
     const valueFormatted = isCollateralBalances
       ? smallUsdFormatter(valueDevidedByOneMillion ?? 0, currency, rate)
       : smallUsdPriceFormatter(
@@ -201,7 +201,7 @@ const useRenderBalanceText = ({
           currency,
           rate,
         );
-  
+
     return valueFormatted + " M";
   };
 
@@ -211,7 +211,7 @@ const useRenderBalanceText = ({
     currency,
     rate,
     isCollateralBalances,
-    address
+    address,
   );
 
   return {
