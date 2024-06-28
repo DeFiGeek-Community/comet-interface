@@ -62,6 +62,7 @@ interface RenderBalanceTextProps {
   rate?: number;
   isCollateralBalances: boolean;
   text?: string;
+  pool?: string;
 }
 
 const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
@@ -135,6 +136,87 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       </Text>
     </Row>
   );
+};
+
+const useRenderBalanceText = ({
+  totalPoolObjectValue,
+  assetPrice,
+  currency,
+  rate = 0,
+  isCollateralBalances,
+  text,
+}: RenderBalanceTextProps) => {
+  const { t, i18n } = useTranslation();
+  const isMobile = useIsMobile();
+  const { address } = useAccount();
+  const currentLanguage = i18n.language;
+
+  const formattedValue = React.useMemo(() => {
+    if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
+      return 'loading';
+    }
+
+    const valueDevidedByOneMillion = totalPoolObjectValue / OneMillion;
+
+    const valueFormatted = isCollateralBalances
+      ? smallUsdFormatter(valueDevidedByOneMillion ?? 0, currency, rate)
+      : smallUsdPriceFormatter(
+          valueDevidedByOneMillion ?? 0,
+          assetPrice ?? 0,
+          currency,
+          rate,
+        );
+
+    return valueFormatted + " M";
+  }, [
+    totalPoolObjectValue,
+    assetPrice,
+    currency,
+    rate,
+    isCollateralBalances,
+    address,
+  ]);
+
+  const getFormattedValue = (
+    totalPoolObjectValue: number | undefined,
+    assetPrice: number | null | undefined,
+    currency: Currency,
+    rate: number,
+    isCollateralBalances: boolean,
+    address: string | undefined
+  ): string => {
+    if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
+      return 'loading';
+    }
+
+    const testNumber = 4999;
+  
+    const valueDevidedByOneMillion = testNumber / OneMillion;
+  
+    const valueFormatted = isCollateralBalances
+      ? smallUsdFormatter(valueDevidedByOneMillion ?? 0, currency, rate)
+      : smallUsdPriceFormatter(
+          valueDevidedByOneMillion ?? 0,
+          assetPrice ?? 0,
+          currency,
+          rate,
+        );
+  
+    return valueFormatted + " M";
+  };
+
+  const formattedValue2 = getFormattedValue(
+    totalPoolObjectValue,
+    assetPrice,
+    currency,
+    rate,
+    isCollateralBalances,
+    address
+  );
+
+  return {
+    formattedValue2,
+  };
 };
 
 interface RenderStatsTextProps {
@@ -295,6 +377,8 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
 
+  // console.log("assetPrice: " + assetPrice);
+
   const supplyKink = poolData.supplyKink;
 
   let sumCollateralBalances = 0;
@@ -371,6 +455,17 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       t,
     });
   }
+
+  // const value = useRenderBalanceText({
+  //   totalPoolObjectValue: totalPoolData?.totalBaseSupplyBalance,
+  //   assetPrice,
+  //   currency,
+  //   rate,
+  //   isCollateralBalances: false,
+  //   text: symbol,
+  // });
+
+  // console.log(value);
 
   return (
     <Link
@@ -555,6 +650,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               currency={currency}
               rate={rate}
               isCollateralBalances={false}
+              pool={symbol}
             />
             <RenderBalanceText
               totalPoolObjectValue={totalPoolData?.totalBaseBorrowBalance}

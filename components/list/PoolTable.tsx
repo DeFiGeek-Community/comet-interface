@@ -7,6 +7,20 @@ import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 import { useAppData } from "context/AppDataContext";
 import { PoolDataProvider } from "components/Provider/PoolDataProvider";
+import { Currency } from "context/AppDataContext";
+import { useAccount } from "wagmi";import {
+  OneMillion,
+  OneHundred,
+  OffsetRatio,
+  DarkGrayColorCode,
+  LightBlackColorCode,
+  DonutSize,
+  NumberOfAvatarPerRow,
+  NumberOfAvatarPerRowForMobile,
+  OverlappingDegree,
+  MarginRight,
+} from "constants/aprs";
+import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 
 function RenderPoolTableRow() {
   const { config: poolsConfig } = useAppData();
@@ -80,13 +94,126 @@ const TableHeaderColumn: React.FC<TableHeaderColumnProps> = ({
   );
 };
 
+interface RenderBalanceTextProps {
+  assetPrice?: number | null;
+  currency: Currency;
+  rate?: number;
+  isCollateralBalances: boolean;
+  text?: string;
+  pool?: string;
+}
+
+const useRenderBalanceText = ({
+  assetPrice,
+  currency,
+  rate = 0,
+  isCollateralBalances,
+}: RenderBalanceTextProps) => {
+  const { t, i18n } = useTranslation();
+  const isMobile = useIsMobile();
+  const { address } = useAccount();
+  const currentLanguage = i18n.language;
+
+  const getFormattedValue = (
+    assetPrice: number | null | undefined,
+    currency: Currency,
+    rate: number,
+    isCollateralBalances: boolean,
+    address: string | undefined
+  ): string => {
+    if (assetPrice === null || !address) {
+      return 'loading';
+    }
+
+    const getRoundedNumber = (totalValue:number) => {
+      if( currency === "USD"){
+        if( totalValue < 5 ){
+          return totalValue;
+        }
+        else if( 5 <= totalValue && totalValue < 5000 ){
+          return totalValue / 1000;
+        }
+        else if( 5000 <= totalValue && totalValue < 5000000 ){
+          return totalValue / 1000000;
+        }
+      }
+      else if( currency === "JPY"){
+
+      }
+    }
+
+    const testNumber = 5000;
+  
+    const tempValue = getRoundedNumber(testNumber);
+  
+    const valueFormatted = isCollateralBalances
+      ? smallUsdFormatter(tempValue ?? 0, currency, rate)
+      : smallUsdPriceFormatter(
+        tempValue ?? 0,
+          assetPrice ?? 0,
+          currency,
+          rate,
+        );
+
+        console.log("valueFormatted " + valueFormatted);
+  
+        const getUnitText = (totalValue2:number) => {
+          if( currency === "USD"){
+            if( totalValue2 < 5 ){
+              return "";
+            }
+            else if( 5 <= totalValue2 && totalValue2 < 5000 ){
+              return "K";
+            }
+            else if( 5000 <= totalValue2 && totalValue2 < 5000000 ){
+              return "M";
+            }
+          }
+          else if( currency === "JPY"){
+    
+          }
+        }
+
+        const tempText = valueFormatted + getUnitText(testNumber);
+
+        return tempText;
+  };
+
+  const formattedValue = getFormattedValue(
+    assetPrice,
+    currency,
+    rate,
+    isCollateralBalances,
+    address
+  );
+
+  return {
+    formattedValue,
+  };
+};
+
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
+  const { address } = useAccount();
+
+  const { currency, rate } = useAppData();
+
   const utilizationFormula = t("Borrow") + " / " + t("Supply") + " × 100";
   const netEarnAPRFormula = t("Supply APR") + " + " + t("PND Bonus APR");
   const netBorrowAPRFormula = t("Borrow APR") + " - " + t("PND Reward APR");
+
+  const temp = 1;
+
+  const value = useRenderBalanceText({
+    assetPrice: temp,
+    currency,
+    rate,
+    isCollateralBalances: false,
+  });
+
+  console.log(value);
 
   return (
     <>
