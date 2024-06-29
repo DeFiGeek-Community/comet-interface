@@ -20,6 +20,18 @@ import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";
 import { helpSvgUrl } from "constants/urls";
 import {
+  OneSextillionN,
+  OneQuitillionN,
+  OneQuadrillionN,
+  OneTrillionN,
+  OneBillionN,
+  OneMillionN,
+  OneThousandN,
+  OneGaiN,
+  OneKeiN,
+  OneChouN,
+  OneOkuN,
+  OneManN,
   OneMillion,
   OneHundred,
   OffsetRatio,
@@ -91,15 +103,9 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
     }
 
     const getFormattedValue = (
-      assetPrice: number | null | undefined,
+      totalPoolObjectValue: number,
       currency: Currency,
-      rate: number,
-      isCollateralBalances: boolean,
-      address: string | undefined,
     ): string => {
-      if (assetPrice === null || !address) {
-        return "loading";
-      }
   
       let divisor: bigint;
   
@@ -169,25 +175,20 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         }
         return BigInt(totalValue) / BigInt(divisor);
       };
-      // Type of Number Safe Max: 9007199254740991（約9千兆）Number.MAX_SAFE_INTEGER
-      // Type of bigint Max: ? (It depends on the environment)
-      // There is no theoretical upper limit to the maximum value of BigInt type.
-      const num = Number.MAX_SAFE_INTEGER;//99999999999999999999;
+
+      const flooredValue = Math.floor(totalPoolObjectValue);
   
-      const testNumber = String(num);
+      const flooredNumber = String(flooredValue);
   
-      const tempValue = getRoundedNumber(testNumber);
+      const roundedFlooredNumber = getRoundedNumber(flooredNumber);
   
-      console.log("tempValue " + tempValue);
+      console.log("roundedFlooredNumber " + roundedFlooredNumber);
   
       let valueFormatted = "";
-      if (tempValue && assetPrice) {
-        const valuefloored = tempValue;
-        if (currency === "USD") {
-          valueFormatted = "$" + valuefloored;
-        } else {
-          valueFormatted = "¥" + valuefloored;
-        }
+      if (currency === "USD") {
+        valueFormatted = "$" + roundedFlooredNumber;
+      } else {
+        valueFormatted = "¥" + roundedFlooredNumber;
       }
   
       console.log("valueFormatted " + valueFormatted);
@@ -256,31 +257,17 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         }
       };
   
-      const tempText = valueFormatted + getUnitText(testNumber);
+      const formattedValue = valueFormatted + getUnitText(flooredNumber);
   
-      return tempText;
+      return formattedValue ;
     };
   
     const formattedValue = getFormattedValue(
-      assetPrice,
+      totalPoolObjectValue,
       currency,
-      rate,
-      isCollateralBalances,
-      address,
     );
 
-    // const valueDevidedByOneMillion = totalPoolObjectValue / OneMillion;
-
-    // const valueFormatted = isCollateralBalances
-    //   ? smallUsdFormatter(valueDevidedByOneMillion ?? 0, currency, rate)
-    //   : smallUsdPriceFormatter(
-    //       valueDevidedByOneMillion ?? 0,
-    //       assetPrice ?? 0,
-    //       currency,
-    //       rate,
-    //     );
-
-    // return valueFormatted + " M";
+    return formattedValue;
   }, [
     totalPoolObjectValue,
     assetPrice,
