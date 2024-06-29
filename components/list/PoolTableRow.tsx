@@ -122,7 +122,6 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       assetPrice: number | undefined,
       currency: Currency,
     ): string => {
-
       let divisor: bigint;
 
       const getRoundedNumber = (totalValue: string) => {
@@ -272,7 +271,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         }
       };
 
-      return  valueFormatted + getUnitText(flooredNumber);
+      return valueFormatted + getUnitText(flooredNumber);
     };
 
     const formattedValue = getFormattedValue(
