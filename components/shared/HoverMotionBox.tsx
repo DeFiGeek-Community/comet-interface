@@ -27,7 +27,8 @@ const HoverMotionBoxComp = ({
       transform="translateX(-50%)"
       zIndex="tooltip"
       whiteSpace="pre-wrap"
-      wordWrap="break-word"
+      wordBreak="break-word"
+      overflowWrap="break-word"
     >
       {text}
     </HoverMotionBox>

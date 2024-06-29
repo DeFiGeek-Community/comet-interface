@@ -122,6 +122,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       assetPrice: number | undefined,
       currency: Currency,
     ): string => {
+
       let divisor: bigint;
 
       const getRoundedNumber = (totalValue: string) => {
@@ -191,11 +192,9 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         return BigInt(totalValue) / BigInt(divisor);
       };
 
-      let flooredValue;
-
+      let flooredValue: number = 0;
       if (assetPrice) {
         flooredValue = Math.floor((totalPoolObjectValue * assetPrice) / rate);
-        console.log((totalPoolObjectValue * assetPrice) / rate);
       }
 
       const flooredNumber = String(flooredValue);
@@ -208,8 +207,6 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       } else {
         valueFormatted = "¥" + roundedFlooredNumber;
       }
-
-      console.log("valueFormatted " + valueFormatted);
 
       const getUnitText = (totalValue: string) => {
         if (currency === "USD") {
@@ -275,9 +272,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         }
       };
 
-      const formattedValue = valueFormatted + getUnitText(flooredNumber);
-
-      return formattedValue;
+      return  valueFormatted + getUnitText(flooredNumber);
     };
 
     const formattedValue = getFormattedValue(
@@ -295,7 +290,6 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
     isCollateralBalances,
     address,
   ]);
-  console.log(flooredValue);
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -323,8 +317,8 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         fontSize="17px"
         textAlign="center"
         as="div"
-        onMouseEnter={() => setIsHovered(true)} // ホバー時に吹き出しを表示
-        onMouseLeave={() => setIsHovered(false)} // ホバーが外れた時に吹き出しを非表示
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         {formattedValue}
       </Text>
