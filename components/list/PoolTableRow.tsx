@@ -93,7 +93,9 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 
   const flooredValue = React.useMemo(() => {
     if (totalPoolObjectValue !== undefined && assetPrice) {
-      const flooredValue = Math.floor((totalPoolObjectValue*assetPrice)/rate);
+      const flooredValue = Math.floor(
+        (totalPoolObjectValue * assetPrice) / rate,
+      );
       if (currency === "USD") {
         return "$" + flooredValue.toLocaleString();
       } else {
@@ -102,7 +104,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
     } else {
       return undefined;
     }
-  }, [totalPoolObjectValue, currency]);
+  }, [totalPoolObjectValue, assetPrice, currency]);
   // バランスの表示値を計算
   const formattedValue = React.useMemo(() => {
     if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
@@ -191,9 +193,9 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 
       let flooredValue;
 
-      if(assetPrice){ 
-        flooredValue = Math.floor((totalPoolObjectValue*assetPrice)/rate);
-        console.log((totalPoolObjectValue*assetPrice)/rate);
+      if (assetPrice) {
+        flooredValue = Math.floor((totalPoolObjectValue * assetPrice) / rate);
+        console.log((totalPoolObjectValue * assetPrice) / rate);
       }
 
       const flooredNumber = String(flooredValue);
@@ -278,7 +280,11 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       return formattedValue;
     };
 
-    const formattedValue = getFormattedValue(totalPoolObjectValue, assetPrice, currency);
+    const formattedValue = getFormattedValue(
+      totalPoolObjectValue,
+      assetPrice,
+      currency,
+    );
 
     return formattedValue;
   }, [
