@@ -90,18 +90,197 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       console.log("It is possible that the values exceed the upper limit of what can be safely calculated in javascript, and therefore the values may not be calculated or displayed accurately.");
     }
 
-    const valueDevidedByOneMillion = totalPoolObjectValue / OneMillion;
+    const getFormattedValue = (
+      assetPrice: number | null | undefined,
+      currency: Currency,
+      rate: number,
+      isCollateralBalances: boolean,
+      address: string | undefined,
+    ): string => {
+      if (assetPrice === null || !address) {
+        return "loading";
+      }
+  
+      let divisor: bigint;
+  
+      const getRoundedNumber = (totalValue: string) => {
+        if (currency === "USD") {
+          if (BigInt(totalValue) < BigInt(OneThousandN)) {
+            divisor = BigInt("1");
+          } else if (
+            BigInt(OneThousandN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneMillionN)
+          ) {
+            divisor = BigInt(OneThousandN);
+          } else if (
+            BigInt(OneMillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneBillionN)
+          ) {
+            divisor = BigInt(OneMillionN);
+          } else if (
+            BigInt(OneBillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneTrillionN)
+          ) {
+            divisor = BigInt(OneBillionN);
+          } else if (
+            BigInt(OneTrillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneQuadrillionN)
+          ) {
+            divisor = BigInt(OneTrillionN);
+          } else if (
+            BigInt(OneQuadrillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneQuitillionN)
+          ) {
+            divisor = BigInt(OneQuadrillionN);
+          } else if (
+            BigInt(OneQuitillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneSextillionN)
+          ) {
+            divisor = BigInt(OneQuitillionN);
+          } else {
+            divisor = BigInt(OneSextillionN);
+          }
+        } else if (currency === "JPY") {
+          if (BigInt(totalValue) < BigInt(OneManN)) {
+            divisor = BigInt("1");
+          } else if (
+            BigInt(OneManN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneOkuN)
+          ) {
+            divisor = BigInt(OneManN);
+          } else if (
+            BigInt(OneOkuN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneChouN)
+          ) {
+            divisor = BigInt(OneOkuN);
+          } else if (
+            BigInt(OneChouN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneKeiN)
+          ) {
+            divisor = BigInt(OneChouN);
+          } else if (
+            BigInt(OneKeiN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneGaiN)
+          ) {
+            divisor = BigInt(OneKeiN);
+          } else {
+            divisor = BigInt(OneGaiN);
+          }
+        }
+        return BigInt(totalValue) / BigInt(divisor);
+      };
+      // Type of Number Safe Max: 9007199254740991（約9千兆）Number.MAX_SAFE_INTEGER
+      // Type of bigint Max: ? (It depends on the environment)
+      // There is no theoretical upper limit to the maximum value of BigInt type.
+      const num = Number.MAX_SAFE_INTEGER;//99999999999999999999;
+  
+      const testNumber = String(num);
+  
+      const tempValue = getRoundedNumber(testNumber);
+  
+      console.log("tempValue " + tempValue);
+  
+      let valueFormatted = "";
+      if (tempValue && assetPrice) {
+        const valuefloored = tempValue;
+        if (currency === "USD") {
+          valueFormatted = "$" + valuefloored;
+        } else {
+          valueFormatted = "¥" + valuefloored;
+        }
+      }
+  
+      console.log("valueFormatted " + valueFormatted);
+  
+      const getUnitText = (totalValue: string) => {
+        if (currency === "USD") {
+          if (BigInt(totalValue) < BigInt(OneThousandN)) {
+            return "";
+          } else if (
+            BigInt(OneThousandN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneMillionN)
+          ) {
+            return "K";
+          } else if (
+            BigInt(OneMillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneBillionN)
+          ) {
+            return "M";
+          } else if (
+            BigInt(OneBillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneTrillionN)
+          ) {
+            return "B";
+          } else if (
+            BigInt(OneTrillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneQuadrillionN)
+          ) {
+            return "T";
+          } else if (
+            BigInt(OneQuadrillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneQuitillionN)
+          ) {
+            return "Qua";
+          } else if (
+            BigInt(OneQuitillionN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneSextillionN)
+          ) {
+            return "Qui";
+          }
+        } else if (currency === "JPY") {
+          if (BigInt(totalValue) < BigInt(OneManN)) {
+            return "";
+          } else if (
+            BigInt(OneManN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneOkuN)
+          ) {
+            return "万";
+          } else if (
+            BigInt(OneOkuN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneChouN)
+          ) {
+            return "億";
+          } else if (
+            BigInt(OneChouN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneKeiN)
+          ) {
+            return "兆";
+          } else if (
+            BigInt(OneKeiN) <= BigInt(totalValue) &&
+            BigInt(totalValue) < BigInt(OneGaiN)
+          ) {
+            return "京";
+          } else {
+            return "垓";
+          }
+        }
+      };
+  
+      const tempText = valueFormatted + getUnitText(testNumber);
+  
+      return tempText;
+    };
+  
+    const formattedValue = getFormattedValue(
+      assetPrice,
+      currency,
+      rate,
+      isCollateralBalances,
+      address,
+    );
 
-    const valueFormatted = isCollateralBalances
-      ? smallUsdFormatter(valueDevidedByOneMillion ?? 0, currency, rate)
-      : smallUsdPriceFormatter(
-          valueDevidedByOneMillion ?? 0,
-          assetPrice ?? 0,
-          currency,
-          rate,
-        );
+    // const valueDevidedByOneMillion = totalPoolObjectValue / OneMillion;
 
-    return valueFormatted + " M";
+    // const valueFormatted = isCollateralBalances
+    //   ? smallUsdFormatter(valueDevidedByOneMillion ?? 0, currency, rate)
+    //   : smallUsdPriceFormatter(
+    //       valueDevidedByOneMillion ?? 0,
+    //       assetPrice ?? 0,
+    //       currency,
+    //       rate,
+    //     );
+
+    // return valueFormatted + " M";
   }, [
     totalPoolObjectValue,
     assetPrice,
