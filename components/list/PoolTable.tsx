@@ -24,6 +24,11 @@ import {
   OneBillionN,
   OneMillionN,
   OneThousandN,
+  OneGaiN,
+  OneKeiN,
+  OneChouN,
+  OneOkuN,
+  OneManN,
   OneHundred,
   OffsetRatio,
   DarkGrayColorCode,
@@ -128,6 +133,10 @@ const useRenderBalanceText = ({
   const { address } = useAccount();
   const currentLanguage = i18n.language;
 
+  // if(totalPoolObjectValue > Number.MAX_SAFE_INTEGER){
+  //   console.log("It is possible that the values exceed the upper limit of what can be safely calculated in javascript, and therefore the values may not be calculated or displayed accurately.");
+  // }
+
   const getFormattedValue = (
     assetPrice: number | null | undefined,
     currency: Currency,
@@ -139,53 +148,78 @@ const useRenderBalanceText = ({
       return "loading";
     }
 
-    // const getRoundedNumber = (totalValue: number) => {
-    //   if (currency === "USD") {
-    //     if (totalValue < OneThousand) {
-    //       return totalValue;
-    //     } else if (OneThousand <= totalValue && totalValue < OneMillion) {
-    //       return totalValue / OneThousand;
-    //     } else if (OneMillion <= totalValue && totalValue < OneBillion) {
-    //       return totalValue / OneMillion;
-    //     } else if (OneBillion <= totalValue && totalValue < OneTrillion) {
-    //       return totalValue / OneBillion;
-    //     } else if (OneTrillion <= totalValue && totalValue < OneQuadrillion) {
-    //       return totalValue / OneTrillion;
-    //     } else if (OneQuadrillion <= totalValue && totalValue < OneQuitillion) {
-    //       return totalValue / OneQuadrillion;
-    //     } else if (OneQuitillion <= totalValue && totalValue < OneSextillion) {
-    //       return totalValue / OneQuitillion;
-    //     } else {
-    //       return totalValue / OneSextillion;
-    //     }
-    //   } else if (currency === "JPY") {
-    //   }
-    // };
+    let divisor: bigint;
 
     const getRoundedNumber = (totalValue: string) => {
       if (currency === "USD") {
         if (BigInt(totalValue) < BigInt(OneThousandN)) {
-          return BigInt(totalValue);
-        } else if (BigInt(OneThousandN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneMillionN)) {
-          return BigInt(totalValue) / BigInt(OneThousandN);
-        } else if (BigInt(OneMillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneBillionN)) {
-          return BigInt(totalValue) / BigInt(OneMillionN);
-        } else if (BigInt(OneBillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneTrillionN)) {
-          return BigInt(totalValue) / BigInt(OneBillionN);
-        } else if (BigInt(OneTrillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneQuadrillionN)) {
-          return BigInt(totalValue) / BigInt(OneTrillionN);
-        } else if (BigInt(OneQuadrillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneQuitillionN)) {
-          return BigInt(totalValue) / BigInt(OneQuadrillionN);
-        } else if (BigInt(OneQuitillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneSextillionN)) {
-          return BigInt(totalValue) / BigInt(OneQuitillionN);
+          divisor = BigInt("1");
+        } else if (
+          BigInt(OneThousandN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneMillionN)
+        ) {
+          divisor = BigInt(OneThousandN);
+        } else if (
+          BigInt(OneMillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneBillionN)
+        ) {
+          divisor = BigInt(OneMillionN);
+        } else if (
+          BigInt(OneBillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneTrillionN)
+        ) {
+          divisor = BigInt(OneBillionN);
+        } else if (
+          BigInt(OneTrillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneQuadrillionN)
+        ) {
+          divisor = BigInt(OneTrillionN);
+        } else if (
+          BigInt(OneQuadrillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneQuitillionN)
+        ) {
+          divisor = BigInt(OneQuadrillionN);
+        } else if (
+          BigInt(OneQuitillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneSextillionN)
+        ) {
+          divisor = BigInt(OneQuitillionN);
         } else {
-          return BigInt(totalValue) / BigInt(OneSextillionN);
+          divisor = BigInt(OneSextillionN);
         }
       } else if (currency === "JPY") {
+        if (BigInt(totalValue) < BigInt(OneManN)) {
+          divisor = BigInt("1");
+        } else if (
+          BigInt(OneManN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneOkuN)
+        ) {
+          divisor = BigInt(OneManN);
+        } else if (
+          BigInt(OneOkuN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneChouN)
+        ) {
+          divisor = BigInt(OneOkuN);
+        } else if (
+          BigInt(OneChouN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneKeiN)
+        ) {
+          divisor = BigInt(OneChouN);
+        } else if (
+          BigInt(OneKeiN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneGaiN)
+        ) {
+          divisor = BigInt(OneKeiN);
+        } else {
+          divisor = BigInt(OneGaiN);
+        }
       }
+      return BigInt(totalValue) / BigInt(divisor);
     };
-
-    const num = 999;
+    // Type of Number Safe Max: 9007199254740991（約9千兆）Number.MAX_SAFE_INTEGER
+    // Type of bigint Max: ? (It depends on the environment)
+    // There is no theoretical upper limit to the maximum value of BigInt type.
+    const num = Number.MAX_SAFE_INTEGER;//99999999999999999999;
 
     const testNumber = String(num);
 
@@ -205,44 +239,67 @@ const useRenderBalanceText = ({
 
     console.log("valueFormatted " + valueFormatted);
 
-    // const getUnitText = (totalValue: number) => {
-    //   if (currency === "USD") {
-    //     if (totalValue < OneThousand) {
-    //       return "";
-    //     } else if (OneThousand <= totalValue && totalValue < OneMillion) {
-    //       return "K";
-    //     } else if (OneMillion <= totalValue && totalValue < OneBillion) {
-    //       return "M";
-    //     } else if (OneBillion <= totalValue && totalValue < OneTrillion) {
-    //       return "B";
-    //     } else if (OneTrillion <= totalValue && totalValue < OneQuadrillion) {
-    //       return "T";
-    //     } else if (OneQuadrillion <= totalValue && totalValue < OneQuitillion) {
-    //       return "Qua";
-    //     } else if (OneQuitillion <= totalValue && totalValue < OneSextillion) {
-    //       return "Qui";
-    //     }
-    //   } else if (currency === "JPY") {
-    //   }
-    // };
     const getUnitText = (totalValue: string) => {
       if (currency === "USD") {
         if (BigInt(totalValue) < BigInt(OneThousandN)) {
           return "";
-        } else if (BigInt(OneThousandN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneMillionN)) {
+        } else if (
+          BigInt(OneThousandN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneMillionN)
+        ) {
           return "K";
-        } else if (BigInt(OneMillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneBillionN)) {
+        } else if (
+          BigInt(OneMillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneBillionN)
+        ) {
           return "M";
-        } else if (BigInt(OneBillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneTrillionN)) {
+        } else if (
+          BigInt(OneBillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneTrillionN)
+        ) {
           return "B";
-        } else if (BigInt(OneTrillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneQuadrillionN)) {
+        } else if (
+          BigInt(OneTrillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneQuadrillionN)
+        ) {
           return "T";
-        }  else if (BigInt(OneQuadrillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneQuitillionN)) {
+        } else if (
+          BigInt(OneQuadrillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneQuitillionN)
+        ) {
           return "Qua";
-        } else if (BigInt(OneQuitillionN) <= BigInt(totalValue) && BigInt(totalValue) < BigInt(OneSextillionN)) {
+        } else if (
+          BigInt(OneQuitillionN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneSextillionN)
+        ) {
           return "Qui";
         }
       } else if (currency === "JPY") {
+        if (BigInt(totalValue) < BigInt(OneManN)) {
+          return "";
+        } else if (
+          BigInt(OneManN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneOkuN)
+        ) {
+          return "万";
+        } else if (
+          BigInt(OneOkuN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneChouN)
+        ) {
+          return "億";
+        } else if (
+          BigInt(OneChouN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneKeiN)
+        ) {
+          return "兆";
+        } else if (
+          BigInt(OneKeiN) <= BigInt(totalValue) &&
+          BigInt(totalValue) < BigInt(OneGaiN)
+        ) {
+          return "京";
+        } else {
+          return "垓";
+        }
       }
     };
 
@@ -276,10 +333,8 @@ const PoolTable = () => {
   const netEarnAPRFormula = t("Supply APR") + " + " + t("PND Bonus APR");
   const netBorrowAPRFormula = t("Borrow APR") + " - " + t("PND Reward APR");
 
-  const temp = 1;
-
   const value = useRenderBalanceText({
-    assetPrice: temp,
+    assetPrice: 1,
     currency,
     rate,
     isCollateralBalances: false,
