@@ -72,6 +72,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   isCollateralBalances,
   text,
 }) => {
+
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { address } = useAccount();
@@ -83,6 +84,10 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   const formattedValue = React.useMemo(() => {
     if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
       return <Spinner />;
+    }
+
+    if(totalPoolObjectValue > Number.MAX_SAFE_INTEGER){
+      console.log("It is possible that the values exceed the upper limit of what can be safely calculated in javascript, and therefore the values may not be calculated or displayed accurately.");
     }
 
     const valueDevidedByOneMillion = totalPoolObjectValue / OneMillion;
