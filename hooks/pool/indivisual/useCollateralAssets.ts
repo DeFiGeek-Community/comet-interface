@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { PoolConfig } from "interfaces/pool";
 import { fetchDataFromComet } from "hooks/util/cometContractUtils";
 import { useReload } from "context/ReloadContext";
+import { useAppData } from "context/AppDataContext";
 
 export interface CollateralAssetsData {
   [symbol: string]: CollateralAssetInfo;
@@ -16,7 +17,10 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
   const [collateralAssetsData, setCollateralAssetsData] =
     useState<CollateralAssetsData>();
 
+  const { collateralAssetMapping } = useAppData();
+
   const { reloadKey } = useReload();
+  const prevReloadKey = useRef(reloadKey);
 
   const fetchCollateralAssetsData = useCallback(async () => {
     if (!poolData) {
@@ -24,7 +28,15 @@ const useCollateralAssets = (poolData: PoolConfig | undefined) => {
       return;
     }
 
+    // 共通データが存在する場合は、そのデータを使用
+    const sharedData = collateralAssetMapping[poolData.baseToken.symbol];
+    if (sharedData && prevReloadKey.current === reloadKey) {
+      setCollateralAssetsData(sharedData);
+      return;
+    }
+
     try {
+      console.log("useCollateralAssets");
       const data: CollateralAssetsData = {};
       for (const assetConfig of poolData.assetConfigs) {
         const collateralFactor = assetConfig.borrowCollateralFactor * 0.01;

@@ -25,7 +25,7 @@ import {
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Row, useIsMobile } from "utils/chakraUtils";
-import { usePool } from "context/PoolContext";
+import usePool from "hooks/pool/usePool";
 import { useTranslation } from "react-i18next";
 import { useAppData } from "context/AppDataContext";
 

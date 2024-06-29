@@ -18,7 +18,7 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
   const [priceFeedData, setPriceFeedData] = useState<PriceFeedData>();
   const [error, setError] = useState<Error | null>(null);
 
-  const { priceFeedData: sharedPriceFeedData } = useAppData();
+  const { priceFeedMapping } = useAppData();
 
   const { reloadKey } = useReload();
   const prevReloadKey = useRef(reloadKey);
@@ -30,7 +30,7 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
     }
 
     // 共通データが存在する場合は、そのデータを使用
-    const sharedData = sharedPriceFeedData[poolData.baseToken.symbol];
+    const sharedData = priceFeedMapping[poolData.baseToken.symbol];
     if (sharedData && prevReloadKey.current === reloadKey) {
       setPriceFeedData(sharedData);
       return;
@@ -38,6 +38,8 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
     prevReloadKey.current = reloadKey;
 
     try {
+      console.log("usePriceFeedData");
+
       const jpyPrice = await fetchPriceFeed(
         poolData.jpyPriceFeed,
         poolData.chainId,

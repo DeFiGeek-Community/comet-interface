@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useReload } from "context/ReloadContext";
-import { PoolPrimaryDataContextType } from "context/PoolPrimaryDataContext";
+import { PoolBaseDataType } from "context/AppDataContext";
 import { PoolConfig } from "interfaces/pool";
 import { fetchTotalDataComet } from "hooks/util/cometContractUtils";
+import { useAppData } from "context/AppDataContext";
 
 export interface TokenRewardData {
   supplyRewardAPR: number | undefined;
@@ -11,11 +12,14 @@ export interface TokenRewardData {
 
 const useTokenRewardData = (
   poolData: PoolConfig | undefined,
-  primaryData: PoolPrimaryDataContextType | undefined,
+  primaryData: PoolBaseDataType | undefined,
 ) => {
   const [tokenRewardData, setTokenRewardData] = useState<TokenRewardData>();
   const [error, setError] = useState<Error | null>(null);
+  const { tokenRewardMapping } = useAppData();
+
   const { reloadKey } = useReload();
+  const prevReloadKey = useRef(reloadKey);
 
   const SECONDS_PER_DAY = 60 * 60 * 24;
   const DAYS_IN_YEAR = 365;
@@ -48,6 +52,13 @@ const useTokenRewardData = (
   const fetchTokenRewardData = useCallback(async () => {
     if (!poolData || !primaryData) {
       setTokenRewardData(undefined);
+      return;
+    }
+
+    // 共通データが存在する場合は、そのデータを使用
+    const sharedData = tokenRewardMapping[poolData.baseToken.symbol];
+    if (sharedData && prevReloadKey.current === reloadKey) {
+      setTokenRewardData(sharedData);
       return;
     }
 

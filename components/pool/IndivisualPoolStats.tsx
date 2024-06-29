@@ -7,7 +7,7 @@ import {
   formatUsdWithFourDecimals,
 } from "utils/bigUtils";
 import { useIsSmallScreen } from "hooks/useIsSmallScreen";
-import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
+import usePoolData from "hooks/pool/usePoolData";
 import CaptionedStat from "components/shared/CaptionedStat";
 import DashboardBox from "components/shared/DashboardBox";
 import { PoolConfig } from "interfaces/pool";
@@ -16,7 +16,7 @@ import { useAppData } from "context/AppDataContext";
 const IndivisualPoolStats = ({ poolData }: { poolData?: PoolConfig }) => {
   const isMobile = useIsSmallScreen();
   const symbol = poolData?.baseToken.symbol ?? "";
-  const { priceFeedData, totalPoolData } = usePoolPrimaryDataContext();
+  const { priceFeedData, totalPoolData } = usePoolData();
   let totalCollateralUsdBalance;
 
   const collateralAssets = poolData?.assetConfigs ?? [];

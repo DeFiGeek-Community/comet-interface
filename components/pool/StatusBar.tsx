@@ -7,7 +7,7 @@ import {
   YellowColorCode,
   RedColorCode,
   StatusBarContainer,
-} from "constants/rario";
+} from "constants/ratio";
 
 export interface StatusBarProps {
   leeway: number;
@@ -50,15 +50,21 @@ const OverlayStatusBarFill = styled.div<{ width: number; color: string }>`
   z-index: 1;
 `;
 
+const GetOverlayValuePosition = (value: number) => {
+  const isMobile = useIsMobile();
+  if (value >= 10) {
+    return isMobile ? `${value - 23}%` : `${value - 6}%`;
+  } else {
+    return "0%";
+  }
+};
+
 const OverlayValue = styled.div<{
   width: number;
-  color: string;
-  isMobile: boolean;
 }>`
   position: absolute;
   bottom: 3px;
-  left: ${({ width, isMobile }) =>
-    width > 10 ? (isMobile ? width - 23 : width - 6) : 0}%;
+  left: ${({ width }) => GetOverlayValuePosition(width)}%;
   color: rgba(255, 255, 255, 1);
   font-size: 12px;
   font-weight: bold;
@@ -66,19 +72,12 @@ const OverlayValue = styled.div<{
 `;
 
 const StatusBar: React.FC<StatusBarProps> = ({ leeway, warning, overlay }) => {
-  const isMobile = useIsMobile();
   return (
     <StatusBarContainer>
       <ProgressFill width={leeway} color={GreenColorCode} />
       <ProgressFill width={warning} color={YellowColorCode} />
       <ProgressFill width={DangerRatio} color={RedColorCode} />
-      <OverlayValue
-        width={overlay.value}
-        color={overlay.color}
-        isMobile={isMobile}
-      >
-        {overlay.value}%
-      </OverlayValue>
+      <OverlayValue width={overlay.value}>{overlay.value}%</OverlayValue>
       <OverlayStatusBarFill width={overlay.value} color={overlay.color} />
     </StatusBarContainer>
   );

@@ -2,8 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@chakra-ui/react";
 import { Column, Center } from "utils/chakraUtils";
-import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
-import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
+import usePoolData from "hooks/pool/usePoolData";
 import DashboardBox from "components/shared/DashboardBox";
 import StatsRow from "components/shared/StatsRow";
 import { Mode } from "components/PoolModal";
@@ -24,8 +23,7 @@ export const BaseStatsColumn = ({
   amount: number;
 }) => {
   const { t } = useTranslation();
-  const { baseAssetData } = usePoolPrimaryDataContext();
-  const { positionSummary } = usePoolSecondaryDataContext();
+  const { baseAssetData, positionSummary } = usePoolData();
 
   const color = asset?.color;
   const symbol = asset?.symbol;

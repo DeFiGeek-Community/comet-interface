@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBarContainer, ProgressFillGrayOut } from "constants/rario";
+import { StatusBarContainer, ProgressFillGrayOut } from "constants/ratio";
 
 const StatusBarGray = () => {
   return (
