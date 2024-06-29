@@ -377,8 +377,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
 
-  // console.log("assetPrice: " + assetPrice);
-
   const supplyKink = poolData.supplyKink;
 
   let sumCollateralBalances = 0;
@@ -455,17 +453,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       t,
     });
   }
-
-  // const value = useRenderBalanceText({
-  //   totalPoolObjectValue: totalPoolData?.totalBaseSupplyBalance,
-  //   assetPrice,
-  //   currency,
-  //   rate,
-  //   isCollateralBalances: false,
-  //   text: symbol,
-  // });
-
-  // console.log(value);
 
   return (
     <Link
