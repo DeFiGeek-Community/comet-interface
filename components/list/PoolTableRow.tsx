@@ -80,13 +80,6 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
-  // if (totalPoolObjectValue !== undefined){
-  //   let floored = Math.floor(totalPoolObjectValue);
-  // let bigNum: bigint = BigInt(floored);
-  //   let str3: string = bigNum.toString();
-  //   console.log(str3);
-  // }
-
   // バランスの表示値を計算
   const formattedValue = React.useMemo(() => {
     if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
