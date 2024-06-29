@@ -74,7 +74,6 @@ interface RenderBalanceTextProps {
   rate?: number;
   isCollateralBalances: boolean;
   text?: string;
-  hovertext?: number;
 }
 
 const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
@@ -84,9 +83,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   rate = 0,
   isCollateralBalances,
   text,
-  hovertext,
 }) => {
-
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { address } = useAccount();
@@ -95,41 +92,36 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   const currentLanguage = i18n.language;
 
   const flooredValue = React.useMemo(() => {
-    let flooredValue: number | undefined;
-    if(totalPoolObjectValue!==undefined){
-      flooredValue = Math.floor(totalPoolObjectValue);
-      console.log(flooredValue);
-      let valueFormatted = "";
+    if (totalPoolObjectValue !== undefined) {
+      const flooredValue = Math.floor(totalPoolObjectValue);
       if (currency === "USD") {
-        valueFormatted = "$" + flooredValue.toLocaleString();
+        return "$" + flooredValue.toLocaleString();
       } else {
-        valueFormatted = "¥" + flooredValue.toLocaleString();
+        return "¥" + flooredValue.toLocaleString();
       }
-      return valueFormatted;
-    }else{
+    } else {
       return undefined;
     }
-  }, [
-    totalPoolObjectValue,
-    currency,
-  ]);
+  }, [totalPoolObjectValue, currency]);
   // バランスの表示値を計算
   const formattedValue = React.useMemo(() => {
     if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
       return <Spinner />;
     }
 
-    if(totalPoolObjectValue > Number.MAX_SAFE_INTEGER){
-      console.log("It is possible that the values exceed the upper limit of what can be safely calculated in javascript, and therefore the values may not be calculated or displayed accurately.");
+    if (totalPoolObjectValue > Number.MAX_SAFE_INTEGER) {
+      console.log(
+        "It is possible that the values exceed the upper limit of what can be safely calculated in javascript, and therefore the values may not be calculated or displayed accurately.",
+      );
     }
 
     const getFormattedValue = (
       totalPoolObjectValue: number,
+      assetPrice: number | undefined,
       currency: Currency,
     ): string => {
-  
       let divisor: bigint;
-  
+
       const getRoundedNumber = (totalValue: string) => {
         if (currency === "USD") {
           if (BigInt(totalValue) < BigInt(OneThousandN)) {
@@ -197,21 +189,26 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         return BigInt(totalValue) / BigInt(divisor);
       };
 
-      const flooredValue = Math.floor(totalPoolObjectValue);
-  
+      let flooredValue;
+
+      if(assetPrice){ 
+        flooredValue = Math.floor(totalPoolObjectValue*assetPrice/rate);
+        console.log(totalPoolObjectValue*assetPrice/rate);
+      }
+
       const flooredNumber = String(flooredValue);
-  
+
       const roundedFlooredNumber = getRoundedNumber(flooredNumber);
-  
+
       let valueFormatted = "";
       if (currency === "USD") {
         valueFormatted = "$" + roundedFlooredNumber;
       } else {
         valueFormatted = "¥" + roundedFlooredNumber;
       }
-  
+
       console.log("valueFormatted " + valueFormatted);
-  
+
       const getUnitText = (totalValue: string) => {
         if (currency === "USD") {
           if (BigInt(totalValue) < BigInt(OneThousandN)) {
@@ -275,16 +272,13 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
           }
         }
       };
-  
+
       const formattedValue = valueFormatted + getUnitText(flooredNumber);
-  
-      return formattedValue ;
+
+      return formattedValue;
     };
-  
-    const formattedValue = getFormattedValue(
-      totalPoolObjectValue,
-      currency,
-    );
+
+    const formattedValue = getFormattedValue(totalPoolObjectValue, assetPrice, currency);
 
     return formattedValue;
   }, [
