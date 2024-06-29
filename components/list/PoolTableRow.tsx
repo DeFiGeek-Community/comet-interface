@@ -74,6 +74,7 @@ interface RenderBalanceTextProps {
   rate?: number;
   isCollateralBalances: boolean;
   text?: string;
+  hovertext?: number;
 }
 
 const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
@@ -83,6 +84,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   rate = 0,
   isCollateralBalances,
   text,
+  hovertext,
 }) => {
 
   const { t } = useTranslation();
@@ -92,6 +94,25 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
+  const flooredValue = React.useMemo(() => {
+    let flooredValue: number | undefined;
+    if(totalPoolObjectValue!==undefined){
+      flooredValue = Math.floor(totalPoolObjectValue);
+      console.log(flooredValue);
+      let valueFormatted = "";
+      if (currency === "USD") {
+        valueFormatted = "$" + flooredValue.toLocaleString();
+      } else {
+        valueFormatted = "¥" + flooredValue.toLocaleString();
+      }
+      return valueFormatted;
+    }else{
+      return undefined;
+    }
+  }, [
+    totalPoolObjectValue,
+    currency,
+  ]);
   // バランスの表示値を計算
   const formattedValue = React.useMemo(() => {
     if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
@@ -181,8 +202,6 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       const flooredNumber = String(flooredValue);
   
       const roundedFlooredNumber = getRoundedNumber(flooredNumber);
-  
-      console.log("roundedFlooredNumber " + roundedFlooredNumber);
   
       let valueFormatted = "";
       if (currency === "USD") {
@@ -276,6 +295,9 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
     isCollateralBalances,
     address,
   ]);
+  console.log(flooredValue);
+
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <Row
@@ -301,9 +323,24 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         fontSize="17px"
         textAlign="center"
         as="div"
+        onMouseEnter={() => setIsHovered(true)} // ホバー時に吹き出しを表示
+        onMouseLeave={() => setIsHovered(false)} // ホバーが外れた時に吹き出しを非表示
       >
         {formattedValue}
       </Text>
+      {isHovered && (
+        <Box
+          position="absolute"
+          bg="gray.700"
+          p={2}
+          mt={-20}
+          boxShadow="md"
+          borderRadius="md"
+          zIndex="tooltip"
+        >
+          {flooredValue}
+        </Box>
+      )}
     </Row>
   );
 };
