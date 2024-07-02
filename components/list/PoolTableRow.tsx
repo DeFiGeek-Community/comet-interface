@@ -400,7 +400,6 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
     const rest = OneHundred - statsValue - OffsetRatio;
 
     const data = [statsValue, rest, OffsetRatio];
-    const labels = ["Utilization", "Rest", "Offset"];
     const donutColor = kink
       ? getDonutColor({ statsValue, kink })
       : DarkGrayColorCode;
@@ -409,7 +408,6 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
     return (
       <DonutChart
         data={data}
-        labels={labels}
         colors={colors}
         size={DonutSize}
       />

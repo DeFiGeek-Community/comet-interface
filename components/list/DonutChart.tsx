@@ -3,14 +3,12 @@ import { LightBlackColorCode, DonutSize } from "constants/aprs";
 
 interface DonutChartProps {
   data: number[];
-  labels: string[];
   colors: string[];
   size?: number;
 }
 
 const DonutChart: React.FC<DonutChartProps> = ({
   data,
-  labels,
   colors,
   size = DonutSize,
 }) => {
@@ -36,7 +34,7 @@ const drawDonutChart = (
 ) => {
   const centerX = size / 2;
   const centerY = size / 2;
-  const radius = Math.max(size / 2 - 20, 10); // 半径が10未満にならないように制限
+  const radius = Math.max(size / 2 - 20, 10); // Limit the radius to no less than 10
   const donutRadius = 0.7;
   const total = data.reduce((sum, value) => sum + value, 0);
 
