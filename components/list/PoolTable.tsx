@@ -1,85 +1,14 @@
-import React, { useState } from "react";
-import { Heading, Text, Box } from "@chakra-ui/react";
+import React from "react";
+import { Heading } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
-import PoolTableRow from "components/list/PoolTableRow";
-import { useAppData } from "context/AppDataContext";
-import { PoolDataProvider } from "components/Provider/PoolDataProvider";
 import RenderPoolTableRow from "components/list/RenderPoolTableRow";
-
-// const RenderPoolTableRow = () => {
-//   const { config: poolsConfig } = useAppData();
-//   if (!poolsConfig) return;
-
-//   return Object.values(poolsConfig).map((data, index) => {
-//     if (data.baseToken) {
-//       return (
-//         <PoolDataProvider poolData={data} key={index}>
-//           <PoolTableRow poolData={data} key={index} />
-//         </PoolDataProvider>
-//       );
-//     }
-//   });
-// }
-
-interface TableHeaderColumnProps {
-  text: string;
-  width: string;
-  hovertext?: string;
-}
-
-const TableHeaderColumnBase: React.FC<TableHeaderColumnProps> = ({
-  text,
-  width,
-}) => (
-  <Row
-    mainAxisAlignment="center"
-    crossAxisAlignment="center"
-    height="100%"
-    width={width}
-  >
-    <Text textAlign="left" fontWeight="bold" width="100%" pl={3}>
-      {text}
-    </Text>
-  </Row>
-);
-
-const TableHeaderColumn: React.FC<TableHeaderColumnProps> = ({
-  text,
-  width,
-  hovertext,
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
-  return (
-    <Row
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      mainAxisAlignment="center"
-      crossAxisAlignment="center"
-      height="100%"
-      width={width}
-    >
-      <Text textAlign="center" fontWeight="bold" width="100%">
-        {text}
-      </Text>
-      {hovertext && isHovered && (
-        <Box
-          position="absolute"
-          bg="gray.700"
-          p={2}
-          mt={-20}
-          boxShadow="md"
-          borderRadius="md"
-          zIndex="tooltip"
-        >
-          {hovertext}
-        </Box>
-      )}
-    </Row>
-  );
-};
+import {
+  TableHeaderColumn,
+  TableHeaderColumnBase,
+} from "components/list/TableHeaderColumn";
 
 const PoolTable = () => {
   const { t } = useTranslation();
