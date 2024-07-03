@@ -405,13 +405,7 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
       : DarkGrayColorCode;
     const colors = [donutColor, DarkGrayColorCode, LightBlackColorCode];
 
-    return (
-      <DonutChart
-        data={data}
-        colors={colors}
-        size={DonutSize}
-      />
-    );
+    return <DonutChart data={data} colors={colors} size={DonutSize} />;
   }, [statsValue, kink, address]);
 
   return (

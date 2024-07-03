@@ -7,21 +7,22 @@ import { ModalDivider } from "components/shared/Modal";
 import PoolTableRow from "components/list/PoolTableRow";
 import { useAppData } from "context/AppDataContext";
 import { PoolDataProvider } from "components/Provider/PoolDataProvider";
+import RenderPoolTableRow from "components/list/RenderPoolTableRow";
 
-function RenderPoolTableRow() {
-  const { config: poolsConfig } = useAppData();
-  if (!poolsConfig) return;
+// const RenderPoolTableRow = () => {
+//   const { config: poolsConfig } = useAppData();
+//   if (!poolsConfig) return;
 
-  return Object.values(poolsConfig).map((data, index) => {
-    if (data.baseToken) {
-      return (
-        <PoolDataProvider poolData={data} key={index}>
-          <PoolTableRow poolData={data} key={index} />
-        </PoolDataProvider>
-      );
-    }
-  });
-}
+//   return Object.values(poolsConfig).map((data, index) => {
+//     if (data.baseToken) {
+//       return (
+//         <PoolDataProvider poolData={data} key={index}>
+//           <PoolTableRow poolData={data} key={index} />
+//         </PoolDataProvider>
+//       );
+//     }
+//   });
+// }
 
 interface TableHeaderColumnProps {
   text: string;
