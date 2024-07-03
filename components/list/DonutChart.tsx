@@ -67,5 +67,6 @@ const drawDonutChart = (
     ctx.fill();
   }
 };
+DonutChart.displayName = "DonutChart";
 
 export default DonutChart;

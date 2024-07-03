@@ -58,3 +58,5 @@ export const TableHeaderColumn: React.FC<TableHeaderColumnProps> = ({
     </Row>
   );
 };
+
+TableHeaderColumn.displayName = "TableHeaderColumn";

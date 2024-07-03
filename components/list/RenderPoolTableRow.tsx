@@ -18,4 +18,6 @@ const RenderPoolTableRow = () => {
   });
 };
 
+RenderPoolTableRow.displayName = "RenderPoolTableRow";
+
 export default RenderPoolTableRow;
