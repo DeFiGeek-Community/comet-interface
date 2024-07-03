@@ -1,24 +1,15 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import {
-  Avatar,
-  AvatarProps,
-  Spinner,
-  Link,
-  Text,
-  Box,
-} from "@chakra-ui/react";
+import { Spinner, Link, Text, Box } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
-import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
 import usePool from "hooks/pool/usePool";
 import { Currency } from "context/AppDataContext";
 import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";
-import { helpSvgUrl } from "constants/urls";
 import {
   OneSextillionN,
   OneQuitillionN,
@@ -32,7 +23,6 @@ import {
   OneChouN,
   OneOkuN,
   OneManN,
-  OneMillion,
   OneHundred,
   OffsetRatio,
   DarkGrayColorCode,
@@ -46,26 +36,7 @@ import {
 import { GreenColorCode, YellowColorCode, RedColorCode } from "constants/ratio";
 import usePoolData from "hooks/pool/usePoolData";
 import DonutChart from "components/list/DonutChart";
-
-interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
-  isBaseAsset: boolean;
-  name?: string;
-  src?: string;
-}
-
-function RenderAvatar({ isBaseAsset, name, src, ...props }: RenderAvatarProps) {
-  return (
-    <Avatar
-      bg="#FFF"
-      boxSize={isBaseAsset ? "35px" : "20px"}
-      name={name ?? ""}
-      position="relative"
-      zIndex="1"
-      src={src ?? helpSvgUrl}
-      {...props}
-    />
-  );
-}
+import RenderAvatar from "components/list/RenderAvatar";
 
 interface RenderBalanceTextProps {
   totalPoolObjectValue?: number;
