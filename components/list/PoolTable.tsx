@@ -9,12 +9,14 @@ import {
   TableHeaderColumn,
   TableHeaderColumnBase,
 } from "components/list/TableHeaderColumn";
+import { OneHundred } from "constants/aprs";
 
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
-  const utilizationFormula = t("Borrow") + " / " + t("Supply") + " × 100";
+  const utilizationFormula =
+    t("Borrow") + " / " + t("Supply") + " × " + OneHundred;
   const netEarnAPRFormula = t("Supply APR") + " + " + t("PND Bonus APR");
   const netBorrowAPRFormula = t("Borrow APR") + " - " + t("PND Reward APR");
 
