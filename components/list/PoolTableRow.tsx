@@ -20,14 +20,7 @@ import usePoolData from "hooks/pool/usePoolData";
 import RenderAvatar from "components/list/RenderAvatar";
 import RenderBalanceText from "components/list/RenderBalanceText";
 import RenderStatsText from "components/list/RenderStatsText";
-
-interface FormatNetAPRTextProps {
-  aprType: string;
-  rewardType: string;
-  aprPercent: number;
-  rewardAPR: number;
-  t: (key: string) => string;
-}
+import {formatNetAPRText} from "hooks/util/format";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -41,6 +34,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const tokenData = poolData?.baseToken;
   const symbol = tokenData?.symbol ?? "";
   const collateralList = poolData?.assetConfigs;
+
   let allCollateralSymbols: string = "";
   if (collateralList) {
     for (const assetConfig of collateralList) {
@@ -56,7 +50,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const supplyKink = poolData.supplyKink;
 
   let sumCollateralBalances = 0;
-
   for (let key in totalPoolData?.totalCollateralBalances) {
     const collateralBalance =
       totalPoolData?.totalCollateralBalances?.[key] ?? 0;
@@ -66,6 +59,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
       sumCollateralBalances += tempValue;
     }
   }
+
   let utilizationValue: number | undefined;
   if (
     totalPoolData?.totalBaseBorrowBalance &&
@@ -83,24 +77,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   let hoverTextEarnAPR: string | undefined;
   let netBorrowAPRValue: number | undefined;
   let hoverTextBorrowAPR: string | undefined;
-  const formatNetAPRText = ({
-    aprType,
-    rewardType,
-    aprPercent,
-    rewardAPR,
-    t,
-  }: FormatNetAPRTextProps): string => {
-    return (
-      t(aprType) +
-      ": " +
-      aprPercent.toFixed(2) +
-      " % " +
-      t(rewardType) +
-      ": " +
-      rewardAPR.toFixed(3) +
-      " %"
-    );
-  };
+  
   if (
     baseAssetData?.supplyAPR !== undefined &&
     tokenRewardData?.supplyRewardAPR !== undefined
