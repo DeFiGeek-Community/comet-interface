@@ -20,7 +20,7 @@ import usePoolData from "hooks/pool/usePoolData";
 import RenderAvatar from "components/list/RenderAvatar";
 import RenderBalanceText from "components/list/RenderBalanceText";
 import RenderStatsText from "components/list/RenderStatsText";
-import {formatNetAPRText} from "hooks/util/format";
+import { formatNetAPRText } from "hooks/util/format";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -77,7 +77,6 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   let hoverTextEarnAPR: string | undefined;
   let netBorrowAPRValue: number | undefined;
   let hoverTextBorrowAPR: string | undefined;
-  
   if (
     baseAssetData?.supplyAPR !== undefined &&
     tokenRewardData?.supplyRewardAPR !== undefined
