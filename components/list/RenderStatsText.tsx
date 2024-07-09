@@ -33,14 +33,12 @@ const RenderStatsText: React.FC<RenderStatsTextProps> = ({
   hovertext,
   kink,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
   const isMobile = useIsMobile();
   const { address } = useAccount();
 
   const [isHovered, setIsHovered] = useState(false);
-
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
 
   const formattedValue = React.useMemo(() => {
     if (statsValue === undefined || !address) {
