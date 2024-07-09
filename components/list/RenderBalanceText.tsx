@@ -74,73 +74,54 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       assetPrice: number | undefined,
       currency: Currency,
     ): string => {
-      let divisor: bigint;
+      let isUSD: boolean;
+      if (currency === "USD") {
+        isUSD = true;
+      } else {
+        isUSD = false;
+      }
 
       const getRoundedNumber = (totalValue: string) => {
-        if (currency === "USD") {
-          if (BigInt(totalValue) < BigInt(OneThousandN)) {
-            divisor = BigInt("1");
-          } else if (
-            BigInt(OneThousandN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneMillionN)
-          ) {
-            divisor = BigInt(OneThousandN);
-          } else if (
-            BigInt(OneMillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneBillionN)
-          ) {
-            divisor = BigInt(OneMillionN);
-          } else if (
-            BigInt(OneBillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneTrillionN)
-          ) {
-            divisor = BigInt(OneBillionN);
-          } else if (
-            BigInt(OneTrillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneQuadrillionN)
-          ) {
-            divisor = BigInt(OneTrillionN);
-          } else if (
-            BigInt(OneQuadrillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneQuitillionN)
-          ) {
-            divisor = BigInt(OneQuadrillionN);
-          } else if (
-            BigInt(OneQuitillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneSextillionN)
-          ) {
-            divisor = BigInt(OneQuitillionN);
-          } else {
-            divisor = BigInt(OneSextillionN);
-          }
-        } else if (currency === "JPY") {
-          if (BigInt(totalValue) < BigInt(OneManN)) {
-            divisor = BigInt("1");
-          } else if (
-            BigInt(OneManN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneOkuN)
-          ) {
-            divisor = BigInt(OneManN);
-          } else if (
-            BigInt(OneOkuN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneChouN)
-          ) {
-            divisor = BigInt(OneOkuN);
-          } else if (
-            BigInt(OneChouN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneKeiN)
-          ) {
-            divisor = BigInt(OneChouN);
-          } else if (
-            BigInt(OneKeiN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneGaiN)
-          ) {
-            divisor = BigInt(OneKeiN);
-          } else {
-            divisor = BigInt(OneGaiN);
-          }
-        }
-        return BigInt(totalValue) / BigInt(divisor);
+        const thresholds = isUSD
+          ? [
+              {
+                threshold: BigInt(OneSextillionN),
+                divisor: BigInt(OneSextillionN),
+              },
+              {
+                threshold: BigInt(OneQuitillionN),
+                divisor: BigInt(OneQuitillionN),
+              },
+              {
+                threshold: BigInt(OneQuadrillionN),
+                divisor: BigInt(OneQuadrillionN),
+              },
+              {
+                threshold: BigInt(OneTrillionN),
+                divisor: BigInt(OneTrillionN),
+              },
+              { threshold: BigInt(OneBillionN), divisor: BigInt(OneBillionN) },
+              { threshold: BigInt(OneMillionN), divisor: BigInt(OneMillionN) },
+              {
+                threshold: BigInt(OneThousandN),
+                divisor: BigInt(OneThousandN),
+              },
+              { threshold: BigInt("0"), divisor: BigInt(1) },
+            ]
+          : [
+              { threshold: BigInt(OneGaiN), divisor: BigInt(OneGaiN) },
+              { threshold: BigInt(OneKeiN), divisor: BigInt(OneKeiN) },
+              { threshold: BigInt(OneChouN), divisor: BigInt(OneChouN) },
+              { threshold: BigInt(OneOkuN), divisor: BigInt(OneOkuN) },
+              { threshold: BigInt(OneManN), divisor: BigInt(OneManN) },
+              { threshold: BigInt("0"), divisor: BigInt(1) },
+            ];
+
+        const totalBigInt = BigInt(totalValue);
+        const { divisor } = thresholds.find(
+          ({ threshold }) => totalBigInt >= threshold,
+        ) || { divisor: BigInt(1) };
+        return totalBigInt / divisor;
       };
 
       let flooredValue: number = 0;
@@ -153,74 +134,38 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       const roundedFlooredNumber = getRoundedNumber(flooredNumber);
 
       let valueFormatted = "";
-      if (currency === "USD") {
+      if (isUSD) {
         valueFormatted = "$" + roundedFlooredNumber;
       } else {
         valueFormatted = "¥" + roundedFlooredNumber;
       }
 
       const getUnitText = (totalValue: string) => {
-        if (currency === "USD") {
-          if (BigInt(totalValue) < BigInt(OneThousandN)) {
-            return "";
-          } else if (
-            BigInt(OneThousandN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneMillionN)
-          ) {
-            return "K";
-          } else if (
-            BigInt(OneMillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneBillionN)
-          ) {
-            return "M";
-          } else if (
-            BigInt(OneBillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneTrillionN)
-          ) {
-            return "B";
-          } else if (
-            BigInt(OneTrillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneQuadrillionN)
-          ) {
-            return "T";
-          } else if (
-            BigInt(OneQuadrillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneQuitillionN)
-          ) {
-            return "Qua";
-          } else if (
-            BigInt(OneQuitillionN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneSextillionN)
-          ) {
-            return "Qui";
-          }
-        } else if (currency === "JPY") {
-          if (BigInt(totalValue) < BigInt(OneManN)) {
-            return "";
-          } else if (
-            BigInt(OneManN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneOkuN)
-          ) {
-            return "万";
-          } else if (
-            BigInt(OneOkuN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneChouN)
-          ) {
-            return "億";
-          } else if (
-            BigInt(OneChouN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneKeiN)
-          ) {
-            return "兆";
-          } else if (
-            BigInt(OneKeiN) <= BigInt(totalValue) &&
-            BigInt(totalValue) < BigInt(OneGaiN)
-          ) {
-            return "京";
-          } else {
-            return "垓";
-          }
-        }
+        const thresholds = isUSD
+          ? [
+              { threshold: BigInt(OneSextillionN), unit: "S" },
+              { threshold: BigInt(OneQuitillionN), unit: "Qui" },
+              { threshold: BigInt(OneQuadrillionN), unit: "Qua" },
+              { threshold: BigInt(OneTrillionN), unit: "T" },
+              { threshold: BigInt(OneBillionN), unit: "B" },
+              { threshold: BigInt(OneMillionN), unit: "M" },
+              { threshold: BigInt(OneThousandN), unit: "K" },
+              { threshold: BigInt("0"), unit: "" },
+            ]
+          : [
+              { threshold: BigInt(OneGaiN), unit: "垓" },
+              { threshold: BigInt(OneKeiN), unit: "京" },
+              { threshold: BigInt(OneChouN), unit: "兆" },
+              { threshold: BigInt(OneOkuN), unit: "億" },
+              { threshold: BigInt(OneManN), unit: "万" },
+              { threshold: BigInt("0"), unit: "" },
+            ];
+
+        const totalBigInt = BigInt(totalValue);
+        const { unit } = thresholds.find(
+          ({ threshold }) => totalBigInt >= threshold,
+        ) || { unit: "" };
+        return unit;
       };
 
       return valueFormatted + getUnitText(flooredNumber);
