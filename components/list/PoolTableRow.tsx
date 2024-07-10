@@ -253,22 +253,20 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               crossAxisAlignment="flex-start"
               width="16%"
             >
-              <HoverIcon isBase={true} hoverText={symbol}>
-                <Row
-                  mainAxisAlignment="center"
-                  crossAxisAlignment="center"
-                  pl={6}
-                >
-                  <RenderAvatar
-                    isBaseAsset={true}
-                    name={symbol}
-                    src={tokenData?.logoURL}
-                  />
-                  <Text textAlign="center" fontWeight="bold" pl={2}>
-                    {symbol}
-                  </Text>
-                </Row>
-              </HoverIcon>
+              <Row
+                mainAxisAlignment="center"
+                crossAxisAlignment="center"
+                pl={6}
+              >
+                <RenderAvatar
+                  isBaseAsset={true}
+                  name={symbol}
+                  src={tokenData?.logoURL}
+                />
+                <Text textAlign="center" fontWeight="bold" pl={2}>
+                  {symbol}
+                </Text>
+              </Row>
             </Row>
             <RenderStatsText
               statsValue={utilizationValue}
@@ -309,7 +307,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               crossAxisAlignment="center"
               width="12%"
             >
-              <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
+              <HoverIcon hoverText={allCollateralSymbols}>
                 <Row
                   mainAxisAlignment="center"
                   crossAxisAlignment="center"

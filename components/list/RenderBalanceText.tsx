@@ -48,7 +48,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       const flooredValue = Math.floor(
         (totalPoolObjectValue * assetPrice) / rate,
       );
-      return ( currency === "USD" ? "$" : "¥" ) + flooredValue.toLocaleString();
+      return (currency === "USD" ? "$" : "¥") + flooredValue.toLocaleString();
     } else {
       return undefined;
     }
@@ -70,7 +70,6 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       assetPrice: number | undefined,
       currency: Currency,
     ): string => {
-
       const isUSD = currency === "USD" ? true : false;
 
       const getRoundedNumber = (totalValue: string) => {
@@ -125,7 +124,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 
       const roundedFlooredNumber = getRoundedNumber(flooredNumber);
 
-      const valueFormatted = ( isUSD ? "$" : "¥" ) + roundedFlooredNumber;
+      const valueFormatted = (isUSD ? "$" : "¥") + roundedFlooredNumber;
 
       const getUnitText = (totalValue: string) => {
         const thresholds = isUSD
