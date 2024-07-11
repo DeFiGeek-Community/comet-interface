@@ -112,7 +112,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         const { divisor } = thresholds.find(
           ({ threshold }) => totalBigInt >= threshold,
         ) || { divisor: BigInt(1) };
-        return totalBigInt / divisor;
+        return (totalBigInt * BigInt(10)) / divisor;
       };
 
       let flooredValue: number = 0;
@@ -122,9 +122,25 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 
       const flooredNumber = String(flooredValue);
 
-      const roundedFlooredNumber = getRoundedNumber(flooredNumber);
+      const divideBigIntWithDecimal = (
+        numerator: bigint,
+        denominator: bigint,
+        decimalPlaces: number = 1,
+      ): string => {
+        const multiplier: bigint = BigInt(Math.pow(10, decimalPlaces));
+        const result: bigint = (numerator * multiplier) / denominator;
+        return (Number(result) / Math.pow(10, decimalPlaces)).toFixed(
+          decimalPlaces,
+        );
+      };
 
-      const valueFormatted = (isUSD ? "$" : "¥") + roundedFlooredNumber;
+      const roundedFlooredNumber = getRoundedNumber(flooredNumber);
+      const dividedRoundedFlooredNumber = divideBigIntWithDecimal(
+        roundedFlooredNumber,
+        BigInt(10),
+      );
+
+      const valueFormatted = (isUSD ? "$" : "¥") + dividedRoundedFlooredNumber;
 
       const getUnitText = (totalValue: string) => {
         const thresholds = isUSD
