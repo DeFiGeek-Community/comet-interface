@@ -46,7 +46,9 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   const flooredValue = React.useMemo(() => {
     if (totalPoolObjectValue !== undefined && assetPrice) {
       const flooredValue = Math.floor(
-        (totalPoolObjectValue * assetPrice) / rate,
+        isCollateralBalances
+          ? totalPoolObjectValue
+          : (totalPoolObjectValue * assetPrice) / rate,
       );
       return (currency === "USD" ? "$" : "¥") + flooredValue.toLocaleString();
     } else {
@@ -117,7 +119,11 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 
       let flooredValue: number = 0;
       if (assetPrice) {
-        flooredValue = Math.floor((totalPoolObjectValue * assetPrice) / rate);
+        flooredValue = Math.floor(
+          isCollateralBalances
+            ? totalPoolObjectValue
+            : (totalPoolObjectValue * assetPrice) / rate,
+        );
       }
 
       const flooredNumber = String(flooredValue);
