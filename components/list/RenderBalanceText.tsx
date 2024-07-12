@@ -43,12 +43,26 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
+  const calculateFlooredValue = (
+    isCollateralBalances: boolean,
+    totalPoolObjectValue: number,
+    assetPrice: number,
+    rate: number,
+  ): number => {
+    return Math.floor(
+      isCollateralBalances
+        ? totalPoolObjectValue
+        : (totalPoolObjectValue * assetPrice) / rate,
+    );
+  };
+
   const flooredValue = React.useMemo(() => {
     if (totalPoolObjectValue !== undefined && assetPrice) {
-      const flooredValue = Math.floor(
-        isCollateralBalances
-          ? totalPoolObjectValue
-          : (totalPoolObjectValue * assetPrice) / rate,
+      const flooredValue = calculateFlooredValue(
+        isCollateralBalances,
+        totalPoolObjectValue,
+        assetPrice,
+        rate,
       );
       return (currency === "USD" ? "$" : "¥") + flooredValue.toLocaleString();
     } else {
@@ -119,10 +133,11 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 
       let flooredValue: number = 0;
       if (assetPrice) {
-        flooredValue = Math.floor(
-          isCollateralBalances
-            ? totalPoolObjectValue
-            : (totalPoolObjectValue * assetPrice) / rate,
+        flooredValue = calculateFlooredValue(
+          isCollateralBalances,
+          totalPoolObjectValue,
+          assetPrice,
+          rate,
         );
       }
 
