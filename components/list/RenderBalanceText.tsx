@@ -57,17 +57,19 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   };
 
   const flooredValue = React.useMemo(() => {
-    if (totalPoolObjectValue !== undefined && assetPrice) {
-      const flooredValue = calculateFlooredValue(
-        isCollateralBalances,
-        totalPoolObjectValue,
-        assetPrice,
-        rate,
-      );
-      return (currency === "USD" ? "$" : "¥") + flooredValue.toLocaleString();
-    } else {
+    if (
+      totalPoolObjectValue === undefined ||
+      assetPrice === null ||
+      assetPrice === undefined
+    )
       return undefined;
-    }
+    const flooredValue = calculateFlooredValue(
+      isCollateralBalances,
+      totalPoolObjectValue,
+      assetPrice,
+      rate,
+    );
+    return (currency === "USD" ? "$" : "¥") + flooredValue.toLocaleString();
   }, [totalPoolObjectValue, assetPrice, currency]);
   // バランスの表示値を計算
   const formattedValue = React.useMemo(() => {
@@ -88,47 +90,87 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
     ): string => {
       const isUSD = currency === "USD" ? true : false;
 
-      const getRoundedNumber = (totalValue: string) => {
+      const getNumberOrText = (
+        totalValue: string,
+        needsNumber: boolean,
+      ): BigInt | string => {
         const thresholds = isUSD
           ? [
               {
                 threshold: BigInt(OneSextillionN),
                 divisor: BigInt(OneSextillionN),
+                unit: "S",
               },
               {
                 threshold: BigInt(OneQuitillionN),
                 divisor: BigInt(OneQuitillionN),
+                unit: "Qui",
               },
               {
                 threshold: BigInt(OneQuadrillionN),
                 divisor: BigInt(OneQuadrillionN),
+                unit: "Qua",
               },
               {
                 threshold: BigInt(OneTrillionN),
                 divisor: BigInt(OneTrillionN),
+                unit: "T",
               },
-              { threshold: BigInt(OneBillionN), divisor: BigInt(OneBillionN) },
-              { threshold: BigInt(OneMillionN), divisor: BigInt(OneMillionN) },
+              {
+                threshold: BigInt(OneBillionN),
+                divisor: BigInt(OneBillionN),
+                unit: "B",
+              },
+              {
+                threshold: BigInt(OneMillionN),
+                divisor: BigInt(OneMillionN),
+                unit: "M",
+              },
               {
                 threshold: BigInt(OneThousandN),
                 divisor: BigInt(OneThousandN),
+                unit: "K",
               },
-              { threshold: BigInt("0"), divisor: BigInt(1) },
+              { threshold: BigInt("0"), divisor: BigInt(1), unit: "" },
             ]
           : [
-              { threshold: BigInt(OneGaiN), divisor: BigInt(OneGaiN) },
-              { threshold: BigInt(OneKeiN), divisor: BigInt(OneKeiN) },
-              { threshold: BigInt(OneChouN), divisor: BigInt(OneChouN) },
-              { threshold: BigInt(OneOkuN), divisor: BigInt(OneOkuN) },
-              { threshold: BigInt(OneManN), divisor: BigInt(OneManN) },
-              { threshold: BigInt("0"), divisor: BigInt(1) },
+              {
+                threshold: BigInt(OneGaiN),
+                divisor: BigInt(OneGaiN),
+                unit: "垓",
+              },
+              {
+                threshold: BigInt(OneKeiN),
+                divisor: BigInt(OneKeiN),
+                unit: "京",
+              },
+              {
+                threshold: BigInt(OneChouN),
+                divisor: BigInt(OneChouN),
+                unit: "兆",
+              },
+              {
+                threshold: BigInt(OneOkuN),
+                divisor: BigInt(OneOkuN),
+                unit: "億",
+              },
+              {
+                threshold: BigInt(OneManN),
+                divisor: BigInt(OneManN),
+                unit: "万",
+              },
+              { threshold: BigInt("0"), divisor: BigInt(1), unit: "" },
             ];
-
         const totalBigInt = BigInt(totalValue);
-        const { divisor } = thresholds.find(
+        const { divisor, unit } = thresholds.find(
           ({ threshold }) => totalBigInt >= threshold,
-        ) || { divisor: BigInt(1) };
-        return (totalBigInt * BigInt(10)) / divisor;
+        ) || { divisor: BigInt(1), unit: "" };
+
+        if (needsNumber) {
+          return (totalBigInt * BigInt(10)) / divisor;
+        } else {
+          return unit;
+        }
       };
 
       let flooredValue: number = 0;
@@ -155,7 +197,10 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
         );
       };
 
-      const roundedFlooredNumber = getRoundedNumber(flooredNumber);
+      const roundedFlooredNumber: bigint = getNumberOrText(
+        flooredNumber,
+        true,
+      ) as bigint;
       const dividedRoundedFlooredNumber = divideBigIntWithDecimal(
         roundedFlooredNumber,
         BigInt(10),
@@ -163,35 +208,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
 
       const valueFormatted = (isUSD ? "$" : "¥") + dividedRoundedFlooredNumber;
 
-      const getUnitText = (totalValue: string) => {
-        const thresholds = isUSD
-          ? [
-              { threshold: BigInt(OneSextillionN), unit: "S" },
-              { threshold: BigInt(OneQuitillionN), unit: "Qui" },
-              { threshold: BigInt(OneQuadrillionN), unit: "Qua" },
-              { threshold: BigInt(OneTrillionN), unit: "T" },
-              { threshold: BigInt(OneBillionN), unit: "B" },
-              { threshold: BigInt(OneMillionN), unit: "M" },
-              { threshold: BigInt(OneThousandN), unit: "K" },
-              { threshold: BigInt("0"), unit: "" },
-            ]
-          : [
-              { threshold: BigInt(OneGaiN), unit: "垓" },
-              { threshold: BigInt(OneKeiN), unit: "京" },
-              { threshold: BigInt(OneChouN), unit: "兆" },
-              { threshold: BigInt(OneOkuN), unit: "億" },
-              { threshold: BigInt(OneManN), unit: "万" },
-              { threshold: BigInt("0"), unit: "" },
-            ];
-
-        const totalBigInt = BigInt(totalValue);
-        const { unit } = thresholds.find(
-          ({ threshold }) => totalBigInt >= threshold,
-        ) || { unit: "" };
-        return unit;
-      };
-
-      return valueFormatted + getUnitText(flooredNumber);
+      return valueFormatted + getNumberOrText(flooredNumber, false);
     };
 
     const formattedValue = getFormattedValue(
