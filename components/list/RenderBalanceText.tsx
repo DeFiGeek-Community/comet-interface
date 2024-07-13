@@ -51,7 +51,7 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   ): number => {
     return Math.floor(
       isCollateralBalances
-        ? totalPoolObjectValue
+        ? totalPoolObjectValue / rate
         : (totalPoolObjectValue * assetPrice) / rate,
     );
   };
