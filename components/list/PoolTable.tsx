@@ -1,45 +1,24 @@
 import React from "react";
-import { Heading, Text } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import DashboardBox from "components/shared/DashboardBox";
 import { useTranslation } from "react-i18next";
 import { ModalDivider } from "components/shared/Modal";
-import PoolTableRow from "components/list/PoolTableRow";
-import { useAppData } from "context/AppDataContext";
-
-function RenderPoolTableRow() {
-  const { config: poolsConfig } = useAppData();
-  if (!poolsConfig) return;
-
-  return Object.values(poolsConfig).map((data, index) => {
-    if (data.baseToken) return <PoolTableRow poolData={data} key={index} />;
-  });
-}
-
-interface TableHeaderColumnProps {
-  text: string;
-  width: string;
-}
-
-const TableHeaderColumn: React.FC<TableHeaderColumnProps> = ({
-  text,
-  width,
-}) => (
-  <Row
-    mainAxisAlignment="center"
-    crossAxisAlignment="center"
-    height="100%"
-    width={width}
-  >
-    <Text textAlign="center" fontWeight="bold" width="100%">
-      {text}
-    </Text>
-  </Row>
-);
+import RenderPoolTableRow from "components/list/RenderPoolTableRow";
+import {
+  TableHeaderColumn,
+  TableHeaderColumnBase,
+} from "components/list/TableHeaderColumn";
+import { OneHundred } from "constants/aprs";
 
 const PoolTable = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+
+  const utilizationFormula =
+    t("Borrow") + " / " + t("Supply") + " × " + OneHundred;
+  const netEarnAPRFormula = t("Supply APR") + " + " + t("PND Bonus APR");
+  const netBorrowAPRFormula = t("Borrow APR") + " - " + t("PND Reward APR");
 
   return (
     <>
@@ -73,28 +52,52 @@ const PoolTable = () => {
                 px={4}
                 my={4}
               >
-                <TableHeaderColumn text={t("Pool Name")} width="10%" />
+                <Row
+                  mainAxisAlignment="flex-start"
+                  crossAxisAlignment="flex-start"
+                  height="100%"
+                  width="16%"
+                >
+                  <TableHeaderColumnBase text={t("Base Asset")} width="100%" />
+                </Row>
+                <TableHeaderColumn
+                  text={t("Utilization")}
+                  width="12%"
+                  hovertext={utilizationFormula}
+                />
+                <TableHeaderColumn
+                  text={t("Net Earn APR")}
+                  width="12%"
+                  hovertext={netEarnAPRFormula}
+                />
+                <TableHeaderColumn
+                  text={t("Net Borrow APR")}
+                  width="12%"
+                  hovertext={netBorrowAPRFormula}
+                />
+                <TableHeaderColumn
+                  text={t("Total Supply Balance")}
+                  width="12%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Borrow Balance")}
+                  width="12%"
+                />
+                <TableHeaderColumn
+                  text={t("Total Collateral Balance")}
+                  width="12%"
+                />
                 <Row
                   mainAxisAlignment="center"
                   crossAxisAlignment="center"
                   height="100%"
-                  width="30%"
+                  width="12%"
                 >
-                  <TableHeaderColumn text={t("Base Asset")} width="40%" />
-                  <TableHeaderColumn text={t("Collateral Asset")} width="60%" />
+                  <TableHeaderColumn
+                    text={t("Collateral Asset")}
+                    width="100%"
+                  />
                 </Row>
-                <TableHeaderColumn
-                  text={t("Total Supply Balance")}
-                  width="20%"
-                />
-                <TableHeaderColumn
-                  text={t("Total Borrow Balance")}
-                  width="20%"
-                />
-                <TableHeaderColumn
-                  text={t("Total Collateral Balance")}
-                  width="20%"
-                />
               </Row>
               <ModalDivider />
               <RenderPoolTableRow />

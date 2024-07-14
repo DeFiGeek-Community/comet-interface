@@ -3,11 +3,9 @@ import { Box } from "@chakra-ui/react";
 import HoverMotionBoxComp from "components/shared/HoverMotionBox";
 
 const HoverIcon = ({
-  isBase,
   hoverText,
   children,
 }: {
-  isBase: boolean;
   hoverText: string;
   children: any;
 }) => {
@@ -19,10 +17,10 @@ const HoverIcon = ({
       display="inline-block"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      width={isBase ? "40%" : "60%"}
+      width={"60%"}
     >
       {children}
-      {isHovered && <HoverMotionBoxComp isBase={isBase} text={hoverText} />}
+      {isHovered && <HoverMotionBoxComp text={hoverText} />}
     </Box>
   );
 };

@@ -23,7 +23,7 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
   >();
   const [error, setError] = useState<Error | null>(null);
 
-  const { totalPoolData: sharedTotalPoolData } = useAppData();
+  const { totalPoolMapping } = useAppData();
 
   const { reloadKey } = useReload();
   const prevReloadKey = useRef(reloadKey);
@@ -35,7 +35,7 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
     }
 
     // 共通データが存在する場合は、そのデータを使用
-    const sharedData = sharedTotalPoolData[poolData.baseToken.symbol];
+    const sharedData = totalPoolMapping[poolData.baseToken.symbol];
     if (sharedData && prevReloadKey.current === reloadKey) {
       setTotalPoolData(sharedData);
       return;
@@ -43,6 +43,7 @@ const useTotalPoolData = (poolData?: PoolConfig | undefined) => {
     prevReloadKey.current = reloadKey;
 
     try {
+      console.log("useTotalPoolData");
       const getTotalSupply = await fetchTotalDataComet("totalSupply", poolData);
       const getTotalBorrow = await fetchTotalDataComet("totalBorrow", poolData);
       const totalCollateralBalances: { [key: string]: number | 0 } = {};

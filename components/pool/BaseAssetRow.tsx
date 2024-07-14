@@ -9,8 +9,7 @@ import {
 } from "utils/bigUtils";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
-import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
+import usePoolData from "hooks/pool/usePoolData";
 import PoolModal, { Mode } from "components/PoolModal";
 import APRComponent from "components/pool/APRComponent";
 import { PoolConfig } from "interfaces/pool";
@@ -37,8 +36,8 @@ const BaseAssetRow = ({ poolData }: { poolData: PoolConfig }) => {
   const decimals = tokenData?.decimals ?? 0;
 
   const { currency, rate } = useAppData();
-  const { priceFeedData, baseAssetData } = usePoolPrimaryDataContext();
-  const { tokenRewardData, positionSummary } = usePoolSecondaryDataContext();
+  const { priceFeedData, baseAssetData, tokenRewardData, positionSummary } =
+    usePoolData();
 
   const assetPrice = priceFeedData ? priceFeedData.baseAsset : null;
 

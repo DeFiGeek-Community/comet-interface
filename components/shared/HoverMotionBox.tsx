@@ -2,13 +2,8 @@ import { motion } from "framer-motion";
 import { Box } from "@chakra-ui/react";
 const HoverMotionBox = motion(Box);
 
-const HoverMotionBoxComp = ({
-  isBase,
-  text,
-}: {
-  isBase: boolean;
-  text: string;
-}) => {
+const HoverMotionBoxComp = ({ text }: { text: string }) => {
+  const isMultiLine = text.length > 35; //Judging as multiple lines when 50 or more characters are used
   return (
     <HoverMotionBox
       p="2"
@@ -20,11 +15,14 @@ const HoverMotionBoxComp = ({
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
       position="absolute"
-      top="-150%"
-      left="0%"
-      width={isBase ? 100 : 300}
+      top={isMultiLine ? "-150%" : "-250%"}
+      left="-250%"
+      width={300}
       transform="translateX(-50%)"
       zIndex="tooltip"
+      whiteSpace="pre-wrap"
+      wordBreak="break-word"
+      overflowWrap="break-word"
     >
       {text}
     </HoverMotionBox>

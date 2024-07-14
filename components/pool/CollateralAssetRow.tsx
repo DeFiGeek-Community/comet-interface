@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import { toNumber, truncateTo2DecimalPlaces } from "utils/bigUtils";
 import { smallUsdPriceFormatter } from "utils/bigUtils";
 import { Column, Row, useIsMobile, Center } from "utils/chakraUtils";
-import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
+import usePoolData from "hooks/pool/usePoolData";
 import PoolModal, { Mode } from "components/PoolModal";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
@@ -34,7 +34,7 @@ const CollateralAssetRow = ({
   const symbol = asset?.symbol ? asset?.symbol : "";
   const decimals = asset?.decimals ?? 0;
 
-  const { priceFeedData, collateralAssetsData } = usePoolPrimaryDataContext();
+  const { priceFeedData, collateralAssetsData } = usePoolData();
   const collateralAssetData = collateralAssetsData
     ? collateralAssetsData[symbol]
     : undefined;
