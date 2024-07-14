@@ -16,7 +16,7 @@ const HoverMotionBoxComp = ({ text }: { text: string }) => {
       transition={{ duration: 0.3 }}
       position="absolute"
       top={isMultiLine ? "-150%" : "-250%"}
-      left="0%"
+      left="-250%"
       width={300}
       transform="translateX(-50%)"
       zIndex="tooltip"
