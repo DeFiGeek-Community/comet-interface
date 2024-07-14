@@ -1,115 +1,26 @@
 import React from "react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import { Avatar, AvatarProps, Spinner, Link, Text } from "@chakra-ui/react";
+import { Link, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
-import { smallUsdFormatter, smallUsdPriceFormatter } from "utils/bigUtils";
 import { PoolConfig } from "interfaces/pool";
 import { useAppData } from "context/AppDataContext";
-import useUpdatePoolData from "hooks/pool/list/useUpdatePoolData";
-import { usePool } from "context/PoolContext";
-import { Currency } from "context/AppDataContext";
+import usePool from "hooks/pool/usePool";
 import { ModalDivider } from "components/shared/Modal";
 import HoverIcon from "components/shared/HoverIcon";
-import { helpSvgUrl } from "constants/urls";
-
-interface RenderAvatarProps extends Omit<AvatarProps, "name" | "src"> {
-  name?: string;
-  src?: string;
-}
-
-function RenderAvatar({ name, src, ...props }: RenderAvatarProps) {
-  return (
-    <Avatar
-      bg="#FFF"
-      boxSize="30px"
-      name={name ?? ""}
-      position="relative"
-      zIndex="1"
-      src={src ?? helpSvgUrl}
-      {...props}
-    />
-  );
-}
-
-interface RenderBalanceTextProps {
-  totalPoolObjectValue?: number;
-  assetPrice?: number | null;
-  currency: Currency;
-  rate?: number;
-  isCollateralBalances: boolean;
-  text?: string;
-}
-
-const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
-  totalPoolObjectValue,
-  assetPrice,
-  currency,
-  rate = 0,
-  isCollateralBalances,
-  text,
-}) => {
-  const { t } = useTranslation();
-  const isMobile = useIsMobile();
-  const { address } = useAccount();
-
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
-
-  // バランスの表示値を計算
-  const formattedValue = React.useMemo(() => {
-    if (totalPoolObjectValue === undefined || assetPrice === null || !address) {
-      return <Spinner />;
-    }
-
-    return isCollateralBalances
-      ? smallUsdFormatter(totalPoolObjectValue ?? 0, currency, rate)
-      : smallUsdPriceFormatter(
-          totalPoolObjectValue ?? 0,
-          assetPrice ?? 0,
-          currency,
-          rate,
-        );
-  }, [
-    totalPoolObjectValue,
-    assetPrice,
-    currency,
-    rate,
-    isCollateralBalances,
-    address,
-  ]);
-
-  return (
-    <Row
-      mainAxisAlignment={text ? "flex-start" : "center"}
-      crossAxisAlignment="center"
-      height="100%"
-      width={isMobile ? "100%" : "20%"}
-      pb={text ? (isCollateralBalances ? 1 : 6) : undefined}
-    >
-      {text && (
-        <Text
-          width={currentLanguage === "ja" ? "135px" : "auto"}
-          textAlign="left"
-          fontWeight="bold"
-          mr={currentLanguage === "ja" ? 2 : 4}
-        >
-          {t(text)}
-        </Text>
-      )}
-      <Text
-        color="#FFF"
-        fontWeight="bold"
-        fontSize="17px"
-        textAlign="center"
-        as="div"
-      >
-        {formattedValue}
-      </Text>
-    </Row>
-  );
-};
+import {
+  OneHundred,
+  NumberOfAvatarPerRow,
+  NumberOfAvatarPerRowForMobile,
+  OverlappingDegree,
+  MarginRight,
+} from "constants/aprs";
+import usePoolData from "hooks/pool/usePoolData";
+import RenderAvatar from "components/list/RenderAvatar";
+import RenderBalanceText from "components/list/RenderBalanceText";
+import RenderStatsText from "components/list/RenderStatsText";
+import { formatNetAPRText } from "hooks/util/format";
 
 const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -123,27 +34,76 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
   const tokenData = poolData?.baseToken;
   const symbol = tokenData?.symbol ?? "";
   const collateralList = poolData?.assetConfigs;
+
   let allCollateralSymbols: string = "";
   if (collateralList) {
     for (const assetConfig of collateralList) {
       allCollateralSymbols += assetConfig.symbol + ", ";
     }
   }
-  const { priceFeedData: priceFeedData, totalPoolData: totalPoolObject } =
-    useUpdatePoolData({ poolConfig: poolData });
+
+  const { priceFeedData, baseAssetData, tokenRewardData, totalPoolData } =
+    usePoolData();
 
   const assetPrice = priceFeedData?.baseAsset ?? null;
 
-  let sumCollateralBalances = 0;
+  const supplyKink = poolData.supplyKink;
 
-  for (let key in totalPoolObject?.totalCollateralBalances) {
+  let sumCollateralBalances = 0;
+  for (let key in totalPoolData?.totalCollateralBalances) {
     const collateralBalance =
-      totalPoolObject?.totalCollateralBalances?.[key] ?? 0;
+      totalPoolData?.totalCollateralBalances?.[key] ?? 0;
     const collateralAssetPrice = priceFeedData?.collateralAssets?.[key] ?? 0;
     const tempValue = collateralBalance * collateralAssetPrice;
     if (tempValue) {
       sumCollateralBalances += tempValue;
     }
+  }
+
+  let utilizationValue: number | undefined;
+  if (
+    totalPoolData?.totalBaseBorrowBalance &&
+    totalPoolData?.totalBaseSupplyBalance
+  ) {
+    utilizationValue =
+      (totalPoolData?.totalBaseBorrowBalance /
+        totalPoolData?.totalBaseSupplyBalance) *
+      OneHundred;
+  } else if (totalPoolData?.totalBaseBorrowBalance === 0) {
+    utilizationValue = 0;
+  }
+
+  let netEarnAPRValue: number | undefined;
+  let hoverTextEarnAPR: string | undefined;
+  let netBorrowAPRValue: number | undefined;
+  let hoverTextBorrowAPR: string | undefined;
+  if (
+    baseAssetData?.supplyAPR !== undefined &&
+    tokenRewardData?.supplyRewardAPR !== undefined
+  ) {
+    const supplyAPRPercent = baseAssetData?.supplyAPR * OneHundred;
+    netEarnAPRValue = supplyAPRPercent + tokenRewardData?.supplyRewardAPR;
+    hoverTextEarnAPR = formatNetAPRText({
+      aprType: "Earn APR",
+      rewardType: "Supply Reward",
+      aprPercent: supplyAPRPercent,
+      rewardAPR: tokenRewardData?.supplyRewardAPR,
+      t,
+    });
+  }
+  if (
+    baseAssetData?.borrowAPR !== undefined &&
+    tokenRewardData?.borrowRewardAPR !== undefined
+  ) {
+    const borrowAPRPercent = baseAssetData?.borrowAPR * OneHundred;
+    netBorrowAPRValue = borrowAPRPercent - tokenRewardData?.borrowRewardAPR;
+    hoverTextBorrowAPR = formatNetAPRText({
+      aprType: "Borrow APR",
+      rewardType: "Borrow Reward",
+      aprPercent: borrowAPRPercent,
+      rewardAPR: tokenRewardData?.borrowRewardAPR,
+      t,
+    });
   }
 
   return (
@@ -202,7 +162,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               </Row>
               <Row
                 mainAxisAlignment="flex-start"
-                crossAxisAlignment="flex-start"
+                crossAxisAlignment="center"
                 width="100%"
                 pb={6}
               >
@@ -212,28 +172,56 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                   width="40%"
                   pl={7}
                 >
-                  <RenderAvatar name={symbol} src={tokenData?.logoURL} />
+                  <RenderAvatar
+                    isBaseAsset={true}
+                    name={symbol}
+                    src={tokenData?.logoURL}
+                  />
                 </Row>
                 <Row
                   mainAxisAlignment="flex-start"
                   crossAxisAlignment="center"
-                  overflow="scroll"
+                  flexWrap="wrap"
+                  overflow="visible"
+                  ml={0.5}
+                  mt={2.5}
                   width="60%"
                 >
                   {collateralList?.map((asset, index) => {
                     return (
                       <RenderAvatar
+                        isBaseAsset={false}
                         name={asset?.symbol}
                         src={asset?.logoURL}
                         key={index}
-                        mr={1}
+                        style={{
+                          marginBottom: NumberOfAvatarPerRowForMobile,
+                          marginRight: -MarginRight,
+                          width: `calc(${NumberOfAvatarPerRowForMobile}% + ${MarginRight}px)`,
+                        }}
                       />
                     );
                   })}
                 </Row>
               </Row>
+              <RenderStatsText
+                statsValue={utilizationValue}
+                hasDonut={true}
+                kink={supplyKink}
+                text={"Utilization"}
+              />
+              <RenderStatsText
+                statsValue={netEarnAPRValue}
+                hovertext={hoverTextEarnAPR}
+                text={"Net Earn APR"}
+              />
+              <RenderStatsText
+                statsValue={netBorrowAPRValue}
+                hovertext={hoverTextBorrowAPR}
+                text={"Net Borrow APR"}
+              />
               <RenderBalanceText
-                totalPoolObjectValue={totalPoolObject?.totalBaseSupplyBalance}
+                totalPoolObjectValue={totalPoolData?.totalBaseSupplyBalance}
                 assetPrice={assetPrice}
                 currency={currency}
                 rate={rate}
@@ -241,7 +229,7 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
                 text={"Total Supplied"}
               />
               <RenderBalanceText
-                totalPoolObjectValue={totalPoolObject?.totalBaseBorrowBalance}
+                totalPoolObjectValue={totalPoolData?.totalBaseBorrowBalance}
                 assetPrice={assetPrice}
                 currency={currency}
                 rate={rate}
@@ -262,57 +250,46 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
           <>
             <Row
               mainAxisAlignment="flex-start"
-              crossAxisAlignment="center"
-              height="100%"
-              width="10%"
-            >
-              <Text textAlign="center" fontWeight="bold" pl={1}>
-                {symbol} {"Pool"}
-              </Text>
-            </Row>
-            <Row
-              mainAxisAlignment="flex-start"
               crossAxisAlignment="flex-start"
-              width="30%"
+              width="16%"
             >
-              <HoverIcon isBase={true} hoverText={symbol}>
-                <Row
-                  mainAxisAlignment="center"
-                  crossAxisAlignment="center"
-                  width="40%"
-                  pl={16}
-                >
-                  <RenderAvatar name={symbol} src={tokenData?.logoURL} />
-                </Row>
-              </HoverIcon>
-              <HoverIcon isBase={false} hoverText={allCollateralSymbols}>
-                <Row
-                  mainAxisAlignment="center"
-                  crossAxisAlignment="center"
-                  overflow="scroll"
-                >
-                  {collateralList?.map((asset, index) => {
-                    return (
-                      <RenderAvatar
-                        name={asset?.symbol}
-                        src={asset?.logoURL}
-                        key={index}
-                        mr={1}
-                      />
-                    );
-                  })}
-                </Row>
-              </HoverIcon>
+              <Row
+                mainAxisAlignment="center"
+                crossAxisAlignment="center"
+                pl={6}
+              >
+                <RenderAvatar
+                  isBaseAsset={true}
+                  name={symbol}
+                  src={tokenData?.logoURL}
+                />
+                <Text textAlign="center" fontWeight="bold" pl={2}>
+                  {symbol}
+                </Text>
+              </Row>
             </Row>
+            <RenderStatsText
+              statsValue={utilizationValue}
+              hasDonut={true}
+              kink={supplyKink}
+            />
+            <RenderStatsText
+              statsValue={netEarnAPRValue}
+              hovertext={hoverTextEarnAPR}
+            />
+            <RenderStatsText
+              statsValue={netBorrowAPRValue}
+              hovertext={hoverTextBorrowAPR}
+            />
             <RenderBalanceText
-              totalPoolObjectValue={totalPoolObject?.totalBaseSupplyBalance}
+              totalPoolObjectValue={totalPoolData?.totalBaseSupplyBalance}
               assetPrice={assetPrice}
               currency={currency}
               rate={rate}
               isCollateralBalances={false}
             />
             <RenderBalanceText
-              totalPoolObjectValue={totalPoolObject?.totalBaseBorrowBalance}
+              totalPoolObjectValue={totalPoolData?.totalBaseBorrowBalance}
               assetPrice={assetPrice}
               currency={currency}
               rate={rate}
@@ -325,6 +302,43 @@ const PoolTableRow = ({ poolData }: { poolData: PoolConfig }) => {
               rate={rate}
               isCollateralBalances={true}
             />
+            <Row
+              mainAxisAlignment="center"
+              crossAxisAlignment="center"
+              width="12%"
+            >
+              <HoverIcon hoverText={allCollateralSymbols}>
+                <Row
+                  mainAxisAlignment="center"
+                  crossAxisAlignment="center"
+                  flexWrap="wrap"
+                  overflow="visible"
+                  ml={0.5}
+                  width="100%"
+                  display="grid"
+                  gridTemplateColumns={`repeat(${NumberOfAvatarPerRow}, 1fr)`}
+                  gap={0}
+                >
+                  {collateralList?.map((asset, index) => {
+                    return (
+                      <RenderAvatar
+                        isBaseAsset={false}
+                        name={asset?.symbol}
+                        src={asset?.logoURL}
+                        key={index}
+                        style={{
+                          marginLeft:
+                            index % NumberOfAvatarPerRow !== 0
+                              ? `-${OverlappingDegree}px`
+                              : "0",
+                          zIndex: index,
+                        }}
+                      />
+                    );
+                  })}
+                </Row>
+              </HoverIcon>
+            </Row>
           </>
         )}
       </Row>

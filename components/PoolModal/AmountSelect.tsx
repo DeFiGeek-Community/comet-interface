@@ -14,8 +14,7 @@ import { parseUnits, formatUnits } from "viem";
 import cometAbi from "static/comet.json";
 import { Row, Column, useIsMobile } from "utils/chakraUtils";
 import { formatErrorMessage } from "utils/formatErrorMessage";
-import { usePoolPrimaryDataContext } from "hooks/pool/usePoolPrimaryDataContext";
-import { usePoolSecondaryDataContext } from "hooks/pool/usePoolSecondaryDataContext";
+import usePoolData from "hooks/pool/usePoolData";
 import { useReload } from "context/ReloadContext";
 import DashboardBox from "components/shared/DashboardBox";
 import { ModalDivider } from "components/shared/Modal";
@@ -86,8 +85,8 @@ const AmountSelect = ({
     cacheTime: 60_000,
     enabled: Boolean(asset?.address) && Boolean(address),
   });
-  const { baseAssetData, collateralAssetsData } = usePoolPrimaryDataContext();
-  const { positionSummary } = usePoolSecondaryDataContext();
+  const { baseAssetData, collateralAssetsData, positionSummary } =
+    usePoolData();
   const collateralAssetData = collateralAssetsData
     ? collateralAssetsData[asset.symbol]
     : undefined;
