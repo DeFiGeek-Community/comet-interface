@@ -151,46 +151,66 @@ export const getNumberOrText = ({
   }
 };
 
-export const divideBigIntWithDecimal = (
-  numerator: bigint,
-  denominator: bigint,
-  decimalPlaces: number = 1,
-): string => {
+interface DivideBigIntWithDecimalProps {
+  numerator: bigint;
+  denominator: bigint;
+  decimalPlaces: number;
+}
+
+export const divideBigIntWithDecimal = ({
+  numerator,
+  denominator,
+  decimalPlaces = 1,
+}: DivideBigIntWithDecimalProps): string => {
   const multiplier: bigint = BigInt(Math.pow(10, decimalPlaces));
   const result: bigint = (numerator * multiplier) / denominator;
   return (Number(result) / Math.pow(10, decimalPlaces)).toFixed(decimalPlaces);
 };
 
-export const getFormattedValue = (
-  totalPoolObjectValue: number,
-  assetPrice: number | undefined,
-  currency: Currency,
-  isCollateralBalances: boolean,
-  rate?: number,
-): string => {
+interface GetFormattedValueProps {
+  totalPoolObjectValue: number;
+  assetPrice: number | undefined;
+  currency: Currency;
+  isCollateralBalances: boolean;
+  rate?: number;
+}
+
+export const getFormattedValue = ({
+  totalPoolObjectValue,
+  assetPrice,
+  currency,
+  isCollateralBalances,
+  rate,
+}: GetFormattedValueProps): string => {
   const isUSD = currency === "USD" ? true : false;
 
   let flooredValue: number = 0;
   if (assetPrice && rate != undefined) {
-    flooredValue = calculateFlooredValue(
-      {isCollateralBalances,
+    flooredValue = calculateFlooredValue({
+      isCollateralBalances,
       totalPoolObjectValue,
       assetPrice,
-      rate,}
-    );
+      rate,
+    });
   }
 
   const flooredNumber = String(flooredValue);
 
-  const roundedFlooredNumber: bigint = getNumberOrText(
-    { totalValue: flooredNumber, needsNumber: true, isUSD }
-  ) as bigint;
-  const dividedRoundedFlooredNumber = divideBigIntWithDecimal(
-    roundedFlooredNumber,
-    BigInt(10),
-  );
+  const roundedFlooredNumber: bigint = getNumberOrText({
+    totalValue: flooredNumber,
+    needsNumber: true,
+    isUSD,
+  }) as bigint;
+  const dividedRoundedFlooredNumber = divideBigIntWithDecimal({
+    numerator: roundedFlooredNumber,
+    denominator: BigInt(10),
+    decimalPlaces: 1,
+  });
 
   const valueFormatted = (isUSD ? "$" : "¥") + dividedRoundedFlooredNumber;
 
-  return valueFormatted + getNumberOrText({ totalValue: flooredNumber, needsNumber: false, isUSD });
+  return (
+    valueFormatted +
+    getNumberOrText({ totalValue: flooredNumber, needsNumber: false, isUSD })
+  );
 };
