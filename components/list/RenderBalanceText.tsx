@@ -4,22 +4,7 @@ import { Spinner, Text, Box } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Row, useIsMobile } from "utils/chakraUtils";
 import { Currency } from "context/AppDataContext";
-import {
-  OneSextillionN,
-  OneQuitillionN,
-  OneQuadrillionN,
-  OneTrillionN,
-  OneBillionN,
-  OneMillionN,
-  OneThousandN,
-  OneGaiN,
-  OneKeiN,
-  OneChouN,
-  OneOkuN,
-  OneManN,
-} from "constants/aprs";
-
-import { calculateFlooredValue, getNumberOrText, divideBigIntWithDecimal, getFormattedValue } from "hooks/util/format";
+import { calculateFlooredValue, getFormattedValue } from "hooks/util/format";
 
 interface RenderBalanceTextProps {
   totalPoolObjectValue?: number;
@@ -45,19 +30,6 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
-  const calculateFlooredValue = (
-    isCollateralBalances: boolean,
-    totalPoolObjectValue: number,
-    assetPrice: number,
-    rate: number,
-  ): number => {
-    return Math.floor(
-      isCollateralBalances
-        ? totalPoolObjectValue / rate
-        : (totalPoolObjectValue * assetPrice) / rate,
-    );
-  };
-
   const flooredValue = React.useMemo(() => {
     if (
       totalPoolObjectValue === undefined ||
@@ -65,12 +37,12 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       assetPrice === undefined
     )
       return undefined;
-    const flooredValue = calculateFlooredValue(
+    const flooredValue = calculateFlooredValue({
       isCollateralBalances,
       totalPoolObjectValue,
       assetPrice,
       rate,
-    );
+    });
     return (currency === "USD" ? "$" : "¥") + flooredValue.toLocaleString();
   }, [totalPoolObjectValue, assetPrice, currency]);
   // バランスの表示値を計算
@@ -85,139 +57,13 @@ const RenderBalanceText: React.FC<RenderBalanceTextProps> = ({
       );
     }
 
-    const getFormattedValue = (
-      totalPoolObjectValue: number,
-      assetPrice: number | undefined,
-      currency: Currency,
-    ): string => {
-      const isUSD = currency === "USD" ? true : false;
-
-      const getNumberOrText = (
-        totalValue: string,
-        needsNumber: boolean,
-      ): BigInt | string => {
-        const thresholds = isUSD
-          ? [
-              {
-                threshold: BigInt(OneSextillionN),
-                divisor: BigInt(OneSextillionN),
-                unit: "S",
-              },
-              {
-                threshold: BigInt(OneQuitillionN),
-                divisor: BigInt(OneQuitillionN),
-                unit: "Qui",
-              },
-              {
-                threshold: BigInt(OneQuadrillionN),
-                divisor: BigInt(OneQuadrillionN),
-                unit: "Qua",
-              },
-              {
-                threshold: BigInt(OneTrillionN),
-                divisor: BigInt(OneTrillionN),
-                unit: "T",
-              },
-              {
-                threshold: BigInt(OneBillionN),
-                divisor: BigInt(OneBillionN),
-                unit: "B",
-              },
-              {
-                threshold: BigInt(OneMillionN),
-                divisor: BigInt(OneMillionN),
-                unit: "M",
-              },
-              {
-                threshold: BigInt(OneThousandN),
-                divisor: BigInt(OneThousandN),
-                unit: "K",
-              },
-              { threshold: BigInt("0"), divisor: BigInt(1), unit: "" },
-            ]
-          : [
-              {
-                threshold: BigInt(OneGaiN),
-                divisor: BigInt(OneGaiN),
-                unit: "垓",
-              },
-              {
-                threshold: BigInt(OneKeiN),
-                divisor: BigInt(OneKeiN),
-                unit: "京",
-              },
-              {
-                threshold: BigInt(OneChouN),
-                divisor: BigInt(OneChouN),
-                unit: "兆",
-              },
-              {
-                threshold: BigInt(OneOkuN),
-                divisor: BigInt(OneOkuN),
-                unit: "億",
-              },
-              {
-                threshold: BigInt(OneManN),
-                divisor: BigInt(OneManN),
-                unit: "万",
-              },
-              { threshold: BigInt("0"), divisor: BigInt(1), unit: "" },
-            ];
-        const totalBigInt = BigInt(totalValue);
-        const { divisor, unit } = thresholds.find(
-          ({ threshold }) => totalBigInt >= threshold,
-        ) || { divisor: BigInt(1), unit: "" };
-
-        if (needsNumber) {
-          return (totalBigInt * BigInt(10)) / divisor;
-        } else {
-          return unit;
-        }
-      };
-
-      let flooredValue: number = 0;
-      if (assetPrice) {
-        flooredValue = calculateFlooredValue(
-          isCollateralBalances,
-          totalPoolObjectValue,
-          assetPrice,
-          rate,
-        );
-      }
-
-      const flooredNumber = String(flooredValue);
-
-      const divideBigIntWithDecimal = (
-        numerator: bigint,
-        denominator: bigint,
-        decimalPlaces: number = 1,
-      ): string => {
-        const multiplier: bigint = BigInt(Math.pow(10, decimalPlaces));
-        const result: bigint = (numerator * multiplier) / denominator;
-        return (Number(result) / Math.pow(10, decimalPlaces)).toFixed(
-          decimalPlaces,
-        );
-      };
-
-      const roundedFlooredNumber: bigint = getNumberOrText(
-        flooredNumber,
-        true,
-      ) as bigint;
-      const dividedRoundedFlooredNumber = divideBigIntWithDecimal(
-        roundedFlooredNumber,
-        BigInt(10),
-      );
-
-      const valueFormatted = (isUSD ? "$" : "¥") + dividedRoundedFlooredNumber;
-
-      return valueFormatted + getNumberOrText(flooredNumber, false);
-    };
-
-    const formattedValue = getFormattedValue(
+    const formattedValue = getFormattedValue({
       totalPoolObjectValue,
       assetPrice,
       currency,
-    );
+      isCollateralBalances,
+      rate,
+    });
 
     return formattedValue;
   }, [
