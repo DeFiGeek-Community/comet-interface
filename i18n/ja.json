@@ -28,7 +28,7 @@
   "Keep this bar from filling up to avoid being liquidated!": "このバーが一杯になると清算されますので注意して下さい",
   "Limit": "清算限度",
   "Liquidation": "清算",
-  "Liquidation Factor": "清算閾値",
+  "Liquidation Factor": "清算掛目",
   "Liquidation Limit": "清算限度",
   "Liquidation Penalty": "清算ペナルティー",
   "MAX": "MAX",
