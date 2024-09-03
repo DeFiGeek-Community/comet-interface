@@ -64,11 +64,11 @@ const OverlayValue = styled.div<{
 }>`
   position: absolute;
   bottom: 3px;
-  left: ${({ width }) => GetOverlayValuePosition(width)}%;
+  left: ${({ width }) => GetOverlayValuePosition(width)};
   color: rgba(255, 255, 255, 1);
   font-size: 12px;
   font-weight: bold;
-  z-index: 3;
+  z-index: 1;
 `;
 
 const StatusBar: React.FC<StatusBarProps> = ({ leeway, warning, overlay }) => {
