@@ -29,25 +29,25 @@ const generateData = () => {
   for (let i = 0; i <= 100; i++) {
     data.push({
       utilization: i,
-      earnAPR: calculateY(i, 0.04, 0.99, 90),
-      borrowAPR: calculateY(i, 0.025, 0.99, 90) + 2.75,
+      earnReward: calculateY(i, 0, 6.67, 85),
+      borrowReward: calculateY(i, 0, -6.67, 85) + 100,
     });
   }
   return data;
 };
 
-const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
+const RewardGraph3 = ({ poolData }: { poolData: PoolConfig }) => {
   const data = useMemo(() => generateData(), []);
   const initialUtilization = 60.52;
 
   // Calculate initial APR values directly using the calculateY function
-  const initialEarnAPR = calculateY(initialUtilization, 0.04, 0.99, 90);
-  const initialBorrowAPR = calculateY(initialUtilization, 0.025, 0.99, 90) + 2.75;
+  const initialEarnReward = calculateY(initialUtilization, 0, 6.67, 85);
+  const initialBorrowReward = calculateY(initialUtilization, 0, -6.67, 85) + 100;
 
   const initialData = {
     utilization: initialUtilization,
-    earnAPR: initialEarnAPR,
-    borrowAPR: initialBorrowAPR,
+    earnReward: initialEarnReward,
+    borrowReward: initialBorrowReward,
   };
 
   const [hoverUtilization, setHoverUtilization] = useState(initialUtilization);
@@ -73,13 +73,13 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
 
   const getStrokeColor = (dataKey: string, x: number) => {
     return x <= hoverUtilization
-      ? dataKey === "borrowAPR"
+      ? dataKey === "borrowReward"
         ? "#8884d8"
         : "#82ca9d"
       : "#ccc";
   };
 
-  const yDomain = [0, Math.max(...data.map(d => Math.max(d.earnAPR, d.borrowAPR)))];
+  const yDomain = [0, Math.max(...data.map(d => Math.max(d.earnReward, d.borrowReward)))];
   const height = 200;
   const margin = { top: 5, right: 30, left: 10, bottom: 30 };
 
@@ -104,18 +104,22 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
         }}
       >
         {/* <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontSize: "12px", color: "white", }}>Intterest APR Model</div>
+          <div style={{ fontSize: "12px", color: "white", }}>Reward APR Model</div>
         </div> */}
         <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontSize: "12px", color: "#949494", }}>Borrow APR</div>
-          <div style={{ fontSize: "20px", color: "white", }}>
-            {hoverData ? `${hoverData.borrowAPR.toFixed(3)}%` : "-"}
+          <div style={{ fontSize: "12px", color: "#949494", }}>Borrow Reward</div>
+          <div style={{ fontSize: "18px", color: "white", }}>
+          {hoverData && hoverData.borrowReward !== undefined // 修正: undefinedチェックを追加
+              ? `${hoverData.borrowReward.toFixed(3)}%`
+              : "-"}
           </div>
         </div>
         <div>
-          <div style={{ fontSize: "12px", color: "#949494", }}>Earn APR</div>
-          <div style={{ fontSize: "20px", color: "white", }}>
-            {hoverData ? `${hoverData.earnAPR.toFixed(3)}%` : "-"}
+          <div style={{ fontSize: "12px", color: "#949494", }}>Earn Reward</div>
+          <div style={{ fontSize: "18px", color: "white", }}>
+          {hoverData && hoverData.earnReward !== undefined // 修正: undefinedチェックを追加
+              ? `${hoverData.earnReward.toFixed(3)}%`
+              : "-"}
           </div>
         </div>
       </div>
@@ -146,17 +150,17 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
             )}
             <Line
               type="linear"
-              dataKey="borrowAPR"
-              stroke={getStrokeColor('borrowAPR', hoverUtilization)}
+              dataKey="borrowReward"
+              stroke={getStrokeColor('borrowReward', hoverUtilization)}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              //stopColor={({ payload }) => getStrokeColor('borrowAPR', payload.utilization)}
+              //strokeColor={({ payload }) => getStrokeColor('borrowAPR', payload.utilization)}
             />
             <Line
               type="linear"
-              dataKey="earnAPR"
-              stroke={getStrokeColor('earnAPR', hoverUtilization)}
+              dataKey="earnReward"
+              stroke={getStrokeColor('earnReward', hoverUtilization)}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -166,7 +170,7 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
               <>
                 <Line
                   type="linear"
-                  dataKey="borrowAPR"
+                  dataKey="borrowReward"
                   stroke="none"
                   dot={{
                     r: 4,
@@ -178,7 +182,7 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
                 />
                 <Line
                   type="linear"
-                  dataKey="earnAPR"
+                  dataKey="earnReward"
                   stroke="none"
                   dot={{
                     r: 4,
@@ -211,4 +215,4 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
   );
 };
 
-export default APRGraph;
+export default RewardGraph3;
