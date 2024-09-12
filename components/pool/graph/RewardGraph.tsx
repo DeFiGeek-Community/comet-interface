@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { PoolConfig } from "interfaces/pool";
 import {
   LineChart,
   Line,
@@ -6,15 +7,15 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
   ReferenceLine,
+  ResponsiveContainer,
 } from "recharts";
 
 const calculateY = (
-  x,
-  rate1,
-  rate2,
-  threshold,
+  x: number,
+  rate1: number,
+  rate2: number,
+  threshold: number,
 ) => {
   if (x < threshold) {
     return x * rate1;
@@ -28,24 +29,25 @@ const generateData = () => {
   for (let i = 0; i <= 100; i++) {
     data.push({
       utilization: i,
-      earnAPR: calculateY(i, 0.04, 0.99, 90),
-      borrowAPR: calculateY(i, 0.025, 0.99, 90) + 2.75,
+      earnReward: calculateY(i, 0, 6.67, 85),
+      borrowReward: calculateY(i, 0, -6.67, 85) + 100,
     });
   }
   return data;
 };
 
-const APRGraph = () => {
+const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const data = useMemo(() => generateData(), []);
   const initialUtilization = 60.52;
 
-  const initialEarnAPR = calculateY(initialUtilization, 0.04, 0.99, 90);
-  const initialBorrowAPR = calculateY(initialUtilization, 0.025, 0.99, 90) + 2.75;
+  // Calculate initial APR values directly using the calculateY function
+  const initialEarnReward = calculateY(initialUtilization, 0, 6.67, 85);
+  const initialBorrowReward = calculateY(initialUtilization, 0, -6.67, 85) + 100;
 
   const initialData = {
     utilization: initialUtilization,
-    earnAPR: initialEarnAPR,
-    borrowAPR: initialBorrowAPR,
+    earnReward: initialEarnReward,
+    borrowReward: initialBorrowReward,
   };
 
   const [hoverUtilization, setHoverUtilization] = useState(initialUtilization);
@@ -53,7 +55,7 @@ const APRGraph = () => {
   const [hoverData, setHoverData] = useState(initialData);
   const [isHovering, setIsHovering] = useState(false);
 
-  const handleMouseMove = (state) => {
+  const handleMouseMove = (state: any) => {
     if (state.isTooltipActive) {
       setHoverUtilization(state.activeLabel);
       setHoverPosition(state.activeCoordinate.x);
@@ -69,57 +71,59 @@ const APRGraph = () => {
     setIsHovering(false);
   };
 
-  const getStrokeColor = (dataKey, x) => {
+  const getStrokeColor = (dataKey: string, x: number) => {
     return x <= hoverUtilization
-      ? dataKey === "borrowAPR"
-        ? "#8884d8"
-        : "#82ca9d"
+      ? dataKey === "borrowReward"
+        ? "#FF2E6C"
+        : "#3B8593"
       : "#ccc";
   };
 
-  const yDomain = [0, Math.max(...data.map(d => Math.max(d.earnAPR, d.borrowAPR)))];
-  const height = 400;
+  const yDomain = [0, Math.max(...data.map(d => Math.max(d.earnReward, d.borrowReward)))];
+  const height = 200;
   const margin = { top: 5, right: 30, left: 10, bottom: 30 };
-  const graphHeight = height - margin.top - margin.bottom;
-
-  const yToPixel = (y) => {
-    return graphHeight - (y / yDomain[1]) * graphHeight + margin.top;
-  };
 
   return (
     <div
       style={{
         display: "flex",
         width: "100%",
-        height: "400px",
-        backgroundColor: "#1E2833",
-        color: "white",
+        height: "200px",
       }}
     >
       <div
         style={{
-          width: "200px",
+          width: "150px",
           padding: "20px",
+          paddingLeft: "30px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          fontWeight: "bold", 
         }}
       >
+        {/* <div style={{ marginBottom: "20px" }}>
+          <div style={{ fontSize: "12px", color: "white", }}>Reward APR Model</div>
+        </div> */}
         <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontWeight: "bold", fontSize: "18px" }}>Borrow APR</div>
-          <div style={{ fontSize: "24px" }}>
-            {hoverData ? `${hoverData.borrowAPR.toFixed(3)}%` : "-"}
+          <div style={{ fontSize: "12px", color: "#949494", }}>Borrow Reward</div>
+          <div style={{ fontSize: "18px", color: "white", }}>
+          {hoverData && hoverData.borrowReward !== undefined // 修正: undefinedチェックを追加
+              ? `${hoverData.borrowReward.toFixed(3)}%`
+              : "-"}
           </div>
         </div>
         <div>
-          <div style={{ fontWeight: "bold", fontSize: "18px" }}>Earn APR</div>
-          <div style={{ fontSize: "24px" }}>
-            {hoverData ? `${hoverData.earnAPR.toFixed(3)}%` : "-"}
+          <div style={{ fontSize: "12px", color: "#949494", }}>Earn Reward</div>
+          <div style={{ fontSize: "18px", color: "white", }}>
+          {hoverData && hoverData.earnReward !== undefined // 修正: undefinedチェックを追加
+              ? `${hoverData.earnReward.toFixed(3)}%`
+              : "-"}
           </div>
         </div>
       </div>
-      <div style={{ flex: 1, position: "relative" }}>
-        <ResponsiveContainer width="100%" height="100%">
+      <div style={{ flex: 1, position: "relative"}}>
+        <ResponsiveContainer width="100%" height="100%" style={{ marginTop: "20px" }} >
           <LineChart
             data={data}
             margin={margin}
@@ -131,7 +135,7 @@ const APRGraph = () => {
               dataKey="utilization"
               type="number"
               domain={[0, 100]}
-              ticks={[0, 25, 50, 75, 100]}
+              ticks={[0, 100]}
               stroke="#3a4450"
               tickFormatter={(value) => `${value}%`}
             />
@@ -145,39 +149,47 @@ const APRGraph = () => {
             )}
             <Line
               type="linear"
-              dataKey="borrowAPR"
-              stroke="#8884d8"
+              dataKey="borrowReward"
+              stroke={getStrokeColor('borrowReward', hoverUtilization)}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              strokeColor={({ payload }) => getStrokeColor('borrowAPR', payload.utilization)}
+              //strokeColor={({ payload }) => getStrokeColor('borrowAPR', payload.utilization)}
             />
             <Line
               type="linear"
-              dataKey="earnAPR"
-              stroke="#82ca9d"
+              dataKey="earnReward"
+              stroke={getStrokeColor('earnReward', hoverUtilization)}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              strokeColor={({ payload }) => getStrokeColor('earnAPR', payload.utilization)}
+              //strokeColor={({ payload }) => getStrokeColor('earnAPR', payload.utilization)}
             />
             {!isHovering && (
               <>
-                <circle
-                  cx={`${initialUtilization}%`}
-                  cy={yToPixel(initialBorrowAPR)}
-                  r="4"
-                  fill="#8884d8"
-                  stroke="white"
-                  strokeWidth="2"
+                <Line
+                  type="linear"
+                  dataKey="borrowReward"
+                  stroke="none"
+                  dot={{
+                    r: 4,
+                    fill: "#FF2E6C",
+                    stroke: "white",
+                    strokeWidth: 2,
+                  }}
+                  data={[initialData]}
                 />
-                <circle
-                  cx={`${initialUtilization}%`}
-                  cy={yToPixel(initialEarnAPR)}
-                  r="4"
-                  fill="#82ca9d"
-                  stroke="white"
-                  strokeWidth="2"
+                <Line
+                  type="linear"
+                  dataKey="earnReward"
+                  stroke="none"
+                  dot={{
+                    r: 4,
+                    fill: "#3B8593",
+                    stroke: "white",
+                    strokeWidth: 2,
+                  }}
+                  data={[initialData]}
                 />
               </>
             )}
@@ -186,13 +198,13 @@ const APRGraph = () => {
         <div
           style={{
             position: "absolute",
-            bottom: 0,
+            bottom: 10,
             left: isHovering
               ? `${hoverPosition}px`
               : `${(initialUtilization / 100) * 100}%`,
             transform: "translateX(-50%)",
             whiteSpace: "nowrap",
-            transition: "left 0.1s ease-out",
+            transition: "left 0s ease-out",
           }}
         >
           Utilization: {hoverUtilization.toFixed(2)}%
@@ -202,4 +214,4 @@ const APRGraph = () => {
   );
 };
 
-export default APRGraph;
+export default RewardGraph;

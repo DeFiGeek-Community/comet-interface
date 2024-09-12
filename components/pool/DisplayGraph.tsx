@@ -6,8 +6,6 @@ import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import APRGraph from "components/pool/graph/APRGraph";
 import RewardGraph from "components/pool/graph/RewardGraph";
-import RewardGraph2 from "components/pool/graph/RewardGraph2";
-import RewardGraph3 from "components/pool/graph/RewardGraph3";
 
 const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -48,10 +46,8 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
         height="100%"
       >
         <Box width="100%" height="50px" pt={3} pl={5} color="#949494" >Reward APR Model</Box>
-        <RewardGraph3 poolData={poolData} />
+        <RewardGraph poolData={poolData} />
         </Column>
-        {/* <RewardGraph poolData={poolData} />
-        <RewardGraph2 poolData={poolData} /> */}
       </Row>
       
     </Column>
