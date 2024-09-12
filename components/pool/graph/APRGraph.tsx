@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
+import { Box, Text } from "@chakra-ui/react";
 import {
   LineChart,
   Line,
@@ -84,38 +85,34 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const margin = { top: 5, right: 30, left: 10, bottom: 30 };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        height: "200px",
-      }}
+    <Box
+      display="flex"
+      width="100%"
+      height="200px"
     >
-      <div
-        style={{
-          width: "150px",
-          padding: "20px",
-          paddingLeft: "30px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          fontWeight: "bold", 
-        }}
+      <Box
+        width="150px"
+        p="20px"
+        pl="30px"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        fontWeight="bold"
       >
-        <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontSize: "12px", color: "#949494", }}>Borrow APR</div>
-          <div style={{ fontSize: "20px", color: "white", }}>
+        <Box mb="20px">
+          <Text fontSize="12px" color="#949494">Borrow APR</Text>
+          <Text fontSize="20px" color="white">
             {hoverData ? `${hoverData.borrowAPR.toFixed(3)}%` : "-"}
-          </div>
-        </div>
-        <div>
-          <div style={{ fontSize: "12px", color: "#949494", }}>Earn APR</div>
-          <div style={{ fontSize: "20px", color: "white", }}>
+          </Text>
+        </Box>
+        <Box>
+          <Text fontSize="12px" color="#949494">Earn APR</Text>
+          <Text fontSize="20px" color="white">
             {hoverData ? `${hoverData.earnAPR.toFixed(3)}%` : "-"}
-          </div>
-        </div>
-      </div>
-      <div style={{ flex: 1, position: "relative"}}>
+          </Text>
+        </Box>
+      </Box>
+      <Box flex={1} position="relative">
         <ResponsiveContainer width="100%" height="100%" style={{ marginTop: "20px" }} >
           <LineChart
             data={data}
@@ -186,22 +183,20 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
             )}
           </LineChart>
         </ResponsiveContainer>
-        <div
-          style={{
-            position: "absolute",
-            bottom: 10,
-            left: isHovering
-              ? `${hoverPosition}px`
-              : `${(initialUtilization / 100) * 100}%`,
-            transform: "translateX(-50%)",
-            whiteSpace: "nowrap",
-            transition: "left 0s ease-out",
-          }}
+        <Box
+          position="absolute"
+          bottom={10}
+          left={isHovering
+            ? `${hoverPosition}px`
+            : `${(initialUtilization / 100) * 100}%`}
+          transform="translateX(-50%)"
+          whiteSpace="nowrap"
+          transition="left 0s ease-out"
         >
           Utilization: {hoverUtilization.toFixed(2)}%
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
