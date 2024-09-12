@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { PoolConfig } from "interfaces/pool";
+import { Box, Text } from "@chakra-ui/react";
 import {
   LineChart,
   Line,
@@ -84,42 +85,38 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const margin = { top: 5, right: 30, left: 10, bottom: 30 };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        height: "200px",
-      }}
+    <Box
+      display="flex"
+      width="100%"
+      height="200px"
     >
-      <div
-        style={{
-          width: "150px",
-          padding: "20px",
-          paddingLeft: "30px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          fontWeight: "bold", 
-        }}
+      <Box
+        width="150px"
+        p="20px"
+        pl="30px"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        fontWeight="bold"
       >
-        <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontSize: "12px", color: "#949494", }}>Borrow Reward</div>
-          <div style={{ fontSize: "18px", color: "white", }}>
-          {hoverData && hoverData.borrowReward !== undefined 
-              ? `${hoverData.borrowReward.toFixed(3)}%`
-              : "-"}
-          </div>
-        </div>
-        <div>
-          <div style={{ fontSize: "12px", color: "#949494", }}>Earn Reward</div>
-          <div style={{ fontSize: "18px", color: "white", }}>
-          {hoverData && hoverData.earnReward !== undefined 
-              ? `${hoverData.earnReward.toFixed(3)}%`
-              : "-"}
-          </div>
-        </div>
-      </div>
-      <div style={{ flex: 1, position: "relative"}}>
+                <Box mb="20px">
+          <Text fontSize="12px" color="#949494">Borrow Reward</Text>
+          <Text fontSize="18px" color="white">
+            {hoverData && hoverData.borrowReward !== undefined 
+                ? `${hoverData.borrowReward.toFixed(3)}%`
+                : "-"}
+          </Text>
+        </Box>
+        <Box>
+          <Text fontSize="12px" color="#949494">Earn Reward</Text>
+          <Text fontSize="18px" color="white">
+            {hoverData && hoverData.earnReward !== undefined 
+                ? `${hoverData.earnReward.toFixed(3)}%`
+                : "-"}
+          </Text>
+        </Box>
+      </Box>
+      <Box flex={1} position="relative">
         <ResponsiveContainer width="100%" height="100%" style={{ marginTop: "20px" }} >
           <LineChart
             data={data}
@@ -190,22 +187,20 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
             )}
           </LineChart>
         </ResponsiveContainer>
-        <div
-          style={{
-            position: "absolute",
-            bottom: 10,
-            left: isHovering
-              ? `${hoverPosition}px`
-              : `${(initialUtilization / 100) * 100}%`,
-            transform: "translateX(-50%)",
-            whiteSpace: "nowrap",
-            transition: "left 0s ease-out",
-          }}
+        <Box
+          position="absolute"
+          bottom={10}
+          left={isHovering
+            ? `${hoverPosition}px`
+            : `${(initialUtilization / 100) * 100}%`}
+          transform="translateX(-50%)"
+          whiteSpace="nowrap"
+          transition="left 0s ease-out"
         >
           Utilization: {hoverUtilization.toFixed(2)}%
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
