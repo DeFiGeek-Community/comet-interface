@@ -37,10 +37,8 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
         crossAxisAlignment="center"
         width="50%"
         height="100%"
-        pr={5} // 右側のパディングを5に設定
-        style={{ borderRadius: "10px 45px 45px 10px", overflow: "hidden" }} // 右側の角も丸くするためにスタイルを変更
       >
-          <Box width="100%" height="50px" pt={3} pl={5} color="#949494" backgroundColor={"#590202"}>Intterest APR Model</Box>
+          <Box width="100%" height="50px" pt={3} pl={5} color="#949494" >Intterest APR Model</Box>
           <APRGraph poolData={poolData} />
       </Column>
       <Column
@@ -48,9 +46,8 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
         crossAxisAlignment="center"
         width="50%"
         height="100%"
-        style={{ borderRadius: "10px", overflow: "hidden" }} // 角を丸くするためのスタイルを追加
       >
-        <Box width="100%" height="50px" pt={3} pl={5} color="#949494" backgroundColor={"#590202"}>Reward APR Model</Box>
+        <Box width="100%" height="50px" pt={3} pl={5} color="#949494" >Reward APR Model</Box>
         <RewardGraph3 poolData={poolData} />
         </Column>
         {/* <RewardGraph poolData={poolData} />

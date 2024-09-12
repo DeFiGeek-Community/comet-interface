@@ -74,8 +74,8 @@ const RewardGraph3 = ({ poolData }: { poolData: PoolConfig }) => {
   const getStrokeColor = (dataKey: string, x: number) => {
     return x <= hoverUtilization
       ? dataKey === "borrowReward"
-        ? "#8884d8"
-        : "#82ca9d"
+        ? "#FF2E6C"
+        : "#3B8593"
       : "#ccc";
   };
 
@@ -89,7 +89,6 @@ const RewardGraph3 = ({ poolData }: { poolData: PoolConfig }) => {
         display: "flex",
         width: "100%",
         height: "200px",
-        backgroundColor: "#B94B64",
       }}
     >
       <div
@@ -174,7 +173,7 @@ const RewardGraph3 = ({ poolData }: { poolData: PoolConfig }) => {
                   stroke="none"
                   dot={{
                     r: 4,
-                    fill: "#8884d8",
+                    fill: "#FF2E6C",
                     stroke: "white",
                     strokeWidth: 2,
                   }}
@@ -186,7 +185,7 @@ const RewardGraph3 = ({ poolData }: { poolData: PoolConfig }) => {
                   stroke="none"
                   dot={{
                     r: 4,
-                    fill: "#82ca9d",
+                    fill: "#3B8593",
                     stroke: "white",
                     strokeWidth: 2,
                   }}
