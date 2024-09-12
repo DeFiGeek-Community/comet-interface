@@ -102,9 +102,6 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
           fontWeight: "bold", 
         }}
       >
-        {/* <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontSize: "12px", color: "white", }}>Intterest APR Model</div>
-        </div> */}
         <div style={{ marginBottom: "20px" }}>
           <div style={{ fontSize: "12px", color: "#949494", }}>Borrow APR</div>
           <div style={{ fontSize: "20px", color: "white", }}>
@@ -150,7 +147,6 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              //stopColor={({ payload }) => getStrokeColor('borrowAPR', payload.utilization)}
             />
             <Line
               type="linear"
@@ -159,7 +155,6 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              //strokeColor={({ payload }) => getStrokeColor('earnAPR', payload.utilization)}
             />
             {!isHovering && (
               <>

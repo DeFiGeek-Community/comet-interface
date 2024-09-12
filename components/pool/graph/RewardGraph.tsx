@@ -102,13 +102,10 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
           fontWeight: "bold", 
         }}
       >
-        {/* <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontSize: "12px", color: "white", }}>Reward APR Model</div>
-        </div> */}
         <div style={{ marginBottom: "20px" }}>
           <div style={{ fontSize: "12px", color: "#949494", }}>Borrow Reward</div>
           <div style={{ fontSize: "18px", color: "white", }}>
-          {hoverData && hoverData.borrowReward !== undefined // 修正: undefinedチェックを追加
+          {hoverData && hoverData.borrowReward !== undefined 
               ? `${hoverData.borrowReward.toFixed(3)}%`
               : "-"}
           </div>
@@ -116,7 +113,7 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
         <div>
           <div style={{ fontSize: "12px", color: "#949494", }}>Earn Reward</div>
           <div style={{ fontSize: "18px", color: "white", }}>
-          {hoverData && hoverData.earnReward !== undefined // 修正: undefinedチェックを追加
+          {hoverData && hoverData.earnReward !== undefined 
               ? `${hoverData.earnReward.toFixed(3)}%`
               : "-"}
           </div>
@@ -154,7 +151,6 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              //strokeColor={({ payload }) => getStrokeColor('borrowAPR', payload.utilization)}
             />
             <Line
               type="linear"
@@ -163,7 +159,6 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              //strokeColor={({ payload }) => getStrokeColor('earnAPR', payload.utilization)}
             />
             {!isHovering && (
               <>
