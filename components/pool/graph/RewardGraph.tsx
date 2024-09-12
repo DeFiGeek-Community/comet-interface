@@ -43,7 +43,8 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
 
   // Calculate initial APR values directly using the calculateY function
   const initialEarnReward = calculateY(initialUtilization, 0, 6.67, 85);
-  const initialBorrowReward = calculateY(initialUtilization, 0, -6.67, 85) + 100;
+  const initialBorrowReward =
+    calculateY(initialUtilization, 0, -6.67, 85) + 100;
 
   const initialData = {
     utilization: initialUtilization,
@@ -80,16 +81,15 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
       : "#ccc";
   };
 
-  const yDomain = [0, Math.max(...data.map(d => Math.max(d.earnReward, d.borrowReward)))];
+  const yDomain = [
+    0,
+    Math.max(...data.map((d) => Math.max(d.earnReward, d.borrowReward))),
+  ];
   const height = 200;
   const margin = { top: 5, right: 30, left: 10, bottom: 30 };
 
   return (
-    <Box
-      display="flex"
-      width="100%"
-      height="200px"
-    >
+    <Box display="flex" width="100%" height="200px">
       <Box
         width="150px"
         p="20px"
@@ -99,25 +99,33 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
         justifyContent="center"
         fontWeight="bold"
       >
-                <Box mb="20px">
-          <Text fontSize="12px" color="#949494">Borrow Reward</Text>
+        <Box mb="20px">
+          <Text fontSize="12px" color="#949494">
+            Borrow Reward
+          </Text>
           <Text fontSize="18px" color="white">
-            {hoverData && hoverData.borrowReward !== undefined 
-                ? `${hoverData.borrowReward.toFixed(3)}%`
-                : "-"}
+            {hoverData && hoverData.borrowReward !== undefined
+              ? `${hoverData.borrowReward.toFixed(3)}%`
+              : "-"}
           </Text>
         </Box>
         <Box>
-          <Text fontSize="12px" color="#949494">Earn Reward</Text>
+          <Text fontSize="12px" color="#949494">
+            Earn Reward
+          </Text>
           <Text fontSize="18px" color="white">
-            {hoverData && hoverData.earnReward !== undefined 
-                ? `${hoverData.earnReward.toFixed(3)}%`
-                : "-"}
+            {hoverData && hoverData.earnReward !== undefined
+              ? `${hoverData.earnReward.toFixed(3)}%`
+              : "-"}
           </Text>
         </Box>
       </Box>
       <Box flex={1} position="relative">
-        <ResponsiveContainer width="100%" height="100%" style={{ marginTop: "20px" }} >
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+          style={{ marginTop: "20px" }}
+        >
           <LineChart
             data={data}
             margin={margin}
@@ -136,15 +144,23 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
             <YAxis domain={yDomain} hide={true} />
             <Tooltip content={() => null} />
             {!isHovering && (
-              <ReferenceLine x={initialUtilization} stroke="white" strokeWidth={2} />
+              <ReferenceLine
+                x={initialUtilization}
+                stroke="white"
+                strokeWidth={2}
+              />
             )}
             {isHovering && (
-              <ReferenceLine x={hoverUtilization} stroke="white" strokeWidth={2} />
+              <ReferenceLine
+                x={hoverUtilization}
+                stroke="white"
+                strokeWidth={2}
+              />
             )}
             <Line
               type="linear"
               dataKey="borrowReward"
-              stroke={getStrokeColor('borrowReward', hoverUtilization)}
+              stroke={getStrokeColor("borrowReward", hoverUtilization)}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -152,7 +168,7 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
             <Line
               type="linear"
               dataKey="earnReward"
-              stroke={getStrokeColor('earnReward', hoverUtilization)}
+              stroke={getStrokeColor("earnReward", hoverUtilization)}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -190,9 +206,11 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
         <Box
           position="absolute"
           bottom={10}
-          left={isHovering
-            ? `${hoverPosition}px`
-            : `${(initialUtilization / 100) * 100}%`}
+          left={
+            isHovering
+              ? `${hoverPosition}px`
+              : `${(initialUtilization / 100) * 100}%`
+          }
           transform="translateX(-50%)"
           whiteSpace="nowrap"
           transition="left 0s ease-out"

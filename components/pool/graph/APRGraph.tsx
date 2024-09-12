@@ -43,7 +43,8 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
 
   // Calculate initial APR values directly using the calculateY function
   const initialEarnAPR = calculateY(initialUtilization, 0.04, 0.99, 90);
-  const initialBorrowAPR = calculateY(initialUtilization, 0.025, 0.99, 90) + 2.75;
+  const initialBorrowAPR =
+    calculateY(initialUtilization, 0.025, 0.99, 90) + 2.75;
 
   const initialData = {
     utilization: initialUtilization,
@@ -80,16 +81,15 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
       : "#ccc";
   };
 
-  const yDomain = [0, Math.max(...data.map(d => Math.max(d.earnAPR, d.borrowAPR)))];
+  const yDomain = [
+    0,
+    Math.max(...data.map((d) => Math.max(d.earnAPR, d.borrowAPR))),
+  ];
   const height = 200;
   const margin = { top: 5, right: 30, left: 10, bottom: 30 };
 
   return (
-    <Box
-      display="flex"
-      width="100%"
-      height="200px"
-    >
+    <Box display="flex" width="100%" height="200px">
       <Box
         width="150px"
         p="20px"
@@ -100,20 +100,28 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
         fontWeight="bold"
       >
         <Box mb="20px">
-          <Text fontSize="12px" color="#949494">Borrow APR</Text>
+          <Text fontSize="12px" color="#949494">
+            Borrow APR
+          </Text>
           <Text fontSize="20px" color="white">
             {hoverData ? `${hoverData.borrowAPR.toFixed(3)}%` : "-"}
           </Text>
         </Box>
         <Box>
-          <Text fontSize="12px" color="#949494">Earn APR</Text>
+          <Text fontSize="12px" color="#949494">
+            Earn APR
+          </Text>
           <Text fontSize="20px" color="white">
             {hoverData ? `${hoverData.earnAPR.toFixed(3)}%` : "-"}
           </Text>
         </Box>
       </Box>
       <Box flex={1} position="relative">
-        <ResponsiveContainer width="100%" height="100%" style={{ marginTop: "20px" }} >
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+          style={{ marginTop: "20px" }}
+        >
           <LineChart
             data={data}
             margin={margin}
@@ -132,15 +140,23 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
             <YAxis domain={yDomain} hide={true} />
             <Tooltip content={() => null} />
             {!isHovering && (
-              <ReferenceLine x={initialUtilization} stroke="white" strokeWidth={2} />
+              <ReferenceLine
+                x={initialUtilization}
+                stroke="white"
+                strokeWidth={2}
+              />
             )}
             {isHovering && (
-              <ReferenceLine x={hoverUtilization} stroke="white" strokeWidth={2} />
+              <ReferenceLine
+                x={hoverUtilization}
+                stroke="white"
+                strokeWidth={2}
+              />
             )}
             <Line
               type="linear"
               dataKey="borrowAPR"
-              stroke={getStrokeColor('borrowAPR', hoverUtilization)}
+              stroke={getStrokeColor("borrowAPR", hoverUtilization)}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -148,7 +164,7 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
             <Line
               type="linear"
               dataKey="earnAPR"
-              stroke={getStrokeColor('earnAPR', hoverUtilization)}
+              stroke={getStrokeColor("earnAPR", hoverUtilization)}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -186,9 +202,11 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
         <Box
           position="absolute"
           bottom={10}
-          left={isHovering
-            ? `${hoverPosition}px`
-            : `${(initialUtilization / 100) * 100}%`}
+          left={
+            isHovering
+              ? `${hoverPosition}px`
+              : `${(initialUtilization / 100) * 100}%`
+          }
           transform="translateX(-50%)"
           whiteSpace="nowrap"
           transition="left 0s ease-out"

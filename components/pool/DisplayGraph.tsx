@@ -29,27 +29,29 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
         px={4}
         my={4}
       >
-
-      <Column
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="center"
-        width="50%"
-        height="100%"
-      >
-          <Box width="100%" height="50px" pt={3} pl={5} color="#949494" >Intterest APR Model</Box>
+        <Column
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="center"
+          width="50%"
+          height="100%"
+        >
+          <Box width="100%" height="50px" pt={3} pl={5} color="#949494">
+            Intterest APR Model
+          </Box>
           <APRGraph poolData={poolData} />
-      </Column>
-      <Column
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="center"
-        width="50%"
-        height="100%"
-      >
-        <Box width="100%" height="50px" pt={3} pl={5} color="#949494" >Reward APR Model</Box>
-        <RewardGraph poolData={poolData} />
+        </Column>
+        <Column
+          mainAxisAlignment="flex-start"
+          crossAxisAlignment="center"
+          width="50%"
+          height="100%"
+        >
+          <Box width="100%" height="50px" pt={3} pl={5} color="#949494">
+            Reward APR Model
+          </Box>
+          <RewardGraph poolData={poolData} />
         </Column>
       </Row>
-      
     </Column>
   );
 };
