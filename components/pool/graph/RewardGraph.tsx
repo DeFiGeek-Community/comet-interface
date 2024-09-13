@@ -2,7 +2,7 @@ import React from "react";
 import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 
-const RewardGraph2 = ({ poolData }: { poolData: PoolConfig }) => {
+const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const initialUtilization = 60.52;
   const dataKeys = {
     earn: {
@@ -27,4 +27,4 @@ const RewardGraph2 = ({ poolData }: { poolData: PoolConfig }) => {
   );
 };
 
-export default RewardGraph2;
+export default RewardGraph;
