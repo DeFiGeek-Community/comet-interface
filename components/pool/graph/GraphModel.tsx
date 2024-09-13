@@ -26,7 +26,6 @@ interface DataKeys {
 }
 
 interface GraphModelProps {
-  //data: Array<{ utilization: number; earnValue: number; borrowValue: number }>;
   initialUtilization: number;
   dataKeys: DataKeys;
   labels: { borrow: string; earn: string };
@@ -71,7 +70,6 @@ export const generateData = (props: generateDataProps) => {
 };
 
 const GraphModel: React.FC<GraphModelProps> = ({
-  //data,
   initialUtilization,
   dataKeys,
   labels,

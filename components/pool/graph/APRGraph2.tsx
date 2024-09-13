@@ -17,11 +17,9 @@ const APRGraph2 = ({ poolData }: { poolData: PoolConfig }) => {
       borrowPerYearInterestRateBase: 2.75,
     },
   };
-  //const data = useMemo(() => generateData({ dataKeys }), []);
   
   return (
     <GraphModel
-      //data={data}
       initialUtilization={initialUtilization}
       dataKeys={dataKeys}
       labels={{ borrow: "Borrow APR", earn: "Earn APR" }}

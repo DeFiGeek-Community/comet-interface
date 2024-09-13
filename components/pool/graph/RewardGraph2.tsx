@@ -17,11 +17,9 @@ const RewardGraph2 = ({ poolData }: { poolData: PoolConfig }) => {
       borrowPerYearInterestRateBase: 100,
     },
   };
-  //const data = useMemo(() => generateData({ dataKeys }), []);
 
   return (
     <GraphModel
-      //data={data}
       initialUtilization={initialUtilization}
       dataKeys={dataKeys}
       labels={{ borrow: "Borrow Reward", earn: "Earn Reward" }}
