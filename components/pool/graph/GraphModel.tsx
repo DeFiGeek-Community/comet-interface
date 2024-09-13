@@ -143,7 +143,9 @@ const GraphModel: React.FC<GraphModelProps> = ({
             {labels.borrow}
           </Text>
           <Text fontSize="18px" color="white">
-            {hoverData ? `${hoverData.borrowValue.toFixed(3)}%` : "-"}
+            {hoverData
+              ? `${Math.floor(hoverData.borrowValue * 1000) / 1000}%`
+              : "-"}
           </Text>
         </Box>
         <Box>
@@ -151,7 +153,9 @@ const GraphModel: React.FC<GraphModelProps> = ({
             {labels.earn}
           </Text>
           <Text fontSize="18px" color="white">
-            {hoverData ? `${hoverData.earnValue.toFixed(3)}%` : "-"}
+            {hoverData
+              ? `${Math.floor(hoverData.earnValue * 1000) / 1000}%`
+              : "-"}
           </Text>
         </Box>
       </Box>
@@ -250,8 +254,8 @@ const GraphModel: React.FC<GraphModelProps> = ({
             hoverPosition !== null && hoverPosition < 150
               ? "translateX(0%)"
               : hoverPosition !== null && hoverPosition > 315
-              ? "translateX(-100%)"
-              : "translateX(-50%)"
+                ? "translateX(-100%)"
+                : "translateX(-50%)"
           }
           whiteSpace="nowrap"
           transition="left 0s ease-out"

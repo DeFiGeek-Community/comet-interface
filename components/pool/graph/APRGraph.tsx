@@ -20,8 +20,8 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const initialUtilization = utilizationValue ?? 0; // Assign 0 if undefined
   const dataKeys = {
     earn: {
-      supplyRateSlopeLow: poolData.borrowPerYearInterestRateSlopeLow,
-      supplyRateSlopeHigh: poolData.borrowPerYearInterestRateSlopeHigh,
+      supplyRateSlopeLow: poolData.supplyPerYearInterestRateSlopeLow,
+      supplyRateSlopeHigh: poolData.supplyPerYearInterestRateSlopeHigh,
       supplyKink: poolData.supplyKink,
     },
     borrow: {
@@ -31,7 +31,7 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
       borrowRateBase: poolData.borrowPerYearInterestRateBase,
     },
   };
-  
+
   return (
     <GraphModel
       initialUtilization={initialUtilization}
