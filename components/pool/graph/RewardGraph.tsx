@@ -4,16 +4,17 @@ import GraphModel from "./GraphModel";
 
 const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const initialUtilization = 60.52;
+  const rateSlopeHigh = parseFloat((100 / (100 - poolData.rewardKink)).toFixed(2));
   const dataKeys = {
     earn: {
       supplyRateSlopeLow: 0,
-      supplyRateSlopeHigh: 6.67,
-      supplyKink: 85,
+      supplyRateSlopeHigh: rateSlopeHigh,
+      supplyKink: poolData.rewardKink,
     },
     borrow: {
       borrowRateSlopeLow: 0,
-      borrowRateSlopeHigh: -6.67,
-      borrowKink: 85,
+      borrowRateSlopeHigh: -rateSlopeHigh,
+      borrowKink: poolData.rewardKink,
       borrowRateBase: 100,
     },
   };
