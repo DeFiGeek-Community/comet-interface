@@ -17,7 +17,7 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
   } else if (totalPoolData?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
-  const initialUtilization = 92 ?? 0; // Assign 0 if undefined
+  const initialUtilization = utilizationValue ?? 0; // Assign 0 if undefined
   const rateSlopeHigh = parseFloat((100 / (100 - poolData.rewardKink)).toFixed(2));
   const dataKeys = {
     earn: {

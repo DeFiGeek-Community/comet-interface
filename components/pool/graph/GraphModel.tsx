@@ -244,9 +244,15 @@ const GraphModel: React.FC<GraphModelProps> = ({
           left={
             isHovering
               ? `${hoverPosition}px`
-              : `${(initialUtilization / 100) * 100}%`
+              : `${Math.min(Math.max(initialUtilization, 20), 80)}%`
           }
-          transform="translateX(-50%)"
+          transform={
+            hoverPosition !== null && hoverPosition < 150
+              ? "translateX(0%)"
+              : hoverPosition !== null && hoverPosition > 315
+              ? "translateX(-100%)"
+              : "translateX(-50%)"
+          }
           whiteSpace="nowrap"
           transition="left 0s ease-out"
         >
