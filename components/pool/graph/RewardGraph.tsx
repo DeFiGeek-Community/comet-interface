@@ -1,9 +1,23 @@
 import React from "react";
+import usePoolData from "hooks/pool/usePoolData";
 import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 
 const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
-  const initialUtilization = 60.52;
+  const { totalPoolData } = usePoolData();
+  let utilizationValue: number | undefined;
+  if (
+    totalPoolData?.totalBaseBorrowBalance &&
+    totalPoolData?.totalBaseSupplyBalance
+  ) {
+    utilizationValue =
+      (totalPoolData?.totalBaseBorrowBalance /
+        totalPoolData?.totalBaseSupplyBalance) *
+      100;
+  } else if (totalPoolData?.totalBaseBorrowBalance === 0) {
+    utilizationValue = 0;
+  }
+  const initialUtilization = 92 ?? 0; // Assign 0 if undefined
   const rateSlopeHigh = parseFloat((100 / (100 - poolData.rewardKink)).toFixed(2));
   const dataKeys = {
     earn: {
