@@ -13,15 +13,15 @@ import {
 
 interface DataKeys {
   earn: {
-    supplyPerYearInterestRateSlopeLow: number;
-    supplyPerYearInterestRateSlopeHigh: number;
+    supplyRateSlopeLow: number;
+    supplyRateSlopeHigh: number;
     supplyKink: number;
   };
   borrow: {
-    borrowPerYearInterestRateSlopeLow: number;
-    borrowPerYearInterestRateSlopeHigh: number;
+    borrowRateSlopeLow: number;
+    borrowRateSlopeHigh: number;
     borrowKink: number;
-    borrowPerYearInterestRateBase: number;
+    borrowRateBase: number;
   };
 }
 
@@ -53,17 +53,17 @@ export const generateData = (props: generateDataProps) => {
       utilization: i,
       earnValue: calculateY(
         i,
-        props.dataKeys.earn.supplyPerYearInterestRateSlopeLow,
-        props.dataKeys.earn.supplyPerYearInterestRateSlopeHigh,
+        props.dataKeys.earn.supplyRateSlopeLow,
+        props.dataKeys.earn.supplyRateSlopeHigh,
         props.dataKeys.earn.supplyKink,
       ),
       borrowValue:
         calculateY(
           i,
-          props.dataKeys.borrow.borrowPerYearInterestRateSlopeLow,
-          props.dataKeys.borrow.borrowPerYearInterestRateSlopeHigh,
+          props.dataKeys.borrow.borrowRateSlopeLow,
+          props.dataKeys.borrow.borrowRateSlopeHigh,
           props.dataKeys.borrow.borrowKink,
-        ) + props.dataKeys.borrow.borrowPerYearInterestRateBase,
+        ) + props.dataKeys.borrow.borrowRateBase,
     });
   }
   return data;
@@ -78,17 +78,17 @@ const GraphModel: React.FC<GraphModelProps> = ({
     utilization: initialUtilization,
     earnValue: calculateY(
       initialUtilization,
-      dataKeys.earn.supplyPerYearInterestRateSlopeLow,
-      dataKeys.earn.supplyPerYearInterestRateSlopeHigh,
+      dataKeys.earn.supplyRateSlopeLow,
+      dataKeys.earn.supplyRateSlopeHigh,
       dataKeys.earn.supplyKink,
     ),
     borrowValue:
       calculateY(
         initialUtilization,
-        dataKeys.borrow.borrowPerYearInterestRateSlopeLow,
-        dataKeys.borrow.borrowPerYearInterestRateSlopeHigh,
+        dataKeys.borrow.borrowRateSlopeLow,
+        dataKeys.borrow.borrowRateSlopeHigh,
         dataKeys.borrow.borrowKink,
-      ) + dataKeys.borrow.borrowPerYearInterestRateBase,
+      ) + dataKeys.borrow.borrowRateBase,
   };
   const data = useMemo(() => generateData({ dataKeys }), []);
 

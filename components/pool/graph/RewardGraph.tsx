@@ -6,15 +6,15 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const initialUtilization = 60.52;
   const dataKeys = {
     earn: {
-      supplyPerYearInterestRateSlopeLow: 0,
-      supplyPerYearInterestRateSlopeHigh: 6.67,
+      supplyRateSlopeLow: 0,
+      supplyRateSlopeHigh: 6.67,
       supplyKink: 85,
     },
     borrow: {
-      borrowPerYearInterestRateSlopeLow: 0,
-      borrowPerYearInterestRateSlopeHigh: -6.67,
+      borrowRateSlopeLow: 0,
+      borrowRateSlopeHigh: -6.67,
       borrowKink: 85,
-      borrowPerYearInterestRateBase: 100,
+      borrowRateBase: 100,
     },
   };
 

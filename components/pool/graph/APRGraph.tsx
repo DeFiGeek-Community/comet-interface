@@ -6,15 +6,15 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const initialUtilization = 60.52;
   const dataKeys = {
     earn: {
-      supplyPerYearInterestRateSlopeLow: 0.04,
-      supplyPerYearInterestRateSlopeHigh: 0.99,
+      supplyRateSlopeLow: 0.04,
+      supplyRateSlopeHigh: 0.99,
       supplyKink: 90,
     },
     borrow: {
-      borrowPerYearInterestRateSlopeLow: 0.025,
-      borrowPerYearInterestRateSlopeHigh: 0.99,
+      borrowRateSlopeLow: 0.025,
+      borrowRateSlopeHigh: 0.99,
       borrowKink: 90,
-      borrowPerYearInterestRateBase: 2.75,
+      borrowRateBase: 2.75,
     },
   };
   
