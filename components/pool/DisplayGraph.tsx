@@ -5,7 +5,9 @@ import { Column, Row } from "utils/chakraUtils";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import APRGraph from "components/pool/graph/APRGraph";
+import APRGraph2 from "components/pool/graph/APRGraph2";
 import RewardGraph from "components/pool/graph/RewardGraph";
+import RewardGraph2 from "components/pool/graph/RewardGraph2";
 
 const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -38,7 +40,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           <Box width="100%" height="50px" pt={3} pl={5} color="#949494">
             Intterest APR Model
           </Box>
-          <APRGraph poolData={poolData} />
+          <APRGraph2 poolData={poolData} />
         </Column>
         <Column
           mainAxisAlignment="flex-start"
@@ -49,7 +51,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           <Box width="100%" height="50px" pt={3} pl={5} color="#949494">
             Reward APR Model
           </Box>
-          <RewardGraph poolData={poolData} />
+          <RewardGraph2 poolData={poolData} />
         </Column>
       </Row>
     </Column>
