@@ -49,25 +49,50 @@ export const calculateY = (
 export const generateData = (props: generateDataProps) => {
   const data = [];
   for (let i = 0; i <= 100; i++) {
+    const earnValue = Math.min(100, Math.max(0, calculateY(
+      i,
+      props.dataKeys.earn.supplyRateSlopeLow,
+      props.dataKeys.earn.supplyRateSlopeHigh,
+      props.dataKeys.earn.supplyKink,
+    )));
+    const borrowValue = Math.min(100, Math.max(0, calculateY(
+      i,
+      props.dataKeys.borrow.borrowRateSlopeLow,
+      props.dataKeys.borrow.borrowRateSlopeHigh,
+      props.dataKeys.borrow.borrowKink,
+    ) + props.dataKeys.borrow.borrowRateBase));
+
     data.push({
       utilization: i,
-      earnValue: calculateY(
-        i,
-        props.dataKeys.earn.supplyRateSlopeLow,
-        props.dataKeys.earn.supplyRateSlopeHigh,
-        props.dataKeys.earn.supplyKink,
-      ),
-      borrowValue:
-        calculateY(
-          i,
-          props.dataKeys.borrow.borrowRateSlopeLow,
-          props.dataKeys.borrow.borrowRateSlopeHigh,
-          props.dataKeys.borrow.borrowKink,
-        ) + props.dataKeys.borrow.borrowRateBase,
+      earnValue,
+      borrowValue,
     });
   }
   return data;
 };
+
+// export const generateData = (props: generateDataProps) => {
+//   const data = [];
+//   for (let i = 0; i <= 100; i++) {
+//     data.push({
+//       utilization: i,
+//       earnValue: calculateY(
+//         i,
+//         props.dataKeys.earn.supplyRateSlopeLow,
+//         props.dataKeys.earn.supplyRateSlopeHigh,
+//         props.dataKeys.earn.supplyKink,
+//       ),
+//       borrowValue:
+//         calculateY(
+//           i,
+//           props.dataKeys.borrow.borrowRateSlopeLow,
+//           props.dataKeys.borrow.borrowRateSlopeHigh,
+//           props.dataKeys.borrow.borrowKink,
+//         ) + props.dataKeys.borrow.borrowRateBase,
+//     });
+//   }
+//   return data;
+// };
 
 const GraphModel: React.FC<GraphModelProps> = ({
   initialUtilization,
