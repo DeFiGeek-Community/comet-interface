@@ -10,89 +10,20 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from "recharts";
-
-interface DataKeys {
-  earn: {
-    supplyRateSlopeLow: number;
-    supplyRateSlopeHigh: number;
-    supplyKink: number;
-  };
-  borrow: {
-    borrowRateSlopeLow: number;
-    borrowRateSlopeHigh: number;
-    borrowKink: number;
-    borrowRateBase: number;
-  };
-}
-
-interface GraphModelProps {
-  initialUtilization: number;
-  dataKeys: DataKeys;
-  labels: { borrow: string; earn: string };
-}
-
-interface generateDataProps {
-  dataKeys: DataKeys;
-}
-
-export const calculateY = (
-  x: number,
-  rate1: number,
-  rate2: number,
-  threshold: number,
-) => {
-  return x < threshold
-    ? x * rate1
-    : threshold * rate1 + (x - threshold) * rate2;
-};
-
-export const generateData = (props: generateDataProps) => {
-  const data = [];
-  for (let i = 0; i <= 100; i++) {
-    const earnValue = Math.min(100, Math.max(0, calculateY(
-      i,
-      props.dataKeys.earn.supplyRateSlopeLow,
-      props.dataKeys.earn.supplyRateSlopeHigh,
-      props.dataKeys.earn.supplyKink,
-    )));
-    const borrowValue = Math.min(100, Math.max(0, calculateY(
-      i,
-      props.dataKeys.borrow.borrowRateSlopeLow,
-      props.dataKeys.borrow.borrowRateSlopeHigh,
-      props.dataKeys.borrow.borrowKink,
-    ) + props.dataKeys.borrow.borrowRateBase));
-
-    data.push({
-      utilization: i,
-      earnValue,
-      borrowValue,
-    });
-  }
-  return data;
-};
-
-// export const generateData = (props: generateDataProps) => {
-//   const data = [];
-//   for (let i = 0; i <= 100; i++) {
-//     data.push({
-//       utilization: i,
-//       earnValue: calculateY(
-//         i,
-//         props.dataKeys.earn.supplyRateSlopeLow,
-//         props.dataKeys.earn.supplyRateSlopeHigh,
-//         props.dataKeys.earn.supplyKink,
-//       ),
-//       borrowValue:
-//         calculateY(
-//           i,
-//           props.dataKeys.borrow.borrowRateSlopeLow,
-//           props.dataKeys.borrow.borrowRateSlopeHigh,
-//           props.dataKeys.borrow.borrowKink,
-//         ) + props.dataKeys.borrow.borrowRateBase,
-//     });
-//   }
-//   return data;
-// };
+import { GraphModelProps } from "interfaces/graph";
+import { calculateY, generateData } from "hooks/util/graph";
+import {
+  OneThousand,
+  AxisRange,
+  LeftMin,
+  LeftMax,
+  HoverPositionLowerThreshold,
+  HoverPositionUpperThreshold,
+  LightGrayColorCode,
+  LightBlackColorCode,
+  PinkColorCode,
+  MossGreenColorCode,
+} from "constants/graph";
 
 const GraphModel: React.FC<GraphModelProps> = ({
   initialUtilization,
@@ -138,19 +69,10 @@ const GraphModel: React.FC<GraphModelProps> = ({
     setIsHovering(false);
   };
 
-  const getStrokeColor = (dataKey: string, x: number) => {
-    return x <= hoverUtilization
-      ? dataKey === "borrowValue"
-        ? "#FF2E6C"
-        : "#3B8593"
-      : "#ccc";
-  };
-
   const yDomain = [
     0,
     Math.max(...data.map((d) => Math.max(d.earnValue, d.borrowValue))),
   ];
-  const margin = { top: 5, right: 30, left: 10, bottom: 30 };
 
   return (
     <Box display="flex" width="100%" height="200px">
@@ -164,22 +86,22 @@ const GraphModel: React.FC<GraphModelProps> = ({
         fontWeight="bold"
       >
         <Box mb="20px">
-          <Text fontSize="12px" color="#949494">
+          <Text fontSize="12px" color={LightGrayColorCode}>
             {labels.borrow}
           </Text>
           <Text fontSize="18px" color="white">
             {hoverData
-              ? `${Math.floor(hoverData.borrowValue * 1000) / 1000}%`
+              ? `${Math.floor(hoverData.borrowValue * OneThousand) / OneThousand}%`
               : "-"}
           </Text>
         </Box>
         <Box>
-          <Text fontSize="12px" color="#949494">
+          <Text fontSize="12px" color={LightGrayColorCode}>
             {labels.earn}
           </Text>
           <Text fontSize="18px" color="white">
             {hoverData
-              ? `${Math.floor(hoverData.earnValue * 1000) / 1000}%`
+              ? `${Math.floor(hoverData.earnValue * OneThousand) / OneThousand}%`
               : "-"}
           </Text>
         </Box>
@@ -192,17 +114,17 @@ const GraphModel: React.FC<GraphModelProps> = ({
         >
           <LineChart
             data={data}
-            margin={margin}
+            margin={{ top: 5, right: 30, left: 10, bottom: 30 }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
-            <CartesianGrid strokeDasharray="3 0" stroke="#3a4450" />
+            <CartesianGrid strokeDasharray="3 0" stroke={LightBlackColorCode} />
             <XAxis
               dataKey="utilization"
               type="number"
-              domain={[0, 100]}
-              ticks={[0, 100]}
-              stroke="#3a4450"
+              domain={AxisRange}
+              ticks={AxisRange}
+              stroke={LightBlackColorCode}
               tickFormatter={(value) => `${value}%`}
             />
             <YAxis domain={yDomain} hide={true} />
@@ -224,7 +146,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
             <Line
               type="linear"
               dataKey="borrowValue"
-              stroke={getStrokeColor("borrowValue", hoverUtilization)}
+              stroke={PinkColorCode}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -232,7 +154,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
             <Line
               type="linear"
               dataKey="earnValue"
-              stroke={getStrokeColor("earnValue", hoverUtilization)}
+              stroke={MossGreenColorCode}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -245,7 +167,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
                   stroke="none"
                   dot={{
                     r: 4,
-                    fill: "#FF2E6C",
+                    fill: PinkColorCode,
                     stroke: "white",
                     strokeWidth: 2,
                   }}
@@ -257,7 +179,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
                   stroke="none"
                   dot={{
                     r: 4,
-                    fill: "#3B8593",
+                    fill: MossGreenColorCode,
                     stroke: "white",
                     strokeWidth: 2,
                   }}
@@ -273,12 +195,14 @@ const GraphModel: React.FC<GraphModelProps> = ({
           left={
             isHovering
               ? `${hoverPosition}px`
-              : `${Math.min(Math.max(initialUtilization, 20), 80)}%`
+              : `${Math.min(Math.max(initialUtilization, LeftMin), LeftMax)}%`
           }
           transform={
-            hoverPosition !== null && hoverPosition < 150
+            hoverPosition !== null &&
+            hoverPosition < HoverPositionLowerThreshold
               ? "translateX(0%)"
-              : hoverPosition !== null && hoverPosition > 315
+              : hoverPosition !== null &&
+                  hoverPosition > HoverPositionUpperThreshold
                 ? "translateX(-100%)"
                 : "translateX(-50%)"
           }

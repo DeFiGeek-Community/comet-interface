@@ -2,6 +2,7 @@ import React from "react";
 import usePoolData from "hooks/pool/usePoolData";
 import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
+import { OneHundred } from "constants/graph";
 
 const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { totalPoolData } = usePoolData();
@@ -13,7 +14,7 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
     utilizationValue =
       (totalPoolData?.totalBaseBorrowBalance /
         totalPoolData?.totalBaseSupplyBalance) *
-      100;
+      OneHundred;
   } else if (totalPoolData?.totalBaseBorrowBalance === 0) {
     utilizationValue = 0;
   }
