@@ -6,6 +6,7 @@ import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import APRGraph from "components/pool/graph/APRGraph";
 import RewardGraph from "components/pool/graph/RewardGraph";
+import { LightGrayColorCode } from "constants/graph";
 
 const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -35,7 +36,13 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           width="50%"
           height="100%"
         >
-          <Box width="100%" height="50px" pt={3} pl={5} color="#949494">
+          <Box
+            width="100%"
+            height="50px"
+            pt={3}
+            pl={5}
+            color={LightGrayColorCode}
+          >
             Intterest APR Model
           </Box>
           <APRGraph poolData={poolData} />
@@ -46,7 +53,13 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           width="50%"
           height="100%"
         >
-          <Box width="100%" height="50px" pt={3} pl={5} color="#949494">
+          <Box
+            width="100%"
+            height="50px"
+            pt={3}
+            pl={5}
+            color={LightGrayColorCode}
+          >
             Reward APR Model
           </Box>
           <RewardGraph poolData={poolData} />
