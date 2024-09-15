@@ -49,7 +49,7 @@ export const generateData = (props: GenerateDataProps) => {
 
 export const calculateInitialData = (
   utilization: number,
-  dataKeys: GenerateDataProps['dataKeys']
+  dataKeys: GenerateDataProps["dataKeys"],
 ) => ({
   utilization,
   earnValue: calculateY(
@@ -66,4 +66,3 @@ export const calculateInitialData = (
       dataKeys.borrow.borrowKink,
     ) + dataKeys.borrow.borrowRateBase,
 });
-

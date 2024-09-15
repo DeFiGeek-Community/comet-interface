@@ -13,7 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { GraphModelProps } from "interfaces/graph";
-import { calculateY, generateData, calculateInitialData } from "hooks/util/graph";
+import { generateData, calculateInitialData } from "hooks/util/graph";
 import {
   OneThousand,
   AxisRange,
@@ -34,8 +34,9 @@ const GraphModel: React.FC<GraphModelProps> = ({
   dataKeys,
   labels,
 }) => {
-  
-  const [initialData, setInitialData] = useState(calculateInitialData(initialUtilization, dataKeys));
+  const [initialData, setInitialData] = useState(
+    calculateInitialData(initialUtilization, dataKeys),
+  );
   const data = useMemo(() => generateData({ dataKeys }), []);
 
   const { t } = useTranslation();
@@ -92,7 +93,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   }, [initialUtilization]);
 
   useEffect(() => {
-    setHoverData(initialData); 
+    setHoverData(initialData);
   }, [initialData]);
 
   return (

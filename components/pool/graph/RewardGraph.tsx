@@ -9,7 +9,7 @@ import useInitialUtilization from "hooks/graph/useInitialUtilization";
 
 const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { totalPoolData } = usePoolData();
-  const initialUtilization = useInitialUtilization(totalPoolData); 
+  const initialUtilization = useInitialUtilization(totalPoolData);
   const rateSlopeHigh = parseFloat(
     (OneHundred / (OneHundred - poolData.rewardKink)).toFixed(2),
   );
