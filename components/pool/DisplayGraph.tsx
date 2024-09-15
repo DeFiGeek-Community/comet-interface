@@ -1,7 +1,7 @@
 import React from "react";
 import { Heading, Box } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { Column, Row } from "utils/chakraUtils";
+import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import APRGraph from "components/pool/graph/APRGraph";
@@ -10,6 +10,7 @@ import { LightGrayColorCode } from "constants/graph";
 
 const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   return (
     <Column
@@ -23,48 +24,91 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
         {t("Detailed Information")}
       </Heading>
       <ModalDivider />
-      <Row
-        mainAxisAlignment="flex-start"
-        crossAxisAlignment="flex-start"
-        width="100%"
-        px={4}
-        my={4}
-      >
+      {isMobile ? (
         <Column
           mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          width="50%"
-          height="100%"
+          crossAxisAlignment="flex-start"
+          width="100%"
         >
-          <Box
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
             width="100%"
-            height="50px"
-            pt={3}
-            pl={5}
-            color={LightGrayColorCode}
+            height="100%"
           >
-            {t("Intterest APR Model")}
-          </Box>
-          <APRGraph poolData={poolData} />
+            <Box
+              width="100%"
+              height="50px"
+              pt={6}
+              pl={5}
+              color={LightGrayColorCode}
+            >
+              {t("Intterest APR Model")}
+            </Box>
+            <APRGraph poolData={poolData} />
+          </Column>
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            width="100%"
+            height="100%"
+          >
+            <Box
+              width="100%"
+              height="50px"
+              pt={6}
+              pl={5}
+              color={LightGrayColorCode}
+            >
+              {t("Reward APR Model")}
+            </Box>
+            <RewardGraph poolData={poolData} />
+          </Column>
         </Column>
-        <Column
+      ) : (
+        <Row
           mainAxisAlignment="flex-start"
-          crossAxisAlignment="center"
-          width="50%"
-          height="100%"
+          crossAxisAlignment="flex-start"
+          width="100%"
+          px={4}
+          my={4}
         >
-          <Box
-            width="100%"
-            height="50px"
-            pt={3}
-            pl={5}
-            color={LightGrayColorCode}
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            width="50%"
+            height="100%"
           >
-            {t("Reward APR Model")}
-          </Box>
-          <RewardGraph poolData={poolData} />
-        </Column>
-      </Row>
+            <Box
+              width="100%"
+              height="50px"
+              pt={3}
+              pl={5}
+              color={LightGrayColorCode}
+            >
+              {t("Intterest APR Model")}
+            </Box>
+            <APRGraph poolData={poolData} />
+          </Column>
+          <Column
+            mainAxisAlignment="flex-start"
+            crossAxisAlignment="center"
+            width="50%"
+            height="100%"
+          >
+            <Box
+              width="100%"
+              height="50px"
+              pt={3}
+              pl={5}
+              color={LightGrayColorCode}
+            >
+              {t("Reward APR Model")}
+            </Box>
+            <RewardGraph poolData={poolData} />
+          </Column>
+        </Row>
+      )}
     </Column>
   );
 };

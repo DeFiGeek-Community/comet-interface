@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Box, Text } from "@chakra-ui/react";
+import { useIsMobile } from "utils/chakraUtils";
 import { useTranslation } from "react-i18next";
 import {
   LineChart,
@@ -20,6 +21,8 @@ import {
   LeftMax,
   HoverPositionLowerThreshold,
   HoverPositionUpperThreshold,
+  HoverPositionLowerThresholdMobile,
+  HoverPositionUpperThresholdMobile,
   LightGrayColorCode,
   LightBlackColorCode,
   PinkColorCode,
@@ -50,6 +53,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   const data = useMemo(() => generateData({ dataKeys }), []);
 
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const [hoverUtilization, setHoverUtilization] = useState(initialUtilization);
   const [hoverPosition, setHoverPosition] = useState<number | null>(null);
@@ -80,7 +84,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   return (
     <Box display="flex" width="100%" height="200px">
       <Box
-        width="150px"
+        width={isMobile?"120px":"150px"}
         p="20px"
         pl="30px"
         display="flex"
@@ -92,7 +96,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           <Text fontSize="12px" color={LightGrayColorCode}>
             {t(labels.borrow)}
           </Text>
-          <Text fontSize="18px" color="white">
+          <Text fontSize={isMobile?"14px":"18px"} color="white">
             {hoverData
               ? `${Math.floor(hoverData.borrowValue * OneThousand) / OneThousand}%`
               : "-"}
@@ -102,7 +106,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           <Text fontSize="12px" color={LightGrayColorCode}>
             {t(labels.earn)}
           </Text>
-          <Text fontSize="18px" color="white">
+          <Text fontSize={isMobile?"14px":"18px"} color="white">
             {hoverData
               ? `${Math.floor(hoverData.earnValue * OneThousand) / OneThousand}%`
               : "-"}
@@ -117,7 +121,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
         >
           <LineChart
             data={data}
-            margin={{ top: 5, right: 30, left: 10, bottom: 30 }}
+            margin={{ top: 5, right: 30, left: isMobile ? 0 : 10, bottom: 30 }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
@@ -201,6 +205,15 @@ const GraphModel: React.FC<GraphModelProps> = ({
               : `${Math.min(Math.max(initialUtilization, LeftMin), LeftMax)}%`
           }
           transform={
+            isMobile?
+            hoverPosition !== null &&
+            hoverPosition < HoverPositionLowerThresholdMobile
+              ? "translateX(0%)"
+              : hoverPosition !== null &&
+                  hoverPosition > HoverPositionUpperThresholdMobile
+                ? "translateX(-100%)"
+                : "translateX(-50%)"
+            :
             hoverPosition !== null &&
             hoverPosition < HoverPositionLowerThreshold
               ? "translateX(0%)"
