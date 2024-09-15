@@ -12,6 +12,29 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
+  const renderGraphSection = (
+    title: string,
+    GraphComponent: React.FC<{ poolData: PoolConfig }>,
+  ) => (
+    <Column
+      mainAxisAlignment="flex-start"
+      crossAxisAlignment="center"
+      width={isMobile ? "100%" : "50%"}
+      height="100%"
+    >
+      <Box
+        width="100%"
+        height="50px"
+        pt={isMobile ? 6 : 3}
+        pl={5}
+        color={LightGrayColorCode}
+      >
+        {t(title)}
+      </Box>
+      <GraphComponent poolData={poolData} />
+    </Column>
+  );
+
   return (
     <Column
       mainAxisAlignment="flex-start"
@@ -30,40 +53,8 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           crossAxisAlignment="flex-start"
           width="100%"
         >
-          <Column
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="center"
-            width="100%"
-            height="100%"
-          >
-            <Box
-              width="100%"
-              height="50px"
-              pt={6}
-              pl={5}
-              color={LightGrayColorCode}
-            >
-              {t("Intterest APR Model")}
-            </Box>
-            <APRGraph poolData={poolData} />
-          </Column>
-          <Column
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="center"
-            width="100%"
-            height="100%"
-          >
-            <Box
-              width="100%"
-              height="50px"
-              pt={6}
-              pl={5}
-              color={LightGrayColorCode}
-            >
-              {t("Reward APR Model")}
-            </Box>
-            <RewardGraph poolData={poolData} />
-          </Column>
+          {renderGraphSection("Intterest APR Model", APRGraph)}
+          {renderGraphSection("Reward APR Model", RewardGraph)}
         </Column>
       ) : (
         <Row
@@ -73,40 +64,8 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           px={4}
           my={4}
         >
-          <Column
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="center"
-            width="50%"
-            height="100%"
-          >
-            <Box
-              width="100%"
-              height="50px"
-              pt={3}
-              pl={5}
-              color={LightGrayColorCode}
-            >
-              {t("Intterest APR Model")}
-            </Box>
-            <APRGraph poolData={poolData} />
-          </Column>
-          <Column
-            mainAxisAlignment="flex-start"
-            crossAxisAlignment="center"
-            width="50%"
-            height="100%"
-          >
-            <Box
-              width="100%"
-              height="50px"
-              pt={3}
-              pl={5}
-              color={LightGrayColorCode}
-            >
-              {t("Reward APR Model")}
-            </Box>
-            <RewardGraph poolData={poolData} />
-          </Column>
+          {renderGraphSection("Intterest APR Model", APRGraph)}
+          {renderGraphSection("Reward APR Model", RewardGraph)}
         </Row>
       )}
     </Column>

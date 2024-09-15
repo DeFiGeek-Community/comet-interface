@@ -81,10 +81,29 @@ const GraphModel: React.FC<GraphModelProps> = ({
     Math.max(...data.map((d) => Math.max(d.earnValue, d.borrowValue))),
   ];
 
+  const getTransform = () => {
+    if (isMobile) {
+      return hoverPosition !== null &&
+        hoverPosition < HoverPositionLowerThresholdMobile
+        ? "translateX(0%)"
+        : hoverPosition !== null &&
+            hoverPosition > HoverPositionUpperThresholdMobile
+          ? "translateX(-100%)"
+          : "translateX(-50%)";
+    } else {
+      return hoverPosition !== null &&
+        hoverPosition < HoverPositionLowerThreshold
+        ? "translateX(0%)"
+        : hoverPosition !== null && hoverPosition > HoverPositionUpperThreshold
+          ? "translateX(-100%)"
+          : "translateX(-50%)";
+    }
+  };
+
   return (
     <Box display="flex" width="100%" height="200px">
       <Box
-        width={isMobile?"120px":"150px"}
+        width={isMobile ? "120px" : "150px"}
         p="20px"
         pl="30px"
         display="flex"
@@ -96,7 +115,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           <Text fontSize="12px" color={LightGrayColorCode}>
             {t(labels.borrow)}
           </Text>
-          <Text fontSize={isMobile?"14px":"18px"} color="white">
+          <Text fontSize={isMobile ? "14px" : "18px"} color="white">
             {hoverData
               ? `${Math.floor(hoverData.borrowValue * OneThousand) / OneThousand}%`
               : "-"}
@@ -106,7 +125,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           <Text fontSize="12px" color={LightGrayColorCode}>
             {t(labels.earn)}
           </Text>
-          <Text fontSize={isMobile?"14px":"18px"} color="white">
+          <Text fontSize={isMobile ? "14px" : "18px"} color="white">
             {hoverData
               ? `${Math.floor(hoverData.earnValue * OneThousand) / OneThousand}%`
               : "-"}
@@ -204,24 +223,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
               ? `${hoverPosition}px`
               : `${Math.min(Math.max(initialUtilization, LeftMin), LeftMax)}%`
           }
-          transform={
-            isMobile?
-            hoverPosition !== null &&
-            hoverPosition < HoverPositionLowerThresholdMobile
-              ? "translateX(0%)"
-              : hoverPosition !== null &&
-                  hoverPosition > HoverPositionUpperThresholdMobile
-                ? "translateX(-100%)"
-                : "translateX(-50%)"
-            :
-            hoverPosition !== null &&
-            hoverPosition < HoverPositionLowerThreshold
-              ? "translateX(0%)"
-              : hoverPosition !== null &&
-                  hoverPosition > HoverPositionUpperThreshold
-                ? "translateX(-100%)"
-                : "translateX(-50%)"
-          }
+          transform={getTransform()}
           whiteSpace="nowrap"
           transition="left 0s ease-out"
         >
