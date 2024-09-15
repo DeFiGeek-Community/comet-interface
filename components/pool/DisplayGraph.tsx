@@ -27,7 +27,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
         height="50px"
         pt={isMobile ? 6 : 3}
         pl={5}
-        color={LightGrayColorCode}
+        color="white"
       >
         {t(title)}
       </Box>
