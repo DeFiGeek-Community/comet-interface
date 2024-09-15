@@ -6,7 +6,6 @@ import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import APRGraph from "components/pool/graph/APRGraph";
 import RewardGraph from "components/pool/graph/RewardGraph";
-import { LightGrayColorCode } from "constants/graph";
 
 const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
