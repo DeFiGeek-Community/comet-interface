@@ -1,31 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import usePoolData from "hooks/pool/usePoolData";
 import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
-import { OneHundred } from "constants/graph";
 import { Spinner } from "@chakra-ui/react";
 import { Center } from "utils/chakraUtils";
+import useInitialUtilization from "hooks/graph/useInitialUtilization"; 
 
 const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { totalPoolData } = usePoolData();
-  const [initialUtilization, setInitialUtilization] = useState(0);
-
-  useEffect(() => {
-    let utilizationValue: number | undefined;
-    if (
-      totalPoolData?.totalBaseBorrowBalance &&
-      totalPoolData?.totalBaseSupplyBalance
-    ) {
-      utilizationValue =
-        (totalPoolData?.totalBaseBorrowBalance /
-          totalPoolData?.totalBaseSupplyBalance) *
-        OneHundred;
-    } else if (totalPoolData?.totalBaseBorrowBalance === 0) {
-      utilizationValue = 0;
-    }
-    setInitialUtilization(utilizationValue ?? 0);
-  }, [totalPoolData]);
-  console.log(initialUtilization);
+  const initialUtilization = useInitialUtilization(totalPoolData); 
   const dataKeys = {
     earn: {
       supplyRateSlopeLow: poolData.supplyPerYearInterestRateSlopeLow,
