@@ -43,7 +43,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
             pl={5}
             color={LightGrayColorCode}
           >
-            Intterest APR Model
+            {t("Intterest APR Model")}
           </Box>
           <APRGraph poolData={poolData} />
         </Column>
@@ -60,7 +60,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
             pl={5}
             color={LightGrayColorCode}
           >
-            Reward APR Model
+            {t("Reward APR Model")}
           </Box>
           <RewardGraph poolData={poolData} />
         </Column>

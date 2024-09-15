@@ -20,12 +20,14 @@
   "Do not close this tab until you have sent the transaction!": "取引完了までこのタブを閉じないで下さい",
   "Docs": "Docs",
   "Earn APR": "預金APR",
+  "Earn Reward": "預金報酬",
   "ETH Pool": "ETHプール",
   "Execute Approve": "承認実行",
   "Github": "Github",
   "If your borrow amount reaches this value, you will be liquidated": {
     "": "融資額がこの数値に達すると清算されます"
   },
+  "Intterest APR Model": "金利APRモデル",
   "Keep this bar from filling up to avoid being liquidated!": "このバーが一杯になると清算されますので注意して下さい",
   "Limit": "清算限度",
   "Liquidation": "清算",
@@ -41,6 +43,7 @@
   "Pool Lists": "プール一覧",
   "Pool Name": "プール名",
   "punodwoɔ is a truly open interest rate protocol.": "punodwoɔは分散型貸借プロトコルです",
+  "Reward APR Model": "報酬APRモデル",
   "Reward Asset": "報酬トークン",
   "Submit": "送信",
   "Supply": "預金",

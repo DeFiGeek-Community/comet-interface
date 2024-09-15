@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Box, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import {
   LineChart,
   Line,
@@ -48,6 +49,8 @@ const GraphModel: React.FC<GraphModelProps> = ({
   };
   const data = useMemo(() => generateData({ dataKeys }), []);
 
+  const { t } = useTranslation();
+
   const [hoverUtilization, setHoverUtilization] = useState(initialUtilization);
   const [hoverPosition, setHoverPosition] = useState<number | null>(null);
   const [hoverData, setHoverData] = useState(initialData);
@@ -87,7 +90,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
       >
         <Box mb="20px">
           <Text fontSize="12px" color={LightGrayColorCode}>
-            {labels.borrow}
+            {t(labels.borrow)}
           </Text>
           <Text fontSize="18px" color="white">
             {hoverData
@@ -97,7 +100,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
         </Box>
         <Box>
           <Text fontSize="12px" color={LightGrayColorCode}>
-            {labels.earn}
+            {t(labels.earn)}
           </Text>
           <Text fontSize="18px" color="white">
             {hoverData
