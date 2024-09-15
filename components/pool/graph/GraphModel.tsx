@@ -13,7 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { GraphModelProps } from "interfaces/graph";
-import { calculateY, generateData } from "hooks/util/graph";
+import { calculateY, generateData, calculateInitialData } from "hooks/util/graph";
 import {
   OneThousand,
   AxisRange,
@@ -34,22 +34,8 @@ const GraphModel: React.FC<GraphModelProps> = ({
   dataKeys,
   labels,
 }) => {
-  const [initialData, setInitialData] = useState({
-    utilization: initialUtilization,
-    earnValue: calculateY(
-      initialUtilization,
-      dataKeys.earn.supplyRateSlopeLow,
-      dataKeys.earn.supplyRateSlopeHigh,
-      dataKeys.earn.supplyKink,
-    ),
-    borrowValue:
-      calculateY(
-        initialUtilization,
-        dataKeys.borrow.borrowRateSlopeLow,
-        dataKeys.borrow.borrowRateSlopeHigh,
-        dataKeys.borrow.borrowKink,
-      ) + dataKeys.borrow.borrowRateBase,
-  });
+  
+  const [initialData, setInitialData] = useState(calculateInitialData(initialUtilization, dataKeys));
   const data = useMemo(() => generateData({ dataKeys }), []);
 
   const { t } = useTranslation();
@@ -102,22 +88,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
 
   useEffect(() => {
     setHoverUtilization(initialUtilization);
-    setInitialData({
-      utilization: initialUtilization,
-      earnValue: calculateY(
-        initialUtilization,
-        dataKeys.earn.supplyRateSlopeLow,
-        dataKeys.earn.supplyRateSlopeHigh,
-        dataKeys.earn.supplyKink,
-      ),
-      borrowValue:
-        calculateY(
-          initialUtilization,
-          dataKeys.borrow.borrowRateSlopeLow,
-          dataKeys.borrow.borrowRateSlopeHigh,
-          dataKeys.borrow.borrowKink,
-        ) + dataKeys.borrow.borrowRateBase,
-    });
+    setInitialData(calculateInitialData(initialUtilization, dataKeys));
   }, [initialUtilization]);
 
   useEffect(() => {

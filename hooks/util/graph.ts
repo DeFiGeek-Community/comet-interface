@@ -46,3 +46,24 @@ export const generateData = (props: GenerateDataProps) => {
   }
   return data;
 };
+
+export const calculateInitialData = (
+  utilization: number,
+  dataKeys: GenerateDataProps['dataKeys']
+) => ({
+  utilization,
+  earnValue: calculateY(
+    utilization,
+    dataKeys.earn.supplyRateSlopeLow,
+    dataKeys.earn.supplyRateSlopeHigh,
+    dataKeys.earn.supplyKink,
+  ),
+  borrowValue:
+    calculateY(
+      utilization,
+      dataKeys.borrow.borrowRateSlopeLow,
+      dataKeys.borrow.borrowRateSlopeHigh,
+      dataKeys.borrow.borrowKink,
+    ) + dataKeys.borrow.borrowRateBase,
+});
+
