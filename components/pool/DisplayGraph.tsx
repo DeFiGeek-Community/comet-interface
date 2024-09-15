@@ -1,12 +1,10 @@
 import React from "react";
-import { Heading, Box } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Column, Row, useIsMobile } from "utils/chakraUtils";
 import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
-import APRGraph from "components/pool/graph/APRGraph";
-import RewardGraph from "components/pool/graph/RewardGraph";
-import RenderGraphSection from "components/pool/graph/RenderGraphSection";
+import RenderGraphSections from "components/pool/graph/RenderGraphSections";
 
 const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
@@ -30,16 +28,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           crossAxisAlignment="flex-start"
           width="100%"
         >
-          <RenderGraphSection
-            title="Interest APR Model"
-            GraphComponent={APRGraph}
-            poolData={poolData} 
-          />
-          <RenderGraphSection
-            title="Reward APR Model"
-            GraphComponent={RewardGraph}
-            poolData={poolData} 
-          />
+          {RenderGraphSections(poolData)}
         </Column>
       ) : (
         <Row
@@ -49,16 +38,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           px={4}
           my={4}
         >
-          <RenderGraphSection
-            title="Interest APR Model"
-            GraphComponent={APRGraph}
-            poolData={poolData} 
-          />
-          <RenderGraphSection
-            title="Reward APR Model"
-            GraphComponent={RewardGraph}
-            poolData={poolData} 
-          />
+          {RenderGraphSections(poolData)}
         </Row>
       )}
     </Column>
