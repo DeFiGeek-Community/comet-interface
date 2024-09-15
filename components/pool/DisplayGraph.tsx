@@ -31,7 +31,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           width="100%"
         >
           <RenderGraphSection
-            title="Intterest APR Model"
+            title="Interest APR Model"
             GraphComponent={APRGraph}
             poolData={poolData} 
           />
@@ -50,7 +50,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           my={4}
         >
           <RenderGraphSection
-            title="Intterest APR Model"
+            title="Interest APR Model"
             GraphComponent={APRGraph}
             poolData={poolData} 
           />

@@ -27,7 +27,7 @@
   "If your borrow amount reaches this value, you will be liquidated": {
     "": "If your borrow amount reaches this value, you will be liquidated"
   },
-  "Intterest APR Model": "Intterest APR Model",
+  "Interest APR Model": "Interest APR Model",
   "Keep this bar from filling up to avoid being liquidated!": "Keep this bar from filling up to avoid being liquidated!",
   "Limit": "Limit",
   "Liquidation": "Liquidation",
