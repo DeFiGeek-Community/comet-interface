@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { useIsMobile } from "utils/chakraUtils";
 import { useTranslation } from "react-i18next";
@@ -34,7 +34,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   dataKeys,
   labels,
 }) => {
-  const initialData = {
+  const [initialData, setInitialData] = useState({
     utilization: initialUtilization,
     earnValue: calculateY(
       initialUtilization,
@@ -49,7 +49,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
         dataKeys.borrow.borrowRateSlopeHigh,
         dataKeys.borrow.borrowKink,
       ) + dataKeys.borrow.borrowRateBase,
-  };
+  });
   const data = useMemo(() => generateData({ dataKeys }), []);
 
   const { t } = useTranslation();
@@ -99,6 +99,30 @@ const GraphModel: React.FC<GraphModelProps> = ({
           : "translateX(-50%)";
     }
   };
+
+  useEffect(() => {
+    setHoverUtilization(initialUtilization);
+    setInitialData({
+      utilization: initialUtilization,
+      earnValue: calculateY(
+        initialUtilization,
+        dataKeys.earn.supplyRateSlopeLow,
+        dataKeys.earn.supplyRateSlopeHigh,
+        dataKeys.earn.supplyKink,
+      ),
+      borrowValue:
+        calculateY(
+          initialUtilization,
+          dataKeys.borrow.borrowRateSlopeLow,
+          dataKeys.borrow.borrowRateSlopeHigh,
+          dataKeys.borrow.borrowKink,
+        ) + dataKeys.borrow.borrowRateBase,
+    });
+  }, [initialUtilization]);
+
+  useEffect(() => {
+    setHoverData(initialData); 
+  }, [initialData]);
 
   return (
     <Box display="flex" width="100%" height="200px">

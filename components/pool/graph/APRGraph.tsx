@@ -1,24 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import usePoolData from "hooks/pool/usePoolData";
 import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 import { OneHundred } from "constants/graph";
+import { Spinner } from "@chakra-ui/react";
+import { Center } from "utils/chakraUtils";
 
 const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { totalPoolData } = usePoolData();
-  let utilizationValue: number | undefined;
-  if (
-    totalPoolData?.totalBaseBorrowBalance &&
-    totalPoolData?.totalBaseSupplyBalance
-  ) {
-    utilizationValue =
-      (totalPoolData?.totalBaseBorrowBalance /
-        totalPoolData?.totalBaseSupplyBalance) *
-      OneHundred;
-  } else if (totalPoolData?.totalBaseBorrowBalance === 0) {
-    utilizationValue = 0;
-  }
-  const initialUtilization = utilizationValue ?? 0; // Assign 0 if undefined
+  const [initialUtilization, setInitialUtilization] = useState(0);
+
+  useEffect(() => {
+    let utilizationValue: number | undefined;
+    if (
+      totalPoolData?.totalBaseBorrowBalance &&
+      totalPoolData?.totalBaseSupplyBalance
+    ) {
+      utilizationValue =
+        (totalPoolData?.totalBaseBorrowBalance /
+          totalPoolData?.totalBaseSupplyBalance) *
+        OneHundred;
+    } else if (totalPoolData?.totalBaseBorrowBalance === 0) {
+      utilizationValue = 0;
+    }
+    setInitialUtilization(utilizationValue ?? 0);
+  }, [totalPoolData]);
+  console.log(initialUtilization);
   const dataKeys = {
     earn: {
       supplyRateSlopeLow: poolData.supplyPerYearInterestRateSlopeLow,
@@ -34,11 +41,19 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
   };
 
   return (
-    <GraphModel
-      initialUtilization={initialUtilization}
-      dataKeys={dataKeys}
-      labels={{ borrow: "Borrow APR", earn: "Earn APR" }}
-    />
+    <>
+      {totalPoolData ? (
+        <GraphModel
+          initialUtilization={initialUtilization}
+          dataKeys={dataKeys}
+          labels={{ borrow: "Borrow APR", earn: "Earn APR" }}
+        />
+      ) : (
+        <Center height="200px">
+          <Spinner />
+        </Center>
+      )}
+    </>
   );
 };
 
