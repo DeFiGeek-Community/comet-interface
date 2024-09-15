@@ -1,3 +1,5 @@
+import { PoolConfig } from "interfaces/pool";
+
 export interface DataKeys {
   earn: {
     supplyRateSlopeLow: number;
@@ -20,4 +22,10 @@ export interface GraphModelProps {
 
 export interface GenerateDataProps {
   dataKeys: DataKeys;
+}
+
+export interface RenderGraphSectionProps {
+  title: string;
+  GraphComponent: React.FC<{ poolData: PoolConfig }>;
+  poolData: PoolConfig;
 }

@@ -5,16 +5,13 @@ import { Column, useIsMobile } from "utils/chakraUtils";
 import APRGraph from "components/pool/graph/APRGraph";
 import RewardGraph from "components/pool/graph/RewardGraph";
 import { PoolConfig } from "interfaces/pool";
+import { RenderGraphSectionProps } from "interfaces/graph";
 
 const RenderGraphSection = ({
   title,
   GraphComponent,
   poolData,
-}: {
-  title: string;
-  GraphComponent: React.FC<{ poolData: PoolConfig }>;
-  poolData: PoolConfig;
-}) => {
+}: RenderGraphSectionProps) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
@@ -44,12 +41,12 @@ const RenderGraphSections = (poolData: PoolConfig) => (
     <RenderGraphSection
       title="Interest APR Model"
       GraphComponent={APRGraph}
-      poolData={poolData} 
+      poolData={poolData}
     />
     <RenderGraphSection
       title="Reward APR Model"
       GraphComponent={RewardGraph}
-      poolData={poolData} 
+      poolData={poolData}
     />
   </>
 );
