@@ -6,33 +6,11 @@ import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import APRGraph from "components/pool/graph/APRGraph";
 import RewardGraph from "components/pool/graph/RewardGraph";
+import RenderGraphSection from "components/pool/graph/RenderGraphSection";
 
 const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-
-  const renderGraphSection = (
-    title: string,
-    GraphComponent: React.FC<{ poolData: PoolConfig }>,
-  ) => (
-    <Column
-      mainAxisAlignment="flex-start"
-      crossAxisAlignment="center"
-      width={isMobile ? "100%" : "50%"}
-      height="100%"
-    >
-      <Box
-        width="100%"
-        height="50px"
-        pt={isMobile ? 6 : 3}
-        pl={5}
-        color="white"
-      >
-        {t(title)}
-      </Box>
-      <GraphComponent poolData={poolData} />
-    </Column>
-  );
 
   return (
     <Column
@@ -52,8 +30,16 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           crossAxisAlignment="flex-start"
           width="100%"
         >
-          {renderGraphSection("Intterest APR Model", APRGraph)}
-          {renderGraphSection("Reward APR Model", RewardGraph)}
+          <RenderGraphSection
+            title="Intterest APR Model"
+            GraphComponent={APRGraph}
+            poolData={poolData} 
+          />
+          <RenderGraphSection
+            title="Reward APR Model"
+            GraphComponent={RewardGraph}
+            poolData={poolData} 
+          />
         </Column>
       ) : (
         <Row
@@ -63,8 +49,16 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           px={4}
           my={4}
         >
-          {renderGraphSection("Intterest APR Model", APRGraph)}
-          {renderGraphSection("Reward APR Model", RewardGraph)}
+          <RenderGraphSection
+            title="Intterest APR Model"
+            GraphComponent={APRGraph}
+            poolData={poolData} 
+          />
+          <RenderGraphSection
+            title="Reward APR Model"
+            GraphComponent={RewardGraph}
+            poolData={poolData} 
+          />
         </Row>
       )}
     </Column>
