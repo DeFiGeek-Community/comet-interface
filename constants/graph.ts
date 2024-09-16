@@ -1,4 +1,3 @@
-export const OneThousand = 1000;
 export const OneHundred = 100;
 export const AxisRange = [0, 100];
 export const LeftMin = 20;
