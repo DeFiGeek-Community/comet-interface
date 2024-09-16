@@ -1,4 +1,10 @@
 import { GenerateDataProps } from "interfaces/graph";
+import {
+  HoverPositionLowerThreshold,
+  HoverPositionUpperThreshold,
+  HoverPositionLowerThresholdMobile,
+  HoverPositionUpperThresholdMobile,
+} from "constants/graph";
 export const calculateY = (
   x: number,
   rate1: number,
@@ -66,3 +72,28 @@ export const calculateInitialData = (
       dataKeys.borrow.borrowKink,
     ) + dataKeys.borrow.borrowRateBase,
 });
+
+export const calculateYDomain = (
+  data: { earnValue: number; borrowValue: number }[],
+) => [0, Math.max(...data.map((d) => Math.max(d.earnValue, d.borrowValue)))];
+
+export const getTransform = (
+  isMobile: boolean,
+  hoverPosition: number | null,
+) => {
+  if (isMobile) {
+    return hoverPosition !== null &&
+      hoverPosition < HoverPositionLowerThresholdMobile
+      ? "translateX(0%)"
+      : hoverPosition !== null &&
+          hoverPosition > HoverPositionUpperThresholdMobile
+        ? "translateX(-100%)"
+        : "translateX(-50%)";
+  } else {
+    return hoverPosition !== null && hoverPosition < HoverPositionLowerThreshold
+      ? "translateX(0%)"
+      : hoverPosition !== null && hoverPosition > HoverPositionUpperThreshold
+        ? "translateX(-100%)"
+        : "translateX(-50%)";
+  }
+};

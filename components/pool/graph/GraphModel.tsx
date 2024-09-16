@@ -13,16 +13,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { GraphModelProps } from "interfaces/graph";
-import { generateData, calculateInitialData } from "hooks/util/graph";
+import {
+  generateData,
+  calculateInitialData,
+  calculateYDomain,
+  getTransform,
+} from "hooks/util/graph";
 import {
   OneThousand,
   AxisRange,
   LeftMin,
   LeftMax,
-  HoverPositionLowerThreshold,
-  HoverPositionUpperThreshold,
-  HoverPositionLowerThresholdMobile,
-  HoverPositionUpperThresholdMobile,
   LightGrayColorCode,
   LightBlackColorCode,
   PinkColorCode,
@@ -63,29 +64,9 @@ const GraphModel: React.FC<GraphModelProps> = ({
     setIsHovering(false);
   };
 
-  const yDomain = [
-    0,
-    Math.max(...data.map((d) => Math.max(d.earnValue, d.borrowValue))),
-  ];
+  const yDomain = calculateYDomain(data);
 
-  const getTransform = () => {
-    if (isMobile) {
-      return hoverPosition !== null &&
-        hoverPosition < HoverPositionLowerThresholdMobile
-        ? "translateX(0%)"
-        : hoverPosition !== null &&
-            hoverPosition > HoverPositionUpperThresholdMobile
-          ? "translateX(-100%)"
-          : "translateX(-50%)";
-    } else {
-      return hoverPosition !== null &&
-        hoverPosition < HoverPositionLowerThreshold
-        ? "translateX(0%)"
-        : hoverPosition !== null && hoverPosition > HoverPositionUpperThreshold
-          ? "translateX(-100%)"
-          : "translateX(-50%)";
-    }
-  };
+  const transform = getTransform(isMobile, hoverPosition);
 
   useEffect(() => {
     setHoverUtilization(initialUtilization);
@@ -219,7 +200,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
               ? `${hoverPosition}px`
               : `${Math.min(Math.max(initialUtilization, LeftMin), LeftMax)}%`
           }
-          transform={getTransform()}
+          transform={transform}
           whiteSpace="nowrap"
           transition="left 0s ease-out"
         >
