@@ -20,7 +20,6 @@ import {
   getTransform,
 } from "hooks/util/graph";
 import {
-  OneThousand,
   AxisRange,
   LeftMin,
   LeftMax,
@@ -94,7 +93,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           </Text>
           <Text fontSize={isMobile ? "14px" : "18px"} color="white">
             {hoverData
-              ? `${Math.floor(hoverData.borrowValue * OneThousand) / OneThousand}%`
+              ? `${(hoverData.borrowValue).toFixed(3)}%`
               : "-"}
           </Text>
         </Box>
@@ -104,7 +103,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           </Text>
           <Text fontSize={isMobile ? "14px" : "18px"} color="white">
             {hoverData
-              ? `${Math.floor(hoverData.earnValue * OneThousand) / OneThousand}%`
+              ? `${(hoverData.earnValue).toFixed(3)}%`
               : "-"}
           </Text>
         </Box>
