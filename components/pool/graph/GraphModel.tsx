@@ -203,7 +203,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           whiteSpace="nowrap"
           transition="left 0s ease-out"
         >
-          Utilization: {hoverUtilization.toFixed(2)}%
+          {t("Utilization")}: {hoverUtilization.toFixed(2)}%
         </Box>
       </Box>
     </Box>
