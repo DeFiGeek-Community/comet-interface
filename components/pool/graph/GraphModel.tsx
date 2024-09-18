@@ -80,18 +80,18 @@ const GraphModel: React.FC<GraphModelProps> = ({
     <Box display="flex" width="100%" height="200px">
       <Box
         width={isMobile ? "120px" : "150px"}
-        p="20px"
-        pl="30px"
+        p="20px 0px 20px 20px"
+        //pl="30px"
         display="flex"
         flexDirection="column"
         justifyContent="center"
         fontWeight="bold"
       >
         <Box mb="20px">
-          <Text fontSize="11px" color={LightGrayColorCode}>
+          <Text fontSize="12px" color={LightGrayColorCode}>
             {t(labels.borrow)}
           </Text>
-          <Text fontSize={isMobile ? "13px" : "18px"} color="white">
+          <Text fontSize={isMobile ? "15px" : "18px"} color="white">
             {hoverData
               ? `${(hoverData.borrowValue).toFixed(3)}%`
               : "-"}
@@ -101,7 +101,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           <Text fontSize="12px" color={LightGrayColorCode}>
             {t(labels.earn)}
           </Text>
-          <Text fontSize={isMobile ? "13px" : "18px"} color="white">
+          <Text fontSize={isMobile ? "15px" : "18px"} color="white">
             {hoverData
               ? `${(hoverData.earnValue).toFixed(3)}%`
               : "-"}
