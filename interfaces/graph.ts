@@ -15,7 +15,6 @@ export interface DataKeys {
 }
 
 export interface GraphModelProps {
-  initialUtilization: number;
   dataKeys: DataKeys;
   labels: { borrow: string; earn: string };
 }
