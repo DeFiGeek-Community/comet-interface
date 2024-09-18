@@ -88,10 +88,10 @@ const GraphModel: React.FC<GraphModelProps> = ({
         fontWeight="bold"
       >
         <Box mb="20px">
-          <Text fontSize="12px" color={LightGrayColorCode}>
+          <Text fontSize="11px" color={LightGrayColorCode}>
             {t(labels.borrow)}
           </Text>
-          <Text fontSize={isMobile ? "14px" : "18px"} color="white">
+          <Text fontSize={isMobile ? "13px" : "18px"} color="white">
             {hoverData
               ? `${(hoverData.borrowValue).toFixed(3)}%`
               : "-"}
@@ -101,7 +101,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           <Text fontSize="12px" color={LightGrayColorCode}>
             {t(labels.earn)}
           </Text>
-          <Text fontSize={isMobile ? "14px" : "18px"} color="white">
+          <Text fontSize={isMobile ? "13px" : "18px"} color="white">
             {hoverData
               ? `${(hoverData.earnValue).toFixed(3)}%`
               : "-"}
@@ -192,6 +192,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
           </LineChart>
         </ResponsiveContainer>
         <Box
+          fontSize={isMobile ? "14px" : "15px"}
           position="absolute"
           bottom={3}
           left={

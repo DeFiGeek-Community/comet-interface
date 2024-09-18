@@ -8,7 +8,7 @@ import { Center } from "utils/chakraUtils";
 import useInitialUtilization from "hooks/graph/useInitialUtilization";
 
 const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
-  const { totalPoolData } = usePoolData();
+  const { totalPoolData, tokenRewardData } = usePoolData();
   const initialUtilization = useInitialUtilization(totalPoolData);
   const rateSlopeHigh = parseFloat(
     (OneHundred / (OneHundred - poolData.rewardKink)).toFixed(2),
