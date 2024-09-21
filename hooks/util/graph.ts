@@ -2,7 +2,6 @@ import { GenerateDataProps } from "interfaces/graph";
 import {
   OneHundred,
   DAYS_IN_YEAR,
-  PND_RATE_VALUE,
   REWARD_BONUS_RATE_VALUE,
 } from "constants/graph";
 import {
@@ -11,6 +10,7 @@ import {
   HoverPositionLowerThresholdMobile,
   HoverPositionUpperThresholdMobile,
 } from "constants/graph";
+import { PriceFeedData } from "hooks/pool/shared/usePriceFeed";
 export const calculateY = (
   x: number,
   rate1: number,
@@ -106,7 +106,7 @@ export const getTransform = (
 
 export const calculateTotalBalance = (
   balance: number | undefined,
-  priceFeedData: any,
+  priceFeedData: PriceFeedData | undefined,
   rate: number | undefined,
 ) =>
   balance !== undefined &&
@@ -121,9 +121,11 @@ export const calculateTotalBalance = (
 export const calculateRewardData = (
   trackingRewardSpeed: number,
   totalBalance: number,
+  rewardAsset: number | undefined,
 ) =>
   totalBalance > 0
-    ? ((trackingRewardSpeed * DAYS_IN_YEAR * PND_RATE_VALUE) / totalBalance) *
+    ? ((trackingRewardSpeed * DAYS_IN_YEAR * (rewardAsset || 0)) /
+        totalBalance) *
       OneHundred *
       REWARD_BONUS_RATE_VALUE
     : 0;

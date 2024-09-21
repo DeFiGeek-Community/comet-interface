@@ -38,10 +38,12 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
     const tempSupplyRewardData = calculateRewardData(
       poolData.baseTrackingRewardSpeed,
       totalBaseSupplyBalance,
+      priceFeedData?.rewardAsset,
     );
     const tempBorrowRewardData = calculateRewardData(
       poolData.baseTrackingRewardSpeed,
       totalBaseBorrowBalance,
+      priceFeedData?.rewardAsset,
     );
 
     setTempRewardData({
