@@ -111,8 +111,8 @@ export const calculateTotalBalance = (
   balance !== undefined &&
   balance > 0 &&
   priceFeedData?.baseAsset !== undefined &&
-  priceFeedData.baseAsset > 0 
-    ? (balance * priceFeedData.baseAsset) 
+  priceFeedData.baseAsset > 0
+    ? balance * priceFeedData.baseAsset
     : 0;
 
 export const calculateRewardData = (

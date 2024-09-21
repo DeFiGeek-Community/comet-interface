@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import usePoolData from "hooks/pool/usePoolData";
 import { PoolConfig } from "interfaces/pool";
-import { useAppData } from "context/AppDataContext";
 import { RewardDataProps } from "interfaces/graph";
 import { calculateTotalBalance, calculateRewardData } from "hooks/util/graph";
 
@@ -11,7 +10,6 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
     earn: undefined,
   });
   const { priceFeedData, totalPoolData } = usePoolData();
-  const { rate } = useAppData();
 
   useEffect(() => {
     const totalSupply =
@@ -48,7 +46,7 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
       borrow: tempBorrowRewardData,
       earn: tempSupplyRewardData,
     });
-  }, [priceFeedData, totalPoolData, rate]);
+  }, [priceFeedData, totalPoolData]);
 
   return tempRewardData;
 };
