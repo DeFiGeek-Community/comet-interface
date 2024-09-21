@@ -32,8 +32,13 @@ import { Spinner } from "@chakra-ui/react";
 import { Center } from "utils/chakraUtils";
 import usePoolData from "hooks/pool/usePoolData";
 import useInitialUtilization from "hooks/graph/useInitialUtilization";
+import { OneHundred } from "constants/graph";
 
-const GraphModel: React.FC<GraphModelProps> = ({ dataKeys, labels }) => {
+const GraphModel: React.FC<GraphModelProps> = ({
+  dataKeys,
+  labels,
+  rewardAPRValue,
+}) => {
   const { totalPoolData } = usePoolData();
   const initialUtilization = useInitialUtilization();
   const [initialData, setInitialData] = useState(
@@ -48,6 +53,21 @@ const GraphModel: React.FC<GraphModelProps> = ({ dataKeys, labels }) => {
   const [hoverPosition, setHoverPosition] = useState<number | null>(null);
   const [hoverData, setHoverData] = useState(initialData);
   const [isHovering, setIsHovering] = useState(false);
+  const [rewardBorrow, setRewardBorrow] = useState<number | undefined>(
+    undefined,
+  );
+  const [rewardEarn, setRewardEarn] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0) {
+      setRewardBorrow(
+        (rewardAPRValue.borrow * hoverData.borrowValue) / OneHundred,
+      );
+    }
+    if (rewardAPRValue?.earn || rewardAPRValue?.earn === 0) {
+      setRewardEarn((rewardAPRValue?.earn * hoverData.earnValue) / OneHundred);
+    }
+  }, [rewardAPRValue, hoverData]);
 
   const handleMouseMove = (state: any) => {
     if (state.isTooltipActive) {
@@ -95,7 +115,11 @@ const GraphModel: React.FC<GraphModelProps> = ({ dataKeys, labels }) => {
                 {t(labels.borrow)}
               </Text>
               <Text fontSize={isMobile ? "15px" : "18px"} color="white">
-                {hoverData ? `${hoverData.borrowValue.toFixed(3)}%` : "-"}
+                {hoverData
+                  ? rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0
+                    ? `${rewardBorrow?.toFixed(3)}%`
+                    : `${hoverData.borrowValue.toFixed(3)}%`
+                  : "-"}
               </Text>
             </Box>
             <Box>
@@ -103,7 +127,11 @@ const GraphModel: React.FC<GraphModelProps> = ({ dataKeys, labels }) => {
                 {t(labels.earn)}
               </Text>
               <Text fontSize={isMobile ? "15px" : "18px"} color="white">
-                {hoverData ? `${hoverData.earnValue.toFixed(3)}%` : "-"}
+                {hoverData
+                  ? rewardAPRValue?.earn || rewardAPRValue?.earn === 0
+                    ? `${rewardEarn?.toFixed(3)}%`
+                    : `${hoverData.earnValue.toFixed(3)}%`
+                  : "-"}
               </Text>
             </Box>
           </Box>
