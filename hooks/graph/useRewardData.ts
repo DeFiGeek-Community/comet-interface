@@ -14,13 +14,23 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
   const { rate } = useAppData();
 
   useEffect(() => {
+    const totalSupply =
+      (totalPoolData?.totalBaseSupplyBalance ?? 0) >=
+      poolData?.baseMinForRewards
+        ? totalPoolData?.totalBaseSupplyBalance ?? 0
+        : 0;
+    const totalBorrow =
+      (totalPoolData?.totalBaseBorrowBalance ?? 0) >=
+      poolData?.baseMinForRewards
+        ? totalPoolData?.totalBaseBorrowBalance ?? 0
+        : 0;
     const totalBaseSupplyBalance = calculateTotalBalance(
-      totalPoolData?.totalBaseSupplyBalance,
+      totalSupply,
       priceFeedData,
       rate,
     );
     const totalBaseBorrowBalance = calculateTotalBalance(
-      totalPoolData?.totalBaseBorrowBalance,
+      totalBorrow,
       priceFeedData,
       rate,
     );
