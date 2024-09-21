@@ -107,15 +107,12 @@ export const getTransform = (
 export const calculateTotalBalance = (
   balance: number | undefined,
   priceFeedData: PriceFeedData | undefined,
-  rate: number | undefined,
 ) =>
   balance !== undefined &&
   balance > 0 &&
   priceFeedData?.baseAsset !== undefined &&
-  priceFeedData.baseAsset > 0 &&
-  rate !== undefined &&
-  rate > 0
-    ? (balance * priceFeedData.baseAsset) / rate
+  priceFeedData.baseAsset > 0 
+    ? (balance * priceFeedData.baseAsset) 
     : 0;
 
 export const calculateRewardData = (

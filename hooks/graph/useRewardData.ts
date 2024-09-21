@@ -27,12 +27,10 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
     const totalBaseSupplyBalance = calculateTotalBalance(
       totalSupply,
       priceFeedData,
-      rate,
     );
     const totalBaseBorrowBalance = calculateTotalBalance(
       totalBorrow,
       priceFeedData,
-      rate,
     );
 
     const tempSupplyRewardData = calculateRewardData(
