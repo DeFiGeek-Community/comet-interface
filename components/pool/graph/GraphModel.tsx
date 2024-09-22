@@ -40,7 +40,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   rewardAPRValue,
 }) => {
   const { totalPoolData } = usePoolData();
-  const initialUtilization =useInitialUtilization();
+  const initialUtilization = useInitialUtilization();
   const [initialData, setInitialData] = useState(
     calculateInitialData(initialUtilization, dataKeys),
   );
