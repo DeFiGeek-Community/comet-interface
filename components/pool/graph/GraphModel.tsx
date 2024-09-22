@@ -40,7 +40,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   rewardAPRValue,
 }) => {
   const { totalPoolData } = usePoolData();
-  const initialUtilization = useInitialUtilization();
+  const initialUtilization =useInitialUtilization();
   const [initialData, setInitialData] = useState(
     calculateInitialData(initialUtilization, dataKeys),
   );
@@ -101,7 +101,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   return (
     <>
       {totalPoolData ? (
-        <Box display="flex" width="100%" height="200px">
+        <Box display="flex" width="100%" height="220px" paddingBottom={5}>
           <Box
             width={isMobile ? "120px" : "150px"}
             p="20px 0px 20px 20px"
@@ -163,8 +163,28 @@ const GraphModel: React.FC<GraphModelProps> = ({
                   ticks={AxisRange}
                   stroke={LightBlackColorCode}
                   tickFormatter={(value) => `${value}%`}
+                  hide={
+                    !isMobile
+                      ? (hoverPosition && hoverPosition > 280) ||
+                        (!isHovering && initialUtilization > 70)
+                        ? true
+                        : false
+                      : (hoverPosition && hoverPosition > 150) ||
+                          (!isHovering && initialUtilization > 55)
+                        ? true
+                        : false
+                  }
+                  height={0.5}
                 />
-                <YAxis domain={yDomain} hide={true} />
+                <YAxis
+                  domain={yDomain}
+                  hide={true}
+                  ticks={[
+                    yDomain[1] / 4,
+                    (yDomain[1] / 4) * 2,
+                    (yDomain[1] / 4) * 3,
+                  ]}
+                />
                 <Tooltip content={() => null} />
                 {!isHovering && (
                   <ReferenceLine
@@ -226,10 +246,11 @@ const GraphModel: React.FC<GraphModelProps> = ({
                 )}
               </LineChart>
             </ResponsiveContainer>
+
             <Box
               fontSize={isMobile ? "14px" : "15px"}
               position="absolute"
-              bottom={3}
+              bottom={-4}
               left={
                 isHovering
                   ? `${hoverPosition}px`
