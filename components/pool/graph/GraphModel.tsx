@@ -28,12 +28,19 @@ import {
   PinkColorCode,
   MossGreenColorCode,
 } from "constants/graph";
+import { Spinner } from "@chakra-ui/react";
+import { Center } from "utils/chakraUtils";
+import usePoolData from "hooks/pool/usePoolData";
+import useInitialUtilization from "hooks/graph/useInitialUtilization";
+import { OneHundred } from "constants/graph";
 
 const GraphModel: React.FC<GraphModelProps> = ({
-  initialUtilization,
   dataKeys,
   labels,
+  rewardAPRValue,
 }) => {
+  const { totalPoolData } = usePoolData();
+  const initialUtilization = useInitialUtilization();
   const [initialData, setInitialData] = useState(
     calculateInitialData(initialUtilization, dataKeys),
   );
@@ -46,6 +53,21 @@ const GraphModel: React.FC<GraphModelProps> = ({
   const [hoverPosition, setHoverPosition] = useState<number | null>(null);
   const [hoverData, setHoverData] = useState(initialData);
   const [isHovering, setIsHovering] = useState(false);
+  const [rewardBorrow, setRewardBorrow] = useState<number | undefined>(
+    undefined,
+  );
+  const [rewardEarn, setRewardEarn] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0) {
+      setRewardBorrow(
+        (rewardAPRValue.borrow * hoverData.borrowValue) / OneHundred,
+      );
+    }
+    if (rewardAPRValue?.earn || rewardAPRValue?.earn === 0) {
+      setRewardEarn((rewardAPRValue?.earn * hoverData.earnValue) / OneHundred);
+    }
+  }, [rewardAPRValue, hoverData]);
 
   const handleMouseMove = (state: any) => {
     if (state.isTooltipActive) {
@@ -77,136 +99,177 @@ const GraphModel: React.FC<GraphModelProps> = ({
   }, [initialData]);
 
   return (
-    <Box display="flex" width="100%" height="200px">
-      <Box
-        width={isMobile ? "120px" : "150px"}
-        p="20px"
-        pl="30px"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        fontWeight="bold"
-      >
-        <Box mb="20px">
-          <Text fontSize="12px" color={LightGrayColorCode}>
-            {t(labels.borrow)}
-          </Text>
-          <Text fontSize={isMobile ? "14px" : "18px"} color="white">
-            {hoverData
-              ? `${(hoverData.borrowValue).toFixed(3)}%`
-              : "-"}
-          </Text>
-        </Box>
-        <Box>
-          <Text fontSize="12px" color={LightGrayColorCode}>
-            {t(labels.earn)}
-          </Text>
-          <Text fontSize={isMobile ? "14px" : "18px"} color="white">
-            {hoverData
-              ? `${(hoverData.earnValue).toFixed(3)}%`
-              : "-"}
-          </Text>
-        </Box>
-      </Box>
-      <Box flex={1} position="relative">
-        <ResponsiveContainer
-          width="100%"
-          height="100%"
-          style={{ marginTop: "20px" }}
-        >
-          <LineChart
-            data={data}
-            margin={{ top: 5, right: 30, left: isMobile ? 0 : 10, bottom: 30 }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+    <>
+      {totalPoolData ? (
+        <Box display="flex" width="100%" height="220px" paddingBottom={5}>
+          <Box
+            width={isMobile ? "120px" : "150px"}
+            p="20px 0px 20px 20px"
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            fontWeight="bold"
           >
-            <CartesianGrid strokeDasharray="3 0" stroke={LightBlackColorCode} />
-            <XAxis
-              dataKey="utilization"
-              type="number"
-              domain={AxisRange}
-              ticks={AxisRange}
-              stroke={LightBlackColorCode}
-              tickFormatter={(value) => `${value}%`}
-            />
-            <YAxis domain={yDomain} hide={true} />
-            <Tooltip content={() => null} />
-            {!isHovering && (
-              <ReferenceLine
-                x={initialUtilization}
-                stroke="white"
-                strokeWidth={2}
-              />
-            )}
-            {isHovering && (
-              <ReferenceLine
-                x={hoverUtilization}
-                stroke="white"
-                strokeWidth={2}
-              />
-            )}
-            <Line
-              type="linear"
-              dataKey="borrowValue"
-              stroke={PinkColorCode}
-              strokeWidth={2}
-              dot={false}
-              isAnimationActive={false}
-            />
-            <Line
-              type="linear"
-              dataKey="earnValue"
-              stroke={MossGreenColorCode}
-              strokeWidth={2}
-              dot={false}
-              isAnimationActive={false}
-            />
-            {!isHovering && (
-              <>
+            <Box mb="20px">
+              <Text fontSize="12px" color={LightGrayColorCode}>
+                {t(labels.borrow)}
+              </Text>
+              <Text fontSize={isMobile ? "15px" : "18px"} color="white">
+                {hoverData
+                  ? rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0
+                    ? `${rewardBorrow?.toFixed(3)}%`
+                    : `${hoverData.borrowValue.toFixed(3)}%`
+                  : "-"}
+              </Text>
+            </Box>
+            <Box>
+              <Text fontSize="12px" color={LightGrayColorCode}>
+                {t(labels.earn)}
+              </Text>
+              <Text fontSize={isMobile ? "15px" : "18px"} color="white">
+                {hoverData
+                  ? rewardAPRValue?.earn || rewardAPRValue?.earn === 0
+                    ? `${rewardEarn?.toFixed(3)}%`
+                    : `${hoverData.earnValue.toFixed(3)}%`
+                  : "-"}
+              </Text>
+            </Box>
+          </Box>
+          <Box flex={1} position="relative">
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+              style={{ marginTop: "20px" }}
+            >
+              <LineChart
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: isMobile ? 0 : 10,
+                  bottom: 30,
+                }}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+              >
+                <CartesianGrid
+                  strokeDasharray="3 0"
+                  stroke={LightBlackColorCode}
+                />
+                <XAxis
+                  dataKey="utilization"
+                  type="number"
+                  domain={AxisRange}
+                  ticks={AxisRange}
+                  stroke={LightBlackColorCode}
+                  tickFormatter={(value) => `${value}%`}
+                  hide={
+                    !isMobile
+                      ? (hoverPosition && hoverPosition > 280) ||
+                        (!isHovering && initialUtilization > 70)
+                        ? true
+                        : false
+                      : (hoverPosition && hoverPosition > 150) ||
+                          (!isHovering && initialUtilization > 55)
+                        ? true
+                        : false
+                  }
+                  height={0.5}
+                />
+                <YAxis
+                  domain={yDomain}
+                  hide={true}
+                  ticks={[
+                    yDomain[1] / 4,
+                    (yDomain[1] / 4) * 2,
+                    (yDomain[1] / 4) * 3,
+                  ]}
+                />
+                <Tooltip content={() => null} />
+                {!isHovering && (
+                  <ReferenceLine
+                    x={initialUtilization}
+                    stroke="white"
+                    strokeWidth={2}
+                  />
+                )}
+                {isHovering && (
+                  <ReferenceLine
+                    x={hoverUtilization}
+                    stroke="white"
+                    strokeWidth={2}
+                  />
+                )}
                 <Line
                   type="linear"
                   dataKey="borrowValue"
-                  stroke="none"
-                  dot={{
-                    r: 4,
-                    fill: PinkColorCode,
-                    stroke: "white",
-                    strokeWidth: 2,
-                  }}
-                  data={[initialData]}
+                  stroke={PinkColorCode}
+                  strokeWidth={2}
+                  dot={false}
+                  isAnimationActive={false}
                 />
                 <Line
                   type="linear"
                   dataKey="earnValue"
-                  stroke="none"
-                  dot={{
-                    r: 4,
-                    fill: MossGreenColorCode,
-                    stroke: "white",
-                    strokeWidth: 2,
-                  }}
-                  data={[initialData]}
+                  stroke={MossGreenColorCode}
+                  strokeWidth={2}
+                  dot={false}
+                  isAnimationActive={false}
                 />
-              </>
-            )}
-          </LineChart>
-        </ResponsiveContainer>
-        <Box
-          position="absolute"
-          bottom={3}
-          left={
-            isHovering
-              ? `${hoverPosition}px`
-              : `${Math.min(Math.max(initialUtilization, LeftMin), LeftMax)}%`
-          }
-          transform={transform}
-          whiteSpace="nowrap"
-          transition="left 0s ease-out"
-        >
-          {t("Utilization")}: {hoverUtilization.toFixed(2)}%
+                {!isHovering && (
+                  <>
+                    <Line
+                      type="linear"
+                      dataKey="borrowValue"
+                      stroke="none"
+                      dot={{
+                        r: 4,
+                        fill: PinkColorCode,
+                        stroke: "white",
+                        strokeWidth: 2,
+                      }}
+                      data={[initialData]}
+                    />
+                    <Line
+                      type="linear"
+                      dataKey="earnValue"
+                      stroke="none"
+                      dot={{
+                        r: 4,
+                        fill: MossGreenColorCode,
+                        stroke: "white",
+                        strokeWidth: 2,
+                      }}
+                      data={[initialData]}
+                    />
+                  </>
+                )}
+              </LineChart>
+            </ResponsiveContainer>
+
+            <Box
+              fontSize={isMobile ? "14px" : "15px"}
+              position="absolute"
+              bottom={-4}
+              left={
+                isHovering
+                  ? `${hoverPosition}px`
+                  : `${Math.min(Math.max(initialUtilization, LeftMin), LeftMax)}%`
+              }
+              transform={transform}
+              whiteSpace="nowrap"
+              transition="left 0s ease-out"
+            >
+              {t("Utilization")}: {hoverUtilization.toFixed(2)}%
+            </Box>
+          </Box>
         </Box>
-      </Box>
-    </Box>
+      ) : (
+        <Center height="200px">
+          <Spinner />
+        </Center>
+      )}
+    </>
   );
 };
 

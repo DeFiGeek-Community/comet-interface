@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import usePoolData from "hooks/pool/usePoolData";
 import { OneHundred } from "constants/graph";
 
-const useInitialUtilization = (totalPoolData: any) => {
+const useInitialUtilization = () => {
+  const { totalPoolData } = usePoolData();
   const [initialUtilization, setInitialUtilization] = useState(0);
 
   useEffect(() => {
