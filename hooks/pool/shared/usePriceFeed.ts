@@ -54,7 +54,10 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
       const baseAsset = basePrice
         ? Number(formatUnits(basePrice, poolData.baseToken.priceFeedDecimals))
         : undefined;
-      const rewardPrice = await fetchPriceFeed(poolData.rewardToken.priceFeed);
+      const rewardPrice = await fetchPriceFeed(
+        poolData.rewardToken.priceFeed,
+        poolData.chainId,
+      );
       const rewardAsset = rewardPrice
         ? Number(
             formatUnits(rewardPrice, poolData.rewardToken.priceFeedDecimals),
