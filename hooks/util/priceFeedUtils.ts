@@ -6,6 +6,7 @@ import {
 } from "@wagmi/core";
 import priceAbi from "static/price.json";
 import { Address } from "abitype";
+import { AddressZero } from "constants/chains";
 
 export const getPriceFeedContract = async (
   address: Address,
@@ -24,6 +25,7 @@ export const fetchPriceFeed = async (
   configChainId?: number,
 ): Promise<bigint | undefined> => {
   if (!priceFeedAddress) return undefined;
+  if (priceFeedAddress === AddressZero) return undefined;
 
   const { address } = getAccount();
   const network = getNetwork();
