@@ -33,6 +33,7 @@ import { Center } from "utils/chakraUtils";
 import usePoolData from "hooks/pool/usePoolData";
 import useInitialUtilization from "hooks/graph/useInitialUtilization";
 import { OneHundred } from "constants/graph";
+import { truncateTo3DecimalPlaces } from "utils/bigUtils";
 
 const GraphModel: React.FC<GraphModelProps> = ({
   dataKeys,
@@ -61,11 +62,11 @@ const GraphModel: React.FC<GraphModelProps> = ({
   useEffect(() => {
     if (rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0) {
       setRewardBorrow(
-        (rewardAPRValue.borrow * hoverData.borrowValue) / OneHundred,
+        (truncateTo3DecimalPlaces(rewardAPRValue.borrow) * hoverData.borrowValue) / OneHundred,
       );
     }
     if (rewardAPRValue?.earn || rewardAPRValue?.earn === 0) {
-      setRewardEarn((rewardAPRValue?.earn * hoverData.earnValue) / OneHundred);
+      setRewardEarn((truncateTo3DecimalPlaces(rewardAPRValue?.earn) * hoverData.earnValue) / OneHundred);
     }
   }, [rewardAPRValue, hoverData]);
 
