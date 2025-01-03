@@ -30,7 +30,3 @@ export interface RenderGraphSectionProps {
   poolData: PoolConfig;
 }
 
-export interface RewardDataProps {
-  borrow: number | undefined;
-  earn: number | undefined;
-}
