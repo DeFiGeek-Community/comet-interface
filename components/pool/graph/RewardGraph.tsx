@@ -2,17 +2,11 @@ import React from "react";
 import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 import { OneHundred, rateSlopeLow } from "constants/graph";
-import useRewardData from "hooks/graph/useRewardData";
 import usePoolData from "hooks/pool/usePoolData";
 
 const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
-  const tempRewardData = useRewardData({ poolData });
-  const { priceFeedData, baseAssetData, tokenRewardData, positionSummary } =
+  const { tokenRewardData } =
     usePoolData();
-  // if(tokenRewardData){
-  // console.log(tokenRewardData.supplyRewardAPR);
-  // console.log(tokenRewardData.borrowRewardAPR);
-  // }
 
   const rateSlopeHigh = parseFloat(
     (OneHundred / (OneHundred - poolData.rewardKink)).toFixed(2),
