@@ -29,4 +29,3 @@ export interface RenderGraphSectionProps {
   GraphComponent: React.FC<{ poolData: PoolConfig }>;
   poolData: PoolConfig;
 }
-

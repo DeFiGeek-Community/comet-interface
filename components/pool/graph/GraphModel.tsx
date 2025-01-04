@@ -62,11 +62,16 @@ const GraphModel: React.FC<GraphModelProps> = ({
   useEffect(() => {
     if (rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0) {
       setRewardBorrow(
-        (truncateTo3DecimalPlaces(rewardAPRValue.borrow) * hoverData.borrowValue) / OneHundred,
+        (truncateTo3DecimalPlaces(rewardAPRValue.borrow) *
+          hoverData.borrowValue) /
+          OneHundred,
       );
     }
     if (rewardAPRValue?.earn || rewardAPRValue?.earn === 0) {
-      setRewardEarn((truncateTo3DecimalPlaces(rewardAPRValue?.earn) * hoverData.earnValue) / OneHundred);
+      setRewardEarn(
+        (truncateTo3DecimalPlaces(rewardAPRValue?.earn) * hoverData.earnValue) /
+          OneHundred,
+      );
     }
   }, [rewardAPRValue, hoverData]);
 

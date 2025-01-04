@@ -5,8 +5,7 @@ import { OneHundred, rateSlopeLow } from "constants/graph";
 import usePoolData from "hooks/pool/usePoolData";
 
 const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
-  const { tokenRewardData } =
-    usePoolData();
+  const { tokenRewardData } = usePoolData();
 
   const rateSlopeHigh = parseFloat(
     (OneHundred / (OneHundred - poolData.rewardKink)).toFixed(2),
