@@ -2,10 +2,10 @@ import React from "react";
 import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 import { OneHundred, rateSlopeLow } from "constants/graph";
-import useRewardData from "hooks/graph/useRewardData";
+import usePoolData from "hooks/pool/usePoolData";
 
 const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
-  const tempRewardData = useRewardData({ poolData });
+  const { tokenRewardData } = usePoolData();
 
   const rateSlopeHigh = parseFloat(
     (OneHundred / (OneHundred - poolData.rewardKink)).toFixed(2),
@@ -29,8 +29,8 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
       dataKeys={dataKeys}
       labels={{ borrow: "Borrow Reward", earn: "Earn Reward" }}
       rewardAPRValue={{
-        borrow: tempRewardData.borrow,
-        earn: tempRewardData.earn,
+        borrow: tokenRewardData?.borrowRewardAPR ?? 0,
+        earn: tokenRewardData?.supplyRewardAPR ?? 0,
       }}
     />
   );

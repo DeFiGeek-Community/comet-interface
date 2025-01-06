@@ -19,3 +19,5 @@ export const CHAIN_INFO: ChainInfo = {
     nativeCurrency: { name: "Sepolia ETH", symbol: "sepoliaETH", decimals: 18 },
   },
 };
+
+export const AddressZero = "0x0000000000000000000000000000000000000000";
