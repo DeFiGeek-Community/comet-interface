@@ -4,6 +4,7 @@ import { fetchPriceFeed } from "hooks/util/priceFeedUtils";
 import { formatUnits } from "viem";
 import { useReload } from "context/ReloadContext";
 import { useAppData } from "context/AppDataContext";
+import { AddressZero } from "constants/chains";
 
 export interface PriceFeedData {
   usdjpy: number | undefined;
@@ -63,16 +64,20 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
             formatUnits(rewardPrice, poolData.rewardToken.priceFeedDecimals),
           )
         : undefined;
-      const collateralAssets: { [key: string]: number | undefined } = {};
-      for (const assetConfig of poolData.assetConfigs) {
-        const assetPrice = await fetchPriceFeed(
-          assetConfig.priceFeed,
-          poolData.chainId,
-        );
-        collateralAssets[assetConfig.symbol] = assetPrice
-          ? Number(formatUnits(assetPrice, assetConfig.priceFeedDecimals))
-          : undefined;
-      }
+        const collateralAssets: { [key: string]: number | undefined } = {};
+        for (const assetConfig of poolData.assetConfigs) {
+          if (assetConfig.priceFeed === AddressZero) {
+            collateralAssets[assetConfig.symbol] = 0;
+          } else {
+            const assetPrice = await fetchPriceFeed(
+              assetConfig.priceFeed,
+              poolData.chainId,
+            );
+            collateralAssets[assetConfig.symbol] = assetPrice
+              ? Number(formatUnits(assetPrice, assetConfig.priceFeedDecimals))
+              : undefined;
+          }
+        }
 
       setPriceFeedData({
         usdjpy,

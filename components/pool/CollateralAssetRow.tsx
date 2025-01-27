@@ -101,12 +101,12 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {yourSupply !== undefined && assetPrice ? (
+          {yourSupply !== undefined ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {smallUsdPriceFormatter(
                   yourSupply,
-                  assetPrice,
+                  assetPrice ?? 0,
                   currency,
                   rate || 0,
                 )}
@@ -128,12 +128,12 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralValue !== undefined && assetPrice ? (
+          {collateralValue !== undefined  ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {smallUsdPriceFormatter(
                   collateralValue,
-                  assetPrice,
+                  assetPrice ?? 0,
                   currency,
                   rate || 0,
                 )}
