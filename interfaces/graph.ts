@@ -29,3 +29,8 @@ export interface RenderGraphSectionProps {
   GraphComponent: React.FC<{ poolData: PoolConfig }>;
   poolData: PoolConfig;
 }
+
+export interface RewardDataProps {
+  borrow: number | undefined;
+  earn: number | undefined;
+}
