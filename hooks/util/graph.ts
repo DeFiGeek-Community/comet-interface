@@ -2,7 +2,6 @@ import { GenerateDataProps } from "interfaces/graph";
 import {
   OneHundred,
   DAYS_IN_YEAR,
-  REWARD_BONUS_RATE_VALUE,
 } from "constants/graph";
 import {
   HoverPositionLowerThreshold,
@@ -123,6 +122,5 @@ export const calculateRewardData = (
   totalBalance > 0
     ? ((trackingRewardSpeed * DAYS_IN_YEAR * (rewardAsset || 0)) /
         totalBalance) *
-      OneHundred *
-      REWARD_BONUS_RATE_VALUE
+      OneHundred
     : 0;
