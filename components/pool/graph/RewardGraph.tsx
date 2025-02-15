@@ -26,6 +26,7 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
 
   return (
     <GraphModel
+      poolData = {poolData}
       dataKeys={dataKeys}
       labels={{ borrow: "Borrow Reward", earn: "Earn Reward" }}
       rewardAPRValue={{

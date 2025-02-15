@@ -12,6 +12,10 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
   const { priceFeedData, totalPoolData } = usePoolData();
 
   useEffect(() => {
+    if (!poolData) {
+      return;
+    }
+
     const totalSupply =
       (totalPoolData?.totalBaseSupplyBalance ?? 0) >=
       poolData?.baseMinForRewards
@@ -46,7 +50,7 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
       borrow: tempBorrowRewardData,
       earn: tempSupplyRewardData,
     });
-  }, [priceFeedData, totalPoolData]);
+  }, [priceFeedData, totalPoolData, poolData]);
 
   return tempRewardData;
 };

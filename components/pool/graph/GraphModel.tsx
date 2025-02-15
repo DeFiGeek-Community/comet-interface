@@ -34,8 +34,10 @@ import usePoolData from "hooks/pool/usePoolData";
 import useInitialUtilization from "hooks/graph/useInitialUtilization";
 import { OneHundred } from "constants/graph";
 import { truncateTo3DecimalPlaces } from "utils/bigUtils";
+import useRewardData from "hooks/graph/useRewardData";
 
 const GraphModel: React.FC<GraphModelProps> = ({
+  poolData,
   dataKeys,
   labels,
   rewardAPRValue,
@@ -58,6 +60,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
     undefined,
   );
   const [rewardEarn, setRewardEarn] = useState<number | undefined>(undefined);
+  const tempRewardData = useRewardData({ poolData });
 
   useEffect(() => {
     if (rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0) {
@@ -67,9 +70,9 @@ const GraphModel: React.FC<GraphModelProps> = ({
           OneHundred,
       );
     }
-    if (rewardAPRValue?.earn || rewardAPRValue?.earn === 0) {
+    if (tempRewardData?.earn || tempRewardData?.earn === 0) {
       setRewardEarn(
-        (truncateTo3DecimalPlaces(rewardAPRValue?.earn) * hoverData.earnValue) /
+        (tempRewardData.earn * hoverData.earnValue) /
           OneHundred,
       );
     }
