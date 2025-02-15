@@ -71,10 +71,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
       );
     }
     if (tempRewardData?.earn || tempRewardData?.earn === 0) {
-      setRewardEarn(
-        (tempRewardData.earn * hoverData.earnValue) /
-          OneHundred,
-      );
+      setRewardEarn((tempRewardData.earn * hoverData.earnValue) / OneHundred);
     }
   }, [rewardAPRValue, hoverData]);
 

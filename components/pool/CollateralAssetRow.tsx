@@ -128,7 +128,7 @@ const CollateralAssetRow = ({
           crossAxisAlignment="center"
           width={isMobile ? "33%" : "20%"}
         >
-          {collateralValue !== undefined  ? (
+          {collateralValue !== undefined ? (
             <>
               <Text color={"#FFF"} fontWeight="bold" fontSize="17px">
                 {smallUsdPriceFormatter(
