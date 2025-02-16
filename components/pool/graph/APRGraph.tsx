@@ -1,8 +1,13 @@
 import React from "react";
 import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
+import usePool from "hooks/pool/usePool";
 
-const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
+const APRGraph = () => {
+  const { poolConfig: poolData } = usePool();
+  
+  if (!poolData) return null;
+
   const dataKeys = {
     earn: {
       supplyRateSlopeLow: poolData.supplyPerYearInterestRateSlopeLow,

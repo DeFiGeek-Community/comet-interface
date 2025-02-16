@@ -27,8 +27,7 @@ export interface GenerateDataProps {
 
 export interface RenderGraphSectionProps {
   title: string;
-  GraphComponent: React.FC<{ poolData: PoolConfig }>;
-  poolData: PoolConfig;
+  GraphComponent: React.FC<{}>;
 }
 
 export interface RewardDataProps {

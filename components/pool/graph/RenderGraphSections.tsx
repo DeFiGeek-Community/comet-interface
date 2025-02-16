@@ -10,7 +10,6 @@ import { RenderGraphSectionProps } from "interfaces/graph";
 const RenderGraphSection = ({
   title,
   GraphComponent,
-  poolData,
 }: RenderGraphSectionProps) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -31,22 +30,20 @@ const RenderGraphSection = ({
       >
         {t(title)}
       </Box>
-      <GraphComponent poolData={poolData} />
+      <GraphComponent />
     </Column>
   );
 };
 
-const RenderGraphSections = (poolData: PoolConfig) => (
+const RenderGraphSections = () => (
   <>
     <RenderGraphSection
       title="Interest APR Model"
       GraphComponent={APRGraph}
-      poolData={poolData}
     />
     <RenderGraphSection
       title="Reward APR Model"
       GraphComponent={RewardGraph}
-      poolData={poolData}
     />
   </>
 );

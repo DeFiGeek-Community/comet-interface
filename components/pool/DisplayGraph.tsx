@@ -6,7 +6,7 @@ import { ModalDivider } from "components/shared/Modal";
 import { PoolConfig } from "interfaces/pool";
 import RenderGraphSections from "components/pool/graph/RenderGraphSections";
 
-const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
+const DisplayGraph = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
@@ -28,7 +28,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           crossAxisAlignment="flex-start"
           width="100%"
         >
-          {RenderGraphSections(poolData)}
+          {RenderGraphSections()}
         </Column>
       ) : (
         <Row
@@ -38,7 +38,7 @@ const DisplayGraph = ({ poolData }: { poolData: PoolConfig }) => {
           px={4}
           my={4}
         >
-          {RenderGraphSections(poolData)}
+          {RenderGraphSections()}
         </Row>
       )}
     </Column>
