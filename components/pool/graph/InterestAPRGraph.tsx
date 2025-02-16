@@ -4,7 +4,7 @@ import usePool from "hooks/pool/usePool";
 
 const InterestAPRGraph = () => {
   const { poolConfig: poolData } = usePool();
-  
+
   if (!poolData) return null;
 
   const dataKeys = {
