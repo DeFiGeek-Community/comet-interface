@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Column, useIsMobile } from "utils/chakraUtils";
 import InterestAPRGraph from "components/pool/graph/InterestAPRGraph";
-import RewardGraph from "components/pool/graph/RewardGraph";
+import RewardAPRGraph from "components/pool/graph/RewardAPRGraph";
 import { RenderGraphSectionProps } from "interfaces/graph";
 
 const RenderGraphSection = ({
@@ -42,7 +42,7 @@ const RenderGraphSections = () => (
     />
     <RenderGraphSection
       title="Reward APR Model"
-      GraphComponent={RewardGraph}
+      GraphComponent={RewardAPRGraph}
     />
   </>
 );

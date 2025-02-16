@@ -1,11 +1,10 @@
 import React from "react";
-import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 import { OneHundred, rateSlopeLow } from "constants/graph";
 import usePoolData from "hooks/pool/usePoolData";
 import usePool from "hooks/pool/usePool";
 
-const RewardGraph = () => {
+const RewardAPRGraph = () => {
   const { tokenRewardData } = usePoolData();
   const { poolConfig: poolData } = usePool();
 
@@ -41,4 +40,4 @@ const RewardGraph = () => {
   );
 };
 
-export default RewardGraph;
+export default RewardAPRGraph;

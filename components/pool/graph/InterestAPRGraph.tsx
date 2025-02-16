@@ -1,5 +1,4 @@
 import React from "react";
-import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 import usePool from "hooks/pool/usePool";
 
