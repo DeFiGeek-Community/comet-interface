@@ -49,7 +49,7 @@ const PoolContents = () => {
       </DashboardBox>
       <DashboardBox ml={0} mt={4} width={"100%"}>
         {poolData ? (
-          <DisplayGraph poolData={poolData} />
+          <DisplayGraph />
         ) : (
           <Center height="100px">
             <Spinner />

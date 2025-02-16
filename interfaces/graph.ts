@@ -15,6 +15,7 @@ export interface DataKeys {
 }
 
 export interface GraphModelProps {
+  poolData: PoolConfig;
   dataKeys: DataKeys;
   labels: { borrow: string; earn: string };
   rewardAPRValue?: { borrow: number | undefined; earn: number | undefined };
@@ -26,6 +27,9 @@ export interface GenerateDataProps {
 
 export interface RenderGraphSectionProps {
   title: string;
-  GraphComponent: React.FC<{ poolData: PoolConfig }>;
-  poolData: PoolConfig;
+  GraphComponent: React.FC<{}>;
+}
+
+export interface RewardDataProps {
+  earn: number | undefined;
 }

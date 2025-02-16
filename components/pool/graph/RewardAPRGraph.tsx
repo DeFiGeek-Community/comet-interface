@@ -1,11 +1,14 @@
 import React from "react";
-import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 import { OneHundred, rateSlopeLow } from "constants/graph";
 import usePoolData from "hooks/pool/usePoolData";
+import usePool from "hooks/pool/usePool";
 
-const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
+const RewardAPRGraph = () => {
   const { tokenRewardData } = usePoolData();
+  const { poolConfig: poolData } = usePool();
+
+  if (!poolData) return null;
 
   const rateSlopeHigh = parseFloat(
     (OneHundred / (OneHundred - poolData.rewardKink)).toFixed(2),
@@ -26,6 +29,7 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
 
   return (
     <GraphModel
+      poolData={poolData}
       dataKeys={dataKeys}
       labels={{ borrow: "Borrow Reward", earn: "Earn Reward" }}
       rewardAPRValue={{
@@ -36,4 +40,4 @@ const RewardGraph = ({ poolData }: { poolData: PoolConfig }) => {
   );
 };
 
-export default RewardGraph;
+export default RewardAPRGraph;
