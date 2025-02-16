@@ -60,7 +60,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
     undefined,
   );
   const [rewardEarn, setRewardEarn] = useState<number | undefined>(undefined);
-  const tempRewardData = useRewardData({ poolData });
+  // const tempRewardData = useRewardData({ poolData });
 
   useEffect(() => {
     if (rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0) {
@@ -70,8 +70,11 @@ const GraphModel: React.FC<GraphModelProps> = ({
           OneHundred,
       );
     }
-    if (tempRewardData?.earn || tempRewardData?.earn === 0) {
-      setRewardEarn((tempRewardData.earn * hoverData.earnValue) / OneHundred);
+    if (rewardAPRValue?.earn || rewardAPRValue?.earn === 0) {
+      setRewardEarn(
+        (truncateTo3DecimalPlaces(rewardAPRValue?.earn) * hoverData.earnValue) /
+          OneHundred,
+      );
     }
   }, [rewardAPRValue, hoverData]);
 
@@ -104,6 +107,10 @@ const GraphModel: React.FC<GraphModelProps> = ({
     setHoverData(initialData);
   }, [initialData]);
 
+  const formatValue = (value: number | undefined) => {
+    return value !== undefined ? `${(Math.floor(value * 1000) / 1000).toFixed(3)}%` : "-";
+  };
+
   return (
     <>
       {totalPoolData ? (
@@ -123,8 +130,8 @@ const GraphModel: React.FC<GraphModelProps> = ({
               <Text fontSize={isMobile ? "15px" : "18px"} color="white">
                 {hoverData
                   ? rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0
-                    ? `${rewardBorrow?.toFixed(3)}%`
-                    : `${hoverData.borrowValue.toFixed(3)}%`
+                    ? formatValue(rewardBorrow)
+                    : formatValue(hoverData.borrowValue)
                   : "-"}
               </Text>
             </Box>
@@ -135,8 +142,8 @@ const GraphModel: React.FC<GraphModelProps> = ({
               <Text fontSize={isMobile ? "15px" : "18px"} color="white">
                 {hoverData
                   ? rewardAPRValue?.earn || rewardAPRValue?.earn === 0
-                    ? `${rewardEarn?.toFixed(3)}%`
-                    : `${hoverData.earnValue.toFixed(3)}%`
+                    ? formatValue(rewardEarn)
+                    : formatValue(hoverData.earnValue)
                   : "-"}
               </Text>
             </Box>

@@ -19,6 +19,7 @@ const APRGraph = ({ poolData }: { poolData: PoolConfig }) => {
 
   return (
     <GraphModel
+      poolData={poolData}
       dataKeys={dataKeys}
       labels={{ borrow: "Borrow APR", earn: "Earn APR" }}
     />
