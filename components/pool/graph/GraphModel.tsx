@@ -48,7 +48,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   const [initialData, setInitialData] = useState(
     calculateInitialData(initialUtilization, dataKeys),
   );
-  const data = useMemo(() => generateData({ dataKeys }), []);
+  const data = useMemo(() => generateData({ dataKeys }), [dataKeys]);
 
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -102,7 +102,7 @@ const GraphModel: React.FC<GraphModelProps> = ({
   useEffect(() => {
     setHoverUtilization(initialUtilization);
     setInitialData(calculateInitialData(initialUtilization, dataKeys));
-  }, [initialUtilization]);
+  }, [initialUtilization, dataKeys]);
 
   useEffect(() => {
     setHoverData(initialData);
