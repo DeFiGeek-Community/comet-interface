@@ -3,7 +3,7 @@ import { PoolConfig } from "interfaces/pool";
 import GraphModel from "./GraphModel";
 import usePool from "hooks/pool/usePool";
 
-const APRGraph = () => {
+const InterestAPRGraph = () => {
   const { poolConfig: poolData } = usePool();
   
   if (!poolData) return null;
@@ -31,4 +31,4 @@ const APRGraph = () => {
   );
 };
 
-export default APRGraph;
+export default InterestAPRGraph;
