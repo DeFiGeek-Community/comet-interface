@@ -31,6 +31,5 @@ export interface RenderGraphSectionProps {
 }
 
 export interface RewardDataProps {
-  borrow: number | undefined;
   earn: number | undefined;
 }

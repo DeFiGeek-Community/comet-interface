@@ -6,7 +6,6 @@ import { calculateTotalBalance, calculateRewardData } from "hooks/util/graph";
 
 const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
   const [tempRewardData, setTempRewardData] = useState<RewardDataProps>({
-    borrow: undefined,
     earn: undefined,
   });
   const { priceFeedData, totalPoolData } = usePoolData();
@@ -21,17 +20,8 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
       poolData?.baseMinForRewards
         ? totalPoolData?.totalBaseSupplyBalance ?? 0
         : 0;
-    const totalBorrow =
-      (totalPoolData?.totalBaseBorrowBalance ?? 0) >=
-      poolData?.baseMinForRewards
-        ? totalPoolData?.totalBaseBorrowBalance ?? 0
-        : 0;
     const totalBaseSupplyBalance = calculateTotalBalance(
       totalSupply,
-      priceFeedData,
-    );
-    const totalBaseBorrowBalance = calculateTotalBalance(
-      totalBorrow,
       priceFeedData,
     );
 
@@ -40,14 +30,8 @@ const useRewardData = ({ poolData }: { poolData: PoolConfig }) => {
       totalBaseSupplyBalance,
       priceFeedData?.rewardAsset,
     );
-    const tempBorrowRewardData = calculateRewardData(
-      poolData.baseTrackingRewardSpeed,
-      totalBaseBorrowBalance,
-      priceFeedData?.rewardAsset,
-    );
 
     setTempRewardData({
-      borrow: tempBorrowRewardData,
       earn: tempSupplyRewardData,
     });
   }, [priceFeedData, totalPoolData, poolData]);
