@@ -1,8 +1,5 @@
 import { GenerateDataProps } from "interfaces/graph";
-import {
-  OneHundred,
-  DAYS_IN_YEAR,
-} from "constants/graph";
+import { OneHundred, OneThousand, DAYS_IN_YEAR } from "constants/graph";
 import {
   HoverPositionLowerThreshold,
   HoverPositionUpperThreshold,
@@ -124,3 +121,9 @@ export const calculateRewardData = (
         totalBalance) *
       OneHundred
     : 0;
+
+export const roundDownToTheFourthDecimalPlace = (value: number | undefined) => {
+  return value !== undefined
+    ? `${(Math.floor(value * OneThousand) / OneThousand).toFixed(3)}%`
+    : "-";
+};

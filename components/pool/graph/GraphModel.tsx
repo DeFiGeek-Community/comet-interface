@@ -18,6 +18,7 @@ import {
   calculateInitialData,
   calculateYDomain,
   getTransform,
+  roundDownToTheFourthDecimalPlace,
 } from "hooks/util/graph";
 import {
   AxisRange,
@@ -107,10 +108,6 @@ const GraphModel: React.FC<GraphModelProps> = ({
     setHoverData(initialData);
   }, [initialData]);
 
-  const formatValue = (value: number | undefined) => {
-    return value !== undefined ? `${(Math.floor(value * 1000) / 1000).toFixed(3)}%` : "-";
-  };
-
   return (
     <>
       {totalPoolData ? (
@@ -130,8 +127,8 @@ const GraphModel: React.FC<GraphModelProps> = ({
               <Text fontSize={isMobile ? "15px" : "18px"} color="white">
                 {hoverData
                   ? rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0
-                    ? formatValue(rewardBorrow)
-                    : formatValue(hoverData.borrowValue)
+                    ? roundDownToTheFourthDecimalPlace(rewardBorrow)
+                    : roundDownToTheFourthDecimalPlace(hoverData.borrowValue)
                   : "-"}
               </Text>
             </Box>
@@ -142,8 +139,8 @@ const GraphModel: React.FC<GraphModelProps> = ({
               <Text fontSize={isMobile ? "15px" : "18px"} color="white">
                 {hoverData
                   ? rewardAPRValue?.earn || rewardAPRValue?.earn === 0
-                    ? formatValue(rewardEarn)
-                    : formatValue(hoverData.earnValue)
+                    ? roundDownToTheFourthDecimalPlace(rewardEarn)
+                    : roundDownToTheFourthDecimalPlace(hoverData.earnValue)
                   : "-"}
               </Text>
             </Box>
