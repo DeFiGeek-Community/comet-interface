@@ -64,20 +64,20 @@ const usePriceFeedData = (poolData: PoolConfig | undefined) => {
             formatUnits(rewardPrice, poolData.rewardToken.priceFeedDecimals),
           )
         : undefined;
-        const collateralAssets: { [key: string]: number | undefined } = {};
-        for (const assetConfig of poolData.assetConfigs) {
-          if (assetConfig.priceFeed === AddressZero) {
-            collateralAssets[assetConfig.symbol] = 0;
-          } else {
-            const assetPrice = await fetchPriceFeed(
-              assetConfig.priceFeed,
-              poolData.chainId,
-            );
-            collateralAssets[assetConfig.symbol] = assetPrice
-              ? Number(formatUnits(assetPrice, assetConfig.priceFeedDecimals))
-              : undefined;
-          }
+      const collateralAssets: { [key: string]: number | undefined } = {};
+      for (const assetConfig of poolData.assetConfigs) {
+        if (assetConfig.priceFeed === AddressZero) {
+          collateralAssets[assetConfig.symbol] = 0;
+        } else {
+          const assetPrice = await fetchPriceFeed(
+            assetConfig.priceFeed,
+            poolData.chainId,
+          );
+          collateralAssets[assetConfig.symbol] = assetPrice
+            ? Number(formatUnits(assetPrice, assetConfig.priceFeedDecimals))
+            : undefined;
         }
+      }
 
       setPriceFeedData({
         usdjpy,

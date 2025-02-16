@@ -1,9 +1,5 @@
 import { GenerateDataProps } from "interfaces/graph";
-import {
-  OneHundred,
-  DAYS_IN_YEAR,
-  REWARD_BONUS_RATE_VALUE,
-} from "constants/graph";
+import { OneHundred, OneThousand, DAYS_IN_YEAR } from "constants/graph";
 import {
   HoverPositionLowerThreshold,
   HoverPositionUpperThreshold,
@@ -102,4 +98,32 @@ export const getTransform = (
         ? "translateX(-100%)"
         : "translateX(-50%)";
   }
+};
+
+export const calculateTotalBalance = (
+  balance: number | undefined,
+  priceFeedData: PriceFeedData | undefined,
+) =>
+  balance !== undefined &&
+  balance > 0 &&
+  priceFeedData?.baseAsset !== undefined &&
+  priceFeedData.baseAsset > 0
+    ? balance * priceFeedData.baseAsset
+    : 0;
+
+export const calculateRewardData = (
+  trackingRewardSpeed: number,
+  totalBalance: number,
+  rewardAsset: number | undefined,
+) =>
+  totalBalance > 0
+    ? ((trackingRewardSpeed * DAYS_IN_YEAR * (rewardAsset || 0)) /
+        totalBalance) *
+      OneHundred
+    : 0;
+
+export const roundDownToTheFourthDecimalPlace = (value: number | undefined) => {
+  return value !== undefined
+    ? `${(Math.floor(value * OneThousand) / OneThousand).toFixed(3)}%`
+    : "-";
 };
