@@ -125,11 +125,15 @@ const GraphModel: React.FC<GraphModelProps> = ({
                 {t(labels.borrow)}
               </Text>
               <Text fontSize={isMobile ? "15px" : "18px"} color="white">
-                {hoverData
-                  ? rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0
-                    ? roundDownToTheFourthDecimalPlace(rewardBorrow)
-                    : roundDownToTheFourthDecimalPlace(hoverData.borrowValue)
-                  : "-"}
+                {hoverData ? (
+                  roundDownToTheFourthDecimalPlace(
+                    rewardAPRValue?.borrow || rewardAPRValue?.borrow === 0
+                      ? rewardBorrow
+                      : hoverData.borrowValue
+                  )
+                ) : (
+                  "-"
+                )}
               </Text>
             </Box>
             <Box>
@@ -137,11 +141,15 @@ const GraphModel: React.FC<GraphModelProps> = ({
                 {t(labels.earn)}
               </Text>
               <Text fontSize={isMobile ? "15px" : "18px"} color="white">
-                {hoverData
-                  ? rewardAPRValue?.earn || rewardAPRValue?.earn === 0
-                    ? roundDownToTheFourthDecimalPlace(rewardEarn)
-                    : roundDownToTheFourthDecimalPlace(hoverData.earnValue)
-                  : "-"}
+                {hoverData ? (
+                  roundDownToTheFourthDecimalPlace(
+                    rewardAPRValue?.earn || rewardAPRValue?.earn === 0
+                      ? rewardEarn
+                      : hoverData.earnValue
+                  )
+                ) : (
+                  "-"
+                )}
               </Text>
             </Box>
           </Box>
