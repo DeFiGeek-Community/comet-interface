@@ -17,6 +17,6 @@ jobs:
       - name: Create .env file
         run: echo NEXT_PUBLIC_PROJECT_ID="dummydummydummydummydummydummydu" > .env
       - name: Install Dependencies
-        run: npm install
+        run: npm  ci
       - name: check-build
         run: npm run build
