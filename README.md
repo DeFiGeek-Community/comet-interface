@@ -24,12 +24,14 @@ Frontend interface for the lending protocol built for DeFiGeek Community (DFGC).
 ## Setup
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/DeFiGeek-Community/comet-interface
 cd comet-interface
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -37,7 +39,7 @@ yarn install
 ```
 
 3. Configure environment variables:
-Copy `.env.example` to `.env` and set up the following environment variables:
+   Copy `.env.example` to `.env` and set up the following environment variables:
 
 ```bash
 # Alchemy Project Key
@@ -51,11 +53,13 @@ NEXT_PUBLIC_INFURA_ID=your_infura_id
 ```
 
 You can obtain the API keys from:
+
 - Alchemy: https://www.alchemy.com/
 - WalletConnect: https://cloud.walletconnect.com/
 - Infura: https://www.infura.io/
 
 4. Start the development server:
+
 ```bash
 npm run dev
 # or
